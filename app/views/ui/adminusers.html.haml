@@ -1,0 +1,50 @@
+-provide(:title, '')
+
+//Code for the quick-search bar
+.row
+  #usersearch.col-sm-8
+    =render partial: 'shared/quicksearch'
+
+.row#userbox.col-sm-8
+  %ul.nav.nav-tabs.col-sm-5-offset-1
+    %li.active
+      %a(href="") My Unlist
+    %li
+      %a(href="") Add Unitem
+    %li
+      %a(href="") My Unwatch
+    %li
+      %a(href="") Messages
+  //.row
+  #userboxcontent.well
+    %h4
+      %a(href="")
+        %img(src="" alt="Sarah Jones" width="42" height="42") Sarah Joneses
+      %a(href='show') &nbsp&nbsp (hide)
+    %p
+      %ul
+        %li Name: Sally Joe
+        %li Email: sallyjoe@example.com
+        %li Joined: June 12, 2014
+        %li UnPosts: 67
+        %li Messages(Out): 39
+        %li Messages(In): 113
+        %li
+          Actions:
+          %a(href='') lock user
+          %a(href='') | delete user
+
+    %hr
+
+    %h4
+      %a(href="")
+        %img(src="" alt="Sarah Jones" width="42" height="42") Sarah Joneses
+      %a(href='show') &nbsp&nbsp (show)
+    %p
+      %ul
+        %li Joined: June 12, 2014
+        %li UnPosts: 67
+        %li Messages(Out): 39
+        %li Messages(In): 113
+    %hr
+

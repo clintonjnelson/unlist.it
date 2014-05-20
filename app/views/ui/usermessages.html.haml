@@ -1,0 +1,73 @@
+-provide(:title, '')
+
+//Code for the quick-search bar
+.row
+  #usersearch.col-sm-8
+    =render partial: 'shared/quicksearch'
+
+.row#userbox.col-sm-8
+  %ul.nav.nav-tabs.col-sm-5-offset-1
+    %li
+      %a(href="") My Unlist
+    %li
+      %a(href="") Add Unitem
+    %li
+      %a(href="") My Unwatch
+    %li.active
+      %a(href="") Messages
+  //.row
+  #userboxcontent.well
+    %h4
+      %a(href="")
+        %img(src="" alt="Sarah Jones" width="42" height="42") Sarah Joneses
+    %ul
+      %li
+        In Response To:
+        (title-link to your unlist post goes here)
+      %li
+        Message: A bunch of message stuff to the user that could go on for a long time with lots of useful details on what the item is, how long they've owned it, the history and why they're selling it, and other useful stuff.
+      %li Closeness Of Match to Unlist: Exact
+      %li Offered At: $400
+      %li Flexible on Price?: No
+      %li Location: Seattle, WA (98119)
+      %li Meeting Availability: Anytime
+      %li Proposed Meeting Location: Middle
+      %li Sent: 2 days ago
+      %li
+        %p
+          (Optional) This Message Is:
+          %a(href='') SPAM
+          %a(href='') INAPPROPRIATE
+          %a(href='') MISLEADING
+        %p
+          %a(href='') remove message
+
+    %hr
+
+    %h4
+      %a(href="")
+        %img(src="" alt="Sarah Jones" width="42" height="42") Sarah Joneses
+    %ul
+      %li
+        In Response To:
+        (title-link to your unlist post goes here)
+      %li
+        Message: A bunch of message stuff to the user that could go on for a long time with lots of useful details on what the item is, how long they've owned it, the history and why they're selling it, and other useful stuff.
+      %li Closeness Of Match to Unlist: Exact
+      %li Offered At: $400
+      %li Flexible on Price?: No
+      %li Location: Seattle, WA (98119)
+      %li Meeting Availability: Anytime
+      %li Proposed Meeting Location: Middle
+      %li Sent: 2 days ago
+      %li
+        %p
+          (Optional) This Message Is:
+          %a(href='') SPAM
+          %a(href='') INAPPROPRIATE
+          %a(href='') MISLEADING
+        %p
+          %a(href='') remove message
+    %hr
+
+

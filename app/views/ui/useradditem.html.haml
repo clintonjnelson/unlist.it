@@ -1,0 +1,58 @@
+-provide(:title, '')
+
+//Code for the quick-search bar
+.row
+  #usersearch.col-sm-8
+    =render partial: 'shared/quicksearch'
+
+.row#userbox.col-sm-8
+  %ul.nav.nav-tabs.col-sm-5-offset-1
+    %li
+      %a(href="") My Unlist
+    %li.active
+      %a(href="") Add Unitem
+    %li
+      %a(href="") My Unwatch
+    %li
+      %a(href="") Messages
+  //.row
+  #userboxcontent.well
+    %h4 Add Unlist Item
+    %ul#additem
+      %li
+        %label.control-Label Item Category
+        %select
+          %option(value="Antiques & Collectibles") antiques & collectibles
+          %option(value="Autos") autos
+          %option(value="Clothing") clothing
+          %option(value="Electronics") electronics
+          %option(value="Games") games
+          %option(value="Household") household
+          %option(value="Sports") sports
+      %li
+        %label.control-Label Title
+        %input(type="title")
+      %li
+        %label.control-Label Description
+        %p
+          %textarea(rows='4' cols='50')
+      %li
+        %label.control-Label Condition
+        %input(type="condition")
+      %li
+        %label.control-Label Keywords
+        %input(type="keywords")
+      %li
+        %label.control-Label Max Price
+        %input(type="price")
+      %li
+        %label.control-Label Link of an Example
+        %input(type="link")
+      %li
+        %label.control-Label Additional Contact Options:
+        %input(type="checkbox" name="email" value="email") Email
+      %li
+        %label.control-Label Willing to Travel
+        %input(type="travel") miles
+      %li
+        %input(type='submit' value='sign in' class='btn btn-default btn-xs')

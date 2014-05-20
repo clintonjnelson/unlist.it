@@ -1,0 +1,48 @@
+-provide(:title, '')
+
+//Code for the quick-search bar
+.row
+  #usersearch.col-sm-8
+    =render partial: 'shared/quicksearch'
+
+.row#userbox.col-sm-8
+  %ul.nav.nav-tabs.col-sm-5-offset-1
+    %li
+      %a(href="") My Unlist
+    %li
+      %a(href="") Add Unitem
+    %li.active
+      %a(href="") My Unwatch
+    %li
+      %a(href="") Messages
+  //.row
+  #userboxcontent.well
+    %h4 Autos
+    %hr
+    %ul
+      %li
+        %a(href='') Abstract: S2000 Engine, Trans, ECU
+      %li Unlister: Anthony Dawkins
+      %li Max Price: $1,000
+      %li Condition: Great
+      %li
+        Keywords: S2000 | Honda | Motor | Engine
+        %span last updated: 6/2/14
+        %span
+          %a(href="") remove unwatch
+    %br
+    %br
+
+    %h4 Games
+    %hr
+    %ul
+      %li
+        %a(href='') Abstract: NES Nintendo Systems, Games, Accessories
+      %li Unlister: Anthony Dawkins
+      %li Max Price: DOI
+      %li Condition: Any
+      %li
+        Keywords: Nintendo | NES | Mario | Games
+        %span last updated: 6/2/14
+        %span
+          %a(href="") remove unwatch

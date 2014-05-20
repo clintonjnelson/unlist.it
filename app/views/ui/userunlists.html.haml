@@ -1,0 +1,55 @@
+-provide(:title, '')
+
+//Code for the quick-search bar
+.row
+  #usersearch.col-sm-8
+    =render partial: 'shared/quicksearch'
+
+.row#userbox.col-sm-8
+  %ul.nav.nav-tabs.col-sm-5-offset-1
+    %li.active
+      %a(href="") My Unlist
+    %li
+      %a(href="") Add Unitem
+    %li
+      %a(href="") My Unwatch
+    %li
+      %a(href="") Messages
+  //.row
+  #userboxcontent.well
+    %h4 Autos
+    %hr
+    %ul
+      %li Abstract: S2000 Engine, Trans, ECU
+      %li Max Price: $1,000
+      %li Condition: Great
+      %li
+        Keywords: S2000 | Honda | Motor | Engine
+        %span listed: 6/2/14
+        %span
+          %a(href="") delete
+      %li
+        Responses
+        %li Sarah Jones
+        %li Jim Jones
+        %li Callie Tanner
+
+    %br
+    %br
+
+    %h4 Games
+    %hr
+    %ul
+      %li Abstract: NES Nintendo Systems, Games, Accessories
+      %li Max Price: DOI
+      %li Condition: Any
+      %li
+        Keywords: Nintendo | NES | Mario | Games
+        %span listed: 6/2/14
+        %span
+          %a(href="") delete
+      %li
+        Responses
+        %li Sarah Jones
+        %li Jim Jones
+        %li Callie Tanner
