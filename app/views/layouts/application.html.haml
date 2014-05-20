@@ -6,8 +6,8 @@
   =javascript_include_tag 'application', 'data-turbolinks-track' => true
   =csrf_meta_tags
   %body
-    %header Header Goes Here
-      =render 'shared/header'
+    %header
+      =render 'layouts/header'
     %content
       =yield
     %footer Footer Goes At Bottom
