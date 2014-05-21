@@ -1,0 +1,12 @@
+-if signed_in?
+  %ul
+    %li=link_to 'Browse',    browse_path
+    %li=link_to 'My Unlist', user_path(current_user)
+    %li=link_to 'My Hooks',  '#'
+-#-if current_user.admin?
+  -#%li=link_to 'Users Index', users_path
+=link_to 'Browse',    browse_path
+=link_to 'Tour',      tour_path
+=link_to 'About',     about_path
+=link_to 'FAQ',       faq_path
+=link_to 'Contact',   contact_path

@@ -1,0 +1,32 @@
+-provide(:title, 'Unlist.co')
+
+//Code for the quick-search bar
+.row
+  #quicksearch.col-sm-8
+    %h3 Search Unlist
+    =render partial: 'shared/quicksearch'
+    %br
+    %br
+    %p="There are currently User.count Unlisters looking for Unpost.all.count things."
+    %p
+      Maybe you have some...
+
+  //Code for the new user Sign Up section of the Page
+  //-if signedin?
+  //DO SOMETHING FOR SIGNED IN USERS IN BODY
+  //-else
+  #signup.col-sm-4
+    %h2
+      Join the Unlist.co[mmunity]!
+      %p (yep, it's free.)
+    %ul
+      %li
+        %label.control-Label Email
+        %input(type="email")
+      %li
+        %label.control-Label Password
+        %input(type="password")
+      %li
+        %input(type='submit' value='Sign Up' class='btn btn-default')
+      /=form_for(@user) do |f|
+      /  = render partial: 'shared/userform', locals: {button_name: "Sign Up!", f: f }

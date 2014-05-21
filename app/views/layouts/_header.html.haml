@@ -3,26 +3,20 @@
   .row
     .col-xs-3
       %h1#unlistheadericon
-        Unlist.co
-        / =link_to 'Unlist.co', root_path
+        =link_to 'Unlist.co', root_path
         / Login/User Box Located In Header (Right Side)
     .col-xs-5
       / Code for the header bar navigation links
       .navbarlink
-        /=render 'layouts/navbarlinks'
-        %a(href="") Browse
-        %a(href="") Tour
-        %a(href="") FAQ
-        %a(href="") About
-        %a(href="") Contact
+        =render 'layouts/navbarlinks'
     .col-xs-4
       %ul#loginbox
         %li
           %label.control-Label Email
-          %input(type="email")
+          %input(name="email")
         %li
           %label.control-Label Password
-          %input(type="password")
+          %input(name="password")
         %li
           %input(type='submit' value='sign in' class='btn btn-default btn-xs')
       /If logged in: Load User's Profile w/Logout link.

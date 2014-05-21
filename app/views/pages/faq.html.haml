@@ -1,0 +1,117 @@
+-provide(:title, 'Frequently Asked Questions')
+
+//Code for the Unlist FAQ's
+#faq
+  %h2 Unlist - Frequently Asked Questions
+  %ul
+    %li= link_to 'What is an unlist?', faq_path(anchor: 'q1')
+    %li= link_to 'What is an unlist good for?', faq_path(anchor: 'q2')
+    %li= link_to 'What info is required to sign up?', faq_path(anchor: 'q3')
+    %li= link_to 'Can I login with other social media accounts?', faq_path(anchor: 'q4')
+    %li= link_to 'Do I need to signup to browse or search Unlist postings & contact interested buyers?', faq_path(anchor: 'q5')
+  %br
+  %br
+  %br
+
+
+  // FAQ #1
+  %h3#q1
+    What is an unlist?
+  %hr
+  %p Unlist is like the hybrid between a Wanted Ad and a Wishlist.
+
+  %ul
+  %p
+    Similar to a wanted ad:
+    %ul
+      %li You want people to know you're actively interested in something.
+      %li You want the world around you to be able to find you.
+
+  %p
+    Similar to a wishlist:
+    %ul
+      %li You might have lots of things you are interested in finding.
+      %li You can manage your list as you want - adding or deleting from it.
+
+  %p
+    BUT, it's better:
+    %ul
+      %li Uninterupted exposure, unlike a wanted ad. What if the one person with the item searches & misses your posting because it lapsed? Not here. No weekly renewals.
+      %li Broad audience to find your postings, unlike a typical wishlist.
+
+  %h4
+    Not a wanted ad. Not a wishlist.
+    %span It's an unlist.
+  %br
+  %br
+
+
+  // FAQ #2
+  %h3#q2 What is an Unlist good for?
+  %hr
+
+  %ul
+    %p Unlist promotes selling of things that wouldn't normally be listed:
+    %ul
+      %li
+        You have something, but would anyone be interested in it & how would you find them? Well, now you can.
+      %li
+        Save the seller the hassle of posting an item - post an Unlist instead & let them find you.
+      %li
+        Want something so obscure that no one would ever make a posting to sell it? Make an Unlist post & let curious browsers of Unlist find you.
+      %li
+        Want something rare? People with rare things are often curious what the interest is in them, and your ad may convince them to sell or may be the one they contact when they're ready to sell.
+    %br
+
+    %p Unlist provides the Buyer a competitive edge:
+    %ul
+      %li By the seller finding you, you skip the competition.
+    %br
+
+    %p Unlist provides new opportunities - changing the old ways of buyers finding sellers:
+    %ul
+      %li
+        No houses for sale in a desired neighborhood? Express your interest in an area-targeted Unlist posting & let those curious homeowners find you.
+      %li
+        In the market for a car? Let a dealer who can meet the requirements of your Unlist auto posting find you.
+      %li
+        Finding stuff can be hard, frustrating, and time consuming! Instead, Unlist connects you with the people you want to find.
+  %br
+  %br
+
+  // FAQ #3
+  %h3#q3 What information is required to sign up?
+  %hr
+
+  %ul
+    %li
+      %p
+        Just a valid email address to serve as a login name & you'll need to pick a password.
+      %p
+        We won't sell or give away your email info, and we certainly don't want the liability of your personal info - just the bare minimum for you to use Unlist.
+    %p
+      You can also use <%= link_to 'other spcial media logins',
+      faq_path(anchor: 'q4') %>, if you'd prefer to avoid having another login/password to remember.
+  %br
+  %br
+
+  // FAQ #4
+  %h3#q4
+    Can I login to Unlist with other social media accounts (such as Facebook or Twitter)?
+  %hr
+  %ul
+    %li
+      %p Yes, of course! We currently support Facebook, Twitter, and Pintrest account logins.
+  %br
+  %br
+
+  // FAQ #5
+  %h3#q5
+    Do I need a login to browse or search Unlist postings & contact interested buyers?
+  %hr
+  %ul
+    %li
+      %p You can browse & search to your heart's content without a login!
+      %p In most cases, you don't need a login for contacting potential buyers. We only require you have an account if you're contacting a potential buyer about a car... this is to protect you from pesky auto dealers (sorry, non-pesky auto dealers & everyone else!).
+
+
