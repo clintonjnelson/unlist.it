@@ -10,15 +10,16 @@
       .navbarlink
         =render 'layouts/navbarlinks'
     .col-xs-4
-      %ul#loginbox
-        %li
-          %label.control-Label Email
-          %input(name="email")
-        %li
-          %label.control-Label Password
-          %input(name="password")
-        %li
-          %input(type='submit' value='sign in' class='btn btn-default btn-xs')
+      #loginbox
+        =form_tag sessions_path do |f|
+          .form-group
+            =label_tag          :email
+            =email_field_tag    :email
+          .form-group
+            =label_tag          :password
+            =password_field_tag :password
+          =submit_tag "sign in", class: 'btn btn-default btn-small'
+
       /If logged in: Load User's Profile w/Logout link.
 
       / -if signedin?

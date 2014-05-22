@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.0.0'
 
-#gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt'
 gem 'bootstrap_form'
 gem 'bootstrap-sass'
 #gem 'carrierwave'

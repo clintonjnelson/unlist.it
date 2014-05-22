@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 feature "user signs in" do
-  given(:jen) { Fabricate(:user, email: 'jen@example.com') }
+  given(:jen) { Fabricate(:user, email: 'jen@example.com', username: "Jen") }
 
   scenario "existing user signs in" do
     visit root_path
