@@ -1,0 +1,19 @@
+!!! 5
+%html(lang="en-US")
+  %body
+    %h3="You're just one click away from being \"Official\""
+    %hr
+    %br
+    %p Just click this link and your registration will be complete:
+    %p= link_to "CONFIRM EMAIL", confirm_email_path(@user.tokens.first)
+
+    %p Alternatively, you can paste this link text into your browser address bar:
+    %p= "#{request.fullpath}"
+    %br
+
+    %br
+    %br
+    %br
+
+    %p Sincerely,
+    %p= "The Unlist.co Team"

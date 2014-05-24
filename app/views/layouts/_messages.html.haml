@@ -1,5 +1,5 @@
 //Error Messages Should Go In Here
--flash.each do |name, msg|
-  %div(class="alert alert-#{name}")
+-flash.each do |type, msg|
+  %div(class="alert #{bootstrap_class_for(type)}")
     .a.close(data-dismiss='alert') &#215;
-    =content_tag :div, msg, id: "flash_#{name}" if msg.is_a?(String)
+    =content_tag :div, msg, id: "flash_#{type}" if msg.is_a?(String)

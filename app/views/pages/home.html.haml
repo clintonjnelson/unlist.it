@@ -16,17 +16,9 @@
   //DO SOMETHING FOR SIGNED IN USERS IN BODY
   //-else
   #signup.col-sm-4
-    %h2
-      Join the Unlist.co[mmunity]!
-      %p (yep, it's free.)
-    %ul
-      %li
-        %label.control-Label Email
-        %input(type="email")
-      %li
-        %label.control-Label Password
-        %input(type="password")
-      %li
-        %input(type='submit' value='Sign Up' class='btn btn-default')
-      /=form_for(@user) do |f|
-      /  = render partial: 'shared/userform', locals: {button_name: "Sign Up!", f: f }
+    =link_to signup_path do
+      %h2
+        Join the Unlist.co<span>[mmunity]</span>!
+        %p
+          (yep, it's free.)
+

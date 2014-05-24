@@ -6,21 +6,22 @@ gem 'bootstrap_form'
 gem 'bootstrap-sass'
 #gem 'carrierwave'
 gem 'coffee-rails'
-#gem 'figaro' #Manage ENV from YAML
-#gem 'fog'  #AMAZON S3
+gem 'email_validator'
+#gem 'figaro'                 #Manage ENV from YAML
+#gem 'fog'                    #AMAZON S3
 gem 'haml-rails'
 #gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
-#gem 'mini_magick'  #image control
-#gem 'paratrooper'  #deployment made simple
+#gem 'mini_magick'            #image control
+#gem 'paratrooper'            #deployment made simple
 gem 'rails' #, '4.1.1'
 gem 'sass-rails'
 #gem 'sdoc', '~> 0.4.0',          group: :doc
-#gem 'sidekiq'  #allows workers to handle queued tasks in background
-#gem 'sinatra', require: nil  #needed for... selenium?
+gem 'sidekiq'                 #allows workers to handle queued tasks in background
+gem 'sinatra', require: nil   #For Sidekiq online monitoring
 gem 'turbolinks'
 gem 'uglifier'
-#gem 'unicorn'  #multiple instances of app for speed in production
+#gem 'unicorn'                #multiple instances of app for speed in production
 #gem 'therubyracer',  platforms: :ruby
 
 group :development, :test do

@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   def access_denied(msg)
     flash[:error] = "#{msg}"
-    redirect_to root_path
+    redirect_to (signed_out? ? root_path : home_path)
   end
 
   def current_user
@@ -30,5 +30,10 @@ class ApplicationController < ActionController::Base
     access_denied("You must be signed out to do that.") unless signed_out?
   end
 
+  def signin_user(user)
+    session[:user_id] = @user.id
+    flash[:success] ||= "Welcome, #{user.username}!"
+    redirect_to home_path
+  end
 
 end
