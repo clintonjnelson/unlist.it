@@ -34,8 +34,13 @@ describe UsersController do
       it "creates a new user" do
         expect(User.count).to eq(1)
       end
-      it "creates a new token for the user" do
-        expect(User.first.tokens).to be_present
+      it "creates a new Token object for the user token associated with the user" do
+        expect(Token.first.tokenable_type).to eq("User")
+        expect(Token.first.tokenable_id).to eq(User.first.id)
+        expect(Token.first.user_id).to eq(User.first.id)
+      end
+      it "creates a new token string for the user" do
+        expect(User.first.tokens.first.token).to be_present
       end
       it "signs the user in" do
         expect(session[:user_id]).to eq(1)
@@ -51,8 +56,12 @@ describe UsersController do
         it "sends the email" do
           expect(ActionMailer::Base.deliveries).to_not be_empty
         end
-        it "sends the email to the registering user"
-        it "sends an email with a confirmation link in the body"
+        it "sends the email to the registering user" do
+          expect(ActionMailer::Base.deliveries.first.to).to eq([jen.email])
+        end
+        it "sends an email with a confirmation link in the body" do
+          expect(ActionMailer::Base.deliveries.first.parts.first.body.raw_source).to include("CONFIRM")
+        end
       end
     end
     context "with invalid input" do
@@ -76,6 +85,36 @@ describe UsersController do
       end
       it "renders the signup page" do
         expect(response).to render_template 'new'
+      end
+    end
+  end
+
+  describe "GET confirm_with_token" do
+    context "with valid token" do
+      let(:jen) { Fabricate(:user) }
+      let(:token) { Fabricate(:user_token, creator: jen) }
+      before { get :confirm_with_token, { token: token.token } }
+
+      it "confirms the user by setting user's confirmed attribute to true" do
+        expect(User.first).to be_confirmed
+      end
+      it "flashes a message thanking user for confirming their email" do
+        expect(flash[:success]).to include "Thank you"
+      end
+      it "signs the user in if they aren't already signed in" do
+        expect(session[:user_id]).to be_present
+      end
+      it "redirects the user to their home page" do
+        expect(response).to redirect_to home_path
+      end
+    end
+
+    context "with invalid token" do
+      let(:jen) { Fabricate(:user) }
+      before { get :confirm_with_token, { token: 'notAtoken' } }
+
+      it "redirects to the invalid_address_path" do
+        expect(response).to redirect_to invalid_address_path
       end
     end
   end

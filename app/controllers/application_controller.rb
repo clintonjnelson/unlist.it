@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  helper_method :signed_in?
+  helper_method :signed_in?, :current_user
 
   def access_denied(msg)
     flash[:error] = "#{msg}"
@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
   end
 
   def signin_user(user)
-    session[:user_id] = @user.id
+    session[:user_id] = user.id
     flash[:success] ||= "Welcome, #{user.username}!"
     redirect_to home_path
   end

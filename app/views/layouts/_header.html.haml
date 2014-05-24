@@ -10,36 +10,41 @@
       .navbarlink
         =render 'layouts/navbarlinks'
     .col-xs-4
-      #loginbox
-        =form_tag sessions_path do |f|
-          .form-group
-            =label_tag          :email
-            =email_field_tag    :email
-          .form-group
-            =label_tag          :password
-            =password_field_tag :password
-          =submit_tag "sign in", class: 'btn btn-default btn-small'
+      #unlistuserbox
+        -if signed_in?
+          %p=current_user.username
+          %p Account Settings
+          =link_to "signout", signout_path, class: "btn btn-default btn-small"
+        -else
+          =form_tag sessions_path do |f|
+            .form-group
+              =label_tag          :email
+              =email_field_tag    :email
+            .form-group
+              =label_tag          :password
+              =password_field_tag :password
+            =submit_tag "sign in", class: 'btn btn-default btn-small'
 
-      /If logged in: Load User's Profile w/Logout link.
+        /If logged in: Load User's Profile w/Logout link.
 
-      / -if signedin?
-      /   %p=link_to gravatar_image(current_user), current_user
-      /   %h3=link_to current_user.name, current_user %> </h3>
-      /   %p= link_to "Account Settings", edit_user_path(current_user)
-      /   =button_to('Logout', logout_path, method: 'delete')
+        / -if signedin?
+        /   %p=link_to gravatar_image(current_user), current_user
+        /   %h3=link_to current_user.name, current_user %> </h3>
+        /   %p= link_to "Account Settings", edit_user_path(current_user)
+        /   =button_to('Logout', logout_path, method: 'delete')
 
-      / / If not logged in: Load Login Form
-      / -else
-      /   / =render 'layouts/loginform'
-      /   =form_tag(sessions_path, method: 'post') do
-      /     %p
-      /       Email:
-      /       =text_field_tag 'session_email'
-      /     %p
-      /       Password:
-      /       =password_field_tag 'session_password'
-      /       =link_to('Forgot Password', forgotpass_path)
-      /     = submit_tag "Login"
+        / / If not logged in: Load Login Form
+        / -else
+        /   / =render 'layouts/loginform'
+        /   =form_tag(sessions_path, method: 'post') do
+        /     %p
+        /       Email:
+        /       =text_field_tag 'session_email'
+        /     %p
+        /       Password:
+        /       =password_field_tag 'session_password'
+        /       =link_to('Forgot Password', forgotpass_path)
+        /     = submit_tag "Login"
 
 
 

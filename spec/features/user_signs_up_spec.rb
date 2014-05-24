@@ -21,7 +21,8 @@ end
 
 def user_confirms_email
   open_email "jen@example.com"
-  current_email.should have_content "Confirmation"
+  #current_email.save_and_open
+  current_email.should have_content "confirm"
   current_email.should have_content "SuperJen"
-  current_email.should have_link "Confirm"
+  current_email.click_link "CONFIRM MY EMAIL"
 end

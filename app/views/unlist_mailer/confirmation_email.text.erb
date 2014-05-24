@@ -1,0 +1,14 @@
+Thank you, <%= @user.username %>, for registering to join Unlist.co!
+We need to confirm that you're a real person, and you can do so by clicking the link below.
+--------------------------------------------------------------------------------
+
+Just click this link. It will open our confirmation page in your browser and your registration will be complete:
+    <%= link_to "CONFIRM EMAIL", userconfirmation_url(@user.tokens.first.token) %>
+
+Alternatively, you can paste this link text into your browser address bar:
+    <%= link_to "#{userconfirmation_url(@user.tokens.first.token)}", userconfirmation_url(@user.tokens.first.token) %>
+
+
+
+Sincerely,
+The Unlist.co Team

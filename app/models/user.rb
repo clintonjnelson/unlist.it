@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  #VALID_EMAIL_FORMAT = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  has_many :tokens
   has_secure_password
 
 
