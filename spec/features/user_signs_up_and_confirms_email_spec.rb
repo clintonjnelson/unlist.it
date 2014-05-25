@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature "User signs up" do
+feature "User signs up and confirms email" do
   scenario "guest registers and accesses the site" do
     visit signup_path
 

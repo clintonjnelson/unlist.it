@@ -16,8 +16,13 @@ Rails.application.routes.draw do
   get '/userconfirmation/:token',   to: 'users#confirm_with_token', as: 'userconfirmation'
 
 
-  resources :users,    only: [:create]
+  #SHOW ONLY ADDED FOR FUNCTIONALITY OF PAGE & NEED TO BE CREATED
+  resources :users,    only: [:create, :show]
   resources :sessions, only: [:create]
+
+  namespace :admin do
+    resources :users, only: [:index, :destroy]
+  end
 
   mount Sidekiq::Web, at: '/sidekiq'  #for online monitoring
 end

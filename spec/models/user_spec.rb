@@ -21,4 +21,15 @@ describe User do
                               "email@examp!e.com",
                               "email@example",
                               "email@example@com").for(:email) }
+
+  describe "self.admin?" do
+    let(:jen) { Fabricate(:user) }
+    let(:joe) { Fabricate(:admin) }
+    it "returns true if user's role attribute is 'admin'" do
+      expect(joe.admin?).to be_true
+    end
+    it "returns false if user's role attribute is NOT 'admin'" do
+      expect(jen.admin?).to be_false
+    end
+  end
 end
