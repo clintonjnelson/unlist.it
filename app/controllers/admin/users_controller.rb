@@ -4,7 +4,7 @@ class Admin::UsersController < AdminController
     @users = User.all
   end
 
-
+  #ADD THE BUILT-IN RAILS CONFIRM: "ARE YOU SURE??!" TO THIS DESTROY ACTION
   def destroy
     user = User.where(id: params[:id]).take
     if user && user.admin?

@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :signed_in?, :current_user
 
-  def access_denied(msg)
+  def access_denied(msg = "Access Denied.")
     flash[:error] = "#{msg}"
     redirect_to (signed_out? ? root_path : home_path)
   end

@@ -14,7 +14,7 @@ describe SessionsController do
         expect(flash[:success]).to include("Welcome")
       end
       it "redirects the user to their home page" do
-        expect(response).to redirect_to root_path
+        expect(response).to redirect_to home_path
       end
     end
 
@@ -37,7 +37,7 @@ describe SessionsController do
       it "requires that the current user is signed out" do
         session[:user_id] = 1
         post :create, { email: jen.email, password: jen.password }
-        expect(response).to redirect_to root_path
+        expect(response).to redirect_to home_path
         expect(flash[:error]).to be_present
       end
     end

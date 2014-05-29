@@ -79,9 +79,11 @@ ActiveRecord::Migration.maintain_test_schema! if defined?(ActiveRecord::Migratio
 
 
 #Capybara Settings
-Capybara.javascript_driver = :webkit  #:selenium OR :webkit
+Capybara.javascript_driver = :selenium  #:selenium OR :webkit
 Capybara.server_port = 3005
+Capybara.default_wait_time = 10
 
+WebMock.disable_net_connect!(:allow_localhost => true)
 
 RSpec.configure do |config|
   config.before(:suite) do
@@ -102,6 +104,7 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
+
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

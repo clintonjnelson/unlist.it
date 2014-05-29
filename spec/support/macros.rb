@@ -1,5 +1,5 @@
 def spec_logout_user
-  session[:user_id] = nil
+  session[:user_id] = nil if session[:user_id]
 end
 
 def spec_signin_user(user = nil)

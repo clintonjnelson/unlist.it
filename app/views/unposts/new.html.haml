@@ -1,0 +1,40 @@
+-provide(:title, '')
+
+//Code for the quick-search bar
+.row
+  #usersearch.col-sm-8
+    =render partial: 'shared/quicksearch'
+
+.row#userbox.col-sm-8
+  %ul.nav.nav-tabs.col-sm-5-offset-1
+    %li
+      =link_to "My Unlist", user_unlist_path(current_user)
+    %li.active
+      =link_to "Add Unpost", new_user_unpost_path(current_user)
+    %li
+      %a(href="") My Unwatch*
+    %li
+      %a(href="") Messages*
+  //.row
+  #userboxcontent.well
+    %h4 Add Unlist Item
+    %ul#additem
+      =bootstrap_form_for [@user, @unpost], layout: :horizontal, label_col: 'col-sm-4', control_col: "col-sm-6" do |f|
+        =f.collection_select :category, Category.all, :id, :name, { prompt: "select a category" }, { class: 'unpost_category_select' }
+        /-# =f.select     :category_id, options_for_select(category_options), { label: "Category*" }
+        =f.text_field :title, label: "Title*"
+        =f.text_area  :description, label: "Description*", size: '24x6'
+        =f.select :condition, [], { prompt: "select a category above" }, { id: "unpost_condition_select" }
+        //-#(price == 0) => FREE, (price = -1) => Any, (price > 0) => price; Is this a Policy Object?
+        =f.text_field :price,    prepend: "$"
+        =f.text_field :keyword1, label: "Keyword 1*"
+        =f.text_field :keyword2, label: "Keyword 2"
+        =f.text_field :keyword3, label: "Keyword 3"
+        =f.text_field :keyword4, label: "Keyword 4"
+        =f.url_field  :link,     label: "Website Link to a Similar Item"
+        =f.form_group do
+          %hr
+          =f.check_box  :travel, label: "Willing to Travel*"
+        =f.select     :distance, options_for_select(travel_distance_options)
+        =f.text_field :zipcode
+        =f.submit "Create UnPost", class: "btn btn-primary"

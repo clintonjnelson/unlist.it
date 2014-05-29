@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   has_many :tokens
+  has_many :unposts
   has_secure_password
 
 
