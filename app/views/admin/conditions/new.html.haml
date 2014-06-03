@@ -11,11 +11,11 @@
         =f.collection_select :category_id, Category.all, :id, :name, { prompt: "select a category" }, { class: 'add-condition-category-select' }
         //-#Need conditions with adjacent Order field
         =f.text_field :level, label: "New Condition Name"
-        =f.text_field :order, label: "Order #"
+        =f.text_field :position, label: "Order #"
 
         %hr
         %h5 Re-Order Existing Conditions If Necessary (no duplicates)
-        #reorder_conditions_for_category
+        #reposition_conditions_for_category
           [ Please Select A Category Above First ]
 
         %br

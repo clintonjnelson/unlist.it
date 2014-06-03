@@ -1,4 +1,4 @@
 %li
   =hidden_field_tag "conditions[][id]", condition.id
-  =text_field_tag "conditions[][order]", condition.order, placeholder: "#{condition.order}"
+  =text_field_tag "conditions[][position]", condition.position, placeholder: "#{condition.position}"
   %span= "#{condition.level.capitalize}"
