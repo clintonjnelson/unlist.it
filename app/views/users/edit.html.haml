@@ -1,0 +1,15 @@
+.row#userbox.col-sm-8
+  %ul.nav.nav-tabs.col-sm-5-offset-1
+    %li
+      =link_to "Profile",      user_path(current_user)
+    %li.active
+      =link_to "Edit Profile", edit_user_path(current_user)
+    %li
+      =link_to "SomethingHere", '#'
+  #editusercontent.well
+    %h2= "Edit #{@user.username.capitalize}'s Account Settings"
+    %hr.hr-lg-dashed
+    =bootstrap_form_for @user do |f|
+      =f.email_field :email,       label: "Default Email:"
+      =f.password_field :password, label: "New Password:"
+      =f.submit "Save Changes", class: "btn btn-primary"

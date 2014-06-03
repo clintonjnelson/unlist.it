@@ -14,6 +14,10 @@ class ApplicationController < ActionController::Base
     User.find(session[:user_id]) if signed_in?
   end
 
+  def guest_user?
+    session[:user_id] == nil
+  end
+
   def signed_in?
     session[:user_id].present?
   end
@@ -28,6 +32,11 @@ class ApplicationController < ActionController::Base
 
   def require_signed_out
     access_denied("You must be signed out to do that.") unless signed_out?
+  end
+
+  #verify the OR condition won't hijack functionality
+  def set_user
+    @user = (params[:id] ? User.find(params[:id]) : current_user)
   end
 
   def signin_user(user)

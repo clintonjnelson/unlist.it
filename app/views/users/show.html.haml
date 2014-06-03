@@ -1,0 +1,25 @@
+-provide(:title, '')
+
+//Code
+.row#userbox.col-sm-8
+  %ul.nav.nav-tabs.col-sm-5-offset-1
+    %li.active
+      =link_to "Profile",      user_path(current_user)
+    %li
+      =link_to "Edit Profile", edit_user_path(current_user)
+    %li
+      =link_to "SomethingHere", '#'
+  #showusercontent.well
+    %h2= "#{@user.username.capitalize}'s Profile"
+    %hr.hr-lg-dashed
+    %p= "Email: #{@user.email}"
+    %p= "Password: ***hidden***"
+    %p= "Default Location: [ZIPCODE OR NEARBY CITY?]"
+    %p= "[DISPLAY THIS LOCATION NAME & MAYBE MAP]"
+
+    %hr.hr-sm-solid
+    %h5= "Status"
+    %p= "Currently Watched By: [WATCHEDBY COUNT]"
+    %p= "Currently Watching: [WATCHING COUNT]"
+    %p= "Current Unlist: #{@user.unposts.count} Unposts"
+    %p= "Unread Messages: [HOW DO I EVEN DO THIS?]"

@@ -33,3 +33,10 @@ shared_examples "require_admin" do
     expect(response).to redirect_to root_path
   end
 end
+
+shared_examples "set_user" do
+  it "redirects to the signin path if there is not user session" do
+    spec_signin_user
+    verb_action
+  end
+end

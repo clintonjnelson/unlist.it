@@ -1,0 +1,23 @@
+.row#adminbox.col-sm-8
+  %ul.nav.nav-tabs.col-sm-5-offset-1
+    %li
+      =link_to "Add Category", "#"
+    %li.active
+      =link_to "Add Condition", new_admin_condition_path
+  #adminboxcontent.well
+    %h4 Add Condition To A Category
+    %ul#addcondition
+      =bootstrap_form_for [:admin, @condition], layout: :horizontal, label_col: 'col-sm-4', control_col: "col-sm-6" do |f|
+        =f.collection_select :category_id, Category.all, :id, :name, { prompt: "select a category" }, { class: 'add-condition-category-select' }
+        //-#Need conditions with adjacent Order field
+        =f.text_field :level, label: "New Condition Name"
+        =f.text_field :order, label: "Order #"
+
+        %hr
+        %h5 Re-Order Existing Conditions If Necessary (no duplicates)
+        #reorder_conditions_for_category
+          [ Please Select A Category Above First ]
+
+        %br
+        =f.submit "Add Condition", class: "btn btn-primary"
+

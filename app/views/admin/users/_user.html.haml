@@ -4,9 +4,9 @@
   =link_to "#{user.username}", user_path(user)
 %p
   %ul
-    %li= "Email: #{user.username}"
+    %li= "Email: #{user.email}"
     %li= "Joined: #{user.created_at}"
-    %li UnPosts: [UNPOST COUNT HERE]
+    %li UnPosts: #{user.unposts.count}
     %li Messages(Out): [MESSAGES COUNT HERE]
     %li Messages(In): [MESSAGES COUNT HERE]
     %li

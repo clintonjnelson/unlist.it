@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Unpost do
-  it { should belong_to(:user       ) }
+  it { should belong_to(:creator    ).with_foreign_key(:user_id) }
   it { should belong_to(:category   ) }
   it { should belong_to(:condition  ) }
 

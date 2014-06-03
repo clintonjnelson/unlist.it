@@ -12,6 +12,7 @@ gem 'email_validator'
 gem 'haml-rails'
 #gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
+gem 'jquery-turbolinks'
 #gem 'mini_magick'            #image control
 #gem 'paratrooper'            #deployment made simple
 gem 'rails' #, '4.1.1'

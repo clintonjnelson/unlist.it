@@ -14,42 +14,11 @@
     %li
       %a(href="") My Unwatch*
     %li
-      %a(href="") Messages*
+      =link_to "My Hits",
   //.row
   #userboxcontent.well
-    %h4 Autos
-    %hr
-    %ul
-      %li Abstract: S2000 Engine, Trans, ECU
-      %li Max Price: $1,000
-      %li Condition: Great
-      %li
-        Keywords: S2000 | Honda | Motor | Engine
-        %span listed: 6/2/14
-        %span
-          %a(href="") delete
-      %li
-        Responses
-        %li Sarah Jones
-        %li Jim Jones
-        %li Callie Tanner
-
-    %br
-    %br
-
-    %h4 Games
-    %hr
-    %ul
-      %li Abstract: NES Nintendo Systems, Games, Accessories
-      %li Max Price: DOI
-      %li Condition: Any
-      %li
-        Keywords: Nintendo | NES | Mario | Games
-        %span listed: 6/2/14
-        %span
-          %a(href="") delete
-      %li
-        Responses
-        %li Sarah Jones
-        %li Jim Jones
-        %li Callie Tanner
+    #unlist
+      -if @unposts.present?
+        =render @unposts
+      -else
+        [ You currently have no unposts - click #{link_to "here", new_user_unpost_path} to create one ]

@@ -1,7 +1,12 @@
--if signed_in?
+-if (signed_in? && current_user.admin?)
+  =link_to 'Users',       admin_users_path(current_user)
+  =link_to "Components",  '#'
+  =link_to "Messages",  '#'
+  =link_to 'Blog',        '#'
+-elsif signed_in?
   =link_to 'Browse',    root_path
   =link_to "My Unlist", user_unlist_path(current_user)
-  =link_to 'My Hooks',  root_path
+  =link_to 'Messages',  user_messages_path(current_user)
 -else
   =link_to 'Browse',    browse_path
   =link_to 'Tour',      tour_path

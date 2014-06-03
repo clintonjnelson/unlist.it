@@ -2,9 +2,11 @@ require 'spec_helper'
 
 describe User do
 
-  it { should have_secure_password  }
-  it { should have_many(:tokens   ) }
-  it { should have_many(:unposts  ) }
+  it { should have_secure_password }
+  it { should have_many(:tokens                ) }
+  it { should have_many(:unposts               ) }
+  it { should have_many(:sent_messages         ) }
+  it { should have_many(:received_messages     ) }
 
   it { should validate_presence_of(   :email   ) }
   it { should validate_uniqueness_of( :email   ) }

@@ -1,0 +1,14 @@
+%h5
+  =link_to unpost_path(unpost) do
+    =gravatar_image(current_user, 60)
+  =link_to "#{ unpost.title }", unpost_path(unpost)
+%p
+  %ul
+    %li= "Description: #{ truncate(unpost.description, length: 45) }"
+    %li= "Condition: #{ unpost.condition.level }"
+    %li= "Price: #{ unpost.price }"
+    %li= link_to "Example: #{ unpost.link }", url: "unpost.link"
+    %li
+      ="Posted: #{ time_ago_in_words(unpost.created_at) } | "
+      %small=link_to "[delete]", unpost_path(unpost), method: 'delete'
+%hr

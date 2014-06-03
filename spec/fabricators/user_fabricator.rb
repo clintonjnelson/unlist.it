@@ -1,4 +1,4 @@
-Fabricator(:user) do
+Fabricator(:user, aliases: [:creator, :sender, :recipient]) do
   email         { "#{Faker::Internet.safe_email}" }
   username      { "#{Faker::Name.name}" }
   password      "password"

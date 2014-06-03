@@ -1,0 +1,28 @@
+%h5
+  -if message.sender
+    =link_to unpost_path(message.sender) do
+      =gravatar_image(message.sender, 60)
+    =link_to "#{ message.sender.username }", user_path(message.sender)
+  -elsif message.contact_email
+    [Sent By A Non-Unlist User]
+  -else
+    [NOT AVAILABLE - Notify Unlist]
+%p
+  %ul
+    %li
+      ="Subject: #{ message.subject }"
+      %br
+      ="#{ message.content }"
+    %li
+      Reply:
+      -if message.sender
+        =link_to "#{ message.sender.username }", new_user_message_path(current_user, message)
+      -elsif message.contact_email
+        =mail_to "Outside User", message.contact_email
+      -else
+        [NOT AVAILABLE - Notify Unlist]
+
+    %li
+      ="Receives: #{ time_ago_in_words(message.created_at) } | "
+      %small= link_to "[delete]", user_message_path(current_user, message), method: 'delete'
+%hr

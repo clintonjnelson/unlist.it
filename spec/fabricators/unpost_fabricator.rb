@@ -11,10 +11,10 @@ Fabricator(:unpost) do
   distance      { [5, 10, 25, 50, 75, 100, 200, 500].sample}
   zipcode       { 99999 }
 
-  user
+  creator
   #Temporary:
-  category_id    1
-  condition_id   1
+  category
+  condition
   #category
   #condition
 end

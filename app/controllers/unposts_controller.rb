@@ -19,6 +19,7 @@ class UnpostsController < ApplicationController
   end
 
   def index
+    @unposts = current_user.unposts
   end
 
   def show
@@ -27,7 +28,7 @@ class UnpostsController < ApplicationController
   end
 
   def conditions_by_category
-    @conditions = Condition.where(category_id: params[:param1]).all
+    @conditions = Condition.where(category_id: params[:category_id]).all
     respond_to do |format|
       format.js {render 'conditions_by_category'}
     end

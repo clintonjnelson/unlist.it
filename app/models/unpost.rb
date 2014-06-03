@@ -1,6 +1,6 @@
 class Unpost < ActiveRecord::Base
 
-belongs_to  :user
+belongs_to  :creator, foreign_key: 'user_id', class_name: "User"
 belongs_to  :category
 belongs_to  :condition
 

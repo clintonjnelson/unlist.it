@@ -89,6 +89,121 @@ describe UsersController do
     end
   end
 
+
+  describe "GET show" do
+    let(:jen) { Fabricate(:user) }
+
+    context "with the proper user" do
+      before do
+        spec_signin_user(jen)
+        get :show, { id: jen.id }
+      end
+      it "assigns the current_user's user" do
+        expect(assigns(:user)).to be_present
+      end
+      it "renders the user show page" do
+        expect(response).to render_template 'show'
+      end
+    end
+
+    context "with disallowed users" do
+      it_behaves_like "require_signed_in" do
+        let(:verb_action) { get :show, { id: jen.id } }
+      end
+      it_behaves_like "require_correct_user" do
+        let(:verb_action) { get :show, { id: jen.id } }
+      end
+    end
+  end
+
+
+  describe "GET edit" do
+    let(:jen) { Fabricate(:user) }
+
+    context "with the proper user" do
+      before do
+        spec_signin_user(jen)
+        get :edit, { id: jen.id }
+      end
+      it "assigns the current_user's user" do
+        expect(assigns(:user)).to be_present
+      end
+      it "renders the user edit page" do
+        expect(response).to render_template 'edit'
+      end
+    end
+
+    context "with disallowed users" do
+      it_behaves_like "require_signed_in" do
+        let(:verb_action) { get :edit, { id: jen.id } }
+      end
+      it_behaves_like "require_correct_user" do
+        let(:verb_action) { get :edit, { id: jen.id } }
+      end
+    end
+  end
+
+
+  describe "PATCH update" do
+    let(:jen) { Fabricate(:user) }
+
+    context "with the proper user & valid info" do
+      before do
+        spec_signin_user(jen)
+        patch :update, { id: jen.id, user: { email: "alternate@example.com", password: "password2" } }
+      end
+      it "assigns the current_user's user" do
+        expect(assigns(:user)).to be_present
+      end
+      it "should be valid" do
+        expect(assigns(:user)).to be_valid
+      end
+      it "updates the users information" do
+        expect(User.first.email).to eq("alternate@example.com")
+        expect(User.first.authenticate("password2")).to be_true
+      end
+      it "flashes a success message" do
+        expect(flash[:success]).to be_present
+      end
+      it "redirects to the user's show page" do
+        expect(response).to redirect_to user_path(jen)
+      end
+    end
+
+    context "with the proper user & INvalid info" do
+      before do
+        spec_signin_user(jen)
+        patch :update, { id: jen.id, user: { email: "wrongemail", password: "password2" } }
+      end
+      it "assigns the current_user's user" do
+        expect(assigns(:user)).to be_present
+      end
+      it "should NOT be valid" do
+        expect(assigns(:user)).to_not be_valid
+      end
+      it "does NOT save the updates" do
+        expect(User.first.email).to_not eq("wrongemail")
+        expect(User.first.authenticate("password2")).to_not be_true
+      end
+      it "flashes an error message" do
+        expect(flash[:error]).to be_present
+      end
+      it "renders the edit page again for error display" do
+        expect(response).to render_template 'edit'
+      end
+    end
+
+    context "with disallowed users" do
+      it_behaves_like "require_signed_in" do
+        let(:verb_action) { patch :update, { id: jen.id, user: { email: "wrongemail", password: "password2" } } }
+      end
+      it_behaves_like "require_correct_user" do
+        let(:verb_action) { patch :update, { id: jen.id, user: { email: "wrongemail", password: "password2" } } }
+      end
+    end
+  end
+
+
   describe "GET confirm_with_token" do
     context "with valid token" do
       let(:jen) { Fabricate(:user) }
@@ -97,6 +212,15 @@ describe UsersController do
 
       it "confirms the user by setting user's confirmed attribute to true" do
         expect(User.first).to be_confirmed
+      end
+      it "sends a welcome email" do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+      end
+      it "sends the welcome email to the user" do
+        expect(ActionMailer::Base.deliveries.first.to).to eq([jen.email])
+      end
+      it "has a welcome message in the email" do
+        expect(ActionMailer::Base.deliveries.first.parts.first.body.raw_source).to include("Welcome")
       end
       it "flashes a message thanking user for confirming their email" do
         expect(flash[:success]).to include "Thank you"

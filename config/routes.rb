@@ -16,19 +16,27 @@ Rails.application.routes.draw do
   get '/userconfirmation/:token',   to: 'users#confirm_with_token', as: 'userconfirmation'
 
   #Ajax request to populate condition options based on category
-  post '/conditions_by_category',   to: 'unposts#conditions_by_category'
-
+  post '/conditions_by_category',       to: 'unposts#conditions_by_category'
 
   #SHOW REQUIRED FOR ADMIN INDEX PAGE BUT STILL NEEDS TO BE CREATED
-  resources :sessions, only: [:create]
-  resources :users,    only: [:create, :show] do
-    resources :unposts, except: [:index]
-    get '/unlist',          to: 'unposts#index'
+  resources :sessions,      only: [:create]
+  resources :users,         only: [:create, :show, :edit, :update] do
+    resources :messages,    only: [:new, :create, :show, :index] #INDEX specific to user browsing own items
+    resources :unposts,   except: [:index]
+    get '/unlist',            to: 'unposts#index'
   end
 
+  #Protects Users by anonymity. BUILD THIS OUT - ADD SLUGS TOO
+  resources :unposts,       only: [:show, :index] do  #INDEX for general searching & use by non-creator
+    #Messages are here so can make new messages referenced by only Unposts
+    resources :messages,    only: [:create, :index]
+  end
 
   namespace :admin do
-    resources :users, only: [:index, :destroy]
+    resources :categories,          only: [:index]
+    resources :conditions,          only: [:new, :create]
+    resources :users,               only: [:index, :destroy]
+    post '/conditions_by_category',   to: 'conditions#conditions_by_category'
   end
 
   mount Sidekiq::Web, at: '/sidekiq'  #for online monitoring
