@@ -1,5 +1,5 @@
 class Admin::CategoriesController < AdminController
-  before_action :set_category, only: [:edit, :update, :delete]
+  before_action :set_category, only: [:edit, :update, :destroy]
 
   def new
     @category = Category.new
@@ -35,7 +35,7 @@ class Admin::CategoriesController < AdminController
 
   def destroy
     @category.destroy
-    flash[:success] = "Category '#{category.name}' & its Conditions deleted."
+    flash[:success] = "Category '#{@category.name}' & its Conditions deleted."
     redirect_to admin_categories_path
   end
 

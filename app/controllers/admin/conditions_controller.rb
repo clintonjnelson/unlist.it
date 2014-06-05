@@ -6,7 +6,7 @@ class Admin::ConditionsController < AdminController
 
   def create
     @category = Category.find(params[:condition][:category_id])
-    if update_positions == true
+    if update_positions
       flash[:success] = "Condition was successfully saved."
       redirect_to admin_categories_path
     else
@@ -20,7 +20,8 @@ class Admin::ConditionsController < AdminController
   end
 
   def update
-    if @condition.update(condition_params)
+    @category = @condition.category
+    if update_positions
       flash[:success] = "Changes saved."
       redirect_to admin_categories_path
     else
@@ -38,7 +39,7 @@ class Admin::ConditionsController < AdminController
 
   def destroy
     @condition.destroy
-    flash[:success] = "Condition '#{condition.name}' removed."
+    flash[:success] = "Condition '#{@condition.level}' removed."
     redirect_to admin_categories_path
   end
 
@@ -71,7 +72,6 @@ class Admin::ConditionsController < AdminController
     end
   end
 
-  #this works
   def set_condition_positions_temporarily_to_nil
     @category.conditions.each { |c| c.update_attributes!(position: nil) } #need the ! to throw error if occur
   end
@@ -85,6 +85,6 @@ class Admin::ConditionsController < AdminController
   end
 
   def make_or_update_condition
-    @condition ? @condition.update(condition_params) : @category.conditions.create!(condition_params)
+    @condition ? @condition.update!(condition_params) : @category.conditions.create!(condition_params)
   end
 end

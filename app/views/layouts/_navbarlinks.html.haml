@@ -1,6 +1,6 @@
 -if (signed_in? && current_user.admin?)
   =link_to 'Users',       admin_users_path(current_user)
-  =link_to "Components",  '#'
+  =link_to "Components",  admin_categories_path
   =link_to "Messages",  '#'
   =link_to 'Blog',        '#'
 -elsif signed_in?

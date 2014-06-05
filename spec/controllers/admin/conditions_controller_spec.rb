@@ -164,7 +164,7 @@ describe Admin::ConditionsController do
     context "with valid information" do
       before do
         spec_signin_user(jen)
-        patch :update, { id: bad.id, condition: { category_id: bad.category_id, level: 'badd', position: bad.position },
+        patch :update, { id: bad.id, condition: { category_id: bad.category_id, level: 'badd', position: 4 },
                                     conditions: [{id: "#{good.id}", position: "#{good.position}" }] }
       #"condition"=>{"category_id"=>"2", "level"=>"perfecto", "position"=>"5"}, "conditions"=>[{"id"=>"19", "position"=>"1"}, {"id"=>"24", "position"=>"3"}, {"id"=>"21", "position"=>"4"}], "commit"=>"Save Changes", "action"=>"update", "controller"=>"admin/conditions", "id"=>"20"}
 
@@ -172,11 +172,17 @@ describe Admin::ConditionsController do
       it "loads the condition to be edited" do
         expect(assigns(:condition)).to be_present
       end
+      it "loads the associated category" do
+        expect(assigns(:category)).to be_present
+      end
       it "it is valid" do
         expect(assigns(:condition)).to be_valid
       end
       it "updates the Condition in the database" do
         expect(Condition.find(bad.id).level).to eq('badd')
+      end
+      it "reorders the conditions" do
+        expect(assigns(:condition).category.conditions.map(&:position)).to eq([1,2])
       end
       it "flashes a success message" do
         expect(flash[:success]).to be_present
@@ -186,7 +192,7 @@ describe Admin::ConditionsController do
       end
     end
 
-    context "with valid information" do
+    context "with INvalid information" do
       before do
         spec_signin_user(jen)
         patch :update, { id: bad.id, condition: { category_id: bad.category_id, level: '', position: bad.position },
@@ -194,6 +200,9 @@ describe Admin::ConditionsController do
       end
       it "loads the condition to be edited" do
         expect(assigns(:condition)).to be_present
+      end
+      it "loads the associated category" do
+        expect(assigns(:category)).to be_present
       end
       it "is NOT valid" do
         expect(assigns(:condition)).to_not be_valid

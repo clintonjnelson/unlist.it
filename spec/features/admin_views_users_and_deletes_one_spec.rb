@@ -8,7 +8,6 @@ feature "Admin views users and deletes one" do
   scenario "admin logs in, looks through users, and deletes one" do
     featurespec_signin_admin(joe_admin)
     visit admin_users_path
-    save_and_open_page
 
     expect(page).to have_content "jim"
     expect(page).to have_content "jen"
