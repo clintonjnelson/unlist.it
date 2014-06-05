@@ -1,4 +1,4 @@
 -if @conditions
-  $("#reposition_conditions_for_category").html("#{ escape_javascript(render @conditions) }" )
+  $("#reposition_conditions_for_category").html("#{ escape_javascript(render partial: 'condition', collection: @conditions.sort_by(&:position) ) }" )
 -else
   alert("There are currently no other conditions.")

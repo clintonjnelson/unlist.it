@@ -33,8 +33,8 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :categories,          only: [:index]
-    resources :conditions,          only: [:new, :create]
+    resources :categories
+    resources :conditions,          only: [:new, :create, :edit, :update, :destroy]
     resources :users,               only: [:index, :destroy]
     post '/conditions_by_category',   to: 'conditions#conditions_by_category'
   end

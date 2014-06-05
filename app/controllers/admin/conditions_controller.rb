@@ -1,5 +1,5 @@
 class Admin::ConditionsController < AdminController
-
+  before_action :set_condition, only: [:edit, :update, :destroy]
   def new
     @condition = Condition.new
   end
@@ -15,6 +15,20 @@ class Admin::ConditionsController < AdminController
     end
   end
 
+  def edit
+    @conditions = @condition.other_conditions_for_category
+  end
+
+  def update
+    if @condition.update(condition_params)
+      flash[:success] = "Changes saved."
+      redirect_to admin_categories_path
+    else
+      flash[:error] = "Please fix errors & try again."
+      render 'edit'
+    end
+  end
+
   def conditions_by_category
     @conditions = Condition.where(category_id: params[:category_id]).all
     respond_to do |format|
@@ -22,12 +36,23 @@ class Admin::ConditionsController < AdminController
     end
   end
 
+  def destroy
+    @condition.destroy
+    flash[:success] = "Condition '#{condition.name}' removed."
+    redirect_to admin_categories_path
+  end
+
   ###############Private Methods##############
   private
-  def new_condition_params
+  def condition_params
     params.require(:condition).permit(:category_id, :level, :position)
   end
 
+  def set_condition
+    @condition = Condition.find(params[:id])
+  end
+
+  ########### CREATION METHODS - SEND TO SERVICE OBJECT ##############
   def update_positions
     begin
       update_position_transaction
@@ -41,6 +66,7 @@ class Admin::ConditionsController < AdminController
   def update_position_transaction
     ActiveRecord::Base.transaction do
       set_condition_positions_temporarily_to_nil
+      make_or_update_condition
       attempt_to_update_positions_per_user_entries unless params["conditions"].blank?
     end
   end
@@ -56,6 +82,9 @@ class Admin::ConditionsController < AdminController
       condition_item_data["position"] = "blank" if condition_item_data["position"].blank?
       condition_item.update_attributes!(position: condition_item_data["position"])
     end
-    @condition = @category.conditions.create!(new_condition_params)
+  end
+
+  def make_or_update_condition
+    @condition ? @condition.update(condition_params) : @category.conditions.create!(condition_params)
   end
 end

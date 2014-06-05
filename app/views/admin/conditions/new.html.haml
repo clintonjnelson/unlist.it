@@ -1,23 +1,29 @@
 .row#adminbox.col-sm-8
   %ul.nav.nav-tabs.col-sm-5-offset-1
+    //User Partial with an IF statement for this
+    //Use a helper or decorator that returns ".active" or "" based on if request.url.include?(path) & pass path from each of the conditionals or use a case statement that passes it
     %li
-      =link_to "Add Category", "#"
+      =link_to "Add Category",  new_admin_category_path
     %li.active
       =link_to "Add Condition", new_admin_condition_path
+    %li
+      =link_to "View All",      admin_categories_path
   #adminboxcontent.well
     %h4 Add Condition To A Category
+    %br
     %ul#addcondition
-      =bootstrap_form_for [:admin, @condition], layout: :horizontal, label_col: 'col-sm-4', control_col: "col-sm-6" do |f|
-        =f.collection_select :category_id, Category.all, :id, :name, { prompt: "select a category" }, { class: 'add-condition-category-select' }
-        //-#Need conditions with adjacent Order field
-        =f.text_field :level, label: "New Condition Name"
-        =f.text_field :position, label: "Order #"
+      =render partial: "category_form", locals: { condition: @condition, button_name: "Add Condition" }
+      / =bootstrap_form_for [:admin, @condition], layout: :horizontal, label_col: 'col-sm-3', control_col: "col-sm-6" do |f|
+      /   =f.collection_select :category_id, Category.all, :id, :name, { prompt: "select a category" }, { class: 'add-condition-category-select' }
+      /   //-#Need conditions with adjacent Order field
+      /   =f.text_field :level, label: "New Condition Name"
+      /   =f.text_field :position, label: "Order #"
 
-        %hr
-        %h5 Re-Order Existing Conditions If Necessary (no duplicates)
-        #reposition_conditions_for_category
-          [ Please Select A Category Above First ]
+      /   %hr
+      /   %h5 Re-Order Existing Conditions If Necessary (no duplicates)
+      /   #reposition_conditions_for_category
+      /     [ Please Select A Category Above First ]
 
-        %br
-        =f.submit "Add Condition", class: "btn btn-primary"
+      /   %br
+      /   =f.submit "Add Condition", class: "btn btn-primary"
 

@@ -14,6 +14,7 @@ describe Admin::ConditionsController do
     end
   end
 
+
   describe "GET new" do
     context "for authorized admin user" do
       before do
@@ -28,6 +29,7 @@ describe Admin::ConditionsController do
       end
     end
   end
+
 
   describe "GET conditions_by_category" do
     context "for authorized admin user" do
@@ -44,6 +46,7 @@ describe Admin::ConditionsController do
     end
   end
 
+
   describe "GET create" do
     context "for valid information with adding to standard position" do
       before do
@@ -54,6 +57,26 @@ describe Admin::ConditionsController do
 
       it "sets the category to be the chosen category" do
         expect(assigns(:category)).to eq(autos)
+      end
+      it "redirects to the categories index page" do
+        expect(response).to redirect_to admin_categories_path
+      end
+    end
+
+    context "for valid condition info on a NEW category with no prior conditions" do
+      let!(:games) { Fabricate(:category) }
+      before do
+        spec_signin_user(jen)
+        get :create, { condition: { category_id: 2, level: "new", position: 2 },
+                      conditions: [ ] }
+      end
+      it "sets the category to be the chosen category" do
+        expect(assigns(:category)).to eq(games)
+      end
+      it "creates the new condition under the chosen category" do
+        games_conditions = Condition.where(category_id: 2).all
+        expect(games_conditions.count).to eq(1)
+        expect(games_conditions.first.level).to eq("new")
       end
       it "redirects to the categories index page" do
         expect(response).to redirect_to admin_categories_path
@@ -119,4 +142,91 @@ describe Admin::ConditionsController do
     end
   end
 
+
+  describe "GET edit" do
+    before do
+      spec_signin_user(jen)
+      get :edit, { id: bad.id }
+    end
+    it "loads the category to be edited" do
+      expect(assigns(:condition)).to eq(bad)
+    end
+    it "loads the other conditions for the category" do
+      expect(assigns(:conditions)).to eq([good])
+    end
+    it "renders the new template" do
+      expect(response).to render_template 'edit'
+    end
+  end
+
+
+  describe "PATCH update" do
+    context "with valid information" do
+      before do
+        spec_signin_user(jen)
+        patch :update, { id: bad.id, condition: { category_id: bad.category_id, level: 'badd', position: bad.position },
+                                    conditions: [{id: "#{good.id}", position: "#{good.position}" }] }
+      #"condition"=>{"category_id"=>"2", "level"=>"perfecto", "position"=>"5"}, "conditions"=>[{"id"=>"19", "position"=>"1"}, {"id"=>"24", "position"=>"3"}, {"id"=>"21", "position"=>"4"}], "commit"=>"Save Changes", "action"=>"update", "controller"=>"admin/conditions", "id"=>"20"}
+
+      end
+      it "loads the condition to be edited" do
+        expect(assigns(:condition)).to be_present
+      end
+      it "it is valid" do
+        expect(assigns(:condition)).to be_valid
+      end
+      it "updates the Condition in the database" do
+        expect(Condition.find(bad.id).level).to eq('badd')
+      end
+      it "flashes a success message" do
+        expect(flash[:success]).to be_present
+      end
+      it "redirects to the category index path" do
+        expect(response).to redirect_to admin_categories_path
+      end
+    end
+
+    context "with valid information" do
+      before do
+        spec_signin_user(jen)
+        patch :update, { id: bad.id, condition: { category_id: bad.category_id, level: '', position: bad.position },
+                                    conditions: [{id: "#{good.id}", position: "#{good.position}" }] }
+      end
+      it "loads the condition to be edited" do
+        expect(assigns(:condition)).to be_present
+      end
+      it "is NOT valid" do
+        expect(assigns(:condition)).to_not be_valid
+      end
+      it "does NOT update the Category in the database" do
+        expect(Condition.find(bad.id).level).to_not eq('badd')
+      end
+      it "flashes an error message" do
+        expect(flash[:error]).to be_present
+      end
+      it "renders the edit template again for error display" do
+        expect(response).to render_template 'edit'
+      end
+    end
+  end
+
+
+  describe "DELETE destroy" do
+    context "for authorized admin user" do
+      before do
+        spec_signin_user(jen)
+        delete :destroy, { id: bad.id }
+      end
+      it "deletes the requested condition" do
+        expect(Condition.where(level: "bad" )).to eq([])
+        expect(Condition.where(level: "good")).to eq([good])
+      end
+      it "flashed a success message" do
+        expect(flash[:success]).to be_present
+      end
+      it "redirects to the category index page" do
+        expect(response).to redirect_to admin_categories_path
+      end
+    end
+  end
 end

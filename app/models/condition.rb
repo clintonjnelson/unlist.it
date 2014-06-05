@@ -9,5 +9,7 @@ class Condition < ActiveRecord::Base
                         allow_blank:  true,
                         uniqueness:   { scope: :category_id }
 
-
+  def other_conditions_for_category
+    category.conditions.where.not(id: id)
+  end
 end

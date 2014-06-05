@@ -1,0 +1,20 @@
+=bootstrap_form_for [:admin, condition], layout: :horizontal, label_col: 'col-sm-3', control_col: "col-sm-6" do |f|
+  =f.collection_select :category_id, Category.all, :id, :name, { prompt: "select a category" }, { class: 'add-condition-category-select' }
+  //-#Need conditions with adjacent Order field
+  =f.text_field :level, label: "Condition Name"
+  =f.text_field :position, label: "Order #"
+
+  %hr
+  %h5 Re-Order Existing Conditions If Necessary (no duplicates)
+  #reposition_conditions_for_category
+    -if condition.category_id && !conditions.blank?
+      -conditions.each do |item|
+        %li
+          =hidden_field_tag "conditions[][id]", item.id
+          =text_field_tag "conditions[][position]", item.position, placeholder: "#{item.position}"
+          %span= "#{item.level.capitalize}"
+    -else
+      [ Please Select A Category Above First ]
+
+  %br
+  =f.submit "#{button_name}", class: "btn btn-primary"

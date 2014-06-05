@@ -1,5 +1,5 @@
 Fabricator(:condition) do
-  level       { %w[ poor fair good excellent perfect new ].sample }
+  level       { "#{ Faker::Name.name }" }
   position    { "#{ Faker::Number.number(3) }" }
 end
 
