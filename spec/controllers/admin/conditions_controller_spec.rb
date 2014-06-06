@@ -152,7 +152,7 @@ describe Admin::ConditionsController do
       expect(assigns(:condition)).to eq(bad)
     end
     it "loads the other conditions for the category" do
-      expect(assigns(:conditions)).to eq([good])
+      expect(assigns(:other_conditions)).to eq([good])
     end
     it "renders the new template" do
       expect(response).to render_template 'edit'
@@ -204,11 +204,8 @@ describe Admin::ConditionsController do
       it "loads the associated category" do
         expect(assigns(:category)).to be_present
       end
-      it "is NOT valid" do
-        expect(assigns(:condition)).to_not be_valid
-      end
       it "does NOT update the Category in the database" do
-        expect(Condition.find(bad.id).level).to_not eq('badd')
+        expect(Condition.find(bad.id).level).to eq('bad')
       end
       it "flashes an error message" do
         expect(flash[:error]).to be_present

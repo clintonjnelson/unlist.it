@@ -7,8 +7,8 @@
   %hr
   %h5 Re-Order Existing Conditions If Necessary (no duplicates)
   #reposition_conditions_for_category
-    -if condition.category_id && !conditions.blank?
-      -conditions.each do |item|
+    -if condition.category_id && other_conditions.present?
+      -other_conditions.each do |item|
         %li
           =hidden_field_tag "conditions[][id]", item.id
           =text_field_tag "conditions[][position]", item.position, placeholder: "#{item.position}"
