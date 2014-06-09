@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+#Note: mocks the ConditionsManager service object
+
 describe Admin::ConditionsController do
   let(:jen) { Fabricate(:admin) }
   let!(:autos) { Fabricate(:category, name: "autos") }
@@ -50,8 +52,9 @@ describe Admin::ConditionsController do
   describe "GET create" do
     context "for valid information with adding to standard position" do
       before do
+        ConditionsManager.any_instance.should_receive(:add_or_update_condition).and_return(true)
         spec_signin_user(jen)
-        get :create, { condition: { category_id: 1, level: "average", position: 2 },
+        post :create, { condition: { category_id: 1, level: "average", position: 2 },
                       conditions: [ { id: "1", position: "1" } ] }
       end
 
@@ -66,51 +69,28 @@ describe Admin::ConditionsController do
     context "for valid condition info on a NEW category with no prior conditions" do
       let!(:games) { Fabricate(:category) }
       before do
+        ConditionsManager.any_instance.should_receive(:add_or_update_condition).and_return(true)
         spec_signin_user(jen)
-        get :create, { condition: { category_id: 2, level: "new", position: 2 },
+        post :create, { condition: { category_id: 2, level: "new", position: 2 },
                       conditions: [ ] }
       end
       it "sets the category to be the chosen category" do
         expect(assigns(:category)).to eq(games)
-      end
-      it "creates the new condition under the chosen category" do
-        games_conditions = Condition.where(category_id: 2).all
-        expect(games_conditions.count).to eq(1)
-        expect(games_conditions.first.level).to eq("new")
       end
       it "redirects to the categories index page" do
         expect(response).to redirect_to admin_categories_path
       end
     end
 
-    describe "verifying proper reordering: " do
-      before { spec_signin_user(jen) }
-
-      it "reorders from 1, based on relative number position provided" do
-        get :create, { condition: { category_id: 1, level: "worse", position: 99 },
-                      conditions: [ { id: "1", position: "2" }, { id: "2", position: "1" } ] }
-        worse = Condition.where(level: "worse").take
-        expect(Condition.all).to eq([good, bad, worse])
-      end
-      it "the order will be exact if proper positioning is provided" do
-        get :create, { condition: { category_id: 1, level: "average", position: 1 },
-                      conditions: [ { id: "1", position: "3" }, { id: "2", position: "2" } ] }
-        expect(Condition.find(1).position).to eq(3)
-        expect(Condition.last.position).to eq(1)
-      end
-    end
-
     context "for INvalid condition information" do
       before do
+        ConditionsManager.any_instance.should_receive(:add_or_update_condition).and_return(false)
         spec_signin_user(jen)
-        get :create, { condition: { category_id: 1, level: nil, position: 3 },
+        post :create, { condition: { category_id: 1, level: nil, position: 3 },
                       conditions: [ { id: "1", position: "1" }, { id: "2", position: "2" } ] }
       end
       it "sets the category to be the chosen category" do
         expect(assigns(:category)).to eq(autos)
-      end
-      it "does not create a new condition" do
-        expect(Condition.count).to eq(2)
       end
       it "flashes an error message" do
         expect(flash[:error]).to be_present
@@ -122,16 +102,10 @@ describe Admin::ConditionsController do
 
     context "with invalid order provided" do
       before do
+        ConditionsManager.any_instance.should_receive(:add_or_update_condition).and_return(false)
         spec_signin_user(jen)
-        get :create, { condition: { category_id: 1, level: "average", position: 1 },
+        post :create, { condition: { category_id: 1, level: "average", position: 1 },
                       conditions: [ { id: "1", position: "1" }, { id: "2", position: "2" } ] }
-      end
-      it "maintains the original position - not allowing duplicates" do
-        expect(Condition.first.position).to eq(1)
-        expect(Condition.last.position).to eq(2)
-      end
-      it "does not create a new condition" do
-        expect(Condition.count).to eq(2)
       end
       it "flashes an error message" do
         expect(flash[:error]).to be_present
@@ -163,6 +137,7 @@ describe Admin::ConditionsController do
   describe "PATCH update" do
     context "with valid information" do
       before do
+        ConditionsManager.any_instance.should_receive(:add_or_update_condition).and_return(true)
         spec_signin_user(jen)
         patch :update, { id: bad.id, condition: { category_id: bad.category_id, level: 'badd', position: 4 },
                                     conditions: [{id: "#{good.id}", position: "#{good.position}" }] }
@@ -178,12 +153,6 @@ describe Admin::ConditionsController do
       it "it is valid" do
         expect(assigns(:condition)).to be_valid
       end
-      it "updates the Condition in the database" do
-        expect(Condition.find(bad.id).level).to eq('badd')
-      end
-      it "reorders the conditions" do
-        expect(assigns(:condition).category.conditions.map(&:position)).to eq([1,2])
-      end
       it "flashes a success message" do
         expect(flash[:success]).to be_present
       end
@@ -194,6 +163,7 @@ describe Admin::ConditionsController do
 
     context "with INvalid information" do
       before do
+        ConditionsManager.any_instance.should_receive(:add_or_update_condition).and_return(false)
         spec_signin_user(jen)
         patch :update, { id: bad.id, condition: { category_id: bad.category_id, level: '', position: bad.position },
                                     conditions: [{id: "#{good.id}", position: "#{good.position}" }] }
@@ -203,9 +173,6 @@ describe Admin::ConditionsController do
       end
       it "loads the associated category" do
         expect(assigns(:category)).to be_present
-      end
-      it "does NOT update the Category in the database" do
-        expect(Condition.find(bad.id).level).to eq('bad')
       end
       it "flashes an error message" do
         expect(flash[:error]).to be_present

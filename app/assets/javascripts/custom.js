@@ -1,7 +1,7 @@
 
 //Ajax Population of ConditionSelect For Selected Category
 $(document).ready(function() {
-  $(".unpost_category_select").on("change", function() {
+  $(".unpost_category_select").on("select", function() {
     $.ajax({
       type: "POST",
       url: "/conditions_by_category",
