@@ -23,6 +23,6 @@
         [NOT AVAILABLE - Notify Unlist]
 
     %li
-      ="Receives: #{ time_ago_in_words(message.created_at) } | "
+      ="Received: #{ time_ago_in_words(message.created_at) } ago | "
       %small= link_to "[delete]", user_message_path(current_user, message), method: 'delete'
 %hr

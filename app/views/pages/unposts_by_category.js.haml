@@ -1,0 +1,4 @@
+-if @unposts.present?
+  $("#browse-unposts").html("#{ escape_javascript( render @unposts ) }")
+-else
+  $("#browse-unposts").html("#{ escape_javascript( "Sorry, there are unposts currently in this category." )}")

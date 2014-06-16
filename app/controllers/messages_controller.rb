@@ -8,7 +8,7 @@ class MessagesController < ApplicationController
 
   def create
     @message = Message.new(message_params)
-    if params[:unpost_id] #FOR UNPOST MESSAGES
+    if params[:unpost_id] #FOR UNPOST MESSAGES (VIA GUEST & USER)
       if guest_user?
         unpost_message_setup
       elsif signed_in?
@@ -21,7 +21,7 @@ class MessagesController < ApplicationController
         redirect_to @unpost #Where to go after reply sent?
       else
         flash[:error] = "Message could not be sent. Please fix errors & try again."
-        render 'new' #Where to render?
+        render 'new'
       end
     elsif params[:sender_id] && params[:message][:reply] #FOR USER MESSAGES & REPLIES
       reply_message_setup
@@ -30,13 +30,17 @@ class MessagesController < ApplicationController
         redirect_to user_message_path(current_user, @parent_message) #Where to go after reply sent?
       else
         flash[:error] = "Message could not be sent. Please fix errors & try again."
-        render 'new' #Where to render?
+        render 'new'  #Where to render?
       end
     end
   end
 
+  #maybe 3 actions - received_index & sent_index & hits_index
+  #could make OOP with ViewsObject to render correct one in index
+  #would take a parameter of request, and return array of correct messages & heading name Index/Sent/Hits
+  #TODO: Show only primary messages, displaying replies inside when clicked to show
+    #Show replies within message or in a message-show page?
   def index
-    #would be nice to filter only primary messages, displaying replies when clicked to show
     all_messages = current_user.sent_messages
     all_messages << current_user.received_messages
     @messages = all_messages.select{|m| (m.messageable_type != "Message") }

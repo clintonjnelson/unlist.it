@@ -22,10 +22,34 @@ class UnpostsController < ApplicationController
     @unposts = current_user.unposts
   end
 
+  def index_by_category #for Browse Page Results
+    @categories = Category.all
+    @unposts = Category.find(params[:category_id]).unposts
+    render 'pages/browse'
+  end
+
   def show
     @user = current_user
     @unpost = Unpost.find(params[:id])
   end
+
+  ################################# NON-CRUD ###################################
+
+  def search #TODO As Grows: SearchesController with QueryObject
+    @search_string = search_params[:keyword]
+    if search_params[:category_id] == "0"
+      @search_category = "0"
+      @search_results = Unpost.where("keyword1 LIKE :search OR keyword2 LIKE :search OR keyword3 LIKE :search OR keyword4 LIKE :search",
+                                    { search: "%#{search_params[:keyword]}%" }).all
+    else
+      @search_category = Category.find(search_params[:category_id])
+      @search_results = Unpost.where("keyword1 LIKE :search OR keyword2 LIKE :search OR keyword3 LIKE :search OR keyword4 LIKE :search",
+                                    { search: "%#{search_params[:keyword]}%" }).where(category_id: search_params[:category_id]).all
+    end
+    render 'search'
+  end
+
+  ################################# AJAX ACTIONS ###############################
 
   def conditions_by_category
     @conditions = Condition.where(category_id: params[:category_id]).all
@@ -33,6 +57,17 @@ class UnpostsController < ApplicationController
       format.js {render 'conditions_by_category'}
     end
   end
+
+  def show_message_form
+    #binding.pry
+    @unpost = Unpost.find(params[:unpost_id])
+    @message = Message.new
+    respond_to do |format|
+      format.js { render }
+    end
+  end
+
+  ################################ PRIVATE METHODS #############################
 
   private
   def unpost_params
@@ -50,5 +85,9 @@ class UnpostsController < ApplicationController
                                     :travel,
                                     :distance,
                                     :zipcode)
+  end
+
+  def search_params
+    params.permit(:keyword, :category_id)
   end
 end

@@ -39,10 +39,23 @@ $unlistcolor: #336699
   .navbarlink
     height: 90px
     padding-left: 0px
-    a, a:visited
-      @include navbar_linkstyle(#aaaaaa)
-    a:hover
-      @include navbar_linkstyle(white)
+    #navlink-guest
+      a, a:visited
+        @include navbar_linkstyle(#aaaaaa)
+      a:hover
+        @include navbar_linkstyle(white)
+    div
+      display: inline
+      a, a:visited
+        @include navbar_linkstyle(#aaaaaa)
+      a:hover
+        @include navbar_linkstyle(white)
+      ul
+        margin-top: 65px
+        li
+          margin: 7px 0 7px 0
+          a, a:visited, a:hover
+            border: none
   #unlistuserbox
     border-left: 2px solid
     border-color: #dddddd

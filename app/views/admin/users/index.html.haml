@@ -1,12 +1,25 @@
 -provide(:title, '')
 
 //Code for list of users
-
 .row#userbox.col-sm-8
-  %ul.nav.nav-tabs.col-sm-5-offset-1
-    %li.active
-      =link_to "Manage Users", admin_users_path(current_user)
-    %li
-      =link_to "User Messages", '#'
   #alluserslistcontent.well
-    =render @users
+    -if @users.present?
+      -@users.each do |user|
+        %h4
+          =link_to user_path(user) do
+            =gravatar_image(user, 60)
+          =link_to "#{user.username}", user_path(user)
+        %p
+          %ul
+            %li= "Email: #{user.email}"
+            %li= "Joined: #{user.created_at}"
+            %li UnPosts: #{user.unposts.count}
+            %li Messages(Out): [MESSAGES COUNT HERE]
+            %li Messages(In): [MESSAGES COUNT HERE]
+            %li
+              Actions:
+              %a(href='') [lock user]
+              =link_to "| delete user", admin_user_path(user), method: 'delete'
+        %hr
+    -else
+      %h5 There are currently no users.

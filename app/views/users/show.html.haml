@@ -2,16 +2,13 @@
 
 //Code
 .row#userbox.col-sm-8
-  %ul.nav.nav-tabs.col-sm-5-offset-1
-    %li.active
-      =link_to "Profile",      user_path(current_user)
-    %li
-      =link_to "Edit Profile", edit_user_path(current_user)
-    %li
-      =link_to "SomethingHere", '#'
   #showusercontent.well
-    %h2= "#{@user.username.capitalize}'s Profile"
+    .gravatar= gravatar_image(@user, 60)
+    %h2.text-left
+      ="#{@user.username.capitalize}'s Profile"
+      %small= link_to "[edit info]", edit_user_path(current_user)
     %hr.hr-lg-dashed
+
     %p= "Email: #{@user.email}"
     %p= "Password: ***hidden***"
     %p= "Default Location: [ZIPCODE OR NEARBY CITY?]"

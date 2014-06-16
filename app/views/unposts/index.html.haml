@@ -1,16 +1,6 @@
 -provide(:title, '')
 
 .row#userbox.col-sm-8
-  %ul.nav.nav-tabs.col-sm-5-offset-1
-    %li.active
-      =link_to "My Unlist", user_unlist_path(current_user)
-    %li
-      =link_to "Add Unpost", new_user_unpost_path(current_user)
-    %li
-      %a(href="") My Unwatch*
-    %li
-      =link_to "My Hits", "#{}"
-  //.row
   #userboxcontent.well
     #unlist
       -if @unposts.present?

@@ -1,0 +1,16 @@
+%h5
+  =link_to unpost_path(unpost) do
+    =gravatar_image(unpost.creator, 60)
+  =link_to "#{ unpost.title }", unpost_path(unpost)
+%p
+  %ul
+    %li= "Description: #{ truncate(unpost.description, length: 45) }"
+    %li= "Condition: #{ unpost.condition.level }"
+    %li= "Price: #{ number_to_currency(unpost.price, precision: 0) }"
+    %li
+      Example:
+      = link_to "#{ unpost.link }", "#{ unpost.link }"
+    %li
+      ="Posted: #{ time_ago_in_words(unpost.created_at) } ago | "
+      %small= link_to "[contact buyer]", unpost_path(unpost) #//-#+ "#contactbuyer"
+%hr

@@ -1,13 +1,4 @@
 .row#adminbox.col-sm-8
-  %ul.nav.nav-tabs.col-sm-5-offset-1
-    //User Partial with an IF statement for this
-    //Use a helper or decorator that returns ".active" or "" based on if request.url.include?(path) & pass path from each of the conditionals or use a case statement that passes it
-    %li
-      =link_to "Add Category",  new_admin_category_path
-    %li.active
-      =link_to "Add Condition", new_admin_condition_path
-    %li
-      =link_to "View All",      admin_categories_path
   #adminboxcontent.well
     %h4 Add Condition To A Category
     %br

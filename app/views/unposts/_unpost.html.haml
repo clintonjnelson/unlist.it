@@ -1,14 +1,16 @@
 %h5
   =link_to unpost_path(unpost) do
-    =gravatar_image(current_user, 60)
+    =gravatar_image(unpost.creator, 60) #CHANGED FROM CURRENT USER TO UNPOSt.CREATOR
   =link_to "#{ unpost.title }", unpost_path(unpost)
 %p
   %ul
+    %li= link_to "Example: #{ unpost.link }", url: "unpost.link"
     %li= "Description: #{ truncate(unpost.description, length: 45) }"
     %li= "Condition: #{ unpost.condition.level }"
     %li= "Price: #{ unpost.price }"
-    %li= link_to "Example: #{ unpost.link }", url: "unpost.link"
     %li
-      ="Posted: #{ time_ago_in_words(unpost.created_at) } | "
-      %small=link_to "[delete]", unpost_path(unpost), method: 'delete'
+      ="Posted: #{ time_ago_in_words(unpost.created_at) } ago "
+      -if signed_in? && creator?(unpost)
+        %small &nbsp|
+        %small= link_to " [delete]", unpost_path(unpost), method: 'delete'
 %hr

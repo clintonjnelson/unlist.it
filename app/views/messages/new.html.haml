@@ -1,11 +1,4 @@
 .row#userbox.col-sm-8
-  %ul.nav.nav-tabs.col-sm-5-offset-1
-    %li
-      =link_to "All Messages",    user_messages_path(current_user)
-    %li.active
-      =link_to "Unpost Messages", '#'
-    %li
-      =link_to "Direct Messages", '#'
   #messagecontent.well
     .messageform
       =bootstrap_form_for [@unpost, @message] do |f|

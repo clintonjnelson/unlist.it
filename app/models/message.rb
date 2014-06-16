@@ -7,7 +7,7 @@ class Message < ActiveRecord::Base
   validates :messageable_id,    presence: true
   validates :recipient_id,      presence: true
   validates :subject,           presence: true
-  validates :content,           presence: true
+  validates :content,           presence: true, allow_blank: true
   validates_presence_of :sender_id,     unless: 'self.contact_email.present?'
   validates_presence_of :contact_email, unless: 'self.sender_id.present?'
 end

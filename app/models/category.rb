@@ -1,5 +1,5 @@
 class Category < ActiveRecord::Base
-  #has_many :categories_conditions
+  has_many :unposts, ->{ order( "created_at DESC" ) }
   has_many :conditions, ->{ order( "position" ) }, dependent: :destroy
 
   validates :name, presence: true

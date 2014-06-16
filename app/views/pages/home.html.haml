@@ -2,23 +2,24 @@
 
 //Code for the quick-search bar
 .row
-  #quicksearch.col-sm-8
+  #searcharea.col-sm-8
     %h3 Search Unlist
-    =render partial: 'shared/quicksearch'
+    %p= render partial: 'shared/quicksearch'
     %br
     %br
     %p= "There are currently #{User.count} Unlisters looking for #{Unpost.count} things."
     %p
-      Maybe you have some...
+      You may have what someone is looking for...
 
   //Code for the new user Sign Up section of the Page
   //-if signedin?
   //DO SOMETHING FOR SIGNED IN USERS IN BODY
   //-else
-  #signup.col-sm-4
-    =link_to signup_path do
-      %h2
-        Join the Unlist.co<span>[mmunity]</span>!
-        %p
-          (yep, it's free.)
+  -unless signed_in?
+    #signup.col-sm-4
+      =link_to signup_path do
+        %h2
+          Join the Unlist.co<span>[mmunity]</span>!
+          %p
+            (yep, it's free.)
 

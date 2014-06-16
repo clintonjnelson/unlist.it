@@ -3,34 +3,44 @@ Rails.application.routes.draw do
 
   get 'ui(/:action)', controller: 'ui'
 
-  root                              to: 'pages#home'
-  get '/home',                      to: 'pages#home'
-  get '/browse',                    to: 'pages#browse'
-  get '/tour',                      to: 'pages#tour'
-  get '/faq',                       to: 'pages#faq'
-  get '/about',                     to: 'pages#about'
-  get '/contact',                   to: 'pages#contact'
-  get '/invalid_address',           to: 'pages#invalid_address'
-  get '/signout',                   to: 'sessions#destroy'
-  get '/signup',                    to: 'users#new'
-  get '/userconfirmation/:token',   to: 'users#confirm_with_token', as: 'userconfirmation'
+  root                                to: 'pages#home'
+  get '/home',                        to: 'pages#home'
+  get '/browse',                      to: 'pages#browse'
+  get '/browse/:category_id',         to: 'unposts#index_by_category', as: "browse_category"
+  get '/tour',                        to: 'pages#tour'
+  get '/faq',                         to: 'pages#faq'
+  get '/about',                       to: 'pages#about'
+  get '/contact',                     to: 'pages#contact'
+  get '/invalid_address',             to: 'pages#invalid_address'
+  get '/signout',                     to: 'sessions#destroy'
+  get '/signup',                      to: 'users#new'
+  get '/userconfirmation/:token',     to: 'users#confirm_with_token',  as: 'userconfirmation'
 
-  #Ajax request to populate condition options based on category
-  post '/conditions_by_category',       to: 'unposts#conditions_by_category'
+  #AJAX
+  post '/conditions_by_category',     to: 'unposts#conditions_by_category'
+  #post '/unposts_by_category',        to: 'pages#unposts_by_category'
 
   #SHOW REQUIRED FOR ADMIN INDEX PAGE BUT STILL NEEDS TO BE CREATED
-  resources :sessions,      only: [:create]
-  resources :users,         only: [:create, :show, :edit, :update] do
-    resources :messages,    only: [:new, :create, :show, :index] #INDEX specific to user browsing own items
-    resources :unposts,   except: [:index]
-    get '/unlist',            to: 'unposts#index'
+  # resources :categories,            only: [:show] do
+  #   collection { get :unposts }
+  # end
+  resources :sessions,              only: [:create]
+  #Protects Users by anonymity. BUILD THIS OUT - ADD SLUGS TOO
+  resources :unposts,               only: [:show, :index] do  #INDEX for general searching & use by non-creator
+    collection do
+      post  :search
+    end
+    resources :messages,            only: [:create, :index]
+    get 'display_message_form',       to: 'unposts#show_message_form' #AJAX
+  end
+  resources :users,                 only: [:create, :show, :edit, :update] do
+    resources :messages,            only: [:new, :create, :show, :index] #INDEX specific to user browsing own items
+    resources :unposts,           except: [:index]
+    get       '/unlist',              to: 'unposts#index'
   end
 
-  #Protects Users by anonymity. BUILD THIS OUT - ADD SLUGS TOO
-  resources :unposts,       only: [:show, :index] do  #INDEX for general searching & use by non-creator
-    #Messages are here so can make new messages referenced by only Unposts
-    resources :messages,    only: [:create, :index]
-  end
+
+
 
   namespace :admin do
     resources :categories
@@ -39,5 +49,5 @@ Rails.application.routes.draw do
     post '/conditions_by_category',   to: 'conditions#conditions_by_category'
   end
 
-  mount Sidekiq::Web, at: '/sidekiq'  #for online monitoring
+  mount Sidekiq::Web,                 at: '/sidekiq'  #for online monitoring
 end

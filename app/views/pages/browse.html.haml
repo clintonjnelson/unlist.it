@@ -1,6 +1,26 @@
 -provide(:title, 'Browse')
 
-//Code for Browsing Unlist Categories & Areas & Search Front Page quicksearch should link here for results if user is not logged in. Should link similarly, but with more tailored info if user is logged in.
-#browse
+#browse-title
   %h2 Browse Unlist
-  %p Add some links here for browsing Cities, categories, etc.
+  %p HOW should I sort this?
+  %p First come, first served?
+  %p Show most recent first? (Creates update competition & hacking issues)
+  %p Random??
+  .dropdown
+    %a.btn.btn-default.dropdown-toggle.sr-only#browse-categories-dropdown(data-toggle='dropdown')
+      Select A Category
+      %span.caret
+    %ul.dropdown-menu(role='menu' aria-labelledby='browseCategoriesMenu')
+      -@categories.each do |category|
+        %li(role='presentation')
+          =link_to "#{category.name}", browse_category_path(category_id: category.id), { role: 'menuitem', tabindex: "-1" }
+
+//-#GOOD CANDIDATE FOR DECORATOR
+.row.col-sm-8.well#browse-unposts
+  -if @unposts.present?
+    =render @unposts
+  -elsif !defined?(@unposts)
+    %p Please select a category above.
+  -else
+    %p Sorry, there are currently no unposts in that category.
+

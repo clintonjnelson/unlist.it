@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  helper_method :signed_in?, :current_user
+  helper_method :signed_in?, :creator?, :current_user
 
   def access_denied(msg = "Access Denied.")
     flash[:error] = "#{msg}"
@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
 
   def current_user
     User.find(session[:user_id]) if signed_in?
+  end
+
+  def creator?(object)  #Works for Unposts,
+    session[:user_id].present? ? session[:user_id] == object.creator.id : false
   end
 
   def guest_user?

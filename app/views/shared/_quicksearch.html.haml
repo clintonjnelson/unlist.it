@@ -1,15 +1,9 @@
-%input(type="text" id="inputSearch" value="")
-%button(type="submit" id="searchButton")
-  search
-%span
-  in
-  //CREATE INSTEAD A DECORATOR OR MODEL METHOD TO USE THE DATA FROM CATEGORIES TO POPULATE THIS
-  %select
-    %option(value="Antiques & Collectibles") antiques & collectibles
-    %option(value="Autos") autos
-    %option(value="Clothing") clothing
-    %option(value="Electronics") electronics
-    %option(value="Games") games
-    %option(value="Household") household
-    %option(value="Sports") sports
-//=render partial: 'shared/category_dropdown', locals: { categories: categories }
+#quicksearch
+  %ul.searchform
+    =form_tag search_unposts_path, method: 'post' do
+      =text_field_tag :keyword, search_placeholder(@search_string)
+      =submit_tag "Search", class: "btn btn-default btn-sm"
+      %span
+        in
+        =select_tag :category_id, options_for_select(category_options)
+        //=render partial: 'shared/category_dropdown', locals: { categories: categories }

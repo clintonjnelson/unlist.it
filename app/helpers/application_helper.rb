@@ -1,4 +1,7 @@
 module ApplicationHelper
+  UNPOST_TRAVEL_DISTANCE = %w[5 10 25 50 75 100 200 500 Any]
+
+
   def bootstrap_class_for(flash_type)
     case flash_type
       when "success"
@@ -18,14 +21,8 @@ module ApplicationHelper
     image_tag(gravatar_url, alt: user.username, class: "gravatar")
   end
 
-  BASE_CATEGORIES   = %w[ apartments autos boats clothing electronics games
-    household jewelry jobs materials real\ estate services sporting\ goods ]
-  UNPOST_CATEGORIES = ["please select category"] + BASE_CATEGORIES
-  SEARCH_CATEGORIES = ["all categories"] + BASE_CATEGORIES
-  UNPOST_CONDITIONS = %w[any poor fair average good very\ good excellent perfect new]
-  UNPOST_TRAVEL_DISTANCE = %w[5 10 25 50 75 100 200 500 Any]
   def category_options
-    options = ["please select category"] + Category.all.map{|category| [category.name, category.id]}
+    options = [["please select category", 0]] + Category.all.map{|category| [category.name, category.id]}
   end
 
   #Need this to be IN-PAGE dynamic using Ajax triggered by selection
@@ -37,14 +34,16 @@ module ApplicationHelper
   def travel_distance_options
     options = ["please select distance"] + UNPOST_TRAVEL_DISTANCE.map.with_index(1).to_a
   end
-  ##Takes a list of uposts and pulls all of the unique categories out into a list array
-  # def category_array(unposts_set)
-  #   category_array = []
-  #   unposts_set.each do |unpost|
-  #     category_array.push(unpost.category) unless
-  #         ((unpost.category.nil?) || (unpost.category == "please select category"))
-  #   end
-  #   category_array.sort.uniq!
-  #   #category_array.push(unposts_set.each(&:content)).uniq!
-  # end
+  #Takes a list of uposts and pulls all of the unique categories out into a list array
+  def category_array(unposts_set)
+    category_array = []
+    unposts_set.each do |unpost|
+      category_array.push(unpost.category) unless unpost.category.nil?
+    end
+    category_array.sort.uniq!
+  end
+
+  def search_placeholder(prior_search=nil)
+    prior_search.present? ? prior_search : ''
+  end
 end

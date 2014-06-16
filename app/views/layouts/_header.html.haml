@@ -15,7 +15,7 @@
           =link_to user_path(current_user) do
             =gravatar_image(current_user, 80)
           %p=link_to "#{current_user.username.capitalize}", user_path(current_user)
-          %p=link_to 'Account Settings', edit_user_path(current_user)
+          %p=link_to 'Account Settings', user_path(current_user)
           =link_to "signout", signout_path, class: "btn btn-default btn-small"
         -else
           =form_tag sessions_path do |f|

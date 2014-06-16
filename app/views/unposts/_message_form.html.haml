@@ -1,0 +1,28 @@
+.contactbuyer.well
+  .gravatar= gravatar_image(@unpost.creator, 60)
+  %h3.text-left Contact Buyer
+  %br
+
+  .messageform
+    =bootstrap_form_for [@unpost, @message], remote: true do |f|
+      -unless signed_in?
+        =f.email_field :contact_email
+      =f.text_area  :content, label: "Message Buyer: ", rows: 6
+      %ul
+        %h4 Verify the following before you contact the buyer:
+        %li
+          =check_box_tag 'check1', true
+          =label_tag "check1", "I currently have the item described."
+        %li
+          =check_box_tag 'check2', true
+          =label_tag "check2", "It meets the unpost requirements listed buy buyer."
+        %li
+          =check_box_tag 'check3', true
+          =label_tag "check3", "I am local to the buyer's specified location."
+        %li
+          =check_box_tag 'check4', true
+          =label_tag "check3", "I am not a solicitor."
+        %li
+          =check_box_tag 'check5', true
+          =label_tag "check5", "I'm a human [insert capcha here]"
+      =f.submit "Send Message", class: "btn btn-default", disabled: true, id: 'sendmessage'

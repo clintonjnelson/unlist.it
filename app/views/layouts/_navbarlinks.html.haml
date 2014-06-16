@@ -1,15 +1,102 @@
+/-#///////////////////// ADMIN DROPDOWN MENUS ///////////////////////////
 -if (signed_in? && current_user.admin?)
-  =link_to 'Users',       admin_users_path(current_user)
-  =link_to "Components",  admin_categories_path
-  =link_to "Messages",  '#'
-  =link_to 'Blog',        '#'
+  .dropdown#navbutton-admin-users
+    %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
+      Users
+      %span.caret
+    %ul.dropdown-menu(role='menu' aria-labelledby='AdminUsersMenu')
+      %li(role='presentation')
+        =link_to "Manage Users",  admin_users_path(current_user), { role: 'menuitem', tabindex:"-1" }
+
+  .dropdown#navbutton-admin-components
+    %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
+      Components
+      %span.caret
+    %ul.dropdown-menu(role='menu' aria-labelledby='AdminComponentsMenu')
+      %li(role='presentation')
+        =link_to "Add Category",  new_admin_category_path, { role: 'menuitem', tabindex: "-1" }
+      %li(role='presentation')
+        =link_to "Add Condition", new_admin_condition_path, { role: 'menuitem', tabindex: "-1" }
+      %li(role='presentation')
+        =link_to "View All",      admin_categories_path, { role: 'menuitem', tabindex: "-1" }
+
+  .dropdown#navbutton-admin-messages
+    %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
+      Messages
+      %span.caret
+    %ul.dropdown-menu(role='menu' aria-labelledby='AdminMessagesMenu')
+      %li(role='presentation')
+        =link_to "Admin Inbox", '#', { role: 'menuitem', tabindex: "-1" }
+      %li(role='presentation')
+        =link_to "Admin Sent",  '#', { role: 'menuitem', tabindex: "-1" }
+
+  .dropdown#navbutton-admin-blog
+    %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
+      Blog
+      %span.caret
+    %ul.dropdown-menu(role='menu' aria-labelledby='AdminBlogMenu')
+      %li(role='presentation')
+        =link_to '#', { role: 'menuitem', tabindex: "-1" } do
+          %i.icon-plus
+          New Post
+      %li(role='presentation')
+        =link_to "View Posts", '#', { role: 'menuitem', tabindex: "-1" }
+
+  /-#////////////////////// USER DROPDOWN MENUS /////////////////////////
 -elsif signed_in?
-  =link_to 'Browse',    root_path
-  =link_to "My Unlist", user_unlist_path(current_user)
-  =link_to 'Messages',  user_messages_path(current_user)
+  %div= link_to 'Browse',    browse_path, { role: 'menuitem', tabindex: "-1" }
+  / .dropdown#navbutton-user-browse
+  /   %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
+  /     Browse
+  /     %span.caret
+  /   %ul.dropdown-menu(role='menu' aria-labelledby='UserBrowseMenu')
+  /     %li.presentation(role='menuitem' tab-index="-1")
+  /       =link_to 'Browse',      browse_path
+
+  .dropdown#navbutton-user-unlist
+    %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
+      Unlist
+      %span.caret
+    %ul.dropdown-menu(role='menu' aria-labelledby='UserUnlistMenu')
+      %li(role='presentation')
+        =link_to "My Unlist", user_unlist_path(current_user), { role: 'menuitem', tabindex: "-1" }
+      %li(role='presentation')
+        =link_to new_user_unpost_path(current_user), { role: 'menuitem', tabindex: "-1" } do
+          %i.icon-plus
+          Add Unpost
+      %li(role='presentation')
+        =link_to "Unpost Hits", '#', { role: 'menuitem', tabindex: "-1" }
+      %li(role='presentation')
+        =link_to "Watchlist",   '#', { role: 'menuitem', tabindex: "-1" }
+
+
+  .dropdown#navbutton-user-unlist
+    %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
+      Messages
+      %span.caret
+    %ul.dropdown-menu(role='menu' aria-labelledby='UserUnlistMenu')
+      %li(role='presentation')
+        =link_to 'Inbox', user_messages_path(current_user), { role: 'menuitem', tabindex: "-1" }
+      %li(role='presentation')
+        =link_to 'Hits',  '#', { role: 'menuitem', tabindex: "-1" }
+      %li(role='presentation')
+        =link_to 'Sent',  '#', { role: 'menuitem', tabindex: "-1" }
+
+  .dropdown#navbutton-user-unlist
+    %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
+      Profile
+      %span.caret
+    %ul.dropdown-menu(role='menu' aria-labelledby='UserUnlistMenu')
+      %li(role='presentation')
+        =link_to "Profile",      user_path(current_user), { role: 'menuitem', tabindex: "-1" }
+      %li(role='presentation')
+        =link_to "Edit Profile", edit_user_path(current_user), { role: 'menuitem', tabindex: "-1" }
+
+  /-#///////////////////// GUEST DROPDOWN MENUS /////////////////////////
 -else
-  =link_to 'Browse',    browse_path
-  =link_to 'Tour',      tour_path
-  =link_to 'About',     about_path
-  =link_to 'FAQ',       faq_path
-  =link_to 'Contact',   contact_path
+  #navbuttons-guest
+    =link_to 'Browse',    browse_path
+    =link_to 'Tour',      tour_path
+    =link_to 'About',     about_path
+    =link_to 'FAQ',       faq_path
+    =link_to 'Contact',   contact_path

@@ -1,32 +1,48 @@
 -provide(:title, '')
 
-//Code for the quick-search bar
-.row
-  #usersearch.col-sm-8
-    =render partial: 'shared/quicksearch'
+%h5.breadcrumb
+  =link_to "#{@unpost.category.name}", :back
+  %span= "-> #{@unpost.title}"
 
 .row#userbox.col-sm-8
+  #contactbuyer
+
   #userboxcontent.well
-    %h4= "#{@unpost.category.name} -> #{@unpost.title}"
-    %ul.unpost_top_details
+    .buyer-info.text-right
+      ///POSSIBLE CANDIDATE FOR DECORATOR
+      -if signed_in? && creator?(@unpost)
+        =gravatar_image(@unpost.creator, 60)
+      -else
+        =link_to unpost_display_message_form_path(@unpost), remote: true do
+          =gravatar_image(@unpost.creator, 60)
+        %p= link_to "[contact buyer]", unpost_display_message_form_path(@unpost), remote: true
+    %h5
+      Here's An Example:
+      =link_to "#{@unpost.link}", @unpost.link, target: 'blank'
+    %p= "Subject: #{ @unpost.title }"
+    %p= "Description: #{@unpost.description}"
+    %ul.unpost-top-details
       %li= "Price: #{@unpost.price}"
       %li= "Condition: #{@unpost.condition.level}"
       %li= "Looking In: #{@unpost.zipcode}"
-    %h6= "Description: #{@unpost.description}"
-    %h7= "Here's An Example: #{@unpost.link}"
-    %h8
+    %p
       Keywords:
-      %ul.unpost_keywords
-        %li= "#{@unpost.keyword1} | "
-        %li= "#{@unpost.keyword2} | "
-        %li= "#{@unpost.keyword3} | "
-        %li= "#{@unpost.keyword4}"
+      %ul.unpost-keywords
+        %li= "#{@unpost.keyword1}"
+        -unless @unpost.keyword2.blank?
+          %li= " | #{@unpost.keyword2}"
+        -unless @unpost.keyword3.blank?
+          %li= " | #{@unpost.keyword3}"
+        -unless @unpost.keyword4.blank?
+          %li= " | #{@unpost.keyword4}"
         //-#Need a decorator here to gather keywords & display them properly
     %h7
       Location/Travel Information
-      %ul.unpost_travel_info
+      %ul.unpost-travel-info
         %li= "Willing to travel?: #{@unpost.travel}"
         %li= "Max Distance: #{@unpost.distance} miles"
         -#Use GEOCODER or similar gem here
         %li= "From: #{@unpost.zipcode}"
+
+
 
