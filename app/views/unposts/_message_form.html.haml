@@ -4,7 +4,7 @@
   %br
 
   .messageform
-    =bootstrap_form_for [@unpost, @message], remote: true do |f|
+    =bootstrap_form_for [@unpost, @message] do |f|
       -unless signed_in?
         =f.email_field :contact_email
       =f.text_area  :content, label: "Message Buyer: ", rows: 6

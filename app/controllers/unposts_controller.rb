@@ -31,6 +31,7 @@ class UnpostsController < ApplicationController
   def show
     @user = current_user
     @unpost = Unpost.find(params[:id])
+    @message = Message.new
   end
 
   ################################# NON-CRUD ###################################
@@ -59,9 +60,6 @@ class UnpostsController < ApplicationController
   end
 
   def show_message_form
-    #binding.pry
-    @unpost = Unpost.find(params[:unpost_id])
-    @message = Message.new
     respond_to do |format|
       format.js { render }
     end

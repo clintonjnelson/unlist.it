@@ -1,6 +1,6 @@
 %h5
   -if message.sender
-    =link_to unpost_path(message.sender) do
+    =link_to user_path(message.sender) do
       =gravatar_image(message.sender, 60)
     =link_to "#{ message.sender.username }", user_path(message.sender)
   -elsif message.contact_email
@@ -9,20 +9,27 @@
     [NOT AVAILABLE - Notify Unlist]
 %p
   %ul
-    %li
-      ="Subject: #{ message.subject }"
-      %br
-      ="#{ message.content }"
-    %li
-      Reply:
-      -if message.sender
-        =link_to "#{ message.sender.username }", new_user_message_path(current_user, message)
-      -elsif message.contact_email
-        =mail_to "Outside User", message.contact_email
+    %h4
+      -if message.messageable_type == 'Unpost'
+        =link_to "#{ message.subject }", unpost_path(message.messageable_id)
       -else
-        [NOT AVAILABLE - Notify Unlist]
+        = "#{ message.subject }"
 
-    %li
+    %p= " \"#{ message.content }\" "
+
+    -if message.contact_email.present?
+      %li.list-unstyled
+        Outsider's Contact Email:
+        =mail_to "#{message.contact_email}", message.contact_email
+    -elsif (message.recipient == current_user)
+      %li.list-unstyled
+        Reply:
+        =link_to "#{ message.sender.username }", new_user_message_path(current_user, message)
+    -elsif (message.sender == current_user)
+      %li.list-unstyled
+        Sent to:
+        =link_to "#{ message.sender.username }", new_user_message_path(current_user, message)
+    %small
       ="Received: #{ time_ago_in_words(message.created_at) } ago | "
-      %small= link_to "[delete]", user_message_path(current_user, message), method: 'delete'
+      %span= link_to "[delete]", user_message_path(current_user, message), method: 'delete'
 %hr

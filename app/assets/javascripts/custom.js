@@ -27,9 +27,9 @@ $(document).ready(function() {
 
 
 //Checkbox activation of the submit button with AJAX Listener
-$(document).ajaxComplete(function() {
-  $("#check1,#check2,#check3,#check4,#check5,#message_content").on('change', function() {
-    if (($('#check1:checked,#check2:checked,#check3:checked,#check4:checked,#check5:checked').length == 5) && ($('#message_content').val().length > 0))
+$(document).ready( function() {
+  $("#check1,#check2,#check3,#check4,#check5").on('change', function() {
+    if ($('#check1:checked,#check2:checked,#check3:checked,#check4:checked,#check5:checked').length == 5)
       $('#sendmessage').removeAttr('disabled');
     else
       $('#sendmessage').attr('disabled', 'disabled');

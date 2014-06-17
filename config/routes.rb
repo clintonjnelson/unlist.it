@@ -31,7 +31,7 @@ Rails.application.routes.draw do
       post  :search
     end
     resources :messages,            only: [:create, :index]
-    get 'display_message_form',       to: 'unposts#show_message_form' #AJAX
+    get 'show_message_form',       to: 'unposts#show_message_form' #AJAX
   end
   resources :users,                 only: [:create, :show, :edit, :update] do
     resources :messages,            only: [:new, :create, :show, :index] #INDEX specific to user browsing own items

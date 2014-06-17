@@ -1,4 +1,7 @@
 require 'spec_helper'
+#INDEX is done - pulls messages for displaying on user interface
+
+
 
 describe MessagesController do
   let(:jen)          { Fabricate(:user) }
@@ -19,17 +22,69 @@ describe MessagesController do
 
   #I THINK THIS SHOULD BE REFACTORED AS A POLICY OR SERVICE OBJECT
   describe "GET index" do
-    context "for displaying messages/replies on an unpost message" do
-      let!(:unpost_message) {Fabricate(:user_unpost_message, sender: jen)}
-      let!(:unpost_reply)   {Fabricate(:message_message, messageable: unpost_message)}
-      let!(:user_message)   {Fabricate(:user_message, sender: jen)}
-      let!(:user_reply)     {Fabricate(:message_message, messageable: user_message)}
+    let!(:sent_unpost_message)     { Fabricate(:user_unpost_message,  sender:        jen) }
+    let!(:received_unpost_message) { Fabricate(:user_unpost_message,  recipient:     jen) }
+    let!(:sent_user_message)       { Fabricate(:user_message,         sender:        jen) }
+    let!(:received_user_message)   { Fabricate(:user_message,         recipient:     jen, content: "not an unpost message", messageable_type: 'User') }
+    let!(:guest_message)           { Fabricate(:guest_unpost_message, recipient:     jen, contact_email: "guest@example.com") }
+    let!(:unpost_reply)            { Fabricate(:message_message,      messageable:   sent_unpost_message) }
+    let!(:user_reply)              { Fabricate(:message_message,      messageable:   sent_user_message) }
+    before { spec_signin_user(jen) }
+
+    context "for ALL primary sent/received messages" do
       before do
-        spec_signin_user(jen)
-        get :index, unpost_id: 1
+        get :index, { user_id: 1 }
       end
-      it "sets @messages to all top-level messages for the user (ie: NOT replies)" do
-        expect(assigns(:messages)).to include(unpost_message, user_message)
+      it "sets @messages to all top-level messages for the user (ie: NOT replies) with newest first" do
+        expect(assigns(:messages)).to eq([guest_message, received_user_message, sent_user_message, received_unpost_message, sent_unpost_message])
+      end
+      it "does not include responses to primary messages" do
+        expect(assigns(:messages)).to_not include(unpost_reply, user_reply)
+      end
+      it "renders the index template" do
+        expect(response).to render_template 'index'
+      end
+    end
+
+    context "for messages that are 'HITS' on unposts" do
+      before do
+        get :index, { user_id: 1, type: 'hits' }
+      end
+      it "sets @messages to all top-level hits on unposts with newest first" do
+        expect(assigns(:messages)).to eq([guest_message, received_unpost_message])
+      end
+      it "does not include sent messages or responses to primary messages" do
+        expect(assigns(:messages)).to_not include([sent_unpost_message, sent_user_message, received_user_message, unpost_reply, user_reply])
+      end
+      it "renders the index template" do
+        expect(response).to render_template 'index'
+      end
+    end
+
+    context "for messages RECEIVED by the user - AKA: User's Inbox" do
+      before do
+        get :index, { user_id: 1, type: 'received' }
+      end
+      it "sets @messages to all top-level received messages for the user (ie: NOT replies)" do
+        expect(assigns(:messages)).to eq([guest_message, received_user_message, received_unpost_message])
+      end
+      it "does not include responses to primary messages" do
+        expect(assigns(:messages)).to_not include(unpost_reply, user_reply)
+      end
+      it "renders the index template" do
+        expect(response).to render_template 'index'
+      end
+    end
+
+    context "for messages SENT by the user" do
+      before do
+        get :index, { user_id: 1, type: 'sent' }
+      end
+      it "sets @messages to all top-level sent messages for the user (ie: NOT replies)" do
+        expect(assigns(:messages)).to eq([sent_user_message, sent_unpost_message])
+      end
+      it "does not include responses to primary messages" do
+        expect(assigns(:messages)).to_not include(unpost_reply, user_reply)
       end
       it "renders the index template" do
         expect(response).to render_template 'index'
@@ -43,6 +98,8 @@ describe MessagesController do
       let(:verb_action) { get :index, unpost_id: 1 }
     end
   end
+
+
 
   describe "POST create" do
     describe "message about unpost to user from guest" do

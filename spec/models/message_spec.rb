@@ -8,9 +8,8 @@ describe Message do
   it { should validate_presence_of(:subject             ) }
   it { should validate_presence_of(:messageable_type    ) }
   it { should validate_presence_of(:messageable_id      ) }
- #it { should validate_presence_of(:content             ) } #ALLOWS BLANK
+  it { should validate_presence_of(:content             ) }
 
-  it { should allow_value("").for(:content) }
 
   context "conditionally validates contact_email" do
     before { self.double(:contact_email){"joe@email.com"} }

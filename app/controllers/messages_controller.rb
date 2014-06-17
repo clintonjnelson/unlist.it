@@ -21,7 +21,7 @@ class MessagesController < ApplicationController
         redirect_to @unpost #Where to go after reply sent?
       else
         flash[:error] = "Message could not be sent. Please fix errors & try again."
-        render 'new'
+        render 'unposts/show'
       end
     elsif params[:sender_id] && params[:message][:reply] #FOR USER MESSAGES & REPLIES
       reply_message_setup
@@ -41,11 +41,23 @@ class MessagesController < ApplicationController
   #TODO: Show only primary messages, displaying replies inside when clicked to show
     #Show replies within message or in a message-show page?
   def index
-    all_messages = current_user.sent_messages
-    all_messages << current_user.received_messages
-    @messages = all_messages.select{|m| (m.messageable_type != "Message") }
+    case params[:type]
+      when 'hits'
+        @messages = current_user.received_messages.select{|m| (m.messageable_type == "Unpost") } #NOT replies
+      when 'received'
+        @messages = current_user.received_messages.select{|m| (m.messageable_type != "Message") } #NOT replies
+      when 'sent'
+        @messages = current_user.sent_messages.select{|m| (m.messageable_type != "Message") } #NOT replies
+      else
+        all_messages = current_user.sent_messages
+        all_messages << current_user.received_messages
+        @messages = all_messages.select{|m| (m.messageable_type != "Message") } #NOT replies
+    end
+    render 'index'
   end
 
+
+  ############################ PRIVATE METHODS #################################
   private
   def message_params
     params.require(:message).permit(:content, :contact_email)

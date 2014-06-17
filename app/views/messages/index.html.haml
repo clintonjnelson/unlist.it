@@ -1,4 +1,12 @@
 .row#userbox.col-sm-8
   #messagescontent.well
     .messages-top
+      %h3.text-center
+        -if params[:type] =='received'
+          inbox
+        -elsif params[:type] =='sent'
+          sent messages
+        -else
+          all messages
+      .hr-sm-solid
       =render(@messages) || "You have no messages."
