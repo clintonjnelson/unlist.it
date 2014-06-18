@@ -41,8 +41,11 @@ describe ResetPasswordsController do
 
   describe 'POST create' do
     context 'with a valid token' do
-      let(:jen) { Fabricate(:user, password: 'password', prt: '1234abcd') }
-      before { post :create, { token: jen.prt, password: 'new_password' } }
+      let(:jen) { Fabricate(:user, password: 'password') }
+      before do
+        jen.update_attributes(prt: '1234abcd', prt_created_at: 1.minute.ago)
+        post :create, { token: jen.prt, password: 'new_password' }
+      end
 
       it 'sets @user to the user via the token' do
         expect(assigns(:user)).to eq(jen)
@@ -57,13 +60,17 @@ describe ResetPasswordsController do
       it 'flashes a message that the users password has been changed' do
         expect(flash[:success]).to be_present
       end
-      it 'renders the reset password page' do
+      it 'renders the root path for the user to sign in' do
         expect(response).to redirect_to root_path
       end
     end
+
     context 'with an expired token' do
-      let(:jen) { Fabricate(:user, password: 'password', prt: '1234abcd', prt_created_at: 1.week.ago) }
-      before { post :create, { token: jen.prt, password: 'new_password' } }
+      let!(:jen) { Fabricate(:user, password: 'password') }
+      before do
+        jen.update_attributes(prt: '1234abcd', prt_created_at: 1.day.ago)
+        post :create, { token: jen.prt, password: 'new_password' }
+      end
 
       it 'sets the user prt value to nil' do
         expect(User.first.prt).to be_nil
