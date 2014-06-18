@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   has_many   :unposts
   has_secure_password
 
+  before_create :set_initial_prt_created_at
 
   validates :email,    email: true
   validates :email,    presence: true, uniqueness: true
@@ -14,5 +15,25 @@ class User < ActiveRecord::Base
 
   def admin?
     role == "admin"
+  end
+
+  def create_reset_token
+    self.update_columns(prt: User.secure_token, prt_created_at: Time.now)
+  end
+
+  def clear_reset_token
+    self.update_columns(prt: nil, prt_created_at: 1.month.ago)
+  end
+
+  def expired_token?(timeframe)
+    self.prt_created_at.blank? ? true : self.prt_created_at < timeframe.hours.ago
+  end
+
+  def self.secure_token
+    SecureRandom.urlsafe_base64
+  end
+
+  def set_initial_prt_created_at
+    self.prt_created_at = 1.month.ago #for security
   end
 end

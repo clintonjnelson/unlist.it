@@ -1,0 +1,13 @@
+-provide(:title, 'Unlist.co')
+
+//Code for the registration form
+.row.col-sm-8.col-sm-offset-1.well
+  %h4 Forget your password?
+  %p  No worries, we can email you a link to reset it.
+  %br
+
+  .forgotpasswords-form
+    =form_tag forgot_password_path do |f|
+      =label_tag       :email
+      =email_field_tag :email
+      =submit_tag "Send Reset Link", class: "btn btn-primary"

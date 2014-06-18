@@ -15,7 +15,7 @@ before_action :require_correct_user,  only: [:show, :edit, :update]
     @user = User.new(user_params)
     if @user.save
       Token.create(creator: @user, tokenable: @user)
-      UnlistMailer.confirmation_email(@user.id).deliver
+      UnlistMailer.registration_confirmation_email(@user.id).deliver
       #UnlistMailer.delay.confirmation_email(@user.id)  #Sidekiq Worker
       flash[:success] = "Welcome to Unlist! You have been sent an email to confirm registration. Please click the link in the email to complete your registration!"
       signin_user(@user)

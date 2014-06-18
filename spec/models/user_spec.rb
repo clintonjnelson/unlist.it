@@ -26,7 +26,19 @@ describe User do
                               "email@example",
                               "email@example@com").for(:email) }
 
-  describe "self.admin?" do
+
+  ############################## CALLBACKS ##############################
+  describe 'set_initial_prt_created_at' do
+    let(:jen) { Fabricate(:user) }
+    it 'sets the initial created_at time to an expired time' do
+      expect(jen.prt_created_at).to be < 2.hours.ago
+    end
+  end
+
+
+  ################################ METHODS ##############################
+
+  describe "admin?" do
     let(:jen) { Fabricate(:user) }
     let(:joe) { Fabricate(:admin) }
     it "returns true if user's role attribute is 'admin'" do
@@ -34,6 +46,60 @@ describe User do
     end
     it "returns false if user's role attribute is NOT 'admin'" do
       expect(jen.admin?).to be_false
+    end
+  end
+
+  describe "create_reset_token" do
+    let(:jen) { Fabricate(:user) }
+    before { jen.create_reset_token }
+
+    it 'creates a reset token for the user' do
+      expect(jen.prt).to be_present
+    end
+    it 'creates a start time for the reset tokens time limit' do
+      expect(jen.prt_created_at).to be > 5.minutes.ago
+    end
+  end
+
+  describe "clear_reset_token" do
+    let(:jen) { Fabricate(:user, prt: '1234abcd', prt_created_at: 1.minute.ago) }
+    before do
+      jen.clear_reset_token
+    end
+
+    it 'sets the prt value to nil' do
+      expect(jen.prt).to be_nil
+    end
+    it 'sets the prt_created_at value to over the valid time' do
+      expect(jen.prt_created_at).to be < 2.hours.ago
+    end
+  end
+
+  describe "self.secure_token" do
+    it 'returns a random url-safe string' do
+      expect(User.secure_token).to be_a String
+    end
+    it 'returns a unique string each time it is called' do
+      first_token = User.secure_token
+      second_token = User.secure_token
+      expect(first_token).to_not eq(second_token)
+    end
+  end
+
+  describe "expired_token?" do
+    let!(:jen) { Fabricate(:user) }
+    before { jen.create_reset_token }
+
+    context 'for an expired token' do
+      it 'returns true' do
+        jen.update_column(:prt_created_at, 1.day.ago)
+        expect(jen.expired_token?(2)).to be_true
+      end
+    end
+    context 'for a still-valid token' do
+      it 'returns false' do
+        expect(jen.expired_token?(2)).to be_false
+      end
     end
   end
 end

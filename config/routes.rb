@@ -3,27 +3,27 @@ Rails.application.routes.draw do
 
   get 'ui(/:action)', controller: 'ui'
 
-  root                                to: 'pages#home'
-  get '/home',                        to: 'pages#home'
-  get '/browse',                      to: 'pages#browse'
-  get '/browse/:category_id',         to: 'unposts#index_by_category', as: "browse_category"
-  get '/tour',                        to: 'pages#tour'
-  get '/faq',                         to: 'pages#faq'
-  get '/about',                       to: 'pages#about'
-  get '/contact',                     to: 'pages#contact'
-  get '/invalid_address',             to: 'pages#invalid_address'
-  get '/signout',                     to: 'sessions#destroy'
-  get '/signup',                      to: 'users#new'
-  get '/userconfirmation/:token',     to: 'users#confirm_with_token',  as: 'userconfirmation'
+  root                                  to: 'pages#home'
+  get   '/home',                        to: 'pages#home'
+  get   '/browse',                      to: 'pages#browse'
+  get   '/browse/:category_id',         to: 'unposts#index_by_category', as: "browse_category"
+  get   '/tour',                        to: 'pages#tour'
+  get   '/faq',                         to: 'pages#faq'
+  get   '/about',                       to: 'pages#about'
+  get   '/contact',                     to: 'pages#contact'
+  get   '/invalid_address',             to: 'pages#invalid_address'
+  get   '/signout',                     to: 'sessions#destroy'
+  get   '/signup',                      to: 'users#new'
+  get   '/userconfirmation/:token',     to: 'users#confirm_with_token',  as: 'userconfirmation'
+  get   '/forgot_password',             to: 'forgot_passwords#new'
+  post  '/forgot_password',             to: 'forgot_passwords#create'
+  get   '/expired_password_reset',      to: 'reset_passwords#expired_password_reset'
 
   #AJAX
   post '/conditions_by_category',     to: 'unposts#conditions_by_category'
   #post '/unposts_by_category',        to: 'pages#unposts_by_category'
 
-  #SHOW REQUIRED FOR ADMIN INDEX PAGE BUT STILL NEEDS TO BE CREATED
-  # resources :categories,            only: [:show] do
-  #   collection { get :unposts }
-  # end
+  resources :reset_passwords,       only: [:create, :show]
   resources :sessions,              only: [:create]
   #Protects Users by anonymity. BUILD THIS OUT - ADD SLUGS TOO
   resources :unposts,               only: [:show, :index] do  #INDEX for general searching & use by non-creator
@@ -38,8 +38,6 @@ Rails.application.routes.draw do
     resources :unposts,           except: [:index]
     get       '/unlist',              to: 'unposts#index'
   end
-
-
 
 
   namespace :admin do

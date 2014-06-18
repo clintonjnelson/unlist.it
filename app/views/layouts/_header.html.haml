@@ -25,4 +25,5 @@
             .form-group
               =label_tag          :password
               =password_field_tag :password
+            #forgotpassword= link_to 'forgot password', forgot_password_path
             =submit_tag "sign in", class: 'btn btn-default btn-small'
