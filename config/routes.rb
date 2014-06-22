@@ -12,12 +12,15 @@ Rails.application.routes.draw do
   get   '/about',                       to: 'pages#about'
   get   '/contact',                     to: 'pages#contact'
   get   '/invalid_address',             to: 'pages#invalid_address'
+  get   '/expired_link',                to: 'pages#expired_link'
+  get   '/safeguestsuccess',            to: 'pages#safeguestsuccess'
   get   '/signout',                     to: 'sessions#destroy'
   get   '/signup',                      to: 'users#new'
   get   '/userconfirmation/:token',     to: 'users#confirm_with_token',  as: 'userconfirmation'
   get   '/forgot_password',             to: 'forgot_passwords#new'
   post  '/forgot_password',             to: 'forgot_passwords#create'
-  get   '/expired_password_reset',      to: 'reset_passwords#expired_password_reset'
+  get   '/safeguestconfirmation/:token',to: 'safeguests#create',          as: 'safeguestconfirmation'
+
 
   #AJAX
   post '/conditions_by_category',     to: 'unposts#conditions_by_category'

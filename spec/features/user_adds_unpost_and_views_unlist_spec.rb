@@ -3,7 +3,7 @@ require 'spec_helper'
 #THIS IS FALING DUE TO THE AJAX REQUEST POPULATION OF CONDITION_SELECT
 
 feature "User adds unpost and views unlist", { js: true } do
-  given(:item_category) { Fabricate(:category_with_condition) }
+  given!(:item_category) { Fabricate(:category_with_condition) }
   given!(:jen) { Fabricate(:user) }
 
 
@@ -11,9 +11,9 @@ feature "User adds unpost and views unlist", { js: true } do
 
     featurespec_signin_user(jen)
     visit user_unlist_path(jen)
-    expect(page).to have_content "My Unlist"
+    expect(page).to have_content "my unlist"
 
-    click_link "Add Unpost"
+    click_link "add unpost"
     add_unpost_via_form("Civic Si")
 
     #Automatically redirects to User's Unlist page after posting

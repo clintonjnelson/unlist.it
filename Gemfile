@@ -4,16 +4,16 @@ ruby '2.0.0'
 gem 'bcrypt'
 gem 'bootstrap_form'
 gem 'bootstrap-sass'
-#gem 'carrierwave'
+gem 'carrierwave'             #Manage Images & Uploads
 gem 'coffee-rails'
-gem 'email_validator'
+gem 'email_validator'         #Email validations made simple
 #gem 'figaro'                 #Manage ENV from YAML
 #gem 'fog'                    #AMAZON S3
 gem 'haml-rails'
 #gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
 gem 'jquery-turbolinks'
-#gem 'mini_magick'            #image control
+gem 'mini_magick'             #Image control for use with Carrierwave
 #gem 'paratrooper'            #deployment made simple
 gem 'rails' #, '4.1.1'
 gem 'sass-rails'

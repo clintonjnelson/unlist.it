@@ -1,7 +1,7 @@
 -provide(:title, 'Unlist.co')
 
 //Code for the registration form
-.row.col-sm-8.col-sm-offset-1.well
+.row.col-sm-8.col-sm-offset-1.well.generic-content
   %h4 Choose A New Password
   %p  Just Pick A New Password Below & You're Back In Action.
   %br
@@ -11,4 +11,4 @@
       =label_tag       :password, "Pick A New Password"
       =password_field_tag    :password
       =hidden_field_tag :token, @token
-      =submit_tag "Save Password", class: "btn btn-primary"
+      =submit_tag "Change Password", class: "btn btn-primary"

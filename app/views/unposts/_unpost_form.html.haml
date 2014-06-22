@@ -1,0 +1,24 @@
+.row#userbox.col-sm-8
+  #userboxcontent.well
+    %h4= "#{title}"
+    %ul#additem
+      =bootstrap_form_for [user, unpost], layout: :horizontal, label_col: 'col-sm-4', control_col: "col-sm-6" do |f|
+        =f.label :category_id,      "Category"
+        =f.collection_select :category_id, Category.all, :id, :name, { prompt: "select a category" }, { class: 'unpost_category_select' }
+        =f.text_field :title,       label: "Title*"
+        =f.text_area  :description, label: "Description*", size: '24x6'
+        =f.url_field  :link,        label: "Website Example"
+        =f.select :condition_id, [], { prompt: "select a category above", label: "Minimum Condition", }, { id: "unpost_condition_select" }
+        //-#(price == 0) => FREE, (price = -1) => Any, (price > 0) => price; Decorator or Helper for This.
+        =f.text_field :price,    prepend: "$"
+        =f.text_field :keyword1, label: "Keyword 1*"
+        =f.text_field :keyword2, label: "Keyword 2"
+        =f.text_field :keyword3, label: "Keyword 3"
+        =f.text_field :keyword4, label: "Keyword 4"
+        / =f.form_group do
+        /   %hr
+        /   =f.check_box  :travel, label: "Willing to Travel*"
+        / =f.select     :distance, options_for_select(travel_distance_options)
+        / =f.text_field :zipcode
+        =f.form_group do
+          =f.submit "#{button_name}", class: "btn btn-primary"

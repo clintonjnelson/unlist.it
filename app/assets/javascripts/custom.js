@@ -12,9 +12,22 @@ $(document).ready(function() {
   });
 });
 
-//Ajax Population of ConditionSelect For Selected Category
+//Ajax Population of ConditionSelect For Selected Category on CHANGE
 $(document).ready(function() {
   $(".add-condition-category-select").on("change", function() {
+    $.ajax({
+      type: "POST",
+      url: "/admin/conditions_by_category",
+      dataType: "script",
+      data: {category_id: $(this).val()}
+    });
+    return false;
+  });
+});
+//Ajax Population of ConditionSelect For Selected Category on LOAD
+//DOESNT WORK YET BUT THIS IS ESSENTIALLY WHAT I NEED FOR EDIT ACTION
+$(document).ready(function() {
+  $(".add-condition-category-select").on("load", function() {
     $.ajax({
       type: "POST",
       url: "/admin/conditions_by_category",

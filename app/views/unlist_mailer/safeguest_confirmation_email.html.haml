@@ -1,0 +1,21 @@
+!!! 5
+%html(lang="en-US")
+  %body
+    %h3="Below is a link to add you to our list of safe emails so you can contact our members"
+    %br
+    %hr
+    %br
+    %p Just click this link and your email will be allowed to be used to contact Unlist members:
+    %p= link_to "My Email Is Safe", safeguestconfirmation_url(@safeguest.confirm_token)
+
+    %br
+    %p Alternatively, you can paste this link text into your browser address bar:
+    %p= link_to "#{ safeguestconfirmation_url(@safeguest.confirm_token) }", safeguestconfirmation_url(@safeguest.confirm_token)
+    %br
+    %br
+    %p We wish you great success using Unlist (even if from the outside)!
+    %br
+    %br
+    %br
+    %p Sincerely,
+    %p= "The Unlist.co Team"

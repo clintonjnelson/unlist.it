@@ -6,24 +6,68 @@ class MessagesController < ApplicationController
     @message = Message.new
   end
 
+  #TODO: SPLIT THIS INTO POLICY & SERVICE OBJECTS
   def create
     @message = Message.new(message_params)
-    if params[:unpost_id] #FOR UNPOST MESSAGES (VIA GUEST & USER)
-      if guest_user?
-        unpost_message_setup
-      elsif signed_in?
+    @unpost  = Unpost.find(params[:unpost_id])
+    #FOR UNPOST MESSAGES (VIA GUEST & USER)
+    if params[:unpost_id]
+      @safeguest = Safeguest.where(email: message_params[:contact_email]).take if (session[:user_id] == nil)
+
+      if signed_in? && current_user.confirmed?
         unpost_message_setup
         @message.sender = current_user
+        if @message.save
+          flash[:success] = "Message Sent!"
+          redirect_to @unpost
+        else
+          flash[:error] = "Message could not be sent. Please fix errors & try again."
+          render 'unposts/show'
+        end
+
+      elsif signed_in?
+        flash[:notice] = "Message could not be sent. Please fix errors & try again."
+        render 'unposts/show'
+
+      elsif @safeguest && @safeguest.blacklisted?
+        flash.now[:notice] = "Your account is currently suspended from use.
+                              If you believe this to be in error, please contact Unlist."
+        render 'unposts/show'
+
+      elsif @safeguest && @safeguest.confirmed?
+        unpost_message_setup
+        if @message.save
+          flash[:success] = "Message Sent!"
+          redirect_to @unpost #Where to go after reply sent?
+        else
+          flash.now[:error] = "Message could not be sent. Please fix errors & try again."
+          render 'unposts/show'
+        end
+
+      elsif @safeguest && !@safeguest.confirmed?
+        if @safeguest.token_expired?
+          @safeguest.reset_confirmation_token
+          send_confirmation_email_and_render_instructions
+        else
+          flash.now[:notice] = "Please check your email & click the link to confirm that your email is safe.
+                               Once confirmed safe, then click the 'Send Message' button below again to send this message, and it will be allowed.
+                               You won't have to confirm your email is safe ever again. Thanks!"
+          render 'unposts/show'
+        end
+        #notify the user to confirm & send another email if token is expired
+
+      elsif @safeguest.blank?
+        @safeguest = Safeguest.new(email: message_params[:contact_email])
+        if @safeguest.save
+          send_confirmation_email_and_render_instructions
+        else
+          flash[:error] = 'Your email is invalid. Please fix & try again.'
+          render 'unposts/show'
+        end
       end
 
-      if @message.save
-        flash[:success] = "Message Sent!"
-        redirect_to @unpost #Where to go after reply sent?
-      else
-        flash[:error] = "Message could not be sent. Please fix errors & try again."
-        render 'unposts/show'
-      end
-    elsif params[:sender_id] && params[:message][:reply] #FOR USER MESSAGES & REPLIES
+      #FOR USER MESSAGES & REPLIES
+    elsif params[:sender_id] && params[:message][:reply]
       reply_message_setup
       if @message.save
         flash[:success] = "Message Sent!"
@@ -49,8 +93,8 @@ class MessagesController < ApplicationController
       when 'sent'
         @messages = current_user.sent_messages.select{|m| (m.messageable_type != "Message") } #NOT replies
       else
-        all_messages = current_user.sent_messages
-        all_messages << current_user.received_messages
+        all_messages = current_user.received_messages
+        all_messages << current_user.sent_messages
         @messages = all_messages.select{|m| (m.messageable_type != "Message") } #NOT replies
     end
     render 'index'
@@ -63,8 +107,19 @@ class MessagesController < ApplicationController
     params.require(:message).permit(:content, :contact_email)
   end
 
-  def unpost_user_message_setup
+  def guest_is_unconfirmed?
+    message_params[:contact_email].present? && !@safeguest.confirmed?
+  end
 
+  def send_confirmation_email_and_render_instructions
+    UnlistMailer.safeguest_confirmation_email(@safeguest.id).deliver
+    flash.now[:notice] = 'You must be on our list of safe-emails to contact Unlist members.
+                     Please check your email for a confirmation link to add you to our safe-email list.
+                     Then you can re-click this Send Message link & your message will be sent.'
+    render 'unposts/show'
+  end
+
+  def unpost_user_message_setup
   end
 
   def reply_message_setup

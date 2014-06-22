@@ -9,8 +9,8 @@ class User < ActiveRecord::Base
   before_create :set_initial_prt_created_at
 
   validates :email,    email: true
-  validates :email,    presence: true, uniqueness: true
-  validates :username, presence: true, uniqueness: true
+  validates :email,    presence: true, uniqueness: { case_sensitive: false }
+  validates :username, presence: true, uniqueness: { case_sensitive: false }
   validates :password, presence: true, length: { minimum: 6 }
 
   def admin?

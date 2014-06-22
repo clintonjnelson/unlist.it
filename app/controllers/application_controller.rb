@@ -43,6 +43,10 @@ class ApplicationController < ActionController::Base
     @user = (params[:id] ? User.find(params[:id]) : current_user)
   end
 
+  def set_current_user
+    @user = current_user
+  end
+
   def signin_user(user)
     session[:user_id] = user.id
     flash[:success] ||= "Welcome, #{user.username}!"

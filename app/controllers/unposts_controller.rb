@@ -1,5 +1,7 @@
 class UnpostsController < ApplicationController
-  before_action :require_signed_in,    only: [:new, :create]
+  before_action :require_signed_in,    only: [:new, :create, :edit, :update, :destroy]
+  before_action :require_correct_user, only: [               :edit, :update, :destroy]
+  before_action :set_current_user,     only: [:create,       :edit, :update          ]
 
   def new
     @user = current_user
@@ -7,19 +9,19 @@ class UnpostsController < ApplicationController
   end
 
   def create
-    @user = current_user
     @unpost = @user.unposts.build(unpost_params)
     if @user && @unpost.save
       flash[:success] = 'Unpost Created!'
       redirect_to [@user, @unpost]
     else
-      flash[:error] = 'Oops - there were some errors in the for. Please fix & try agian.'
+      flash[:error] = 'Oops - there were some errors in the form. Please fix & try agian.'
       render 'new'
     end
   end
 
-  def index
-    @unposts = current_user.unposts
+  #TODO: UNPOSTS VIRTUAL ATTRIBUTE SHOULD AUTO FILTER INACTIVE UNPOSTS
+  def index   #for User Unlist
+    @unposts = current_user.unposts.select{|post| (post.inactive? == false)}
   end
 
   def index_by_category #for Browse Page Results
@@ -32,6 +34,28 @@ class UnpostsController < ApplicationController
     @user = current_user
     @unpost = Unpost.find(params[:id])
     @message = Message.new
+  end
+
+  def edit
+    @unpost = Unpost.find(params[:id])
+  end
+
+  def update
+    #DOESNT WORK TO UPDATE CONDITION UNTIL I FIGURE OUT AJAX FORM
+    @unpost = Unpost.find(params[:id])
+    if @unpost && @unpost.update(unpost_params)
+      flash[:success] = 'Unpost Updated.'
+      redirect_to [@user, @unpost]
+    else
+      flash[:error] = 'Oops - there were some errors in the form. Please fix & try agian.'
+      render 'edit'
+    end
+  end
+
+  def destroy
+    @unpost.update_column(:inactive, true)
+    flash[:success] = "Unpost successfully removed."
+    redirect_to :back
   end
 
   ################################# NON-CRUD ###################################
@@ -68,6 +92,11 @@ class UnpostsController < ApplicationController
   ################################ PRIVATE METHODS #############################
 
   private
+  def require_correct_user
+    @unpost = Unpost.find(params[:id])
+    access_denied("You are not the owner of this unpost.") unless @unpost && (current_user == @unpost.creator)
+  end
+
   def unpost_params
     params.require(:unpost).permit( :category_id,
                                     :title,
@@ -79,10 +108,10 @@ class UnpostsController < ApplicationController
                                     :keyword2,
                                     :keyword3,
                                     :keyword4,
-                                    :link,
-                                    :travel,
-                                    :distance,
-                                    :zipcode)
+                                    :link)
+                                    # :travel,
+                                    # :distance,
+                                    # :zipcode)
   end
 
   def search_params

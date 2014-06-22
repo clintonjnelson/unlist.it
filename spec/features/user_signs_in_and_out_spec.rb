@@ -22,7 +22,7 @@ def jen_signs_in(user)
 end
 
 def links_update_for_signed_in_user
-  expect(page).to have_link "My Unlist"
+  expect(page).to have_link "my unlist"
   expect(page).to have_link "signout"
   expect(page).to have_content "#{jen.username}"
 end

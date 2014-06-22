@@ -4,7 +4,7 @@ feature "guest visits site and browses pages" do
   scenario "visits home page and browses with links" do
     visit root_path
     verify_header_links
-    expect(page).to have_button "search"
+    expect(page).to have_button "Search"
     expect(page).to have_content "There are currently"
     expect(page).to have_content "Join"
 

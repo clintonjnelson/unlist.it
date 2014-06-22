@@ -2,7 +2,9 @@
   #messagescontent.well
     .messages-top
       %h3.text-center
-        -if params[:type] =='received'
+        -if params[:type] =='hits'
+          hits
+        -elsif params[:type] =='received'
           inbox
         -elsif params[:type] =='sent'
           sent messages

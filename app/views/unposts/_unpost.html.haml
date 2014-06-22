@@ -12,5 +12,5 @@
       ="Posted: #{ time_ago_in_words(unpost.created_at) } ago "
       -if signed_in? && creator?(unpost)
         %small &nbsp|
-        %small= link_to " [delete]", unpost_path(unpost), method: 'delete'
+        %small= link_to " [delete]", user_unpost_path(unpost.creator.id, unpost.id), method: 'delete'
 %hr

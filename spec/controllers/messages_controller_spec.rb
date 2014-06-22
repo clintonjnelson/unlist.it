@@ -104,10 +104,232 @@ describe MessagesController do
   describe "POST create" do
     describe "message about unpost to user from guest" do
       context "with valid information" do
-        before { post :create, { unpost_id: jens_unpost.id,
-                                   message: { content: "I would love to sell you mine!",
-                                              contact_email: "guest@example.com",
-                                              reply: false } } }
+        context "with NEW, UN-confirmed, and valid guest email" do
+          before { post :create, { unpost_id: jens_unpost.id,
+                                     message: { content: "I would love to sell you mine!",
+                                                contact_email: "guest@example.com",
+                                                reply: false } } }
+          after { ActionMailer::Base.deliveries.clear }
+
+          it "creates a new message instance" do
+            expect(assigns(:message)).to be_present
+          end
+          it "makes a new Safeguest" do
+            expect(assigns(:safeguest)).to be_present
+          end
+          it "makes a new safeguest" do
+            expect(Safeguest.all.count).to eq(1)
+          end
+          it "saves the guest email" do
+            expect(Safeguest.first.email).to eq("guest@example.com")
+          end
+          it "makes a new safeguest token" do
+            expect(Safeguest.first.confirm_token).to be_present
+          end
+          it "sends an invitation for the guest to be put on Unlists safe-email list" do
+            expect(ActionMailer::Base.deliveries.count).to eq(1)
+          end
+          it "does NOT save the message" do
+            expect(Message.all.count).to eq(0)
+          end
+          it "flashes a notice message to the guest user to check email & be added to the safe-list" do
+            expect(flash[:notice]).to be_present
+          end
+          it "renders the unposts/show page again" do
+            expect(response).to render_template 'unposts/show'
+          end
+        end
+
+        context "with EXISTING, UN-confirmed guest with valid token" do
+          let!(:joe_guest) { Fabricate(:safeguest, email: "guest@example.com") }
+          before { post :create, { unpost_id: jens_unpost.id,
+                                     message: { content: "I would love to sell you mine!",
+                                                contact_email: "guest@example.com",
+                                                reply: false } } }
+          after { ActionMailer::Base.deliveries.clear }
+
+          it "creates a new message instance" do
+            expect(assigns(:message)).to be_present
+          end
+          it "loads the existing safeguest" do
+            expect(assigns(:safeguest)).to be_a Safeguest
+          end
+          it "does NOT save the message" do
+            expect(Message.all.count).to eq(0)
+          end
+          it "flashes a notice message to the guest user to check email & be added to the safe-list" do
+            expect(flash[:notice]).to be_present
+          end
+          it "renders the unposts/show page again" do
+            expect(response).to render_template 'unposts/show'
+          end
+        end
+
+        context "with EXISTING, UN-confirmed guest with EXPIRED token" do
+          let!(:joe_guest) { Fabricate(:safeguest, email: "guest@example.com") }
+          before do
+            joe_guest.update_column(:confirm_token_created_at, 1.month.ago)
+            post :create, { unpost_id: jens_unpost.id,
+                            message: { content: "I would love to sell you mine!",
+                                       contact_email: "guest@example.com",
+                                       reply: false } }
+          end
+          after { ActionMailer::Base.deliveries.clear }
+
+          it "creates a new message instance" do
+            expect(assigns(:message)).to be_present
+          end
+          it "loads the existing safeguest" do
+            expect(assigns(:safeguest)).to be_a Safeguest
+          end
+          it "makes a new valid token" do
+            expect(Safeguest.first.token_expired?).to be_false
+          end
+          it "sends another confirmation email with link to the guest" do
+            expect(ActionMailer::Base.deliveries.count).to eq(1)
+          end
+          it "does NOT save the message" do
+            expect(Message.all.count).to eq(0)
+          end
+          it "flashes a notice message to the guest user to check email & be added to the safe-list" do
+            expect(flash[:notice]).to be_present
+          end
+          it "renders the unposts/show page again" do
+            expect(response).to render_template 'unposts/show'
+          end
+        end
+
+        context "with EXISTING BLACKLISTED safeguest" do
+          let!(:joe_guest) { Fabricate(:safeguest, email: "guest@example.com",
+                                                   confirmed: true,
+                                                   blacklisted: true) }
+          before { post :create, { unpost_id: jens_unpost.id,
+                            message: { content: "I would love to sell you mine!",
+                                       contact_email: "guest@example.com",
+                                       reply: false } } }
+          after { ActionMailer::Base.deliveries.clear }
+
+          it "creates a new message instance" do
+            expect(assigns(:message)).to be_present
+          end
+          it "loads the existing safeguest" do
+            expect(assigns(:safeguest)).to be_a Safeguest
+          end
+          it "does NOT save the message" do
+            expect(Message.all.count).to eq(0)
+          end
+          it "flashes a notice message to the safeguest user that their account is suspended" do
+            expect(flash[:notice]).to be_present
+          end
+          it "renders the unposts/show page again" do
+            expect(response).to render_template 'unposts/show'
+          end
+        end
+
+        context "with EXISTING CONFIRMED safeguest" do
+          let!(:joe_guest) { Fabricate(:safeguest, email: "guest@example.com", confirmed: true) }
+          before { post :create, { unpost_id: jens_unpost.id,
+                                     message: { content: "I would love to sell you mine!",
+                                                contact_email: "guest@example.com",
+                                                reply: false } } }
+
+          it "creates a new message instance" do
+            expect(assigns(:message)).to be_present
+          end
+          it "finds and loads the guest user into @guest" do
+            expect(assigns(:safeguest)).to eq(joe_guest)
+          end
+          it "is a valid message" do
+            expect(assigns(:message)).to be_valid
+          end
+          it "sets the recipient to the owner/creator of the unpost" do
+            expect(Message.first.recipient).to eq(jen)
+          end
+          it "sets the subject to 'RE: ' + the title of the unpost" do
+            expect(Message.first.subject).to eq("RE: #{jens_unpost.title}")
+          end
+          it "sets the messageable_type to 'Unpost'" do
+            expect(Message.first.messageable_type).to eq('Unpost')
+          end
+          it "sets the messageable_id to the id of the unpost" do
+            expect(Message.first.messageable_id).to eq(jens_unpost.id)
+          end
+          it "creates a new message" do
+            expect(Message.count).to eq(1)
+          end
+          it "flashes a success message to the guest user" do
+            expect(flash[:success]).to be_present
+          end
+        end
+      end
+
+      context "with INVALID information" do
+        context "with existng confirmed safeguest" do
+          let!(:joe_guest) { Fabricate(:safeguest, email: "guest@example.com", confirmed: true) }
+          before { post :create, { unpost_id: jens_unpost.id,
+                                     message: { content: "",
+                                                contact_email: "guest@example.com",
+                                                reply: false } } }
+
+          it "creates a new message instance" do
+            expect(assigns(:message)).to be_present
+          end
+          it "finds and loads the guest user into @guest" do
+            expect(assigns(:safeguest)).to eq(joe_guest)
+          end
+          it "is NOT a valid message" do
+            expect(assigns(:message)).to_not be_valid
+          end
+          it "does NOT create a new message" do
+            expect(Message.count).to eq(0)
+          end
+          it "flashes an error message to the safeguest user" do
+            expect(flash[:error]).to be_present
+          end
+          it "renders the errors on the prior page" do
+            expect(response).to render_template 'unposts/show'
+          end
+        end
+
+        context "for an INvalid email address" do
+          before { post :create, { unpost_id: jens_unpost.id,
+                                     message: { content: "I would like to sell you one!",
+                                                contact_email: "example.com",
+                                                reply: false } } }
+
+          it "creates a new message instance" do
+            expect(assigns(:message)).to be_present
+          end
+          it "loads a new instance of Safeguest" do
+            expect(assigns(:safeguest)).to be_present
+          end
+          it "is NOT a valid safeguest" do
+            expect(assigns(:safeguest)).to_not be_valid
+          end
+          it "does NOT create a new message" do
+            expect(Message.count).to eq(0)
+          end
+          it "flashes an error message to the safeguest user" do
+            expect(flash[:error]).to be_present
+          end
+          it "renders the errors on the prior page" do
+            expect(response).to render_template 'unposts/show'
+          end
+        end
+      end
+    end
+
+
+    describe "Unpost message from another user" do
+      context "with valid information who is confirmed" do
+        before do
+          spec_signin_user(jen)
+          jen.update_attribute(:confirmed, true)
+          post :create, { unpost_id: jens_unpost.id,
+                          message: { content: "I would love to sell you mine!",
+                                     contact_email: nil,
+                                     reply: false } }
+        end
         it "creates a new message instance" do
           expect(assigns(:message)).to be_present
         end
@@ -119,6 +341,9 @@ describe MessagesController do
         end
         it "sets the subject to 'RE: ' + the title of the unpost" do
           expect(Message.first.subject).to eq("RE: #{jens_unpost.title}")
+        end
+        it "sets the sender to the user who sent the message" do
+          expect(Message.first.sender).to eq(jen)
         end
         it "sets the messageable_type to 'unpost'" do
           expect(Message.first.messageable_type).to eq('Unpost')
@@ -132,16 +357,19 @@ describe MessagesController do
         it "flashes a success message to the guest user" do
           expect(flash[:success]).to be_present
         end
-        it "is the parent message" do
-          #expect(Message.first.parent).to be_true
+        it "redirects to the unpost page" do
+          expect(response).to redirect_to unpost_path(jens_unpost)
         end
       end
 
-      context "with invalid information" do
-        before { post :create, { unpost_id: jens_unpost.id,
-                                   message: { content: "I would love to sell you mine!",
-                                              contact_email: nil,
-                                              reply: false } } }
+      context "with INvalid information who is confirmed" do
+        before do
+          spec_signin_user(jen)
+          post :create, { unpost_id: jens_unpost.id,
+                            message: { content: nil,
+                                       contact_email: nil,
+                                       reply: false } }
+        end
         it "creates a new message instance" do
           expect(assigns(:message)).to be_present
         end
@@ -151,157 +379,101 @@ describe MessagesController do
         it "does NOT create a new message" do
           expect(Message.count).to eq(0)
         end
-        it "flashes an error message to the prior page" do
-          expect(flash[:error]).to be_present
+        it "flashes an error message to the messaging user" do
+          expect(flash[:notice]).to be_present
         end
-        it "renders the errors on the prior page" do
-          expect(response).to render_template 'new'
+        it "renders the prior page for error fixing" do
+          expect(response).to render_template 'unposts/show'
+        end
+      end
+
+      context "who is NOT confirmed" do
+        before do
+          spec_signin_user(jen)
+          jen.update_attribute(:confirmed, false)
+          post :create, { unpost_id: jens_unpost.id,
+                            message: { content: "I would love to sell you mine!",
+                                     contact_email: nil,
+                                     reply: false } }
+        end
+        it "does NOT create a new message" do
+          expect(Message.count).to eq(0)
+        end
+        it "flashes a notice to the user" do
+          expect(flash[:notice]).to be_present
+        end
+        it "renders the prior page for use by the user after the confirm themeslves" do
+          expect(response).to render_template 'unposts/show'
         end
       end
     end
 
+    # describe "Message-message (aka: reply) from a user" do
+    #   let(:first_message) { Fabricate(:user_unpost_message, recipient: jen) }
+    #   context "with valid information" do
+    #     before do
+    #       spec_signin_user(jen)
+    #       post :create, { sender_id: jen.id,
+    #                       message_id: first_message.id,
+    #                       message: { content: "I would love to buy it! Let's meet at Starbucks.",
+    #                                  contact_email: nil,
+    #                                  reply: true } }
+    #     end
+    #     it "creates a new message instance" do
+    #       expect(assigns(:message)).to be_present
+    #     end
+    #     it "is valid" do
+    #       expect(assigns(:message)).to be_valid
+    #     end
+    #     it "sets the recipient for the message" do
+    #       expect(Message.last.recipient).to eq(first_message.sender)
+    #     end
+    #     it "sets the subject to 'RE: ' + the title of the message series" do
+    #       expect(Message.last.subject).to eq("#{first_message.subject}")
+    #     end
+    #     it "sets the sender to the user who sent the message" do
+    #       expect(Message.last.sender).to eq(jen)
+    #     end
+    #     it "sets the messageable_type to 'message'" do
+    #       expect(Message.last.messageable_type).to eq('Message')
+    #     end
+    #     it "sets the messageable_id to the id of the Message" do
+    #       expect(Message.last.messageable_id).to eq(first_message.id)
+    #     end
+    #     it "creates a second message" do
+    #       expect(Message.count).to eq(2)
+    #     end
+    #     it "flashes a success message to the guest user" do
+    #       expect(flash[:success]).to be_present
+    #     end
+    #     it "redirects to the message show page" do
+    #       expect(response).to redirect_to user_message_path(jen, first_message.id)
+    #     end
+    #   end
+    # end
 
-    describe "Unpost message from another user" do
-      describe "the first message" do
-        context "with valid information" do
-          before do
-            spec_signin_user(jen)
-            post :create, { unpost_id: jens_unpost.id,
-                              message: { content: "I would love to sell you mine!",
-                                         contact_email: nil,
-                                         reply: false } }
-          end
-          it "creates a new message instance" do
-            expect(assigns(:message)).to be_present
-          end
-          it "is valid" do
-            expect(assigns(:message)).to be_valid
-          end
-          it "sets the recipient to the owner/creator of the unpost" do
-            expect(Message.first.recipient).to eq(jen)
-          end
-          it "sets the subject to 'RE: ' + the title of the unpost" do
-            expect(Message.first.subject).to eq("RE: #{jens_unpost.title}")
-          end
-          it "sets the sender to the user who sent the message" do
-            expect(Message.first.sender).to eq(jen)
-          end
-          it "sets the messageable_type to 'unpost'" do
-            expect(Message.first.messageable_type).to eq('Unpost')
-          end
-          it "sets the messageable_id to the id of the unpost" do
-            expect(Message.first.messageable_id).to eq(jens_unpost.id)
-          end
-          it "creates a new message" do
-            expect(Message.count).to eq(1)
-          end
-          it "flashes a success message to the guest user" do
-            expect(flash[:success]).to be_present
-          end
-          it "redirects to the unpost page" do
-            expect(response).to redirect_to unpost_path(jens_unpost)
-          end
-          it "is the parent message" do
-            #expect(Message.first.parent).to be_true
-          end
-        end
-
-        context "with INvalid information" do
-          before do
-            spec_signin_user(jen)
-            post :create, { unpost_id: jens_unpost.id,
-                              message: { content: nil,
-                                         contact_email: nil,
-                                         reply: false } }
-          end
-          it "creates a new message instance" do
-            expect(assigns(:message)).to be_present
-          end
-          it "is NOT valid" do
-            expect(assigns(:message)).to_not be_valid
-          end
-          it "does NOT create a new message" do
-            expect(Message.count).to eq(0)
-          end
-          it "flashes an error message to the messaging user" do
-            expect(flash[:error]).to be_present
-          end
-          it "renders the prior page for error fixing" do
-            expect(response).to render_template 'new'
-          end
-          it "is the parent message" do
-            #expect(Message.first.parent).to be_true
-          end
-        end
-      end
-
-      describe "Message-message (aka: reply) from a user" do
-        let(:first_message) { Fabricate(:user_unpost_message, recipient: jen) }
-        context "with valid information" do
-          before do
-            spec_signin_user(jen)
-            post :create, { sender_id: jen.id,
-                            message_id: first_message.id,
-                            message: { content: "I would love to buy it! Let's meet at Starbucks.",
-                                       contact_email: nil,
-                                       reply: true } }
-          end
-          it "creates a new message instance" do
-            expect(assigns(:message)).to be_present
-          end
-          it "is valid" do
-            expect(assigns(:message)).to be_valid
-          end
-          it "sets the recipient for the message" do
-            expect(Message.last.recipient).to eq(first_message.sender)
-          end
-          it "sets the subject to 'RE: ' + the title of the message series" do
-            expect(Message.last.subject).to eq("#{first_message.subject}")
-          end
-          it "sets the sender to the user who sent the message" do
-            expect(Message.last.sender).to eq(jen)
-          end
-          it "sets the messageable_type to 'message'" do
-            expect(Message.last.messageable_type).to eq('Message')
-          end
-          it "sets the messageable_id to the id of the Message" do
-            expect(Message.last.messageable_id).to eq(first_message.id)
-          end
-          it "creates a second message" do
-            expect(Message.count).to eq(2)
-          end
-          it "flashes a success message to the guest user" do
-            expect(flash[:success]).to be_present
-          end
-          it "redirects to the message show page" do
-            expect(response).to redirect_to user_message_path(jen, first_message.id)
-          end
-        end
-      end
-    end
-
-    describe "messages to user OR admin from user" do
-      before do
-        spec_signin_user(jen)
-        post :create, { user_id: jen.id,
-                        #sender_id: first_message.id,
-                        message: { content: "I would love to buy it! Let's meet at Starbucks.",
-                                   contact_email: nil,
-                                   reply: true } }
-      end
-      describe "first message about the unpost" do
-        context "with valid information" do
-          it "creates a new message"
-          it "indicates it is the primary/parent message"
-        end
-      end
-      describe "followup message about the unpost" do
-        context "with invalid information" do
-          it "creates a new message"
-          it "is NOT the parent message"
-          it "is referenced to the original message"
-        end
-      end
-    end
+    # describe "messages to user OR admin from user" do
+    #   before do
+    #     spec_signin_user(jen)
+    #     post :create, { user_id: jen.id,
+    #                     #sender_id: first_message.id,
+    #                     message: { content: "I would love to buy it! Let's meet at Starbucks.",
+    #                                contact_email: nil,
+    #                                reply: true } }
+    #   end
+    #   describe "first message about the unpost" do
+    #     context "with valid information" do
+    #       it "creates a new message"
+    #       it "indicates it is the primary/parent message"
+    #     end
+    #   end
+    #   describe "followup message about the unpost" do
+    #     context "with invalid information" do
+    #       it "creates a new message"
+    #       it "is NOT the parent message"
+    #       it "is referenced to the original message"
+    #     end
+    #   end
+    # end
   end
 end

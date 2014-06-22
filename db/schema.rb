@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140618012142) do
+ActiveRecord::Schema.define(version: 20140621181321) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -46,6 +46,16 @@ ActiveRecord::Schema.define(version: 20140618012142) do
     t.integer  "messageable_id"
   end
 
+  create_table "safeguests", force: true do |t|
+    t.string   "email"
+    t.boolean  "confirmed"
+    t.boolean  "blacklisted"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "confirm_token"
+    t.string   "confirm_token_created_at"
+  end
+
   create_table "tokens", force: true do |t|
     t.string   "token"
     t.integer  "user_id"
@@ -72,6 +82,7 @@ ActiveRecord::Schema.define(version: 20140618012142) do
     t.integer  "zipcode"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "inactive"
   end
 
   create_table "users", force: true do |t|
