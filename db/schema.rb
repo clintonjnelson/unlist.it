@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140621181321) do
+ActiveRecord::Schema.define(version: 20140622214925) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(version: 20140621181321) do
     t.string   "role"
     t.string   "prt"
     t.datetime "prt_created_at"
+    t.string   "avatar"
   end
 
 end

@@ -2,7 +2,15 @@
   #editusercontent.well
     %h2= "Edit #{@user.username.capitalize}'s Account Settings"
     %hr.hr-lg-dashed
-    =bootstrap_form_for @user do |f|
-      =f.email_field :email,       label: "Default Email:"
+    =link_to @user.avatar_url do
+      =image_tag(@user.avatar_url :thumb_avatar)
+
+    =bootstrap_form_for @user, html: { multipart: true } do |f|
+      =f.file_field   :avatar,      label: "Upload A Profile Pic"
+      =f.hidden_field :avatar_cache
+      %br
+      %p
+        %em Note: Changing your default email will change your login email too!
+      =f.email_field  :email, label: "Default Email:"
       =f.password_field :password, label: "New Password:"
       =f.submit "Save Changes", class: "btn btn-primary"

@@ -1,18 +1,23 @@
 class User < ActiveRecord::Base
-  #Needed to separate messages between received/sent
   has_many   :received_messages, ->{ order( "created_at DESC" ) }, class_name: 'Message', foreign_key: 'recipient_id'
   has_many   :sent_messages, ->{ order( "created_at DESC" ) },     class_name: 'Message', foreign_key: 'sender_id'
   has_many   :tokens
   has_many   :unposts
-  has_secure_password
 
+  has_secure_password
   before_create :set_initial_prt_created_at
 
   validates :email,    email: true
   validates :email,    presence: true, uniqueness: { case_sensitive: false }
   validates :username, presence: true, uniqueness: { case_sensitive: false }
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, length: { minimum: 6 }, on: :create
+  validates :password, length: { minimum: 6 }, :if => :password
 
+  mount_uploader :avatar, AvatarUploader
+
+
+
+  ############################### PUBLIC METHODS ###############################
   def admin?
     role == "admin"
   end

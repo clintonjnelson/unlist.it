@@ -32,6 +32,7 @@ before_action :require_correct_user,  only: [:show, :edit, :update]
   end
 
   def update
+    params[:user].delete(:password) if params[:user][:password].blank?
     if @user.update(user_params)
       flash[:success] = "Changes saved."
       redirect_to @user
@@ -59,7 +60,7 @@ before_action :require_correct_user,  only: [:show, :edit, :update]
 
   private
     def user_params
-      params.require(:user).permit(:email, :password, :username)
+      params.require(:user).permit(:email, :password, :username, :avatar, :avatar_cache)
     end
 
     def require_correct_user

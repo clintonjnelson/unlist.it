@@ -8,7 +8,7 @@ gem 'carrierwave'             #Manage Images & Uploads
 gem 'coffee-rails'
 gem 'email_validator'         #Email validations made simple
 #gem 'figaro'                 #Manage ENV from YAML
-#gem 'fog'                    #AMAZON S3
+gem 'fog'                    #AMAZON S3
 gem 'haml-rails'
 #gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
