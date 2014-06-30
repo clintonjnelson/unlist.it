@@ -2,7 +2,8 @@
   #userboxcontent.well
     %h4= "#{title}"
     %ul#additem
-      =bootstrap_form_for [user, unpost], layout: :horizontal, label_col: 'col-sm-4', control_col: "col-sm-6" do |f|
+      //html: {multipart...} might screw up the form_for with to many attributes
+      =bootstrap_form_for [user, unpost], html: { multipart: true }, layout: :horizontal, label_col: 'col-sm-4', control_col: "col-sm-6" do |f|
         =f.label :category_id,      "Category"
         =f.collection_select :category_id, Category.all, :id, :name, { prompt: "select a category" }, { class: 'unpost_category_select' }
         =f.text_field :title,       label: "Title*"
@@ -15,12 +16,16 @@
         =f.text_field :keyword2, label: "Keyword 2"
         =f.text_field :keyword3, label: "Keyword 3"
         =f.text_field :keyword4, label: "Keyword 4"
-        / =f.form_group do
-        /   %hr
-        /   %h5 Upload Images
-        /   =image_tag(@unpost.picture1_url) if @unpost.picture1?
-        /   =f.file_field   :picture1
-        /   =f.hidden_field :picture1_cache
+
+        //Uploading Multiple Unimages
+        %hr
+        %h4 Upload Images (aka: UNimages)
+        =f.fields_for :unimages do |u|
+          .upload-unimages
+            // .unimage-thumb=image_tag(@unpost.unimage) if @unpost.picture1?
+            // WOOHOO the [] at end allowed multiple!
+            =u.file_field   :filename, multiple: true, name: "unimages[filename][]"
+            =u.hidden_field :filename
 
         / /   =f.check_box  :travel, label: "Willing to Travel*"
         / =f.select     :distance, options_for_select(travel_distance_options)

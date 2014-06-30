@@ -14,6 +14,9 @@ describe UnpostsController do
     it "loads the instance of a new @unpost" do
       expect(assigns(:unpost)).to be_a_new Unpost
     end
+    it "loads the instance of @unimages for file attachments" do
+      expect(:unimages).to be_present
+    end
     it "renders the 'new' template" do
       expect(response).to render_template 'new'
     end
@@ -298,7 +301,8 @@ def create_params
                         #   travel: true,
                         # distance: 3,
                         #  zipcode: 98056},
-                         user_id: 1}
+                         user_id: 1,
+                        unimages: {} }
 end
 
 def update_params
@@ -315,7 +319,7 @@ def update_params
                         #   travel: true,
                         # distance: 3,
                         #  zipcode: 98056},
-                         user_id: jen.id, id: car_unpost.id }
+                         user_id: jen.id, id: car_unpost.id}
 end
 
 def invalid_update_params

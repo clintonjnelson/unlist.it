@@ -12,9 +12,6 @@ Fabricator(:unpost) do
   zipcode       { 99999 }
 
   creator
-  #Temporary:
   category
   condition
-  #category
-  #condition
 end

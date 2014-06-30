@@ -2,7 +2,7 @@
   #editusercontent.well
     %h2= "Edit #{@user.username.capitalize}'s Account Settings"
     %hr.hr-lg-dashed
-    =link_to @user.avatar_url do
+    =link_to @user.avatar_url :full_avatar do
       =image_tag(@user.avatar_url :thumb_avatar)
 
     =bootstrap_form_for @user, html: { multipart: true } do |f|

@@ -4,15 +4,30 @@ class UnpostsController < ApplicationController
   before_action :set_current_user,     only: [:create,       :edit, :update          ]
 
   def new
-    @user = current_user
-    @unpost = @user.unposts.build
+    @user     = current_user
+    @unpost   = @user.unposts.build
+    @unimages = @unpost.unimages.build
   end
 
   def create
     @unpost = @user.unposts.build(unpost_params)
     if @user && @unpost.save
-      flash[:success] = 'Unpost Created!'
-      redirect_to [@user, @unpost]
+      binding.pry
+
+      #IMAGES UPLOADING
+      if unimages_params.present?
+        if save_unimages
+          flash[:success] = "Unpost created!"
+          redirect_to [@user, @unpost]
+        else
+          flash[:error] = "There was an error with your image uploads. Please fix & try agian."
+          render 'new'
+        end
+
+      else
+        flash[:success] = "Unpost created!"
+        redirect_to [@user, @unpost]
+      end
     else
       flash[:error] = 'Oops - there were some errors in the form. Please fix & try agian.'
       render 'new'
@@ -112,6 +127,27 @@ class UnpostsController < ApplicationController
                                     # :travel,
                                     # :distance,
                                     # :zipcode)
+  end
+
+  def save_unimages
+    binding.pry
+    begin
+      ActiveRecord::Base.transaction do
+        unimages_params['filename'].each do |u|
+          @unpost.unimages.create!(filename: u)
+        end
+      end
+      binding.pry
+      return true
+    rescue ActiveRecord::RecordInvalid
+      binding.pry
+      return false
+    end
+  end
+
+  #VERIFY WHITELIST IS NOT SECURITY ISSUE
+  def unimages_params
+    params.permit(:unimages)
   end
 
   def search_params

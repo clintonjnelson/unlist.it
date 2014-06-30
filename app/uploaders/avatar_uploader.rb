@@ -28,20 +28,17 @@ class AvatarUploader < CarrierWave::Uploader::Base
   end
 
   def filename
-     "#{secure_token}.#{file.extension}" if original_filename.present?
+     "#{secure_token}.jpg" if original_filename.present?
   end
 
 
   ############################### MANIPULATE FILE ##############################
   # Create different versions of your uploaded files:
-  version :large_avatar do
-    process resize_to_fit: [400, 400]
-  end
-  version :medium_avatar do
-    process resize_to_fit: [150, 150]
+  version :full_avatar do
+    process resize_to_fit: [500, 500]
   end
   version :thumb_avatar do
-    process resize_to_fit: [60, 60]
+    process resize_to_fit: [80, 80]
   end
 
 
