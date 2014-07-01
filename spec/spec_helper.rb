@@ -79,9 +79,9 @@ ActiveRecord::Migration.maintain_test_schema! if defined?(ActiveRecord::Migratio
 
 
 #Capybara Settings
-Capybara.javascript_driver = :selenium  #:selenium OR :webkit
+Capybara.javascript_driver = :webit  #:selenium OR :webkit
 Capybara.server_port = 3005
-Capybara.default_wait_time = 10
+Capybara.default_wait_time = 3
 
 WebMock.disable_net_connect!(:allow_localhost => true)
 

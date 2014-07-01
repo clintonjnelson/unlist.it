@@ -11,13 +11,10 @@ class UnpostsController < ApplicationController
 
   def create
     @unpost = @user.unposts.build(unpost_params)
-    binding.pry
     if @user && @unpost.save
-      binding.pry
 
       #IMAGES UPLOADING - TO BECOME SERVICE
       if unimages_params.present?
-        binding.pry
         if save_unimages
           flash[:success] = "Unpost created!"
           redirect_to [@user, @unpost]
@@ -145,10 +142,10 @@ class UnpostsController < ApplicationController
     end
   end
 
-  #VERIFY WHITELIST IS NOT SECURITY ISSUE
+  #VERIFY MEETS SECURITY REQUIREMENTS
   def unimages_params
-    #params.permit(unimages: [filename: [] ])
-    params.require(:unimages).permit(filename: [])
+    params[:unimages].present? ? params.require(:unimages).permit(filename: []) : nil
+    #params.require(:unimages).permit(filename: [])
   end
 
   def search_params

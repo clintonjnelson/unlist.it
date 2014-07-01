@@ -19,21 +19,17 @@ describe AvatarUploader do
       expect(@avatar.file.extension).to eq('jpg')
     end
     it "saves the subsequent versions as 'jpg' format" do
-      expect(@avatar.thumb_avatar.file.extension  ).to eq('jpg')
-      expect(@avatar.medium_avatar.file.extension ).to eq('jpg')
-      expect(@avatar.large_avatar.file.extension  ).to eq('jpg')
+      expect(@avatar.thumb_avatar.file.extension ).to eq('jpg')
+      expect(@avatar.full_avatar.file.extension  ).to eq('jpg')
     end
   end
 
   context "picture upload version" do
     it "scales the thumbnail avatar picture down to 35 x __" do
-      expect(@avatar.thumb_avatar).to have_dimensions(35,22)
+      expect(@avatar.thumb_avatar).to have_dimensions(80,50)
     end
     it "scales the medium avatar picture down to 60 x __" do
-      expect(@avatar.medium_avatar).to have_dimensions(60,38)
-    end
-    it "scales the large avatar picture down to 150 x __" do
-      expect(@avatar.large_avatar).to have_dimensions(150,94)
+      expect(@avatar.full_avatar).to have_dimensions(500,313)
     end
   end
 end
