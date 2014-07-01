@@ -13,6 +13,7 @@ gem 'haml-rails'
 #gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
 gem 'jquery-turbolinks'
+gem 'jquery-fileupload-rails'
 gem 'mini_magick'             #Image control for use with Carrierwave
 #gem 'paratrooper'            #deployment made simple
 gem 'rails' #, '4.1.1'

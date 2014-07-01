@@ -11,11 +11,13 @@ class UnpostsController < ApplicationController
 
   def create
     @unpost = @user.unposts.build(unpost_params)
+    binding.pry
     if @user && @unpost.save
       binding.pry
 
-      #IMAGES UPLOADING
+      #IMAGES UPLOADING - TO BECOME SERVICE
       if unimages_params.present?
+        binding.pry
         if save_unimages
           flash[:success] = "Unpost created!"
           redirect_to [@user, @unpost]
@@ -129,25 +131,24 @@ class UnpostsController < ApplicationController
                                     # :zipcode)
   end
 
+  ###NEED TO TEST THIS IN SEPARATE FILE SAVING SERVICE
   def save_unimages
-    binding.pry
     begin
       ActiveRecord::Base.transaction do
         unimages_params['filename'].each do |u|
           @unpost.unimages.create!(filename: u)
         end
       end
-      binding.pry
       return true
     rescue ActiveRecord::RecordInvalid
-      binding.pry
       return false
     end
   end
 
   #VERIFY WHITELIST IS NOT SECURITY ISSUE
   def unimages_params
-    params.permit(:unimages)
+    #params.permit(unimages: [filename: [] ])
+    params.require(:unimages).permit(filename: [])
   end
 
   def search_params

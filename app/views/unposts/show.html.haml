@@ -8,6 +8,12 @@
   #contactbuyer{style: "#{ ( flash[:error].present? ? 'display:block' : 'display: none' ) }" }
     =render partial: 'unposts/message_form', locals: { unpost: @unpost, message: @message }
   #userboxcontent.well
+
+    //-#TODO: THIS WOULD BE BEST TO SHOW AS A SCROLLING SET OF IMAGES WITH PHOTO BOX THAT OPENS WHEN ONE IS CLICKED AND CAN BE HIDDEN WITH AN 'X'
+    .display-unimages.pull-left
+      -if @unpost.unimages.present?
+        -@unpost.unimages.each do |unimage|
+          =image_tag(unimage.filename.url(:thumb_unimage))
     .buyer-info.text-right
       ///POSSIBLE CANDIDATE FOR DECORATOR
       -if signed_in? && creator?(@unpost)
@@ -17,6 +23,10 @@
         =link_to unpost_show_message_form_path(@unpost), remote: true, class: 'contact-buyer-link' do
           =gravatar_image(@unpost.creator, 60)
         %p= link_to "[contact buyer]", unpost_show_message_form_path(@unpost), remote: true, class: 'contact-buyer-link'
+
+    %br
+    %hr
+
     %h5
       Here's An Example:
       =link_to "#{@unpost.link}", @unpost.link, target: 'blank'

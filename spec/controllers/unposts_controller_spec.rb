@@ -3,6 +3,8 @@ require 'spec_helper'
 describe UnpostsController do
   let(:jen) { Fabricate(:user) }
 
+
+
   describe "GET new" do
     before do
       spec_signin_user(jen)
@@ -27,6 +29,8 @@ describe UnpostsController do
       end
     end
   end
+
+
 
   describe "POST create" do
     context "with valid information" do
@@ -88,6 +92,8 @@ describe UnpostsController do
       end
     end
   end
+
+
 
   describe "GET show" do
     let(:car_unpost) { Fabricate(:unpost) }
@@ -162,6 +168,8 @@ describe UnpostsController do
     end
   end
 
+
+
   describe "GET index_by_category" do
     let(:car_unpost) { Fabricate(:unpost) }
     before do
@@ -177,6 +185,8 @@ describe UnpostsController do
       expect(response).to render_template 'pages/browse'
     end
   end
+
+
 
   describe "GET index" do
     let!(:car_unpost) { Fabricate(:unpost, creator: jen, inactive: true) }
@@ -254,6 +264,8 @@ describe UnpostsController do
     end
   end
 
+
+
   describe "DELETE destroy" do
     context "with the creator's request" do
       let(:car_unpost) { Fabricate(:unpost, creator: jen) }
@@ -303,6 +315,42 @@ def create_params
                         #  zipcode: 98056},
                          user_id: 1,
                         unimages: {} }
+
+# => {unpost:
+#   {category_id: "2",
+#     title: "Dominion Boardgame",
+#     description:
+#      "Dominion Boardgame with or without expansions in new or gently used condition.",
+#     link: "http://www.amazon.com/",
+#     condition_id: "6",
+#     price: "15",
+#     keyword1: "Dominion",
+#     keyword2: "Boardgame",
+#     keyword3: "board game",
+#     keyword4: "",
+#     unimages_attributes: {"0"=>{"filename"=>""}}},
+#     unimages:
+#       {filename:
+#       [#<ActionDispatch::Http::UploadedFile:0x007f84898d3c80
+#         @content_type="image/jpeg",
+#         @headers=
+#           "Content-Disposition: form-data; name=\"unimages[filename][]\"; filename=\"PD_0071_143_632795A.jpeg\"\r\nContent-Type: image/jpeg\r\n",
+#         @original_filename="PD_0071_143_632795A.jpeg",
+#         @tempfile=
+#         #<File:/var/folders/_n/nnlnp20x0gn5myzjw8f187dc0000gn/T/RackMultipart20140630-21787-jsoalg>>,
+#        #<ActionDispatch::Http::UploadedFile:0x007f84898d3c30
+#         @content_type="image/png",
+#         @headers=
+#        "Content-Disposition: form-data; name=\"unimages[filename][]\"; filename=\"Screen Shot 2014-03-26 at 3.27.25 PM.png\"\r\nContent-Type: image/png\r\n",
+#         @original_filename="Screen Shot 2014-03-26 at 3.27.25 PM.png",
+#         @tempfile=
+#         #<File:/var/folders/_n/nnlnp20x0gn5myzjw8f187dc0000gn/T/RackMultipart20140630-21787-1n1elqk>>]},
+#     commit: "Create Unpost",
+#     action: "create",
+#     controller: "unposts",
+#     user_id: 1 }
+
+
 end
 
 def update_params

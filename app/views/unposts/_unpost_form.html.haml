@@ -4,7 +4,6 @@
     %ul#additem
       //html: {multipart...} might screw up the form_for with to many attributes
       =bootstrap_form_for [user, unpost], html: { multipart: true }, layout: :horizontal, label_col: 'col-sm-4', control_col: "col-sm-6" do |f|
-        =f.label :category_id,      "Category"
         =f.collection_select :category_id, Category.all, :id, :name, { prompt: "select a category" }, { class: 'unpost_category_select' }
         =f.text_field :title,       label: "Title*"
         =f.text_area  :description, label: "Description*", size: '24x6'
