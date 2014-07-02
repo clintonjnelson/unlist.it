@@ -6,7 +6,7 @@ class UnpostsController < ApplicationController
   def new
     @user     = current_user
     @unpost   = @user.unposts.build
-    @unimages = @unpost.unimages.build
+    #@unimages = @unpost.unimages.build
   end
 
   def create

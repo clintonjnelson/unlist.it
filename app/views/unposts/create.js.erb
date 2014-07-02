@@ -1,0 +1,7 @@
+// Convert into HAML once finished & working
+<% if @upload.new_record? %>
+  alert('Upload Failed');
+<% else %>
+  //SAYS THIS SHOULD RENDER THE FILE'S DATA... like the image??
+  $('ul.thumbnails').append("<%=j render partial: 'photosets/upload', locals: { upload: @upload } %>");
+<% end %>

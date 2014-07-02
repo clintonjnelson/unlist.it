@@ -19,15 +19,23 @@
         //Uploading Multiple Unimages
         %hr
         %h4 Upload Images (aka: UNimages)
-        =f.fields_for :unimages do |u|
+        =f.fields_for :unimages, Unimage.new do |u|
           .upload-unimages
             // .unimage-thumb=image_tag(@unpost.unimage) if @unpost.picture1?
-            // WOOHOO the [] at end allowed multiple!
-            =u.file_field   :filename, multiple: true, name: "unimages[filename][]"
+            =u.label        :filename#, t('.upload_new_file')
+            =u.file_field   :filename, multiple: true, class: 'btn btn-file', id: 'upload-image', name: 'unimages[filename][]' #"unimages[filename][]"
+            // [] at end allows multiple for controller
             =u.hidden_field :filename
 
-        / /   =f.check_box  :travel, label: "Willing to Travel*"
-        / =f.select     :distance, options_for_select(travel_distance_options)
-        / =f.text_field :zipcode
         =f.form_group do
-          =f.submit "#{button_name}", class: "btn btn-primary"
+          =f.submit "#{button_name}", class: "btn btn-primary"#, t(:save)
+
+      ///////////-# jQuery Upload Template Here
+      / %script{id: 'template-upload', }
+      / :plain
+      /   <script id="template-upload" type="text/x-tmpl"><div class="upload">{%=o.name%}<div class="progress"><div class="bar" style="width: 0%"></div></div></div></script>
+
+      //script id="template-upload" type="text/x-tmpl"><div class="upload">{%=o.name%}<div class="progress"><div class="bar" style="width: 0%"></div></div></div></script>
+      / /   =f.check_box  :travel, label: "Willing to Travel*"
+      / =f.select     :distance, options_for_select(travel_distance_options)
+      / =f.text_field :zipcode
