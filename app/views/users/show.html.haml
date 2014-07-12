@@ -3,7 +3,7 @@
 //Code
 .row#userbox.col-sm-8
   #showusercontent.well
-    .gravatar= gravatar_image(@user, 60)
+    .gravatar= @user.decorator.avatar_image_tag(60)
     %h2.text-left
       ="#{@user.username.capitalize}'s Profile"
       %small= link_to "[edit info]", edit_user_path(current_user)

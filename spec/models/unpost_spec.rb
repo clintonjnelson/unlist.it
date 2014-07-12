@@ -38,4 +38,19 @@ describe Unpost do
         expect(jen_unpost.unimages.reload.size).to eq(6)
     end
   end
+
+
+  # describe "filter_dollar_symbols_from_price callback" do
+  #   context "for price with dollar-sign in it" do
+  #     it "edits out the dollar sign" do
+  #       unpost = Fabricate.build(:unpost, price: "$30")
+  #       unpost.save
+  #         expect(unpost.price).to eq(30)
+  #         expect(unpost.errors).to_not be_present
+  #     end
+  #   end
+  #   context "for price with dollar-sign in it" do
+
+  #   end
+  # end
 end

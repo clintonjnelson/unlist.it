@@ -19,8 +19,7 @@
 // THE JQUERY-FILE-UPLOAD DOESN"T SEEM LIKE AN EFFICIENT PACKAGE FOR SPEED & EFFICIENCY
 // BE GOOD TO GET THAT BROKEN OUT TO LOAD ONLY ON THE NEEDED PAGES
 //= require jquery-fileupload/basic
-//= require jquery-fileupload/vendor/tmpl
-
+//= require dropzone
 
 //= require turbolinks
 //= require jquery.turbolinks

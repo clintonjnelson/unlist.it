@@ -48,7 +48,7 @@ describe UnpostsController do
         expect(assigns(:unpost)).to be_valid
       end
       it "saves the new unpost" do
-        expect(Unpost.count).to eq(1)
+        expect(Unpost.count).to eq(2)
       end
       it "flashes a success message" do
         expect(flash[:success]).to be_present

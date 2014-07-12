@@ -6,6 +6,8 @@ class Unpost < ActiveRecord::Base
   has_many    :unimages
   accepts_nested_attributes_for :unimages, allow_destroy: true
 
+  #before_validation :filter_dollar_symbols_from_price
+
 
   validates_associated  :unimages  #ensure don't exceed unimage limit
   validates_presence_of :title, :description, :keyword1,
@@ -16,6 +18,14 @@ class Unpost < ActiveRecord::Base
   validates :keyword4, presence: true, allow_blank: true
   validates :link,     presence: true, allow_blank: true
   validates :price,    numericality: { only_integer: true}
-  # validates :distance, numericality: { only_integer: true}, allow_blank: true
-  # validates :zipcode,  numericality: { only_integer: true}, length: {is: 5}
+
+
+  # private
+  # def filter_dollar_symbols_from_price
+  #   binding.pry
+  #   price_string = self.price.to_s
+  #   price_string.gsub!(/[$]/, "")
+  #   binding.pry
+  #   price_string.to_i ? (self.price = price_string.to_i) : errors.add(:price, "Numbers ONLY for price. Example: $0.99 => 1, $2,000 => 2000, etc...")
+  # end
 end

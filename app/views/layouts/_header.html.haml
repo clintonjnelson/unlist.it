@@ -3,7 +3,7 @@
   .row
     .col-xs-3
       %h1#unlistheadericon
-        =link_to 'Unlist.co', root_path
+        =link_to 'Unlist.it', root_path
         / Login/User Box Located In Header (Right Side)
     .col-xs-5
       / Code for the header bar navigation links
@@ -13,9 +13,8 @@
       #unlistuserbox
         -if signed_in?
           =link_to user_path(current_user) do
-            =gravatar_image(current_user, 80)
+            =current_user.decorator.avatar_image_tag(55)
           %p=link_to "#{current_user.username.capitalize}", user_path(current_user)
-          %p=link_to 'Account Settings', user_path(current_user)
           =link_to "signout", signout_path, class: "btn btn-default btn-small"
         -else
           =form_tag sessions_path do |f|

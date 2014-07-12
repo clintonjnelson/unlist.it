@@ -36,8 +36,19 @@ describe User do
   end
 
 
-  ################################ METHODS ##############################
+  describe "use_new_avatar_image" do
+    let(:jen) { Fabricate(:user) }
+    context "for a newly uploaded image that changes the value of :avatar" do
+      it "changes the use_avatar column to true to use the new image instead of gravatar"
+  ##TRYING TO GET THIS TO ALlOW CHANGE, BUT CARRIERWAVE IS INTERFERING PROPERLY...
+  #      jen.attributes({avatar: "1234"}).save(validate: false)
+  #      expect(jen.use_avatar).to be_true
+  #    end
+    end
+  end
 
+
+  ################################ METHODS ##############################
   describe "admin?" do
     let(:jen) { Fabricate(:user) }
     let(:joe) { Fabricate(:admin) }
@@ -100,6 +111,14 @@ describe User do
       it 'returns false' do
         expect(jen.expired_token?(2)).to be_false
       end
+    end
+  end
+
+  describe "use_default_avatar" do
+    let(:jen) { Fabricate(:user, use_avatar: true) }
+    it "resets the use_avatar column to false for use of gravatar" do
+      jen.use_default_avatar
+      expect(jen.use_avatar).to be_false
     end
   end
 end

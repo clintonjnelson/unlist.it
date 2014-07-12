@@ -1,3 +1,7 @@
+//VARIOUS AJAX FORM CALLS
+
+
+
 
 //Ajax Population of ConditionSelect For Selected Category
 $(document).ready(function() {
@@ -12,7 +16,7 @@ $(document).ready(function() {
   });
 });
 
-//Ajax Population of ConditionSelect For Selected Category on CHANGE
+//ADMIN CATEGORY: Ajax Population of ConditionSelect For Selected Category on CHANGE
 $(document).ready(function() {
   $(".add-condition-category-select").on("change", function() {
     $.ajax({
@@ -24,7 +28,9 @@ $(document).ready(function() {
     return false;
   });
 });
+
 //Ajax Population of ConditionSelect For Selected Category on LOAD
+//If there is already a category selected, I WANT it to give options for conditions
 //DOESNT WORK YET BUT THIS IS ESSENTIALLY WHAT I NEED FOR EDIT ACTION
 $(document).ready(function() {
   $(".add-condition-category-select").on("load", function() {
@@ -39,7 +45,7 @@ $(document).ready(function() {
 });
 
 
-//Checkbox activation of the submit button with AJAX Listener
+//UNPOSTS FORM: Checkbox activation of the submit button with AJAX Listener
 $(document).ready( function() {
   $("#check1,#check2,#check3,#check4,#check5").on('change', function() {
     if ($('#check1:checked,#check2:checked,#check3:checked,#check4:checked,#check5:checked').length == 5)

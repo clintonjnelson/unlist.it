@@ -17,9 +17,11 @@ Rails.application.routes.draw do
   get   '/signout',                     to: 'sessions#destroy'
   get   '/signup',                      to: 'users#new'
   get   '/userconfirmation/:token',     to: 'users#confirm_with_token',  as: 'userconfirmation'
+  patch '/toggle_avatar',               to: 'users#toggle_avatar'
   get   '/forgot_password',             to: 'forgot_passwords#new'
   post  '/forgot_password',             to: 'forgot_passwords#create'
   get   '/safeguestconfirmation/:token',to: 'safeguests#create',          as: 'safeguestconfirmation'
+  post  '/add_unimage',                 to: 'unposts#create_unimage'
 
 
   #AJAX

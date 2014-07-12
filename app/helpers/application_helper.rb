@@ -15,12 +15,6 @@ module ApplicationHelper
     end
   end
 
-  def gravatar_image(user, size=80)
-    gravatar_id = Digest::MD5::hexdigest(user.email.downcase)
-    gravatar_url = "https://secure.gravatar.com/avatar/#{gravatar_id}?s=#{size}"
-    image_tag(gravatar_url, alt: user.username, class: "gravatar")
-  end
-
   def category_options
     options = [["please select category", 0]] + Category.all.map{|category| [category.name, category.id]}
   end
@@ -47,3 +41,9 @@ module ApplicationHelper
     prior_search.present? ? prior_search : ''
   end
 end
+
+  # def gravatar_image(user, size=80)
+  #   gravatar_id = Digest::MD5::hexdigest(user.email.downcase)
+  #   gravatar_url = "https://secure.gravatar.com/avatar/#{gravatar_id}?s=#{size}&d=mm"
+  #   image_tag(gravatar_url, alt: user.username, class: "gravatar")
+  # end

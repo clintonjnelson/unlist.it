@@ -1,5 +1,5 @@
 .contactbuyer.well
-  .gravatar= gravatar_image(@unpost.creator, 60)
+  .gravatar= @unpost.creator.decorator.avatar_image_tag(60)
   %h3.text-left Contact Buyer
   %br
 

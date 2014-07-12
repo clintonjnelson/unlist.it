@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140625021721) do
+ActiveRecord::Schema.define(version: 20140707204108) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 20140625021721) do
     t.string   "filename"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "token"
   end
 
   create_table "unposts", force: true do |t|
@@ -103,6 +104,7 @@ ActiveRecord::Schema.define(version: 20140625021721) do
     t.string   "prt"
     t.datetime "prt_created_at"
     t.string   "avatar"
+    t.boolean  "use_avatar"
   end
 
 end

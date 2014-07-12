@@ -6,6 +6,7 @@ gem 'bootstrap_form'
 gem 'bootstrap-sass'
 gem 'carrierwave'             #Manage Images & Uploads
 gem 'coffee-rails'
+gem 'dropzonejs-rails'
 gem 'email_validator'         #Email validations made simple
 #gem 'figaro'                 #Manage ENV from YAML
 gem 'fog'                    #AMAZON S3

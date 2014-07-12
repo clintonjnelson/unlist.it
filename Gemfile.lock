@@ -75,6 +75,8 @@ GEM
     database_cleaner (1.2.0)
     debug_inspector (0.0.2)
     diff-lcs (1.2.5)
+    dropzonejs-rails (0.4.16)
+      rails (> 3.1)
     email_validator (1.4.0)
       activemodel
     erubis (2.7.0)
@@ -294,6 +296,7 @@ DEPENDENCIES
   carrierwave
   coffee-rails
   database_cleaner
+  dropzonejs-rails
   email_validator
   fabrication
   faker
