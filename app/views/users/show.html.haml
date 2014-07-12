@@ -18,5 +18,5 @@
     %h5= "Status"
     %p= "Currently Watched By: [WATCHEDBY COUNT]"
     %p= "Currently Watching: [WATCHING COUNT]"
-    %p= "Current Unlist: #{@user.unposts.count} Unposts"
+    %p= "Current Unlist: #{@user.unposts.active.count} Unposts"
     %p= "Unread Messages: [HOW DO I EVEN DO THIS?]"

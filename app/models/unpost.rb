@@ -6,6 +6,9 @@ class Unpost < ActiveRecord::Base
   has_many    :unimages
   accepts_nested_attributes_for :unimages, allow_destroy: true
 
+  # Scopes to filter query results
+  scope      :active,    -> { where inactive: [false, nil]  }
+  scope      :inactive,  -> { where inactive: true  }
 
   validates_associated  :unimages  #ensure don't exceed unimage limit
   validates_presence_of :title, :description, :keyword1,

@@ -35,12 +35,12 @@ class UnpostsController < ApplicationController
 
   #TODO: UNPOSTS VIRTUAL ATTRIBUTE SHOULD AUTO FILTER INACTIVE UNPOSTS
   def index   #for User Unlist
-    @unposts = current_user.unposts.select{|post| (post.inactive? == false)}
+    @unposts = current_user.unposts.active
   end
 
   def index_by_category #for Browse Page Results
     @categories = Category.all
-    @unposts = Category.find(params[:category_id]).unposts
+    @unposts = Category.find(params[:category_id]).unposts.active
     render 'pages/browse'
   end
 
@@ -78,11 +78,11 @@ class UnpostsController < ApplicationController
     @search_string = search_params[:keyword]
     if search_params[:category_id] == "0"
       @search_category = "0"
-      @search_results = Unpost.where("keyword1 LIKE :search OR keyword2 LIKE :search OR keyword3 LIKE :search OR keyword4 LIKE :search",
+      @search_results = Unpost.active.where("keyword1 LIKE :search OR keyword2 LIKE :search OR keyword3 LIKE :search OR keyword4 LIKE :search",
                                     { search: "%#{search_params[:keyword]}%" }).all
     else
       @search_category = Category.find(search_params[:category_id])
-      @search_results = Unpost.where("keyword1 LIKE :search OR keyword2 LIKE :search OR keyword3 LIKE :search OR keyword4 LIKE :search",
+      @search_results = Unpost.active.where("keyword1 LIKE :search OR keyword2 LIKE :search OR keyword3 LIKE :search OR keyword4 LIKE :search",
                                     { search: "%#{search_params[:keyword]}%" }).where(category_id: search_params[:category_id]).all
     end
     render 'search'
