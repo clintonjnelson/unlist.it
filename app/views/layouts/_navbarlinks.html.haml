@@ -53,16 +53,15 @@
       %span.caret
     %ul.dropdown-menu(role='menu' aria-labelledby='UserUnlistMenu')
       %li(role='presentation')
-        =link_to "my unlist", user_unlist_path(current_user), { role: 'menuitem', tabindex: "-1" }
+        =link_to "my unlist", user_unlist_path(current_user, type: 'unlist'), { role: 'menuitem', tabindex: "-1" }
       %li(role='presentation')
         =link_to new_user_unpost_path(current_user), { role: 'menuitem', tabindex: "-1" } do
-          %i.icon-plus
+          %i.glyphicon.glyphicon-plus
           add unpost
       %li(role='presentation')
-        =link_to "hits", '#', { role: 'menuitem', tabindex: "-1" }
-        ///This should list the users unposts that have hits on them
+        =link_to 'hits',  user_unlist_path(current_user, type: 'hits'), { role: 'menuitem', tabindex: "-1" }
       %li(role='presentation')
-        =link_to "watchlist",   '#', { role: 'menuitem', tabindex: "-1" }
+        =link_to "watchlist", futurefeature_path, { role: 'menuitem', tabindex: "-1" }
 
   .dropdown#navbutton-user-unlist
     %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
@@ -70,9 +69,9 @@
       %span.caret
     %ul.dropdown-menu(role='menu' aria-labelledby='UserUnlistMenu')
       %li(role='presentation')
-        =link_to 'hits',  user_messages_path(current_user, type: 'hits'), { role: 'menuitem', tabindex: "-1" }
-      %li(role='presentation')
         =link_to 'inbox', user_messages_path(current_user, type: 'received'), { role: 'menuitem', tabindex: "-1" }
+      %li(role='presentation')
+        =link_to 'hits',  user_messages_path(current_user, type: 'hits'), { role: 'menuitem', tabindex: "-1" }
       %li(role='presentation')
         =link_to 'sent',  user_messages_path(current_user, type: 'sent'), { role: 'menuitem', tabindex: "-1" }
       %li(role='presentation')

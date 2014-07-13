@@ -1,24 +1,34 @@
 ///THIS IS FOR DISPLAY ON THE CREATOR'S PAGE
-%h5
-  =link_to unpost_path(unpost) do
-    -if unpost.unimages.present?
-      =image_tag(unpost.unimages.first.filename.url(:thumb_unimage), height: 60)
-    -else
-      =gravatar_image(unpost.creator, 60)
-  =link_to "#{ unpost.title }", unpost_path(unpost)
-%p
-  %ul
-    %li
-      Example:
-      %span= link_to "#{ unpost.link }", url: "unpost.link"
-    %li= "Description: #{ truncate(unpost.description, length: 45) }"
-    %li= "Condition: #{ unpost.condition.level }"
-    %li= "Pay up to: #{ number_to_currency(unpost.price, precision: 0) }"
-    %li
-      ="Posted: #{ time_ago_in_words(unpost.created_at) } ago "
-      -if signed_in? && creator?(unpost)
-        %small &nbsp|
-        %small= link_to " [delete]", user_unpost_path(unpost.creator.id, unpost.id), method: 'delete'
+.unpost-box
+  %h5
+    =link_to unpost_path(unpost) do
+      -if unpost.unimages.present?
+        =image_tag(unpost.unimages.first.filename.url(:thumb_unimage), height: 60)
       -else
-        %small= link_to "[contact buyer]", unpost_path(unpost)
-%hr
+        =gravatar_image(unpost.creator, 60)
+    =link_to "#{ unpost.title }", unpost_path(unpost)
+  %p
+    %ul
+      %li
+        Example:
+        %span= link_to "#{ unpost.link }", url: "unpost.link"
+      %li= "Description: #{ truncate(unpost.description, length: 45) }"
+      %li= "Condition: #{ unpost.condition.level }"
+      %li= "Pay up to: #{ number_to_currency(unpost.price, precision: 0) }"
+      %li
+        ="Posted: #{ time_ago_in_words(unpost.created_at) } ago "
+        -if signed_in? && creator?(unpost)
+          %small &nbsp|
+          %small= link_to " [delete]", user_unpost_path(unpost.creator.id, unpost.id), method: 'delete'
+        -else
+          %small= link_to "[contact buyer]", unpost_path(unpost)
+
+      -if unpost.messages.present? && signed_in? && (unpost.creator.id == current_user.id)
+
+        %li.list-no-bullet
+          %h5.hideshow-response.text-muted.underline
+            %u Hide/Show Seller Responses
+          %ul.list-unstyled.hide
+            =render partial: "response_message", collection: unpost.messages.initialresponse, as: :message, locals: { unpost: unpost }
+%hr.hr-sm-solid
+

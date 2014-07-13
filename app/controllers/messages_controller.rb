@@ -95,6 +95,7 @@ class MessagesController < ApplicationController
       else
         all_messages = current_user.received_messages
         all_messages << current_user.sent_messages
+        ###THIS DESERVES A NAMED SCOPE
         @messages = all_messages.select{|m| (m.messageable_type != "Message") } #NOT replies
     end
     render 'index'

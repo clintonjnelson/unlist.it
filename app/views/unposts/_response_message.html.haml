@@ -1,0 +1,18 @@
+-# Initial Response. Variables avail: "message" and "unpost" available.
+%li
+  .response-box.col-sm-9.well
+    .response-message
+      %h5
+        -#decorator for display_contact
+        -if message.contact_email.present?
+          =message.contact_email
+        -else
+          =link_to message.sender.username, user_path(message.sender)
+          %span= link_to "reply", "#"
+      %p= message.content
+      %small= "#{time_ago_in_words(message.created_at)} ago"
+
+
+      -if unpost.messages.replies.present?
+        .response-replies.col-sm-8.col-sm-offset-1
+          =render partial: 'reply_message', collection: unpost.messages.replies

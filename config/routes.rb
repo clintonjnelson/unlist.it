@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get   '/faq',                         to: 'pages#faq'
   get   '/about',                       to: 'pages#about'
   get   '/contact',                     to: 'pages#contact'
+  get   '/futurefeature',               to: 'pages#futurefeature'
   get   '/invalid_address',             to: 'pages#invalid_address'
   get   '/expired_link',                to: 'pages#expired_link'
   get   '/safeguestsuccess',            to: 'pages#safeguestsuccess'

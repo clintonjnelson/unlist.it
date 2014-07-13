@@ -33,9 +33,17 @@ class UnpostsController < ApplicationController
     end
   end
 
-  #TODO: UNPOSTS VIRTUAL ATTRIBUTE SHOULD AUTO FILTER INACTIVE UNPOSTS
   def index   #for User Unlist
-    @unposts = current_user.unposts.active
+    case params[:type]
+      when 'hits'
+        #ORDER BY MOST RECENT MESSAGE - likely Join messages & order by created_at
+        @unposts = current_user.unposts.hits
+      when 'watchlist'
+        # This probably warrants another table completely
+      else
+        @unposts = current_user.unposts.active
+    end
+    render 'index'
   end
 
   def index_by_category #for Browse Page Results
