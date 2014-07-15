@@ -1,0 +1,14 @@
+
+
+-#attach Knob & its dependencies
+
+-#JS handler is loaded in assets
+
+-# upload area
+#upload
+  -#dropzone for files
+  #dropzone
+    .title Drop Files for Upload
+
+    .browse Browse
+    %input#fileupload{'data-url' => "/add_unimage", :multiple => "", :name => "unimages[filename]", :type => "file"}

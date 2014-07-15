@@ -7,10 +7,10 @@ class Safeguest < ActiveRecord::Base
 
 
   ################################## VALIDATIONS ###############################
-  VALID_EMAIL_FORMAT = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  #VALID_EMAIL_FORMAT = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
-  validates :email, format:     { with: VALID_EMAIL_FORMAT },
-                    uniqueness: { case_sensitive: false }
+  validates :email, uniqueness: { case_sensitive: false },
+                    email: true
 
 
 

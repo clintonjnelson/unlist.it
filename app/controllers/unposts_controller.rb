@@ -6,27 +6,28 @@ class UnpostsController < ApplicationController
   def new
     @user     = current_user
     @unpost   = @user.unposts.build
-    @unimages = @unpost.unimages.build
+    @token    = build_token
   end
 
   def create
+    #####MODIFY THIS TO ADD TOKENS, AND LINK IMAGES TO THE UNPOST UPON CREATION
     @unpost = @user.unposts.build(unpost_params)
+    unpost_unimages = Unimage.where(token: unpost_token_param[:token]).all
+    @unpost.unimages << unpost_unimages
     if @user && @unpost.save
 
       #IMAGES UPLOADING - TO BECOME SERVICE
-      if unimages_params.present?
-        if save_unimages
-          flash[:success] = "Unpost created!"
-          redirect_to [@user, @unpost]
-        else
-          flash[:error] = "There was an error with your image uploads. Please fix & try agian."
-          render 'new'
-        end
-
-      else
+      # if unimages_params.present?
+      #   if save_unimages
+      #     flash[:success] = "Unpost created!"
+      #     redirect_to [@user, @unpost]
+      #   else
+      #     flash[:error] = "There was an error with your image uploads. Please fix & try agian."
+      #     render 'new'
+      #   end
+      # end
         flash[:success] = "Unpost created!"
         redirect_to [@user, @unpost]
-      end
     else
       flash[:error] = 'Oops - there were some errors in the form. Please fix & try agian.'
       render 'new'
@@ -80,18 +81,30 @@ class UnpostsController < ApplicationController
     redirect_to :back
   end
 
+
   ################################# NON-CRUD ###################################
 
   def search #TODO As Grows: SearchesController with QueryObject
     @search_string = search_params[:keyword]
     if search_params[:category_id] == "0"
       @search_category = "0"
-      @search_results = Unpost.active.where("keyword1 LIKE :search OR keyword2 LIKE :search OR keyword3 LIKE :search OR keyword4 LIKE :search",
+      if Rails.env.development? || Rails.env.testing?
+        @search_results = Unpost.active.where("keyword1 LIKE :search OR keyword2 LIKE :search OR keyword3 LIKE :search OR keyword4 LIKE :search",
                                     { search: "%#{search_params[:keyword]}%" }).all
+      else
+        @search_results = Unpost.active.where("keyword1 ILIKE :search OR keyword2 ILIKE :search OR keyword3 ILIKE :search OR keyword4 ILIKE :search",
+                                    { search: "%#{search_params[:keyword]}%" }).all
+      end
     else
       @search_category = Category.find(search_params[:category_id])
-      @search_results = Unpost.active.where("keyword1 LIKE :search OR keyword2 LIKE :search OR keyword3 LIKE :search OR keyword4 LIKE :search",
-                                    { search: "%#{search_params[:keyword]}%" }).where(category_id: search_params[:category_id]).all
+      if Rails.env.development? || Rails.env.testing?
+        @search_results = Unpost.active.where("keyword1 LIKE :search OR keyword2 LIKE :search OR keyword3 LIKE :search OR keyword4 LIKE :search",
+                                      { search: "%#{search_params[:keyword]}%" }).where(category_id: search_params[:category_id]).all
+      else
+        @search_results = Unpost.active.where("keyword1 ILIKE :search OR keyword2 ILIKE :search OR keyword3 ILIKE :search OR keyword4 ILIKE :search",
+                                      { search: "%#{search_params[:keyword]}%" }).where(category_id: search_params[:category_id]).all
+      end
+
     end
     render 'search'
   end
@@ -131,16 +144,22 @@ class UnpostsController < ApplicationController
                                     :keyword3,
                                     :keyword4,
                                     :link)
-                                    # :travel,
-                                    # :distance,
-                                    # :zipcode)
+  end
+
+  def unpost_token_param
+    params.require(:unpost).permit(:token)
+  end
+
+  def build_token
+    SecureRandom.urlsafe_base64
   end
 
   ###NEED TO TEST THIS IN SEPARATE FILE SAVING SERVICE
+  ##THIS WAS USED FOR HTML REQUESTS AT TIME OF UNPOST SUBMIT TO ADD PHOTOS
   def save_unimages
     begin
       ActiveRecord::Base.transaction do
-        unimages_params['filename'].each do |u|
+        unimage_params['filename'].each do |u|
           @unpost.unimages.create!(filename: u)
         end
       end
@@ -148,12 +167,6 @@ class UnpostsController < ApplicationController
     rescue ActiveRecord::RecordInvalid
       return false
     end
-  end
-
-  #VERIFY MEETS SECURITY REQUIREMENTS
-  def unimages_params
-    params[:unimages].present? ? params.require(:unimages).permit(filename: []) : nil
-    #params.require(:unimages).permit(filename: [])
   end
 
   def search_params

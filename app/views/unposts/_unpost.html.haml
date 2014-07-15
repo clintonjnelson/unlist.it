@@ -5,7 +5,7 @@
       -if unpost.unimages.present?
         =image_tag(unpost.unimages.first.filename.url(:thumb_unimage), height: 60)
       -else
-        =gravatar_image(unpost.creator, 60)
+        =unpost.creator.decorator.avatar_image_tag(60)
     =link_to "#{ unpost.title }", unpost_path(unpost)
   %p
     %ul

@@ -1,3 +1,7 @@
+//VARIOUS AJAX FORM CALLS
+
+
+
 
 //////////////////////// ADD UNPOST /////////////////////////
 //Ajax Population of ConditionSelect For Selected Category
@@ -23,7 +27,6 @@ $(document).ready(function() {
   });
   return false;
 });
-
 
 
 //////////////////////// ADD CONDITION /////////////////////////

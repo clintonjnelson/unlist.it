@@ -6,10 +6,9 @@
     %h3 Search Unlist
     %p= render partial: 'shared/quicksearch'
     %br
-    %br
-    %p= "There are currently #{User.count} Unlisters looking for #{Unpost.count} things."
-    %p
-      You may have what someone is looking for...
+    %p  Your old stuff may be an unlisted treasure for someone else...
+    %p="There are currently #{User.count} Unlisters looking for #{Unpost.count} things."
+
 
   //Code for the new user Sign Up section of the Page
   //-if signedin?
@@ -19,7 +18,7 @@
     #signup.col-sm-4
       =link_to signup_path do
         %h2
-          Join the Unlist.co<span>[mmunity]</span>!
+          What are you looking for? UNlist.it today.
           %p
             (yep, it's free.)
 

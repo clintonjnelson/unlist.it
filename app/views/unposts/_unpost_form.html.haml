@@ -1,9 +1,18 @@
 .row#userbox.col-sm-8
   #userboxcontent.well
     %h4= "#{title}"
+
+    -# Dropzone Area for File Uploads
+    %form.dropzone.dz-clickable#unimage-dropzone{ action: "/add_unimage", method: 'post' }
+      .input{ name: "unimage[filename]", type: "file" }
+      -#Token passed with creation of unimage for server reference to unpost
+      %input{ name: "unimage[token]",    type: "hidden", value: "#{@token}" }
+
+    %br
     %ul#additem
-      //html: {multipart...} might screw up the form_for with to many attributes
+      -# Verify if still need multipart here
       =bootstrap_form_for [user, unpost], html: { multipart: true }, layout: :horizontal, label_col: 'col-sm-4', control_col: "col-sm-6" do |f|
+        =f.hidden_field :token, value: "#{@token}"
         =f.collection_select :category_id, Category.all, :id, :name, { prompt: "select a category" }, { class: 'unpost_category_select' }
         =f.text_field :title,       label: "Title*"
         =f.text_area  :description, label: "Description*", size: '24x6'
@@ -17,17 +26,21 @@
         =f.text_field :keyword4, label: "Keyword 4"
 
         //Uploading Multiple Unimages
-        %hr
-        %h4 Upload Images (aka: UNimages)
-        =f.fields_for :unimages do |u|
-          .upload-unimages
-            // .unimage-thumb=image_tag(@unpost.unimage) if @unpost.picture1?
-            // WOOHOO the [] at end allowed multiple!
-            =u.file_field   :filename, multiple: true, name: "unimages[filename][]"
-            =u.hidden_field :filename
+        / %hr
+        / %h4 Upload Images (aka: UNimages)
+        / =f.fields_for :unimages, Unimage.new do |u|
+        /   .upload-unimages
+        /     // .unimage-thumb=image_tag(@unpost.unimage) if @unpost.picture1?
+        /     =u.label        :filename#, t('.upload_new_file')
+        /     =u.file_field   :filename, multiple: true, class: 'btn btn-file', id: 'upload-image', name: 'unimages[filename][]' #"unimages[filename][]"
+        /     // [] at end allows multiple for controller
+        /     =u.hidden_field :filename
 
-        / /   =f.check_box  :travel, label: "Willing to Travel*"
-        / =f.select     :distance, options_for_select(travel_distance_options)
-        / =f.text_field :zipcode
         =f.form_group do
-          =f.submit "#{button_name}", class: "btn btn-primary"
+          =f.submit "#{button_name}", class: "btn btn-primary"#, t(:save)
+
+
+
+
+
+

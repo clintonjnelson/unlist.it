@@ -2,7 +2,6 @@
 class AvatarUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
-
   ############################## STORAGE LOCATION ##############################
   def fog_directory
     'unlist-avatars'  #S3 bucket
