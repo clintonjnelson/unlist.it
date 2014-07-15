@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   has_many   :sent_messages, ->{ order( "created_at DESC" ) },     class_name: 'Message', foreign_key: 'sender_id'
   has_many   :tokens
   has_many   :unposts
+  has_many   :unimages
 
   # External Forces
   has_secure_password

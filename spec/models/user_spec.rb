@@ -5,6 +5,7 @@ describe User do
   it { should have_secure_password }
   it { should have_many(:tokens                ) }
   it { should have_many(:unposts               ) }
+  it { should have_many(:unimages              ) }
   it { should have_many(:sent_messages         ) }
   it { should have_many(:received_messages     ) }
 

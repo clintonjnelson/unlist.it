@@ -1,5 +1,6 @@
 class Unimage < ActiveRecord::Base
   belongs_to     :unpost
+  belongs_to     :creator,  foreign_key: 'user_id', class_name: 'User'
   mount_uploader :filename, UnimageUploader
 
   #validate       :unimages_less_than_limit_per_unpost

@@ -16,35 +16,114 @@ Dropzone.options.unimageDropzone = init: ->
 
     # Append the unimage id as a hidden input
     elem = document.createElement('input')
-    elem.setAttribute("name", "id")
+    elem.setAttribute("name", "unimage[id]")
     elem.setAttribute("value", response["id"])
     elem.setAttribute("type", "hidden")
     file.previewTemplate.appendChild elem
 
     # Append the unimage token as a hidden input
     elem2 = document.createElement('input')
-    elem2.setAttribute("name", "token")
+    elem2.setAttribute("name", "unimage[token]")
     elem2.setAttribute("value", response["token"])
     elem2.setAttribute("type", "hidden")
     file.previewTemplate.appendChild elem2
 
-    $('.dz-remove').on "click", ((e) ->
+    #$file.previewTemplate.removeEventListener('click', removeFileEvent, false) ##NOT SURE ABOUT THIS, BUT NEED REMOVEFILE TO BE OFF
+    #THEN NEED MY LISTENER TO BE ON
+
+    file.previewTemplate.addEventListener "mouseup", (e) ->
       _this = this
       e.preventDefault()
       e.stopPropagation()
-      imageId = $(_this).parent().find('[name="id"]').val()
-      imageToken = $(_this).parent().find('[name="token"]').val()
-      console.log _this
-      console.log imageId
-      console.log imageToken
+      imageId = $(_this).parent().find('[name="unimage[id]"]').val()
+      imageToken = $(_this).parent().find('[name="unimage[token]"]').val()
       $.ajax
         url: "/remove_unimage"
         type: "DELETE"
         dataType: "script"
         data:
-          id: imageId
-          token: imageToken
-      false), false
+          unimage:
+            id: imageId
+            token: imageToken
+      false
+    false
+    #file.previewElement.appendChild removeButton
+
+
+# # Listening for Dropzone upload success - loads unimage ID to thumb for use w/deletion
+# Dropzone.options.unimageDropzone = init: ->
+#   @on "success", (file, response, event) ->
+
+#     # Append the unimage id as a hidden input
+#     elem = document.createElement('input')
+#     elem.setAttribute("name", "id")
+#     elem.setAttribute("value", response["id"])
+#     elem.setAttribute("type", "hidden")
+#     file.previewTemplate.appendChild elem
+
+#     # Append the unimage token as a hidden input
+#     elem2 = document.createElement('input')
+#     elem2.setAttribute("name", "token")
+#     elem2.setAttribute("value", response["token"])
+#     elem2.setAttribute("type", "hidden")
+#     file.previewTemplate.appendChild elem2
+
+#     removeButton = Dropzone.createElement("<button data-dz-remove class='del_thumbnail btn btn-default'><span class='glyphicon glyphicon-trash'></span></button>")
+#     removeButton.addEventListener "click", (e) ->
+#       _this = this
+#       e.preventDefault()
+#       e.stopPropagation()
+#       imageId = $(_this).parent().find('[name="id"]').val()
+#       imageToken = $(_this).parent().find('[name="token"]').val()
+#       $.ajax
+#         url: "/remove_unimage"
+#         type: "DELETE"
+#         dataType: "script"
+#         data:
+#           id: imageId
+#           token: imageToken
+#       $(_this).parent().remove()
+#       false
+#     file.previewElement.appendChild removeButton
+
+
+
+
+
+# Dropzone.options.unimageDropzone = init: ->
+#   @on "success", (file, response, event) ->
+
+#     # Append the unimage id as a hidden input
+#     elem = document.createElement('input')
+#     elem.setAttribute("name", "id")
+#     elem.setAttribute("value", response["id"])
+#     elem.setAttribute("type", "hidden")
+#     file.previewTemplate.appendChild elem
+
+#     # Append the unimage token as a hidden input
+#     elem2 = document.createElement('input')
+#     elem2.setAttribute("name", "token")
+#     elem2.setAttribute("value", response["token"])
+#     elem2.setAttribute("type", "hidden")
+#     file.previewTemplate.appendChild elem2
+
+#     $('.dz-remove').on "click", ((e) ->
+#       _this = this
+#       e.preventDefault()
+#       e.stopPropagation()
+#       imageId = $(_this).parent().find('[name="id"]').val()
+#       imageToken = $(_this).parent().find('[name="token"]').val()
+#       console.log _this
+#       console.log imageId
+#       console.log imageToken
+#       $.ajax
+#         url: "/remove_unimage"
+#         type: "DELETE"
+#         dataType: "script"
+#         data:
+#           id: imageId
+#           token: imageToken
+#       false), false
 
 
 

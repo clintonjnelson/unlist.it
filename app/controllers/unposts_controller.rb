@@ -2,30 +2,11 @@ class UnpostsController < ApplicationController
   before_action :require_signed_in,    only: [:new, :create, :edit, :update, :destroy]
   before_action :require_correct_user, only: [               :edit, :update, :destroy]
   before_action :set_current_user,     only: [:create,       :edit, :update          ]
-  skip_before_filter :verify_authenticity_token, only: [:create_unimage]
 
   def new
     @user     = current_user
     @unpost   = @user.unposts.build
     @token    = build_token
-  end
-
-  # TEMP controller for testing upload capabilities
-  def create_unimage
-    @unimage = Unimage.new(unimage_params)
-
-    respond_to do |format|
-      if @unimage.save
-        #if @unimage can be saved, send a status 200 for confirmation to Dropzone of success
-        ##### sends @unimage, but not sure it uses it
-        #id is a reference used for deleting an uploaded image using the "remove" button
-        format.json { render json: @unimage, id: @unimage.id, token: @unimage.token, :status => 200 }
-      else
-        #if @unimage CANNOT be saved, a status 400 for notification to Dropzone of failure
-        ##### sends errors, but how to display?
-        format.json { render json: { error: @unimage.errors.full_messages }, :status => 400 }
-      end
-    end
   end
 
   def create
@@ -53,7 +34,6 @@ class UnpostsController < ApplicationController
     end
   end
 
-  #TODO: UNPOSTS VIRTUAL ATTRIBUTE SHOULD AUTO FILTER INACTIVE UNPOSTS
   def index   #for User Unlist
     @unposts = current_user.unposts.select{|post| (post.inactive? == false)}
   end
@@ -91,6 +71,7 @@ class UnpostsController < ApplicationController
     flash[:success] = "Unpost successfully removed."
     redirect_to :back
   end
+
 
   ################################# NON-CRUD ###################################
 
@@ -153,9 +134,6 @@ class UnpostsController < ApplicationController
                                     :keyword3,
                                     :keyword4,
                                     :link)
-                                    # :travel,
-                                    # :distance,
-                                    # :zipcode)
   end
 
   def unpost_token_param
@@ -179,14 +157,6 @@ class UnpostsController < ApplicationController
     rescue ActiveRecord::RecordInvalid
       return false
     end
-  end
-
-  #VERIFY MEETS SECURITY REQUIREMENTS
-  ###CHANGES UNIMAGES ---> UNIMAGE
-  def unimage_params
-    params[:unimage].present? ? params.require(:unimage).permit(:filename, :token) : nil
-    #params[:unimages].present? ? params.require(:unimages).permit(filename: []) : nil
-    #params.require(:unimages).permit(filename: [])
   end
 
   def search_params
