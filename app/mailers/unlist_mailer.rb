@@ -1,19 +1,19 @@
 class UnlistMailer < ActionMailer::Base
-  default from: "info@unlist.co"
+  default from: "info@unlist.it"
 
   def safeguest_confirmation_email(safeguest_id)
     @safeguest = Safeguest.find(safeguest_id)
     use_developer_email_if_in_staging
     mail( to: @safeguest.email,
-          from: 'info@unlist.co',
-          subject: "Unlist.co - Confirm Your Email Is Safe")
+          from: 'info@unlist.it',
+          subject: "Unlist.it - Confirm Your Email Is Safe")
   end
 
   def registration_confirmation_email(user_id)
     @user = User.find(user_id)
     use_developer_email_if_in_staging
     mail( to: @user.email,
-          from: 'info@unlist.co',
+          from: 'info@unlist.it',
           subject: 'Please Confirm To Complete Registration')
   end
 
@@ -21,7 +21,7 @@ class UnlistMailer < ActionMailer::Base
     @user = User.find(user_id)
     use_developer_email_if_in_staging
     mail( to: @user.email,
-          from: 'info@unlist.co',
+          from: 'info@unlist.it',
           subject: 'Welcome to Unlist!')
   end
 
@@ -29,7 +29,7 @@ class UnlistMailer < ActionMailer::Base
     @user = User.find(user_id)
     use_developer_email_if_in_staging
     mail(to: @user.email,
-         from: 'info@unlist.co',
+         from: 'info@unlist.it',
          subject: 'Link To Reset Your Unlist Password')
   end
 
@@ -37,7 +37,7 @@ class UnlistMailer < ActionMailer::Base
     @user = User.find(user_id)
     use_developer_email_if_in_staging
     mail(to: @user.email,
-         from: 'info@unlist.co',
+         from: 'info@unlist.it',
          subject: 'Unlist Password Changed')
   end
 

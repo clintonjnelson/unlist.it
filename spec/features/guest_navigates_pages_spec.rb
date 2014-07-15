@@ -27,7 +27,7 @@ feature "guest visits site and browses pages" do
 end
 
 def verify_header_links
-  expect(page).to have_link "Unlist.co"
+  expect(page).to have_link "Unlist.it"
   expect(page).to have_link "Browse"
   expect(page).to have_link "Tour"
   expect(page).to have_link "FAQ"
