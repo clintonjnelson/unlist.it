@@ -120,9 +120,6 @@ class MessagesController < ApplicationController
     render 'unposts/show'
   end
 
-  def unpost_user_message_setup
-  end
-
   def reply_message_setup
     @parent_message = Message.find(params[:message_id])
     if @parent_message

@@ -1,5 +1,9 @@
 
 ///////////////////////////// General for Unposts /////////////////////////
+//Breadcrumb for unposts
+.breadcrumb
+  margin-left: 2em
+
 .buyer-info
   img, a
     padding-right: 18px
@@ -8,11 +12,13 @@
 
 ///////////////////////////// Unpost Posting //////////////////////////////
 #userboxcontent
+  background-color: rgba(255, 255, 255, 0.3)
   .unpost-keywords
     li
       display: inline
   .unpost-top-details
     list-style-type: none
+
 #unimage-dropzone
   text-align: center
   vertical-align: middle
@@ -21,6 +27,10 @@
   overflow: auto
   .well
     background-color: rgba(249, 255, 249, 1)
+  h5
+    a
+      font-size: 14px
+      font-weight: bold
 
 .response-box     //for responses rendering in partial
   padding-top: 5px
@@ -30,6 +40,30 @@
 
 .hideshow-response
   color: #52CC29
+
+/////STYLING FOR THE JQUERY-UI CATEGORIES TABS
+#tabs
+  padding: 0px
+  background: none
+  border-width: 0px
+
+#tabs
+  .ui-tabs-nav
+    background: transparent
+    border-radius: 0px
+    border-width: 0px 0px 1px 0px
+    -moz-border-radius: 0px
+    padding-left: 0px
+    -webkit-border-radius: 0px
+
+#tabs
+  .ui-tabs-panel
+    background-color: rgba(245, 245, 245, 1)
+    border-width: 1px 0px 0px 0px
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+    font-size: 14px
+    a, a:visited, a:hover
+      color: #428bca
 
 /////////////////////// CONTACT BUYER MESSAGE FORM ///////////////////////
 .contactbuyer

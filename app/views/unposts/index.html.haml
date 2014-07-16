@@ -1,14 +1,23 @@
 -provide(:title, '')
 
 .row#userbox.col-sm-8
-  #userboxcontent.well
-    #unlist
-      -if @unposts.present?
-        =render @unposts
-      -elsif params[:type] == "hits"
-        [You currently have no hits on your unposts. You can visit the
-        =link_to "FAQ", faq_path
-        if you would like some hints on making your unposts more easily found by sellers.]"
-      -elsif params[:type] == "unlist"
-        [ You currently have no unposts - click #{link_to "here", new_user_unpost_path} to create one ]
+  #userboxcontent
+    #tabs.well
+      %ul
+        -if @unposts.present?
+          -category_array(@unposts).each_with_index do |category, index|
+            %li
+              %a.text-muted.text-center{href: "#tabs-#{index+1}"}
+                =category.name
+      #unlist
+        -if @unposts.present?
+          -category_array(@unposts).each_with_index do |category, index|
+            %div.text-muted{id: "tabs-#{index+1}"}
+              =render @unposts.select{|p| p.category_id == category.id}
+        -elsif params[:type] == "hits"
+          [You currently have no hits on your unposts. You can visit the
+          =link_to "FAQ", faq_path
+          if you would like some hints on making your unposts more easily found by sellers.]"
+        -elsif params[:type] == "unlist"
+          [ You currently have no unposts - click #{link_to "here", new_user_unpost_path} to create one ]
 

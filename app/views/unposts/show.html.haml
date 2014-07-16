@@ -17,7 +17,7 @@
     .buyer-info.text-right
       ///POSSIBLE CANDIDATE FOR DECORATOR
       -if signed_in? && creator?(@unpost)
-        =gravatar_image(@unpost.creator, 60)
+        =@unpost.creator.decorator.avatar_image_tag(60)
         %p= link_to "[edit post]", edit_user_unpost_path(current_user, @unpost), class: 'contact-buyer-link'
       -else
         =link_to unpost_show_message_form_path(@unpost), remote: true, class: 'contact-buyer-link' do
