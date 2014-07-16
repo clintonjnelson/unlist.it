@@ -88,7 +88,7 @@ class UnpostsController < ApplicationController
     @search_string = search_params[:keyword]
     if search_params[:category_id] == "0"
       @search_category = "0"
-      if Rails.env.development? || Rails.env.testing?
+      if Rails.env.development? || Rails.env.test?
         @search_results = Unpost.active.where("keyword1 LIKE :search OR keyword2 LIKE :search OR keyword3 LIKE :search OR keyword4 LIKE :search",
                                     { search: "%#{search_params[:keyword]}%" }).all
       else
@@ -97,7 +97,7 @@ class UnpostsController < ApplicationController
       end
     else
       @search_category = Category.find(search_params[:category_id])
-      if Rails.env.development? || Rails.env.testing?
+      if Rails.env.development? || Rails.env.test?
         @search_results = Unpost.active.where("keyword1 LIKE :search OR keyword2 LIKE :search OR keyword3 LIKE :search OR keyword4 LIKE :search",
                                       { search: "%#{search_params[:keyword]}%" }).where(category_id: search_params[:category_id]).all
       else
@@ -136,7 +136,6 @@ class UnpostsController < ApplicationController
     params.require(:unpost).permit( :category_id,
                                     :title,
                                     :description,
-                                    :size,
                                     :condition_id,
                                     :price,
                                     :keyword1,

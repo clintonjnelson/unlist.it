@@ -48,7 +48,7 @@ describe UnpostsController do
         expect(assigns(:unpost)).to be_valid
       end
       it "saves the new unpost" do
-        expect(Unpost.count).to eq(2)
+        expect(Unpost.count).to eq(1)
       end
       it "flashes a success message" do
         expect(flash[:success]).to be_present
@@ -315,42 +315,6 @@ def create_params
                         #  zipcode: 98056},
                          user_id: 1,
                         unimages: {} }
-
-# => {unpost:
-#   {category_id: "2",
-#     title: "Dominion Boardgame",
-#     description:
-#      "Dominion Boardgame with or without expansions in new or gently used condition.",
-#     link: "http://www.amazon.com/",
-#     condition_id: "6",
-#     price: "15",
-#     keyword1: "Dominion",
-#     keyword2: "Boardgame",
-#     keyword3: "board game",
-#     keyword4: "",
-#     unimages_attributes: {"0"=>{"filename"=>""}}},
-#     unimages:
-#       {filename:
-#       [#<ActionDispatch::Http::UploadedFile:0x007f84898d3c80
-#         @content_type="image/jpeg",
-#         @headers=
-#           "Content-Disposition: form-data; name=\"unimages[filename][]\"; filename=\"PD_0071_143_632795A.jpeg\"\r\nContent-Type: image/jpeg\r\n",
-#         @original_filename="PD_0071_143_632795A.jpeg",
-#         @tempfile=
-#         #<File:/var/folders/_n/nnlnp20x0gn5myzjw8f187dc0000gn/T/RackMultipart20140630-21787-jsoalg>>,
-#        #<ActionDispatch::Http::UploadedFile:0x007f84898d3c30
-#         @content_type="image/png",
-#         @headers=
-#        "Content-Disposition: form-data; name=\"unimages[filename][]\"; filename=\"Screen Shot 2014-03-26 at 3.27.25 PM.png\"\r\nContent-Type: image/png\r\n",
-#         @original_filename="Screen Shot 2014-03-26 at 3.27.25 PM.png",
-#         @tempfile=
-#         #<File:/var/folders/_n/nnlnp20x0gn5myzjw8f187dc0000gn/T/RackMultipart20140630-21787-1n1elqk>>]},
-#     commit: "Create Unpost",
-#     action: "create",
-#     controller: "unposts",
-#     user_id: 1 }
-
-
 end
 
 def update_params
@@ -364,9 +328,6 @@ def update_params
                         keyword3: "ocho",
                         keyword4: "",
                             link: "http://www.herbie.com"},
-                        #   travel: true,
-                        # distance: 3,
-                        #  zipcode: 98056},
                          user_id: jen.id, id: car_unpost.id}
 end
 
@@ -397,9 +358,6 @@ def invalid_create_params
                         keyword2: "bug",
                         keyword3: "ocho",
                         keyword4: "",
-                            link: "http://www.google.com",
-                          travel: true,
-                        distance: 3,
-                         zipcode: 98056},
+                            link: "http://www.google.com"},
                          user_id: 1}
 end
