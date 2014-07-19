@@ -10,10 +10,20 @@
   #userboxcontent.well
 
     //-#TODO: THIS WOULD BE BEST TO SHOW AS A SCROLLING SET OF IMAGES WITH PHOTO BOX THAT OPENS WHEN ONE IS CLICKED AND CAN BE HIDDEN WITH AN 'X'
-    .display-unimages.pull-left
+    #controls
+    #loading
+    #slideshow
+    #caption
+    #thumbs.display-unimages.pull-left
       -if @unpost.unimages.present?
-        -@unpost.unimages.each do |unimage|
-          =image_tag(unimage.filename.url(:thumb_unimage))
+        %ul.thumbs.noscript
+          -@unpost.unimages.each do |unimage|
+            %li
+              %a.thumb{ href: unimage.filename.url(:full_unimage), title: unimage.id, alt: 'unimage photo' }
+                =image_tag(unimage.filename.url(:thumb_unimage))
+              .caption
+                Test Caption
+
     .buyer-info.text-right
       ///POSSIBLE CANDIDATE FOR DECORATOR
       -if signed_in? && creator?(@unpost)

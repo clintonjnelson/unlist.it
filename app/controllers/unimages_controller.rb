@@ -6,8 +6,7 @@ class UnimagesController < ApplicationController
   ###### NEED SPECS FOR THIS CONTROLLER!!!!
 
   def create
-    @unimage = current_user.unimages.build(unimage_params)
-
+    @unimage = current_user.unimages.reload.build(unimage_create_params)
     respond_to do |format|
       if @unimage.save
         # id/token for remove button; senda status 200 OK for Dropzone success
@@ -20,7 +19,7 @@ class UnimagesController < ApplicationController
   end
 
   def destroy
-    unimage = current_user.unimages.where(token: unimage_params[:token]).where(id: unimage_params[:id]).take
+    unimage = current_user.unimages.where(token: unimage_destroy_params[:token]).where(id: unimage_destroy_params[:id]).take
     respond_to do |format|
       if Unimage.destroy(unimage.id)
         format.json { head :ok, :status => 200 }
@@ -33,7 +32,11 @@ class UnimagesController < ApplicationController
 
   ################################ PRIVATE METHODS #############################
   private
-  def unimage_params
+  def unimage_create_params
+    params[:unimage].present? ? params.require(:unimage).permit(:filename, :token) : nil
+  end
+
+  def unimage_destroy_params
     params[:unimage].present? ? params.require(:unimage).permit(:id, :filename, :token) : nil
   end
 

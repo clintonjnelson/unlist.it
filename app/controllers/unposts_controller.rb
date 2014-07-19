@@ -10,12 +10,12 @@ class UnpostsController < ApplicationController
   end
 
   def create
-    #####MODIFY THIS TO ADD TOKENS, AND LINK IMAGES TO THE UNPOST UPON CREATION
+    @token = unpost_params[:token]
     @unpost = @user.unposts.build(unpost_params)
     unpost_unimages = Unimage.where(token: unpost_token_param[:token]).all
     @unpost.unimages << unpost_unimages
-    if @user && @unpost.save
 
+    if @user && @unpost.save
       #IMAGES UPLOADING - TO BECOME SERVICE
       # if unimages_params.present?
       #   if save_unimages
@@ -32,6 +32,7 @@ class UnpostsController < ApplicationController
       flash[:error] = 'Oops - there were some errors in the form. Please fix & try agian.'
       render 'new'
     end
+    binding.pry
   end
 
   def index   #for User Unlist

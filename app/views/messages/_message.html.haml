@@ -1,7 +1,7 @@
 %h5
   -if message.sender.present?
     =link_to user_path(message.sender) do
-      =gravatar_image(message.sender, 60)
+      =message.sender.decorator.avatar_image_tag(60)
     =link_to "#{ message.sender.username }", user_path(message.sender)
   -elsif message.contact_email.present?
     [Sent By A Non-Unlist User]
