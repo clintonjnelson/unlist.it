@@ -18,7 +18,7 @@ class MessagesManager
   def send_message(options={}) #receives contact_email, sender_user, reply_recipient
     @contact_email = options[:contact_email]
     @content       = options[:content]
-    @sender_user   = options[:current_user]
+    @sender_user   = options[:sender_user]
     #@reply_recipient
 
     if unpost_message?
@@ -26,13 +26,12 @@ class MessagesManager
 
       if from_user?(@sender_user) #if from a user
         @sender_type = "User"
-        @user        = sender_user #get the user
 
         if user_message_allowed? #check if user can send message
           unless unpost_message_setup(@content) == false #finds unpose & sets message values. Makes @message & @unpost
-            @message.sender = @user #sets the message sender to current user
+            @message.sender = @sender_user #sets the message sender to current user
 
-            if @message.save? #try to save message or return an alert
+            if @message.save #try to save message or return an alert
               @flash_message = "Message Sent!"
               @success       = true #Success. Could return the message? Need to redirect to @unpost.
             else
@@ -41,12 +40,12 @@ class MessagesManager
             end
           end
 
-        else #user is restricted from messaging
-          if !@user.confirmed?
-            @error_message = "Welcome! Please see the email we sent you when you
-                             registered - in it there is a link to confirm your account.
-                             Then you will be able to contact users on unposts!"
-            @success       = false
+        else #if user is restricted from messaging
+          if !@sender_user.confirmed?
+            @flash_notice = "Welcome! Please see the email we sent you when you
+                            registered - in it there is a link to confirm your account.
+                           Then you will be able to contact users on unposts!"
+            @success      = false
           # elsif @user.blacklisted? #this should be added to user & in the user policy.
           #   @error_message = "Your account is currently suspended from use.
           #                     If you believe this to be in error, please contact Unlist."
@@ -60,7 +59,7 @@ class MessagesManager
           invite_new_safeguest(@contact_email) #invite guest
 
         elsif @safeguest && @safeguest.blacklisted? #if has been blacklisted
-          @flash_message = "Your account is currently suspended from use.
+          @flash_notice = "Your account is currently suspended from use.
                            If you believe this to be in error, please contact Unlist."
           @success       = false
 
@@ -68,7 +67,7 @@ class MessagesManager
           unless unpost_message_setup(@content, @contact_email) == false #finds unpost & sets message values. Makes @message & @unpost
             @message.sender = @user #sets the message sender to safeguest
 
-            if @message.save? #try to save message or return an alert
+            if @message.save #try to save message or return an alert
               @flash_message = "Message Sent!"
               @success       = true #Success. Could return the message? Need to redirect to @unpost.
             else
@@ -81,10 +80,10 @@ class MessagesManager
             @safeguest.reset_confirmation_token
             send_confirmation_email_and_render_instructions
           else #if confirmation token still valid
-            @error_message = "Please check your email & click the link to confirm that your email is safe.
-                              Once confirmed safe, then click the 'Send Message' button below again to send this message, and it will be allowed.
-                              You won't have to confirm your email is safe ever again. Thanks!"
-            @success       = false
+            @flash_notice = "Please check your email & click the link to confirm that your email is safe.
+                             Once confirmed safe, then click the 'Send Message' button below again to send this message, and it will be allowed.
+                            You won't have to confirm your email is safe ever again. Thanks!"
+            @success      = false
           end
         end
       end
@@ -117,7 +116,7 @@ class MessagesManager
 
   #PERMISSIONS
   def user_message_allowed?
-    @user_message_allowed ||= UserPolicy.new(user: @user).messages_allowed?
+    @user_message_allowed ||= UserPolicy.new(user: @sender_user).messages_allowed?
     # False should pass back an error with message for flash
   end
 
@@ -139,7 +138,7 @@ class MessagesManager
   #METHODS TO DO STUFF
   def unpost_message_setup(content, contact_email=nil)
     @message = Message.new(content: content, contact_email: contact_email)
-    @unpost  = Unpost.find(params[:unpost_id])
+    @unpost  = Unpost.find(@unpost_id)
     if @unpost
       @message.subject = "RE: " + @unpost.title
       @message.recipient = @unpost.creator

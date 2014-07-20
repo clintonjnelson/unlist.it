@@ -10,7 +10,6 @@ class MessagesController < ApplicationController
   #params: contact_email, current_user,
   ###this needs to decide what kind of message, because it needs to redirect accordingly
   def create
-    @message = Message.new(message_params)
     @unpost  = Unpost.find(params[:unpost_id])
     manager  = MessagesManager.new(unpost_id: params[:unpost_id],
                                        reply: params[:message][:reply])
@@ -22,7 +21,7 @@ class MessagesController < ApplicationController
 
     if manager.success
       flash[:success]    = manager.flash_message
-      redirect_to        = @unpost
+      redirect_to @unpost
     elsif manager.flash_notice
       flash.now[:notice] = manager.flash_notice
       render 'unposts/show'

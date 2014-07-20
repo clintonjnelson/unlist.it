@@ -142,12 +142,6 @@ describe MessagesController do
                                                 reply: false } } }
           after { ActionMailer::Base.deliveries.clear }
 
-          # it "creates a new message instance" do
-          #   expect(assigns(:message)).to be_present
-          # end
-          # it "loads the existing safeguest" do
-          #   expect(assigns(:safeguest)).to be_a Safeguest
-          # end
           it "does NOT save the message" do
             expect(Message.all.count).to eq(0)
           end
@@ -170,12 +164,6 @@ describe MessagesController do
           end
           after { ActionMailer::Base.deliveries.clear }
 
-          it "creates a new message instance" do
-            expect(assigns(:message)).to be_present
-          end
-          it "loads the existing safeguest" do
-            expect(assigns(:safeguest)).to be_a Safeguest
-          end
           it "makes a new valid token" do
             expect(Safeguest.first.token_expired?).to be_false
           end
@@ -203,12 +191,6 @@ describe MessagesController do
                                        reply: false } } }
           after { ActionMailer::Base.deliveries.clear }
 
-          it "creates a new message instance" do
-            expect(assigns(:message)).to be_present
-          end
-          it "loads the existing safeguest" do
-            expect(assigns(:safeguest)).to be_a Safeguest
-          end
           it "does NOT save the message" do
             expect(Message.all.count).to eq(0)
           end
@@ -227,15 +209,6 @@ describe MessagesController do
                                                 contact_email: "guest@example.com",
                                                 reply: false } } }
 
-          it "creates a new message instance" do
-            expect(assigns(:message)).to be_present
-          end
-          it "finds and loads the guest user into @guest" do
-            expect(assigns(:safeguest)).to eq(joe_guest)
-          end
-          it "is a valid message" do
-            expect(assigns(:message)).to be_valid
-          end
           it "sets the recipient to the owner/creator of the unpost" do
             expect(Message.first.recipient).to eq(jen)
           end
@@ -265,15 +238,6 @@ describe MessagesController do
                                                 contact_email: "guest@example.com",
                                                 reply: false } } }
 
-          it "creates a new message instance" do
-            expect(assigns(:message)).to be_present
-          end
-          it "finds and loads the guest user into @guest" do
-            expect(assigns(:safeguest)).to eq(joe_guest)
-          end
-          it "is NOT a valid message" do
-            expect(assigns(:message)).to_not be_valid
-          end
           it "does NOT create a new message" do
             expect(Message.count).to eq(0)
           end
@@ -291,15 +255,6 @@ describe MessagesController do
                                                 contact_email: "example.com",
                                                 reply: false } } }
 
-          it "creates a new message instance" do
-            expect(assigns(:message)).to be_present
-          end
-          it "loads a new instance of Safeguest" do
-            expect(assigns(:safeguest)).to be_present
-          end
-          it "is NOT a valid safeguest" do
-            expect(assigns(:safeguest)).to_not be_valid
-          end
           it "does NOT create a new message" do
             expect(Message.count).to eq(0)
           end
@@ -324,12 +279,7 @@ describe MessagesController do
                                      contact_email: nil,
                                      reply: false } }
         end
-        it "creates a new message instance" do
-          expect(assigns(:message)).to be_present
-        end
-        it "is valid" do
-          expect(assigns(:message)).to be_valid
-        end
+
         it "sets the recipient to the owner/creator of the unpost" do
           expect(Message.first.recipient).to eq(jen)
         end
@@ -364,12 +314,7 @@ describe MessagesController do
                                        contact_email: nil,
                                        reply: false } }
         end
-        it "creates a new message instance" do
-          expect(assigns(:message)).to be_present
-        end
-        it "is NOT valid" do
-          expect(assigns(:message)).to_not be_valid
-        end
+
         it "does NOT create a new message" do
           expect(Message.count).to eq(0)
         end
