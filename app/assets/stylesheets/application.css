@@ -13,6 +13,9 @@
  *= require bootstrap
  *= require dropzone/dropzone
  *= require jquery-ui
+ * REDUCE THE GALLERY ASSETS AFTER WORKING
+ *     require blueimp-gallery-all
+ *     require galleria.classic.css.scss
  *= require_tree .
 
  *= require_self

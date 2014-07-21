@@ -16,8 +16,11 @@
 //= require jquery-ui/tabs
 //= require bootstrap
 
-/// For File Uploading
+/// For Image Handling - REDUCE BLUEIMP ASSETS AFTER WORKING
 //= require dropzone
+//     require blueimp-gallery-all
+//     require galleria-1.3.6.min
+//     require galleria.classic.min
 
 //= require turbolinks
 //= require jquery.turbolinks

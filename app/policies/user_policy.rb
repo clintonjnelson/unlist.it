@@ -5,6 +5,7 @@ class UserPolicy
     @safeguest = options[:safeguest]
   end
 
+
   def messages_allowed?
     if @user && !@user.confirmed? #|| @user.blacklisted?)
       false

@@ -3,15 +3,6 @@ class MessagesManager
   def initialize(options={}) #receives unpost_id & reply
     @unpost_id     = options[:unpost_id]
     @reply         = options[:reply]
-    # @user           = options[:user]
-    # @safeguest      = options[:safeguest]
-    # @success        = options[:success]
-    # @message_type   = options[:message_type]
-    # @sender_type    = options[:sender_type]
-    # @sender_status  = options[:sender_status]
-    # @error_message  = options[:error_message]
-    # @flash_message  = options[:flash_message]
-    # @flash_notice   = options[:flash_notice]
   end
 
 
@@ -93,8 +84,7 @@ class MessagesManager
     end
   end
 
-
-
+  ################################# SUPPORT METHODS ############################
 
   # DETERMINE MESSAGE TYPE
   def unpost_message?

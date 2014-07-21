@@ -1,31 +1,33 @@
 source 'https://rubygems.org'
 ruby '2.0.0'
+gem 'rails' #, '4.1.1'
+
 
 gem 'bcrypt'
 gem 'bootstrap_form'
 gem 'bootstrap-sass'
-gem 'carrierwave'             #Manage Images & Uploads
+gem 'carrierwave'                 #Manage Images & Uploads
 gem 'coffee-rails'
 gem 'dropzonejs-rails'
-gem 'email_validator'         #Email validations made simple
-#gem 'figaro'                 #Manage ENV from YAML
-gem 'fog'                    #AMAZON S3
+gem 'email_validator'             #Email validations made simple
+#gem 'figaro'                     #Manage ENV from YAML
+gem 'fog'                         #AMAZON S3
 gem 'haml-rails'
 #gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
 gem 'jquery-turbolinks'
 #gem 'jquery-fileupload-rails'
 gem 'jquery-ui-rails'
-gem 'mini_magick'             #Image control for use with Carrierwave
-#gem 'paratrooper'            #deployment made simple
-gem 'rails' #, '4.1.1'
+gem 'mini_magick'                 #Image control for use with Carrierwave
+#gem 'paratrooper'                #deployment made simple
+gem 'blueimp-gallery', '2.11.0.1' #jQuery image gallery for unpost unimages display
 gem 'sass-rails'
 #gem 'sdoc', '~> 0.4.0',          group: :doc
-gem 'sidekiq'                 #allows workers to handle queued tasks in background
-gem 'sinatra', require: nil   #For Sidekiq online monitoring
+gem 'sidekiq'                     #allows workers to handle queued tasks in background
+gem 'sinatra', require: nil       #For Sidekiq online monitoring
 gem 'turbolinks'
 gem 'uglifier'
-#gem 'unicorn'                #multiple instances of app for speed in production
+#gem 'unicorn'                    #multiple instances of app for speed in production
 #gem 'therubyracer',  platforms: :ruby
 
 group :development, :test do

@@ -16,6 +16,7 @@ $(document).ready(function() {
 });
 
 //Ajax Population of ConditionSelect For Selected Category on LOAD
+//MAY NEED A if ($(".add-condition-category-select").length == 1) { //do stuff below// }
 $(document).ready(function() {
   $.ajax({
     type: "POST",
@@ -42,6 +43,7 @@ $(document).ready(function() {
 });
 
 //Ajax Population of ConditionSelect For Selected Category on LOAD
+//MAY NEED A if ($(".add-condition-category-select").length == 1) { //do stuff below// }
 $(document).ready(function() {
   $.ajax({
     type: "POST",
