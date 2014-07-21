@@ -35,8 +35,6 @@ GEM
       erubis (>= 2.6.6)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    blueimp-gallery (2.11.0.1)
-      railties (>= 3.1.0)
     bootstrap-sass (3.1.1.1)
       sass (~> 3.2)
     bootstrap_form (2.1.1)
@@ -289,7 +287,6 @@ DEPENDENCIES
   bcrypt
   better_errors
   binding_of_caller
-  blueimp-gallery (= 2.11.0.1)
   bootstrap-sass
   bootstrap_form
   capybara

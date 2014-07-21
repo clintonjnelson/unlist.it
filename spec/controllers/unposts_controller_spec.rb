@@ -271,7 +271,9 @@ describe UnpostsController do
       let(:car_unpost) { Fabricate(:unpost, creator: jen) }
       before do
         spec_signin_user(jen)
+        jen.update_column(:avatar, "1234abcd")
         request.env["HTTP_REFERER"] = "http://test.host/"
+        UnimagesCleaner.should_receive(:perform_in)         #Mock UnimagesCleaner
         delete :destroy, user_id: jen.id, id: car_unpost.id
       end
 

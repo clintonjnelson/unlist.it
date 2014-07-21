@@ -16,16 +16,6 @@ class UnpostsController < ApplicationController
     @unpost.unimages << unpost_unimages
 
     if @user && @unpost.save
-      #IMAGES UPLOADING - TO BECOME SERVICE
-      # if unimages_params.present?
-      #   if save_unimages
-      #     flash[:success] = "Unpost created!"
-      #     redirect_to [@user, @unpost]
-      #   else
-      #     flash[:error] = "There was an error with your image uploads. Please fix & try agian."
-      #     render 'new'
-      #   end
-      # end
         flash[:success] = "Unpost created!"
         redirect_to [@user, @unpost]
     else
@@ -78,6 +68,7 @@ class UnpostsController < ApplicationController
 
   def destroy
     @unpost.update_column(:inactive, true)
+    UnimagesCleaner.perform_in(20.seconds, @unimage_ids_array)
     flash[:success] = "Unpost successfully removed."
     redirect_to :back
   end
@@ -148,6 +139,10 @@ class UnpostsController < ApplicationController
 
   def unpost_token_param
     params.require(:unpost).permit(:token)
+  end
+
+  def unimage_ids_array
+    @unimage_ids_array = @unpost.unimages.map(&:id)
   end
 
   def build_token

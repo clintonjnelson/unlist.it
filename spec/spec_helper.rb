@@ -55,7 +55,7 @@ require 'rspec/autorun'
 require 'capybara/rails'
 require 'capybara/rspec'
 require 'capybara/email/rspec'
-# require 'sidekiq/testing'
+#require 'sidekiq/testing'
 # require 'sidekiq/testing/inline'
 require 'shoulda/matchers'
 # require 'vcr'
@@ -104,6 +104,10 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
+
+  # Sidekiq
+  # Sidekiq::Testing.inline!
+  # Sidekiq::Testing.fake!
 
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures

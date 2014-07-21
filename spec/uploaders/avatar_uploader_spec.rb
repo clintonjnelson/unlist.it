@@ -25,10 +25,10 @@ describe AvatarUploader do
   end
 
   context "picture upload version" do
-    it "scales the thumbnail avatar picture down to 35 x __" do
+    it "scales the thumbnail avatar picture down to 80 x __" do
       expect(@avatar.thumb_avatar).to have_dimensions(80,50)
     end
-    it "scales the medium avatar picture down to 60 x __" do
+    it "scales the medium avatar picture to 500 x __" do
       expect(@avatar.full_avatar).to have_dimensions(500,313)
     end
   end

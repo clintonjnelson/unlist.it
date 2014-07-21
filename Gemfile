@@ -6,6 +6,7 @@ gem 'rails' #, '4.1.1'
 gem 'bcrypt'
 gem 'bootstrap_form'
 gem 'bootstrap-sass'
+#gem 'blueimp-gallery', '2.11.0.1' #Responsive Unimages Viewer; **WIRED & WORKING IF UNCOMMENT AREAS
 gem 'carrierwave'                 #Manage Images & Uploads
 gem 'coffee-rails'
 gem 'dropzonejs-rails'
@@ -20,7 +21,6 @@ gem 'jquery-turbolinks'
 gem 'jquery-ui-rails'
 gem 'mini_magick'                 #Image control for use with Carrierwave
 #gem 'paratrooper'                #deployment made simple
-gem 'blueimp-gallery', '2.11.0.1' #jQuery image gallery for unpost unimages display
 gem 'sass-rails'
 #gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'sidekiq'                     #allows workers to handle queued tasks in background
