@@ -30,6 +30,8 @@ module ApplicationHelper
   end
   #Takes a list of uposts and pulls all of the unique categories out into a list array
   def category_array(unposts_set)
+    #unposts_set.uniq.pluck(:category)
+    #unposts_set.pluck('DISTINCT category') #SQL form should be faster
     category_array = []
     unposts_set.each do |unpost|
       category_array.push(unpost.category) unless unpost.category.nil?

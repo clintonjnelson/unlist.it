@@ -22,19 +22,6 @@ $(document).ready(function() {
   });
 });
 
-//Galleria Setup File for Loading
-// $(document).ready(function() {
-//   if ($('.galleria').length == 1) {
-//     Galleria.loadTheme('assets/javascripts/galleria.classic.min.js');
-//     Galleria.configure({
-//       debug: false,
-//       imageCrop: true,
-//       //dummy: 'app/assets/images/',
-//       trandition: 'fade'
-//     });
-//     Galleria.run('.galleria');
-//   };
-// });
 
 
 ///JS FOR ADDING THE BLUEIMP LIGHTBOX - WORKS!!!

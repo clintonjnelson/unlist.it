@@ -6,7 +6,22 @@
     %form.dropzone.dz-clickable#unimage-dropzone{ action: "/add_unimage", method: 'post' }
       .input{ name: "unimage[filename]", type: "file" }
       -#Token passed with creation of unimage for server reference to unpost
-      %input{ name: "unimage[token]",    type: "hidden", value: "#{@token}" }
+      %input{ name: "unimage[token]",    type: "hidden", value: "#{ @token }" }
+
+
+    -if @unimages.present?
+      #unimages-reload-display
+        %h5.text-muted
+          Already Uploaded Images:
+        -@unimages.each do |unimage|
+          .unimage-preview-template
+            .viewer
+              =image_tag unimage.filename.url(:thumb_unimage)
+            %input{ name: 'unimage[id]',       value: unimage.id,      type: 'hidden' }
+            %input{ name: 'unimage[token]',    value: unimage.token,   type: 'hidden' }
+            %input{ name: 'unimage[filename]', value: unimage.filename, type: 'hidden' }
+            %a.remove-unimage.btn.btn-default.btn-xs remove
+
 
     %br
     %ul#additem
@@ -15,9 +30,9 @@
         =f.hidden_field :token, value: "#{@token}"
         =f.collection_select :category_id, Category.all, :id, :name, { prompt: "select a category" }, { class: 'unpost_category_select' }
         =f.text_field :title,       label: "Title*"
-        =f.text_area  :description, label: "Description*", size: '24x6'
+        =f.text_area  :description, label: "Description*", size: '24x6', placeholder: "Describe what you're looking for...."
         =f.url_field  :link,        label: "Website Example"
-        =f.select :condition_id, [], { prompt: "select a category above", label: "Minimum Condition", }, { id: "unpost_condition_select" }
+        =f.select :condition_id, [], { prompt: "select a category above", label: "Minimum Condition*", }, { id: "unpost_condition_select" }
         //-#(price == 0) => FREE, (price = -1) => Any, (price > 0) => price; Decorator or Helper for This.
         =f.text_field :price,    prepend: "$"
         =f.text_field :keyword1, label: "Keyword 1*"

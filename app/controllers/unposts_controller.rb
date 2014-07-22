@@ -1,18 +1,22 @@
 class UnpostsController < ApplicationController
-  before_action :require_signed_in,    only: [:new, :create, :edit, :update, :destroy]
-  before_action :require_correct_user, only: [               :edit, :update, :destroy]
-  before_action :set_current_user,     only: [:create,       :edit, :update          ]
+  ##ADD THESE BEFORE ACTIONS TO SPECS
+  before_action :set_current_user,     only: [:new, :create, :show, :edit, :update          ]
+  before_action :set_unpost,           only: [               :show, :edit, :update, :destroy]
+  ###VERIFY ALREADY TESTED FOR THESE
+  before_action :require_correct_user, only: [                      :edit, :update, :destroy]
+  before_action :require_signed_in,    only: [:new, :create,        :edit, :update, :destroy]
 
-  def new
-    @user     = current_user
+
+
+  def new #Loads: @user
     @unpost   = @user.unposts.build
     @token    = build_token
   end
 
-  def create
-    @token = unpost_params[:token]
+  def create #Loads: @user
     @unpost = @user.unposts.build(unpost_params)
-    unpost_unimages = Unimage.where(token: unpost_token_param[:token]).all
+    @token  = unpost_token_param[:token]
+    unpost_unimages = Unimage.where(token: @token).all
     @unpost.unimages << unpost_unimages
 
     if @user && @unpost.save
@@ -20,6 +24,7 @@ class UnpostsController < ApplicationController
         redirect_to [@user, @unpost]
     else
       flash[:error] = 'Oops - there were some errors in the form. Please fix & try agian.'
+      @unimages = unpost_unimages #show any images for deletion on re-render
       render 'new'
     end
   end
@@ -43,29 +48,27 @@ class UnpostsController < ApplicationController
     render 'pages/browse'
   end
 
-  def show
-    @user = current_user
-    @unpost = Unpost.find(params[:id])
+  def show #Loads: @unpost
     @message = Message.new
   end
 
-  def edit
-    @unpost = Unpost.find(params[:id])
+  def edit #Loads: @unpost, @user
+    @token  = @unpost.unimages_token
+    @unimages = Unimage.where(token: @token).all
   end
 
-  def update
-    #DOESNT WORK TO UPDATE CONDITION UNTIL I FIGURE OUT AJAX FORM
-    @unpost = Unpost.find(params[:id])
+  def update #Loads: @unpost, @user
     if @unpost && @unpost.update(unpost_params)
       flash[:success] = 'Unpost Updated.'
       redirect_to [@user, @unpost]
     else
       flash[:error] = 'Oops - there were some errors in the form. Please fix & try agian.'
+      @unposts = Unimage.where(token: unpost_token_param[:token]).all
       render 'edit'
     end
   end
 
-  def destroy
+  def destroy #Loads: @unpost
     @unpost.update_column(:inactive, true)
     UnimagesCleaner.perform_in(20.seconds, @unimage_ids_array)
     flash[:success] = "Unpost successfully removed."
@@ -118,8 +121,11 @@ class UnpostsController < ApplicationController
   ################################ PRIVATE METHODS #############################
 
   private
-  def require_correct_user
+  ################################ BEFORE FILTERS ##############################
+  def set_unpost
     @unpost = Unpost.find(params[:id])
+  end
+  def require_correct_user
     access_denied("You are not the owner of this unpost.") unless @unpost && (current_user == @unpost.creator)
   end
 
@@ -138,6 +144,10 @@ class UnpostsController < ApplicationController
 
   def unpost_token_param
     params.require(:unpost).permit(:token)
+  end
+
+  def search_params
+    params.permit(:keyword, :category_id)
   end
 
   def unimage_ids_array
@@ -163,7 +173,5 @@ class UnpostsController < ApplicationController
     end
   end
 
-  def search_params
-    params.permit(:keyword, :category_id)
-  end
+
 end

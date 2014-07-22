@@ -27,6 +27,32 @@ $(document).ready(function() {
   return false;
 });
 
+//Ajax deletion of Unimages
+$(document).ready(function(){
+  $('.remove-unimage').on('click', function(e){
+    var _this = this;
+    e.preventDefault();
+    e.stopPropagation();
+    var unimageId       = $(_this).parent().find('[name="unimage[id]"]').val();
+    var unimageToken    = $(_this).parent().find('[name="unimage[token]"]').val();
+    var unimageFilename = $(_this).parent().find('[name="unimage[filename]"]').val();
+    $.ajax({
+      url: '/remove_unimage',
+      type: 'DELETE',
+      dataType: 'script',
+      data: {
+        unimage: {
+          id: unimageId,
+          token: unimageToken,
+          filename: unimageFilename
+        }
+      }
+    });
+    false
+    $(_this).parent().remove();
+  });
+});
+
 
 //////////////////////// ADD CONDITION /////////////////////////
 //Ajax Population of ConditionSelect For Selected Category on CHANGE

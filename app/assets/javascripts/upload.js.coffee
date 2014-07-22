@@ -32,15 +32,15 @@ Dropzone.options.unimageDropzone = init: ->
       _this = this
       e.preventDefault()
       e.stopPropagation()
-      imageId = $(_this).parent().find('[name="unimage[id]"]').val()
-      imageToken = $(_this).parent().find('[name="unimage[token]"]').val()
+      unimageId = $(_this).parent().find('[name="unimage[id]"]').val()
+      unimageToken = $(_this).parent().find('[name="unimage[token]"]').val()
       $.ajax
         url: "/remove_unimage"
         type: "DELETE"
         dataType: "script"
         data:
           unimage:
-            id: imageId
-            token: imageToken
+            id: unimageId
+            token: unimageToken
       false
     false
