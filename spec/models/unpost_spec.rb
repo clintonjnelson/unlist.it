@@ -24,7 +24,7 @@ describe Unpost do
   it { should allow_value("", nil).for(:keyword4) }
   it { should allow_value("", nil).for(:link    ) }
 
-  it { should accept_nested_attributes_for(:unimages).allow_destroy(true) }
+  #it { should accept_nested_attributes_for(:unimages).allow_destroy(true) }
 
 
 

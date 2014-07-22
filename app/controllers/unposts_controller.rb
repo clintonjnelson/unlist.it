@@ -22,7 +22,6 @@ class UnpostsController < ApplicationController
       flash[:error] = 'Oops - there were some errors in the form. Please fix & try agian.'
       render 'new'
     end
-    binding.pry
   end
 
   def index   #for User Unlist

@@ -265,7 +265,7 @@ describe UsersController do
         before do
           spec_signin_user(jen)
           jen.update_columns(avatar: "1234", use_avatar: true)
-          xhr :post, :toggle_avatar, id: jen.id, currently: jen.use_avatar
+          xhr :post, :toggle_avatar, id: jen.id, currently: jen.use_avatar.to_s
         end
 
         it "toggles the User's use_avatar boolean to off (aka: false)" do
