@@ -1,8 +1,8 @@
 class MessagesManager
-  attr_reader :user, :safeguest, :success, :message_type, :sender_type, :sender_status, :error_message, :flash_message, :flash_notice
+  attr_reader :user, :safeguest, :success, :type, :sender_type, :sender_status, :error_message, :flash_success, :flash_notice, :message
   def initialize(options={}) #receives unpost_id & reply
     @unpost_id     = options[:unpost_id]
-    @reply         = options[:reply]
+    @parent_msg_id = options[:parent_msg_id]
   end
 
 
@@ -10,8 +10,8 @@ class MessagesManager
     @contact_email = options[:contact_email]
     @content       = options[:content]
     @sender_user   = options[:sender_user]
-    #@reply_recipient
 
+    ###### UNPOST MESSAGES ######
     if unpost_message?
       @type    = "Unpost"
 
@@ -23,7 +23,7 @@ class MessagesManager
             @message.sender = @sender_user #sets the message sender to current user
 
             if @message.save #try to save message or return an alert
-              @flash_message = "Message Sent!"
+              @flash_success = "Message Sent!"
               @success       = true #Success. Could return the message? Need to redirect to @unpost.
             else
               @error_message = "Message could not be sent. Please fix errors & try again."
@@ -44,8 +44,10 @@ class MessagesManager
           end
         end
 
+
       elsif from_guest?(@contact_email) #if from a guest
         @safeguest = Safeguest.where(email: @contact_email).take
+
         if @safeguest.blank? #if email not on list
           invite_new_safeguest(@contact_email) #invite guest
 
@@ -59,7 +61,7 @@ class MessagesManager
             @message.sender = @user #sets the message sender to safeguest
 
             if @message.save #try to save message or return an alert
-              @flash_message = "Message Sent!"
+              @flash_success = "Message Sent!"
               @success       = true #Success. Could return the message? Need to redirect to @unpost.
             else
               @error_message = "Message could not be sent. Please fix errors & try again."
@@ -78,9 +80,36 @@ class MessagesManager
           end
         end
       end
+
+
+    ###### MESSAGE REPLIES ######
     elsif reply_message?
-      #@type = "Reply"
-      #send reply message
+      @type = "Reply"
+      if user_message_allowed? #check if user can send message
+        unless reply_message_setup(@content) == false #finds unpose & sets message values. Makes @message & @unpost
+
+          if @message.save #try to save message or return an alert
+            @flash_success = "Reply Sent!"
+            @success       = true #Success. Could return the message? Need to redirect to @unpost.
+          else
+            @error_message = "Reply could not be sent. Please fix errors & try again."
+            @success       = false
+          end
+        end
+
+        else #if user is restricted from messaging
+          if !@sender_user.confirmed?
+            @flash_notice = "Something seems fishy about how you're replying to
+                            an unpost message without having been prior confirmed...
+                            but anyhoo, please visit the inbox of the email account
+                            you have on record with us to confirm your Unlist.it account."
+            @success      = false
+          # elsif @user.blacklisted? #this should be added to user & in the user policy.
+          #   @error_message = "Your account is currently suspended from use.
+          #                     If you believe this to be in error, please contact Unlist."
+          #   @success       = false
+          end
+        end
     end
   end
 
@@ -92,7 +121,7 @@ class MessagesManager
   end
 
   def reply_message?
-    @reply.present?
+    @parent_msg_id.present?
   end
 
   # DETERMINE USER TYPE
@@ -119,19 +148,18 @@ class MessagesManager
     message_params[:contact_email].present? && !@safeguest.confirmed?
   end
 
-
   #RETURN VALUE METHODS
   def successful?
     @success
   end
 
-  #METHODS TO DO STUFF
+  #SETTING UP MESSAGES
   def unpost_message_setup(content, contact_email=nil)
     @message = Message.new(content: content, contact_email: contact_email)
     @unpost  = Unpost.find(@unpost_id)
     if @unpost
-      @message.subject = "RE: " + @unpost.title
-      @message.recipient = @unpost.creator
+      @message.subject     = "RE: " + @unpost.title
+      @message.recipient   = @unpost.creator
       @message.messageable = @unpost
     else
       @error_message = "Unpost could not be found."
@@ -139,6 +167,22 @@ class MessagesManager
     end
   end
 
+  def reply_message_setup(content)
+    parent_message = Message.find(@parent_msg_id)
+    if parent_message
+      @message = parent_message.messages.build(content: content)
+      @message.subject     = parent_message.subject
+      @message.messageable = parent_message #sets messageable_type to "Message"; sets messageable_id
+      @message.recipient   = ((@sender_user == parent_message.recipient) ? parent_message.sender : parent_message.recipient)
+      @message.subject     = parent_message.subject
+      @message.sender      = @sender_user #sets the message sender to current user
+    else
+      @error_message = "Sorry, we couldn't find the message you were replying to."
+      @success       = false
+    end
+  end
+
+  #TAKING ACTION
   def invite_new_safeguest(contact_email)
     @safeguest = Safeguest.new(email: contact_email)
     if @safeguest.save
@@ -159,16 +203,3 @@ class MessagesManager
 end
 
 
-
-
-  # def reply_message_setup
-  #   @parent_message = Message.find(params[:message_id])
-  #   if @parent_message
-  #     @message.messageable = @parent_message
-  #     #MAKE SURE THIS AS INTENDED. COULD JUST ASSOCIATE WITH FIRST MESSAGE INSTEAD OF USERS EACH TIME...
-  #     #BUT MAYBE THE EXTRA INFO IS USEFUL.
-  #     @message.recipient = ((current_user == @parent_message.recipient) ? @parent_message.sender : @parent_message.recipient)
-  #     @message.subject = @parent_message.subject
-  #     @message.sender = current_user
-  #   end
-  # end

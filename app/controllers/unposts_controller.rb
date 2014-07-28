@@ -78,7 +78,9 @@ class UnpostsController < ApplicationController
 
   ################################# NON-CRUD ###################################
 
-  def search #TODO As Grows: SearchesController with QueryObject
+  #TODO As Grows: SearchesController with QueryObject
+  #OR Could just put into model until it's large enough to warrant search object
+  def search
     @search_string = search_params[:keyword]
     if search_params[:category_id] == "0"
       @search_category = "0"
@@ -119,7 +121,6 @@ class UnpostsController < ApplicationController
   end
 
   ################################ PRIVATE METHODS #############################
-
   private
   ################################ BEFORE FILTERS ##############################
   def set_unpost
@@ -157,21 +158,4 @@ class UnpostsController < ApplicationController
   def build_token
     SecureRandom.urlsafe_base64
   end
-
-  ###NEED TO TEST THIS IN SEPARATE FILE SAVING SERVICE
-  ##THIS WAS USED FOR HTML REQUESTS AT TIME OF UNPOST SUBMIT TO ADD PHOTOS
-  def save_unimages
-    begin
-      ActiveRecord::Base.transaction do
-        unimage_params['filename'].each do |u|
-          @unpost.unimages.create!(filename: u)
-        end
-      end
-      return true
-    rescue ActiveRecord::RecordInvalid
-      return false
-    end
-  end
-
-
 end

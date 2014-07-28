@@ -1,0 +1,5 @@
+<% if @message.present? && @parent_message.present? %>
+  $('#reply-form-<%= @parent_message.id %>').replaceWith("<%= escape_javascript render partial: 'shared/reply', locals: {reply: @message} %>");
+<% else %>
+  alert("Unlist.it was expecting a reply message, but got something else. Please notify Unlist.it admin of what you were doing when you got this. Thank you.");
+<% end %>

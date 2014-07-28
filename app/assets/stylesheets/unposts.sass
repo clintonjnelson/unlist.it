@@ -52,11 +52,34 @@
 .response-box     //for responses rendering in partial
   padding-top: 5px
   .response-message
-    span
-      float: right
+    hr
+      clear: both // Makes it clear both left & right floats -> it's own line
+      display: block
 
 .hideshow-response
   color: #52CC29
+  cursor: hand
+  cursor: pointer
+
+.hideshow-replies
+  color: #52CC29
+  cursor: hand
+  cursor: pointer
+
+.reply-form-show
+  color: #428bca
+  float: right
+  &:hover
+    cursor: hand
+    cursor: pointer
+
+.reply-form .reply-box //form for replying to a message
+  display: block
+  float: right
+  margin-top: 10px
+  //position: inline
+
+
 
 
 /////STYLING FOR THE GALLERIA IMAGES

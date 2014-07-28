@@ -33,17 +33,6 @@ class UnimagesController < ApplicationController
   ################################ PRIVATE METHODS #############################
   private
   def unimage_create_params
-    # if params[:unimage].present?
-    #   if params[:unimage][:token].present?
-    #     params.require(:unimage).permit(:filename, :token)
-    #   elsif params[:unimage][:unpost_id].present?
-    #     params.require(:unimage).permit(:filename, :unpost_id)
-    #   else
-    #     nil
-    #   end
-    # else
-    #   nil
-    # end
     params[:unimage].present? ? params.require(:unimage).permit(:filename, :token) : nil
   end
 

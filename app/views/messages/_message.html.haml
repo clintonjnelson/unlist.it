@@ -1,35 +1,48 @@
-%h5
-  -if message.sender.present?
-    =link_to user_path(message.sender) do
-      =message.sender.decorator.avatar_image_tag(60)
-    =link_to "#{ message.sender.username }", user_path(message.sender)
-  -elsif message.contact_email.present?
-    [Sent By A Non-Unlist User]
-  -else
-    [NOT AVAILABLE - Notify Unlist]
-%p
-  %ul
-    %h4
-      -if message.messageable_type == 'Unpost'
-        =link_to "#{ message.subject }", unpost_path(message.messageable_id)
-      -else
-        = "#{ message.subject }"
-
-    %p= " \"#{ message.content }\" "
-
-    -if message.contact_email.present?
-      %li.list-unstyled
-        Outsider's Contact Email:
+-# For use on User's Message pages
+.message-box
+  %h5.sender-link
+    -# Display Sender's Contact Info
+    -if message.sender.present?
+      =link_to "#{ message.sender.username }", user_path(message.sender)
+      =link_to user_path(message.sender) do
+        =message.sender.decorator.avatar_image_tag(60)
+    -elsif message.contact_email.present?
+      Safeguest:
+      %span
         =mail_to "#{message.contact_email}", message.contact_email
-    -elsif (message.recipient == current_user)
-      %li.list-unstyled
-        Reply:
-        =link_to "#{ message.sender.username }", new_user_message_path(current_user, message)
-    -elsif (message.sender == current_user)
-      %li.list-unstyled
-        Sent to:
-        =link_to "#{ message.recipient.username }", new_user_message_path(current_user, message)
-    %small
-      ="Received: #{ time_ago_in_words(message.created_at) } ago | "
-      %span= link_to "[delete]", user_message_path(current_user, message), method: 'delete'
-%hr.hr-sm-solid
+
+  %p
+    %ul.reply-form-listener
+      %h4
+        -# Display Unpost info if type is 'Unpost'
+        -if message.messageable_type == 'Unpost'
+          .unpost-subject-text
+            =link_to "#{ message.subject }", unpost_path(message.messageable_id)
+        -else
+          = "#{ message.subject }"
+
+      -# Display Message Info
+      %p= " \"#{ message.content }\" "
+      %small
+        ="Received: #{ time_ago_in_words(message.created_at) } ago | "
+        %span= link_to "[delete]", user_message_path(current_user, message), method: 'delete'
+
+      -#Links for showing replies & the reply form
+      -if message.contact_email.blank? && signed_in?
+        %h5
+          -if message.replies.present?
+            %span.hideshow-replies Hide/Show Replies
+          %span.reply-form-show reply
+
+      -# Display Form & Replies for User interactions
+      -if message.contact_email.blank? && signed_in?
+        -# If not from an outside user, load the reply form
+        =render partial: 'shared/reply_form', locals: {message: message}
+
+        -# If there are messages, load them, but hide them.
+        -if message.replies.present?
+          .replies.hide
+            -# Show all replies in DESC order
+            =render partial: 'shared/reply', collection: message.replies, as: :reply
+
+  %hr.hr-sm-solid

@@ -347,49 +347,59 @@ describe MessagesController do
       end
     end
 
-    # describe "Message-message (aka: reply) from a user" do
-    #   let(:first_message) { Fabricate(:user_unpost_message, recipient: jen) }
-    #   context "with valid information" do
-    #     before do
-    #       spec_signin_user(jen)
-    #       post :create, { sender_id: jen.id,
-    #                       message_id: first_message.id,
-    #                       message: { content: "I would love to buy it! Let's meet at Starbucks.",
-    #                                  contact_email: nil,
-    #                                  reply: true } }
-    #     end
-    #     it "creates a new message instance" do
-    #       expect(assigns(:message)).to be_present
-    #     end
-    #     it "is valid" do
-    #       expect(assigns(:message)).to be_valid
-    #     end
-    #     it "sets the recipient for the message" do
-    #       expect(Message.last.recipient).to eq(first_message.sender)
-    #     end
-    #     it "sets the subject to 'RE: ' + the title of the message series" do
-    #       expect(Message.last.subject).to eq("#{first_message.subject}")
-    #     end
-    #     it "sets the sender to the user who sent the message" do
-    #       expect(Message.last.sender).to eq(jen)
-    #     end
-    #     it "sets the messageable_type to 'message'" do
-    #       expect(Message.last.messageable_type).to eq('Message')
-    #     end
-    #     it "sets the messageable_id to the id of the Message" do
-    #       expect(Message.last.messageable_id).to eq(first_message.id)
-    #     end
-    #     it "creates a second message" do
-    #       expect(Message.count).to eq(2)
-    #     end
-    #     it "flashes a success message to the guest user" do
-    #       expect(flash[:success]).to be_present
-    #     end
-    #     it "redirects to the message show page" do
-    #       expect(response).to redirect_to user_message_path(jen, first_message.id)
-    #     end
-    #   end
-    # end
+    describe "Message-message (aka: reply) from a user" do
+      let!(:unpost)        { Fabricate(:unpost) }
+      let(:parent_message) { Fabricate(:user_unpost_message, recipient: jen) }
+      context "with valid information" do
+        before do
+          spec_signin_user(jen)
+          jen.update_attributes(confirmed: true)
+          post :create, { user_id: jen.id,
+                          parent_msg: parent_message.id,
+                          message: { content: "I would love to buy it! Let's meet at Starbucks." } }
+        end
+
+        it "finds the parent message" do
+          expect(assigns(:parent_message)).to be_present
+        end
+        it "does not find an unpost" do
+          expect(assigns(:unpost)).to_not be_present
+        end
+        it "creates a new reply message" do
+          expect(Message.all.count).to eq(2)
+        end
+        it "sets the recipient for the message" do
+          expect(Message.last.recipient).to eq(parent_message.sender)
+        end
+        it "sets the subject to 'RE: ' + the title of the message series" do
+          expect(Message.last.subject).to eq("#{parent_message.subject}")
+        end
+        it "sets the sender to the user who sent the message" do
+          expect(Message.last.sender).to eq(jen)
+        end
+        it "sets the messageable_type to 'message'" do
+          expect(Message.last.messageable_type).to eq('Message')
+        end
+        it "sets the messageable_id to the id of the Message" do
+          expect(Message.last.messageable_id).to eq(parent_message.id)
+        end
+        it "flashes a success message to the guest user" do
+          expect(flash[:success]).to be_present
+        end
+
+        #### JS RESPONSE VERSION FOR REPLIES
+        context "for a parent message on an Unpost" do
+          it "redirects to the message show page" do
+            expect(response).to redirect_to unpost
+          end
+        end
+
+        context "for a parent message to a User" do
+          it "redirects to the message show page"
+            #expect(response).to redirect_to user_message_path(jen, parent_message.id)
+        end
+      end
+    end
 
     # describe "messages to user OR admin from user" do
     #   before do

@@ -7,7 +7,7 @@ class UserPolicy
 
 
   def messages_allowed?
-    if @user && !@user.confirmed? #|| @user.blacklisted?)
+    if @user && !@user.confirmed? #|| @user.blacklisted? ...or maybe .suspended?)
       false
     elsif @safeguest && (!@safeguest.confirmed? || @safeguest.blacklisted?)
       false

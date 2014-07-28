@@ -1,0 +1,5 @@
+-#Variables: reply which is a message of type "Reply" (aka: message-message)
+.reply-box.col-sm-10.col-sm-offset-1.well
+  %h5= reply.sender.username
+  %p=  reply.content
+  %small= "#{time_ago_in_words(reply.created_at)} ago"
