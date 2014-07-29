@@ -17,7 +17,6 @@ class Message < ActiveRecord::Base
   validates_presence_of :sender_id,     unless: 'self.contact_email.present?'
   validates_presence_of :contact_email, unless: 'self.sender_id.present?'
 
-
   def replies
     self.messages.active.reply_filter.order('created_at DESC')
   end

@@ -6,7 +6,7 @@ require 'spec_helper'
 describe MessagesController do
   let(:jen)          { Fabricate(:user) }
   let(:jens_unpost)  { Fabricate(:unpost, creator: jen) }
-
+  before { request.env["HTTP_REFERER"] = "where_i_came_from" }
   ##COULD USE THIS FOR THE TYPICAL USER CASE...
   # describe "GET new" do
   #   context "with valid information" do
@@ -27,9 +27,10 @@ describe MessagesController do
     let!(:sent_user_message)       { Fabricate(:user_message,         sender:        jen) }
     let!(:received_user_message)   { Fabricate(:user_message,         recipient:     jen, content: "not an unpost message", messageable_type: 'User') }
     let!(:guest_message)           { Fabricate(:guest_unpost_message, recipient:     jen, contact_email: "guest@example.com") }
-    let!(:unpost_reply)            { Fabricate(:message_message,      messageable:   sent_unpost_message) }
-    let!(:user_reply)              { Fabricate(:message_message,      messageable:   sent_user_message) }
+    let!(:unpost_reply)            { Fabricate(:reply_message,        messageable:   sent_unpost_message) }
+    let!(:user_reply)              { Fabricate(:reply_message,        messageable:   sent_user_message) }
     before { spec_signin_user(jen) }
+
 
     context "for ALL primary sent/received messages" do
       before do
@@ -302,7 +303,7 @@ describe MessagesController do
           expect(flash[:success]).to be_present
         end
         it "redirects to the unpost page" do
-          expect(response).to redirect_to unpost_path(jens_unpost)
+          expect(response).to redirect_to "where_i_came_from"
         end
       end
 
@@ -390,7 +391,7 @@ describe MessagesController do
         #### JS RESPONSE VERSION FOR REPLIES
         context "for a parent message on an Unpost" do
           it "redirects to the message show page" do
-            expect(response).to redirect_to unpost
+            expect(response).to redirect_to "where_i_came_from"
           end
         end
 

@@ -36,10 +36,7 @@ class MessagesController < ApplicationController
       when 'sent'
         @messages = current_user.sent_messages.active.select{|m| (m.messageable_type != "Message") } #NOT replies
       else
-        all_messages = current_user.received_messages.active
-        all_messages << current_user.sent_messages.active
-        ###THIS DESERVES A NAMED SCOPE
-        @messages = all_messages.order('created_at DESC').select{|m| (m.messageable_type != "Message") } #NOT replies
+        @messages = current_user.all_msgs_sent_received
     end
     render 'index'
   end

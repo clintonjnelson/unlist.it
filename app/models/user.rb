@@ -48,6 +48,12 @@ class User < ActiveRecord::Base
     SecureRandom.urlsafe_base64
   end
 
+  def all_msgs_sent_received
+    messages_array = self.received_messages
+    messages_array << self.sent_messages
+    messages_array.select{|m| ((m.messageable_type != "Message") && (m.deleted_at == nil))} #NOT replies
+  end
+
   def set_initial_prt_created_at
     self.prt_created_at = 1.month.ago #for security
   end
