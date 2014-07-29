@@ -3,7 +3,8 @@ require 'spec_helper'
 describe User do
 
   it { should have_secure_password }
-  it { should have_many(:tokens                ) }
+  it { should have_many(:invitations           ) }
+  it { should have_many(:tokens                ) } #polymorphic
   it { should have_many(:unposts               ) }
   it { should have_many(:unimages              ) }
   it { should have_many(:sent_messages         ) }
@@ -58,6 +59,20 @@ describe User do
     end
     it "returns false if user's role attribute is NOT 'admin'" do
       expect(jen.admin?).to be_false
+    end
+  end
+
+  describe "invitations_avail?" do
+    let(:jen) { Fabricate(:user) }
+    context "with available invitations left" do
+      it "returns true" do
+        expect(jen.invitations_avail?).to be_false
+      end
+    end
+    context "with NO invitations left" do
+      it "returns false" do
+        expect(jen.invitations_avail?).to be_false
+      end
     end
   end
 

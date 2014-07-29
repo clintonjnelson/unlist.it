@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   get     '/futurefeature',               to: 'pages#futurefeature'
   get     '/invalid_address',             to: 'pages#invalid_address'
   get     '/expired_link',                to: 'pages#expired_link'
+  get     '/invite-registration/:token',  to: 'users#new_with_invite', as: 'register_with_invite'
+  get     '/invitation-sent',             to: 'pages#invitation_sent'
   get     '/safeguestsuccess',            to: 'pages#safeguestsuccess'
   get     '/signout',                     to: 'sessions#destroy'
   get     '/signup',                      to: 'users#new'
@@ -40,6 +42,7 @@ Rails.application.routes.draw do
     get 'show_message_form',       to: 'unposts#show_message_form' #AJAX
   end
   resources :users,                 only: [:create, :show, :edit, :update] do
+    resources :invitations,         only: [:new, :create]
     resources :messages,            only: [:new, :create, :show, :index] #INDEX specific to user browsing own items
     resources :unposts,           except: [:index]
     get       '/unlist',              to: 'unposts#index'

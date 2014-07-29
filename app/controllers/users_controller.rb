@@ -11,6 +11,16 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def new_with_invite
+    ##TODO IN GENERAL::::
+      #ADD VALIDATIONS TO INVITATION
+      #ADD SPECS FOR VALIDATIONS & CALLBACK
+      #ADD TOKEN TO CURRENT SIGNUP SHEET & ADD CONDITIONALS TO #CREATE ACTION
+    #need to load & pass token
+    #NEED VERSION OF THIS FOR USE WITH TOKEN OR CONDITIONALS
+    render 'users/new'
+  end
+
   def create
     @user = User.new(user_params)
     if @user.save

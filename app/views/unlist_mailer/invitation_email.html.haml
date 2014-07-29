@@ -1,0 +1,37 @@
+!!! 5
+%html(lang="en-US")
+  %body
+    %h3 You've Been Cordially Invited to Join Unlist.it
+    %hr
+    %p.text-muted Unlist.it is a growing community of people engaging sustainable-living through a faster, less-hassle version of community classifieds.
+
+    %br
+    %p= "You should feel lucky - #{@user.username} has a limited number of invitations, and decided you are worthy of one!"
+    %p Unlist.it is currently in beta-testing and by-invitation-ONLY. With this invitation link, you can be one of the early-users to join and get in early on the action:
+    %p= link_to "Join Unlist.it", register_with_invite_url(@invitation.token)
+    %p
+      Or paste this link into your browser:
+      =link_to "#{register_with_invite_url(@invitation.token)}", register_with_invite_url(@invitation.token)
+
+    %br
+    %h5 Unlist.it was created to:
+    %ul
+      Buyers
+      %li Be convenient - no wasted hours searching - sellers find you
+      %li Be local - connect with real people
+      %li Be safe - meet at a public indoor location (great excuse for some coffee)
+
+    %ul
+      Sellers
+      %li Be informed - discover interest level & prices
+      %li Be fast - find buyers quickly
+      %li Be free - no cost to join or sell
+
+    %br
+    %p Unlist.it turns community classifieds upside-down --- sellers search for buyers and everyone wins.
+    %br
+    %br
+    %br
+
+    %p Sincerely,
+    %p Clint Nelson, Founder of Unlist.it

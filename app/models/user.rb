@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  has_many   :invitations
   has_many   :received_messages, -> { (order "created_at DESC") }, class_name: 'Message', foreign_key: 'recipient_id'
   has_many   :sent_messages, ->{ order( "created_at DESC" ) },     class_name: 'Message', foreign_key: 'sender_id'
   has_many   :tokens
@@ -52,6 +53,11 @@ class User < ActiveRecord::Base
     messages_array = self.received_messages
     messages_array << self.sent_messages
     messages_array.select{|m| ((m.messageable_type != "Message") && (m.deleted_at == nil))} #NOT replies
+  end
+
+  # Maybe move this to UserPolicy... or InvitationPolicy?
+  def invitations_avail?
+    self.invite_count > 0
   end
 
   def set_initial_prt_created_at

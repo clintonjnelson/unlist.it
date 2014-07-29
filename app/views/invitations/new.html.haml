@@ -1,0 +1,16 @@
+-provide(:title, 'Unlist.it')
+
+//Code for the invitation form
+.row.col-sm-8.col-sm-offset-1.well#invitation-container
+  -if signed_in? && current_user.invitations_avail?
+    %h4.text-muted
+      ="You currently have #{pluralize(current_user.invite_count, 'invitation') } left - invite a friend!"
+    %hr
+    %br
+    .invitation-form
+      =bootstrap_form_for [current_user, @invitation] do |f|
+        =f.email_field :recipient_email, label: "Friend's Email Address"
+        =f.submit "Send Invite!", class: "btn btn-primary"
+  -else
+    %h5.muted
+      You currently have no remaining invitations, but keep checking because you'll get more periodically!
