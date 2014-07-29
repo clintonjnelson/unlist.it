@@ -26,13 +26,26 @@ class Unpost < ActiveRecord::Base
   validates :price,    numericality: { only_integer: true}
 
 
+  def parent_messages
+    self.messages.active.initialresponse.order('created_at DESC')
+  end
 
-  # private
-  # def unimages_less_than_limit_per_unpost
-  #   if Unimage.where(token: self.token).all.count > 6
-  #     errors.add(:base, 'Maximum Photos Per Unpost Is 6')
-  #   end
-  # end
+  # Soft-Delete replies then parents from Unpost
+  def soft_delete
+    self.update_column(:inactive, true)
+    delete_correspondence
+  end
+
+  def delete_correspondence
+    self.messages.each do |parent|
+      parent.messages.each do |reply|
+        reply.update_column(:deleted_at, Time.now)
+      end if parent.messages.present?
+      parent.update_column( :deleted_at, Time.now)
+    end if self.messages.present?
+  end
+
+  private
   # def filter_dollar_symbols_from_price
   #   binding.pry
   #   price_string = self.price.to_s

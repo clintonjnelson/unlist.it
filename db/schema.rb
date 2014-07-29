@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140722033334) do
+ActiveRecord::Schema.define(version: 20140728215852) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20140722033334) do
     t.integer  "sender_id"
     t.string   "messageable_type"
     t.integer  "messageable_id"
+    t.datetime "deleted_at"
   end
 
   create_table "safeguests", force: true do |t|

@@ -5,6 +5,7 @@ class Message < ActiveRecord::Base
   has_many   :messages,    as: :messageable #replies
 
   # Scope Filters
+  scope   :active,          -> { where deleted_at:        nil      }
   scope   :initialresponse, -> { where messageable_type: 'Unpost'  }
   scope   :reply_filter,    -> { where messageable_type: 'Message' }
 
@@ -16,8 +17,15 @@ class Message < ActiveRecord::Base
   validates_presence_of :sender_id,     unless: 'self.contact_email.present?'
   validates_presence_of :contact_email, unless: 'self.sender_id.present?'
 
+
   def replies
-    self.messages.reply_filter.order('created_at DESC')
+    self.messages.active.reply_filter.order('created_at DESC')
+  end
+
+  def delete_subcorrespondence
+    self.messages.each do |reply|
+      reply.update_column(:deleted_at, Time.now)
+    end if self.messages.present?
   end
 
   #Probably need to make a message inactive when:

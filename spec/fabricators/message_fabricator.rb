@@ -17,7 +17,7 @@ Fabricator(:guest_unpost_message, from: :message) do
   recipient
 end
 
-Fabricator(:message_message, from: :message) do
+Fabricator(:reply_message, from: :message) do
   messageable_type  "Message"
   messageable_id    1
   sender

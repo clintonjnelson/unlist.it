@@ -268,7 +268,9 @@ describe UnpostsController do
 
   describe "DELETE destroy" do
     context "with the creator's request" do
-      let(:car_unpost) { Fabricate(:unpost, creator: jen) }
+      let!(:car_unpost)     { Fabricate(:unpost, creator: jen) }
+      let!(:parent_message) { Fabricate(:user_unpost_message ) }
+      let!(:reply_message ) { Fabricate(:reply_message       ) }
       before do
         spec_signin_user(jen)
         jen.update_column(:avatar, "1234abcd")
@@ -279,6 +281,12 @@ describe UnpostsController do
 
       it "sets set the removed boolean to true" do
         expect(car_unpost.reload.inactive?).to be_true
+      end
+      it "sets the parent message's deleted_at to a time" do
+        expect(parent_message.reload.deleted_at).to be_present
+      end
+      it "sets the parent message's deleted_at to a time" do
+        expect(reply_message.reload.deleted_at).to be_present
       end
       it "it flashes a success message" do
         expect(flash[:success]).to be_present

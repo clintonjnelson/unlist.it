@@ -24,12 +24,12 @@
         -else
           %small= link_to "[contact buyer]", unpost_path(unpost)
 
-      -if unpost.messages.present? && signed_in? && (unpost.creator.id == current_user.id)
+      -if unpost.parent_messages.present? && signed_in? && (unpost.creator.id == current_user.id)
 
         %li.list-no-bullet
           %h5.hideshow-response.text-muted.underline
             %u Hide/Show Seller Responses
           %ul.list-unstyled.hide
-            =render partial: "response_message", collection: unpost.messages.initialresponse, as: :message, locals: { unpost: unpost }
+            =render partial: "response_message", collection: unpost.parent_messages, as: :message, locals: { unpost: unpost }
 %hr.hr-sm-solid
 

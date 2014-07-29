@@ -11,7 +11,7 @@ describe Message do
   it { should validate_presence_of(:messageable_id      ) }
   it { should validate_presence_of(:content             ) }
 
-  #TEST NAMED SCOPES
+  ####TODO: TEST NAMED SCOPES
 
   context "conditionally validates contact_email" do
     before { self.double(:contact_email){"joe@email.com"} }
@@ -24,5 +24,42 @@ describe Message do
     it { should     validate_presence_of(:sender_id     ) }
     #FIX SOMEHOW - PROGRAM OK
     #it { should_not validate_presence_of(:contact_email ) }
+  end
+
+
+  describe "replies" do
+    context "for an unpost parent message with replies" do
+      let!(:jen_unpost)       { Fabricate(:unpost) }
+      let!(:parent_message)   { Fabricate(:user_unpost_message) }
+      let!(:active_message )  { Fabricate(:reply_message      ) }
+      let!(:deleted_message ) { Fabricate(:reply_message, deleted_at: Time.now ) }
+
+      it "returns only the active replies" do
+        expect(parent_message.replies).to eq([active_message])
+      end
+    end
+  end
+
+  describe "delete_subcorrespondence" do
+    context "for an unpost parent message with replies" do
+      let!(:jen_unpost)     { Fabricate(:unpost) }
+      let!(:parent_message) { Fabricate(:user_unpost_message) }
+      let!(:reply_message ) { Fabricate(:reply_message      ) }
+
+      it "deletes the reply messages" do
+        parent_message.delete_subcorrespondence
+          expect(reply_message.reload.deleted_at).to be_present
+      end
+    end
+    context "for a User parent message with replies" do
+      let!(:jen)            { Fabricate(:user) }
+      let!(:parent_message) { Fabricate(:user_message ) }
+      let!(:reply_message ) { Fabricate(:reply_message) }
+
+      it "deletes the reply messages" do
+        parent_message.delete_subcorrespondence
+          expect(reply_message.reload.deleted_at).to be_present
+      end
+    end
   end
 end

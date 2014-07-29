@@ -69,7 +69,7 @@ class UnpostsController < ApplicationController
   end
 
   def destroy #Loads: @unpost
-    @unpost.update_column(:inactive, true)
+    @unpost.soft_delete
     UnimagesCleaner.perform_in(20.seconds, @unimage_ids_array)
     flash[:success] = "Unpost successfully removed."
     redirect_to :back

@@ -27,6 +27,17 @@ describe Unpost do
   #it { should accept_nested_attributes_for(:unimages).allow_destroy(true) }
 
 
+  describe "parent_messages" do
+    context "for an unpost parent message with replies" do
+      let!(:jen_unpost)               { Fabricate(:unpost) }
+      let!(:active_parent_msg)        { Fabricate(:user_unpost_message) }
+      let!(:deleted_parent_msg)       { Fabricate(:user_unpost_message, deleted_at: Time.now) }
+
+      it "returns only the active parent message" do
+        expect(jen_unpost.parent_messages).to eq([active_parent_msg])
+      end
+    end
+  end
 
   describe "the assocated unimages_within_limit validation" do
     let!(:jen_unpost) { Fabricate(:unpost) }
@@ -39,6 +50,25 @@ describe Unpost do
     end
   end
 
+  describe "delete_correspondence" do
+    let!(:jen_unpost)     { Fabricate(:unpost) }
+
+    context "with a parent & reply message" do
+      let!(:parent_message) { Fabricate(:user_unpost_message) }
+      let!(:reply_message ) { Fabricate(:reply_message) }
+
+      it "deletes all parent & reply messages associated with unpost" do
+        jen_unpost.delete_correspondence
+          expect(parent_message.reload.deleted_at).to be_present
+          expect( reply_message.reload.deleted_at).to be_present
+      end
+    end
+    context "without a parent or reply message" do
+      it "should not raise any errors for not having associated messages" do
+        expect{jen_unpost.delete_correspondence}.not_to raise_error
+      end
+    end
+  end
 
   # describe "filter_dollar_symbols_from_price callback" do
   #   context "for price with dollar-sign in it" do

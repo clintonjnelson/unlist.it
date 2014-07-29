@@ -30,16 +30,16 @@ class MessagesController < ApplicationController
     ###FIRST THING: MOVE THIS TO MODEL SO IT RETURNS WHAT YOU WANT FOR @message. Set @message that way!
     case params[:type]
       when 'hits'
-        @messages = current_user.received_messages.select{|m| (m.messageable_type == "Unpost") } #NOT replies
+        @messages = current_user.received_messages.active.select{|m| (m.messageable_type == "Unpost") } #NOT replies
       when 'received'
-        @messages = current_user.received_messages.select{|m| (m.messageable_type != "Message") } #NOT replies
+        @messages = current_user.received_messages.active.select{|m| (m.messageable_type != "Message") } #NOT replies
       when 'sent'
-        @messages = current_user.sent_messages.select{|m| (m.messageable_type != "Message") } #NOT replies
+        @messages = current_user.sent_messages.active.select{|m| (m.messageable_type != "Message") } #NOT replies
       else
-        all_messages = current_user.received_messages
-        all_messages << current_user.sent_messages
+        all_messages = current_user.received_messages.active
+        all_messages << current_user.sent_messages.active
         ###THIS DESERVES A NAMED SCOPE
-        @messages = all_messages.select{|m| (m.messageable_type != "Message") } #NOT replies
+        @messages = all_messages.order('created_at DESC').select{|m| (m.messageable_type != "Message") } #NOT replies
     end
     render 'index'
   end
