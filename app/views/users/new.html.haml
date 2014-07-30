@@ -2,11 +2,17 @@
 
 //Code for the registration form
 .row.col-sm-8.col-sm-offset-1.well#signup-container
+  %h3.text-muted
+    Sign Up to Join Unlist.it
+  %br
+
   .signup-form
     =bootstrap_form_for @user do |f|
       =f.text_field :username,     label: "Username:"
       =f.email_field :email,       label: "Email Address:"
       =f.password_field :password, label: "Password:"
-      =f.submit "Sign Up", class: "btn btn-primary"
+      -if @token.present?
+        =hidden_field_tag :token, @token
+      =f.submit "Sign Up!", class: "btn btn-primary"
 
 

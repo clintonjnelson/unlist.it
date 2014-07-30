@@ -18,13 +18,15 @@ $(document).ready(function() {
 //Ajax Population of ConditionSelect For Selected Category on LOAD
 //MAY NEED A if ($(".add-condition-category-select").length == 1) { //do stuff below// }
 $(document).ready(function() {
-  $.ajax({
-    type: "POST",
-    url: "/conditions_by_category",
-    dataType: "script",
-    data: {category_id: $(".unpost_category_select").val()}
-  });
-  return false;
+  if($(".unpost_category_select").length > 0) {
+    $.ajax({
+      type: "POST",
+      url: "/conditions_by_category",
+      dataType: "script",
+      data: {category_id: $(".unpost_category_select").val()}
+    });
+    return false;
+  }
 });
 
 //Ajax deletion of Unimages
@@ -71,13 +73,15 @@ $(document).ready(function() {
 //Ajax Population of ConditionSelect For Selected Category on LOAD
 //MAY NEED A if ($(".add-condition-category-select").length == 1) { //do stuff below// }
 $(document).ready(function() {
-  $.ajax({
-    type: "POST",
-    url: "/admin/conditions_by_category",
-    dataType: "script",
-    data: {category_id: $(".add-condition-category-select").val()}
-  });
-  return false;
+  if($(".unpost_category_select").length > 0) {
+    $.ajax({
+      type: "POST",
+      url: "/admin/conditions_by_category",
+      dataType: "script",
+      data: {category_id: $(".add-condition-category-select").val()}
+    });
+    return false;
+  }
 });
 
 

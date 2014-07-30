@@ -7,8 +7,10 @@ class MessagesController < ApplicationController
   end
 
   def create
+    @message        = Message.new(message_params)
     @unpost         = Unpost.find( params[:unpost_id ]) if params[:unpost_id]
     @parent_message = Message.find(params[:parent_msg]) if params[:parent_msg]
+
     manager         = MessagesManager.new(unpost_id: params[:unpost_id ],
                                       parent_msg_id: params[:parent_msg])
 
@@ -26,7 +28,6 @@ class MessagesController < ApplicationController
 
     #Show replies within message or in a message-show page?
   def index
-
     ###FIRST THING: MOVE THIS TO MODEL SO IT RETURNS WHAT YOU WANT FOR @message. Set @message that way!
     case params[:type]
       when 'hits'
@@ -45,7 +46,8 @@ class MessagesController < ApplicationController
   ############################ PRIVATE METHODS #################################
   private
   def message_params
-    params.require(:message).permit(:content, :contact_email)
+    params[:message][:contact_email].present? ? params.require(:message).permit(:content, :contact_email) :
+                                                params.require(:message).permit(:content)
   end
 
   def render_or_redirect(options={}) #success, info, error
@@ -86,7 +88,6 @@ class MessagesController < ApplicationController
         notice_error  = 'unposts/show'
         render_or_redirect({success: success, notice_error: notice_error, manager: manager})
       when "User"
-        binding.pry
 
       when "Reply"
         ###THE SECOND OPTION IS JUST A TEMP GUESS FOR WHERE TO GO AFTER USERS MSG EACHOTHER

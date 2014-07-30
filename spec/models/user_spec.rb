@@ -63,13 +63,14 @@ describe User do
   end
 
   describe "invitations_avail?" do
-    let(:jen) { Fabricate(:user) }
     context "with available invitations left" do
+      let(:jen) { Fabricate(:user, invite_count: 3) }
       it "returns true" do
-        expect(jen.invitations_avail?).to be_false
+        expect(jen.invitations_avail?).to be_true
       end
     end
     context "with NO invitations left" do
+      let(:jen) { Fabricate(:user, invite_count: 0) }
       it "returns false" do
         expect(jen.invitations_avail?).to be_false
       end

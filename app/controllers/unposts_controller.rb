@@ -44,7 +44,7 @@ class UnpostsController < ApplicationController
 
   def index_by_category #for Browse Page Results
     @categories = Category.all
-    @unposts = Category.find(params[:category_id]).unposts.active
+    @unposts    = Category.find(params[:category_id]).unposts.active
     render 'pages/browse'
   end
 

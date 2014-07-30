@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_signed_out,    only: [:new, :create]
+  before_action :require_signed_out,    only: [:new, :create, :new_with_invite]
   before_action :require_signed_in,     only: [:show]
   before_action :set_user,              only: [:show, :edit, :update, :toggle_avatar] #MUST come before require_current_user
   before_action :require_correct_user,  only: [:show, :edit, :update, :toggle_avatar]
@@ -8,27 +8,33 @@ class UsersController < ApplicationController
 ####Create a Registration Service Object
 
   def new
-    @user = User.new
+    @user  = User.new
   end
 
-  def new_with_invite
-    ##TODO IN GENERAL::::
-      #ADD VALIDATIONS TO INVITATION
-      #ADD SPECS FOR VALIDATIONS & CALLBACK
-      #ADD TOKEN TO CURRENT SIGNUP SHEET & ADD CONDITIONALS TO #CREATE ACTION
-    #need to load & pass token
-    #NEED VERSION OF THIS FOR USE WITH TOKEN OR CONDITIONALS
-    render 'users/new'
+  def new_with_invite  #temporary to be removed later
+    @user  = User.new
+    @token = params[:token]
+    render 'new'
   end
+
+  #ADD TOKEN TO CURRENT SIGNUP SHEET & ADD CONDITIONALS TO #CREATE ACTION
 
   def create
-    @user = User.new(user_params)
-    if @user.save
+    @user  = User.new(user_params)
+    @token = params[:token]                      #temporary to be removed later
+    @invite = Invitation.find_by(token: @token)  #temporary to be removed later
+
+    if @invite && @user.save
       Token.create(creator: @user, tokenable: @user)
       UnlistMailer.registration_confirmation_email(@user.id).deliver
       #UnlistMailer.delay.confirmation_email(@user.id)  #Sidekiq Worker
+      @invite.set_redeemed                       #temporary to be removed later
       flash[:success] = "Welcome to Unlist! You have been sent an email to confirm registration. Please click the link in the email to complete your registration!"
       signin_user(@user)
+    elsif !@invite
+      flash[:error] = "Sorry, we could not find your invitation in our system.
+                       Please contact the person who sent it to you or Unlist.it"
+      redirect_to expired_link_path
     else
       flash[:error] = "There were some errors in your information. Please see comments below."
       render 'new'

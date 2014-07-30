@@ -24,7 +24,10 @@
       -# Display Message Info
       %p= " \"#{ message.content }\" "
       %small
-        ="Received: #{ time_ago_in_words(message.created_at) } ago | "
+        -if message.recipient == current_user
+          ="Received: #{ time_ago_in_words(message.created_at) } ago | "
+        -else
+          ="Sent: #{ time_ago_in_words(message.created_at) } ago | "
         %span= link_to "[delete]", user_message_path(current_user, message), method: 'delete'
 
       -#Links for showing replies & the reply form

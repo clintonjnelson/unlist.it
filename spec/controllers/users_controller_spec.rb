@@ -21,70 +21,198 @@ describe UsersController do
     end
   end
 
+
+
+  describe "GET new_with_invite" do
+
+    context "with UN-signed-in (guest) user" do
+      before { get :new_with_invite, { token: "1234abcd" } }
+      it "assigns the new instance of user" do
+        expect(assigns(:user)).to be_a_new User
+      end
+      it "assigns the passed token to @token" do
+        expect(assigns(:token)).to eq("1234abcd")
+      end
+    end
+
+    context "with an already signed in user" do
+      it_behaves_like "require_signed_out" do
+        let(:verb_action) { get :new }
+      end
+    end
+  end
+
+
+
   describe "POST create" do
     let(:jen) { Fabricate.build(:user) }
 
-    context "with valid input" do
-      let(:params) { { user: { email: jen.email, password: jen.password, username: jen.username } } }
-      before { post :create, params }
+    ## THESE ARE TESTS FOR WHEN INVITATION REQUIREMENTS ARE REMOVED
+    # context "with valid input" do
+    #   let(:params) { { user: { email: jen.email, password: jen.password, username: jen.username } } }
+    #   before { post :create, params }
 
-      it "assigns the input info to the user variable" do
-        expect(assigns(:user)).to be_present
-      end
-      it "creates a new user" do
-        expect(User.count).to eq(1)
-      end
-      it "creates a new Token object for the user token associated with the user" do
-        expect(Token.first.tokenable_type).to eq("User")
-        expect(Token.first.tokenable_id).to eq(User.first.id)
-        expect(Token.first.user_id).to eq(User.first.id)
-      end
-      it "creates a new token string for the user" do
-        expect(User.first.tokens.first.token).to be_present
-      end
-      it "signs the user in" do
-        expect(session[:user_id]).to eq(1)
-      end
-      it "flashes the Welcome message" do
-        expect(flash[:success]).to be_present
-      end
-      it "redirects to the user home page" do
-        expect(response).to redirect_to home_path
+    #   it "assigns the input info to the user variable" do
+    #     expect(assigns(:user)).to be_present
+    #   end
+    #   it "creates a new user" do
+    #     expect(User.count).to eq(1)
+    #   end
+    #   it "creates a new Token object for the user token associated with the user" do
+    #     expect(Token.first.tokenable_type).to eq("User")
+    #     expect(Token.first.tokenable_id).to   eq(User.first.id)
+    #     expect(Token.first.user_id).to        eq(User.first.id)
+    #   end
+    #   it "creates a new token string for the user" do
+    #     expect(User.first.tokens.first.token).to be_present
+    #   end
+    #   it "signs the user in" do
+    #     expect(session[:user_id]).to eq(1)
+    #   end
+    #   it "flashes the Welcome message" do
+    #     expect(flash[:success]).to be_present
+    #   end
+    #   it "redirects to the user home page" do
+    #     expect(response).to redirect_to home_path
+    #   end
+
+    #   context "confirmation email sending" do
+    #     it "sends the email" do
+    #       expect(ActionMailer::Base.deliveries).to_not be_empty
+    #     end
+    #     it "sends the email to the registering user" do
+    #       expect(ActionMailer::Base.deliveries.first.to).to eq([jen.email])
+    #     end
+    #     it "sends an email with a confirmation link in the body" do
+    #       expect(ActionMailer::Base.deliveries.first.parts.first.body.raw_source).to include("CONFIRM")
+    #     end
+    #   end
+    # end
+    # context "with invalid input" do
+    #   let(:params) { { user: { email: "example.com", password: jen.password, username: jen.username } } }
+    #   before { post :create, params }
+
+    #   it "assigns the input info to the user variable" do
+    #     expect(assigns(:user)).to be_present
+    #   end
+    #   it "does not create a new user" do
+    #     expect(User.count).to eq(0)
+    #   end
+    #   it "does not send an email" do
+    #     expect(ActionMailer::Base.deliveries).to be_empty
+    #   end
+    #   it "does not sign in the user" do
+    #     expect(session[:user_id]).to be_nil
+    #   end
+    #   it "flashes an error message" do
+    #     expect(flash[:error]).to be_present
+    #   end
+    #   it "renders the signup page" do
+    #     expect(response).to render_template 'new'
+    #   end
+    # end
+
+    context "with invitation token in params" do
+      let(:admin) { Fabricate(:admin                    ) }
+      let(:joe)   { Fabricate(:user                     ) }
+
+      context "with valid token & input" do
+        let!(:user_invite) { Fabricate(:invitation, sender: joe ) }
+        let(:params)       { { user: { email: jen.email, password: jen.password, username: jen.username }, token: user_invite.token } }
+        before             { post :create, params }
+
+        it "assigns the input info to the user variable" do
+          expect(assigns(:user)).to be_present
+        end
+        it "loads the invitation by the passed token" do
+          expect(assigns(:token)).to be_present
+        end
+        it "loads the invitation by the passed token" do
+          expect(assigns(:invite)).to eq(user_invite)
+        end
+        it "creates a new user" do
+          expect(User.count).to eq(2)
+        end
+        ##I think I should refactor to remove Token model.
+        it "creates a new placeholder Token object for the user token associated with the user" do
+          expect(Token.first.tokenable_type).to eq("User")
+          expect(Token.first.tokenable_id).to   eq(User.last.id)
+          expect(Token.first.user_id).to        eq(User.last.id)
+        end
+        it "creates a new placeholder token string for the user" do
+          expect(User.last.tokens.first.token).to be_present
+        end
+        it "signs the user in" do
+          expect(session[:user_id]).to eq(2)
+        end
+        it "flashes the Welcome message" do
+          expect(flash[:success]).to be_present
+        end
+        it "redirects to the user home page" do
+          expect(response).to redirect_to home_path
+        end
+
+        context "confirmation email sending" do
+          it "sends the email" do
+            expect(ActionMailer::Base.deliveries).to_not be_empty
+          end
+          it "sends the email to the registering user" do
+            expect(ActionMailer::Base.deliveries.first.to).to eq([jen.email])
+          end
+          it "sends an email with a confirmation link in the body" do
+            expect(ActionMailer::Base.deliveries.first.parts.first.body.raw_source).to include("CONFIRM")
+          end
+        end
       end
 
-      context "confirmation email sending" do
-        it "sends the email" do
-          expect(ActionMailer::Base.deliveries).to_not be_empty
-        end
-        it "sends the email to the registering user" do
-          expect(ActionMailer::Base.deliveries.first.to).to eq([jen.email])
-        end
-        it "sends an email with a confirmation link in the body" do
-          expect(ActionMailer::Base.deliveries.first.parts.first.body.raw_source).to include("CONFIRM")
-        end
-      end
-    end
-    context "with invalid input" do
-      let(:params) { { user: { email: "example.com", password: jen.password, username: jen.username } } }
-      before { post :create, params }
+      context "with valid token and INvalid input" do
+        let!(:user_invite) { Fabricate(:invitation, sender: joe ) }
+        let(:params)       { { user: { email: "example.com", password: jen.password, username: jen.username }, token: user_invite.token } }
+        before             { post :create, params }
 
-      it "assigns the input info to the user variable" do
-        expect(assigns(:user)).to be_present
+        it "assigns the input info to the user variable" do
+          expect(assigns(:user)).to be_present
+        end
+        it "does not create a new user" do
+          expect(User.count).to eq(1)
+        end
+        it "does not send an email" do
+          expect(ActionMailer::Base.deliveries).to be_empty
+        end
+        it "does not sign in the user" do
+          expect(session[:user_id]).to be_nil
+        end
+        it "flashes an error message" do
+          expect(flash[:error]).to be_present
+        end
+        it "renders the signup page" do
+          expect(response).to render_template 'new'
+        end
       end
-      it "does not create a new user" do
-        expect(User.count).to eq(0)
-      end
-      it "does not send an email" do
-        expect(ActionMailer::Base.deliveries).to be_empty
-      end
-      it "does not sign in the user" do
-        expect(session[:user_id]).to be_nil
-      end
-      it "flashes an error message" do
-        expect(flash[:error]).to be_present
-      end
-      it "renders the signup page" do
-        expect(response).to render_template 'new'
+
+      context "with INvalid token" do
+        let!(:user_invite) { Fabricate(:invitation, sender: joe ) }
+        let(:params)       { { user: { email: jen.email, password: jen.password, username: jen.username }, token: "bogus-token" } }
+        before             { post :create, params }
+
+        it "assigns the input info to the user variable" do
+          expect(assigns(:user)).to be_present
+        end
+        it "the loads the token from the page" do
+          expect(assigns(:token)).to eq('bogus-token')
+        end
+        it "loads the invitation by the passed token" do
+          expect(assigns(:invite)).to be_nil
+        end
+        it "does NOT create a new user" do
+          expect(User.count).to eq(1)
+        end
+        it "flashes the error message" do
+          expect(flash[:error]).to be_present
+        end
+        it "redirects to the expired link path" do
+          expect(response).to redirect_to expired_link_path
+        end
       end
     end
   end

@@ -50,9 +50,10 @@ class User < ActiveRecord::Base
   end
 
   def all_msgs_sent_received
-    messages_array = self.received_messages
+    messages_array = []
+    messages_array << self.received_messages
     messages_array << self.sent_messages
-    messages_array.select{|m| ((m.messageable_type != "Message") && (m.deleted_at == nil))} #NOT replies
+    messages_array.flatten.sort.reverse.select{|m| ((m.messageable_type != "Message") && (m.deleted_at == nil))} #NOT replies
   end
 
   # Maybe move this to UserPolicy... or InvitationPolicy?

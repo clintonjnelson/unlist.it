@@ -19,6 +19,7 @@ class MessagesManager
         @sender_type = "User"
 
         if user_message_allowed? #check if user can send message
+
           unless unpost_message_setup(@content) == false #finds unpose & sets message values. Makes @message & @unpost
             @message.sender = @sender_user #sets the message sender to current user
 
