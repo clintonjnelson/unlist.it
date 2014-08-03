@@ -1,7 +1,7 @@
 -provide(:title, '')
 
 //Code to show user & summary info
-.row#userbox.col-sm-8
+.row#userbox.col-xs-8
   #showusercontent.well
     .gravatar= @user.decorator.avatar_image_tag(60)
     %h2.text-left
@@ -14,7 +14,7 @@
     %p= "Default Location: [ZIPCODE OR NEARBY CITY?]"
     %p= "[DISPLAY THIS LOCATION NAME & MAYBE MAP]"
 
-    %hr.hr-sm-solid
+    %hr.hr-xs-solid
     %h5= "Status"
     %p= "Currently Watched By: [WATCHEDBY COUNT]"
     %p= "Currently Watching: [WATCHING COUNT]"

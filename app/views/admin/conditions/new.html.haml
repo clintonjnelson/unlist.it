@@ -1,10 +1,10 @@
-.row#adminbox.col-sm-8
+.row#adminbox.col-xs-8
   #adminboxcontent.well
     %h4 Add Condition To A Category
     %br
     %ul#addcondition
       =render partial: "condition_form", locals: { condition: @condition, button_name: "Add Condition" }
-      / =bootstrap_form_for [:admin, @condition], layout: :horizontal, label_col: 'col-sm-3', control_col: "col-sm-6" do |f|
+      / =bootstrap_form_for [:admin, @condition], layout: :horizontal, label_col: 'col-xs-3', control_col: "col-xs-6" do |f|
       /   =f.collection_select :category_id, Category.all, :id, :name, { prompt: "select a category" }, { class: 'add-condition-category-select' }
       /   //-#Need conditions with adjacent Order field
       /   =f.text_field :level, label: "New Condition Name"

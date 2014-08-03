@@ -1,4 +1,4 @@
-.row#userbox.col-sm-8
+.row#userbox.col-xs-8
   #userboxcontent.well
     %h4= "#{title}"
 
@@ -26,7 +26,7 @@
     %br
     %ul#additem
       -# Verify if still need multipart here
-      =bootstrap_form_for [user, unpost], html: { multipart: true }, layout: :horizontal, label_col: 'col-sm-4', control_col: "col-sm-6" do |f|
+      =bootstrap_form_for [user, unpost], html: { multipart: true }, layout: :horizontal, label_col: 'col-xs-4', control_col: "col-xs-6" do |f|
         =f.hidden_field :token, value: "#{@token}"
         =f.collection_select :category_id, Category.all, :id, :name, { prompt: "select a category" }, { class: 'unpost_category_select' }
         =f.text_field :title,       label: "Title*"

@@ -5,7 +5,7 @@
   ="#{@unpost.category.name}"
   %span= "-> #{@unpost.title}"
 
-.row#userbox.col-sm-8
+.row#userbox.col-xs-8
   #contactbuyer{style: "#{ ( flash[:error].present? ? 'display:block' : 'display: none' ) }" }
     =render partial: 'unposts/message_form', locals: { unpost: @unpost, message: @message }
   #userboxcontent.well

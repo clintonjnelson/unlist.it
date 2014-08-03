@@ -1,4 +1,4 @@
-=bootstrap_form_for [:admin, condition], layout: :horizontal, label_col: 'col-sm-3', control_col: "col-sm-6" do |f|
+=bootstrap_form_for [:admin, condition], layout: :horizontal, label_col: 'col-xs-3', control_col: "col-xs-6" do |f|
   =f.collection_select :category_id, Category.all, :id, :name, { prompt: "select a category" }, { class: 'add-condition-category-select' }
   //-#Need conditions with adjacent Order field
   =f.text_field :level, label: "Condition Name"

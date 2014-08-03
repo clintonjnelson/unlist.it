@@ -2,7 +2,7 @@
 
 //Code for the quick-search bar
 .row
-  #searcharea.col-sm-8
+  #searcharea.col-xs-8
     %h3 Search Unlist
     %p= render partial: 'shared/quicksearch'
     %br
@@ -15,7 +15,7 @@
   //DO SOMETHING FOR SIGNED IN USERS IN BODY
   //-else
   -unless signed_in?
-    #signup.col-sm-4
+    #signup.col-xs-4
       =link_to signup_path do
         %h2
           What are you looking for?

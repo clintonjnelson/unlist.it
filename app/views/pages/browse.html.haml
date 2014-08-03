@@ -14,7 +14,7 @@
           =link_to "#{category.name}", browse_category_path(category_id: category.id), { role: 'menuitem', tabindex: "-1" }
 
 //-#GOOD CANDIDATE FOR DECORATOR
-.row.col-sm-8.well#browse-unposts
+.row.col-xs-8.well#browse-unposts
   -if @unposts.present?
     =render @unposts
   -elsif !defined?(@unposts)
