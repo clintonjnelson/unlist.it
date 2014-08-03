@@ -1,5 +1,26 @@
 #footer
-  %a(href="") Link
-  %a(href="") Link2
-  %a(href="") Link3
-  %a(href="") Link4
+  -if (signed_in? && current_user.admin?)
+    .dropdown#navbutton-admin-blog
+      %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
+        Blog
+        %span.caret
+      %ul.dropdown-menu(role='menu' aria-labelledby='AdminBlogMenu')
+        %li(role='presentation')
+          =link_to '#', { role: 'menuitem', tabindex: "-1" } do
+            %i.icon-plus
+            New Post
+        %li(role='presentation')
+          =link_to "view posts", '#', { role: 'menuitem', tabindex: "-1" }
+
+    .dropdown#navbutton-admin-settings
+      %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
+        Settings
+        %span.caret
+      %ul.dropdown-menu(role='menu' aria-labelledby='AdminSettingsMenu')
+        %li(role='presentation')
+          =link_to "Settings",  edit_admin_setting_path(current_user), { role: 'menuitem', tabindex:"-1" }
+
+  -else
+    %a(href="") Link
+    %a(href="") Link2
+    %a(href="") Link3

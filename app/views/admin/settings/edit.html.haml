@@ -1,0 +1,11 @@
+-provide(:title, '')
+
+//Settings Updates for Application
+#settingsbox.row.col-sm-8.col-sm-offset-1
+  #editsettings.well.clearfix
+    %h4.text-muted Edit Unlist Settings
+    %br
+    =bootstrap_form_for [:admin, @setting], layout: :horizontal, label_col: 'col-sm-3', control_col: 'col-sm-6' do |f|
+      =f.text_field :invites_ration
+      =f.text_field :invites_max
+      =f.submit "Save Updates", class: "btn btn-primary pull-right"

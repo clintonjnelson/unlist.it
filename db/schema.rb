@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140729024854) do
+ActiveRecord::Schema.define(version: 20140803005750) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -63,6 +63,13 @@ ActiveRecord::Schema.define(version: 20140729024854) do
     t.datetime "updated_at"
     t.string   "confirm_token"
     t.string   "confirm_token_created_at"
+  end
+
+  create_table "settings", force: true do |t|
+    t.integer  "invites_ration"
+    t.integer  "invites_max"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "tokens", force: true do |t|

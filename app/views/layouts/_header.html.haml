@@ -1,15 +1,15 @@
 / Code for the Unlist.it Header & Icon
 #headerbar.container
   .row
-    .col-xs-3
+    .col-xs-3#unlisticonbox
       %h1#unlistheadericon
         =link_to 'Unlist.it', root_path
         / Login/User Box Located In Header (Right Side)
-    .col-xs-5
+    .col-xs-6
       / Code for the header bar navigation links
       .navbarlink
         =render 'layouts/navbarlinks'
-    .col-xs-4
+    .col-xs-3
       #unlistuserbox
         -if signed_in?
           =link_to user_path(current_user) do
