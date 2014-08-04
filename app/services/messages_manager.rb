@@ -87,7 +87,7 @@ class MessagesManager
     elsif reply_message?
       @type = "Reply"
       if user_message_allowed? #check if user can send message
-        unless reply_message_setup(@content) == false #finds unpose & sets message values. Makes @message & @unpost
+        unless reply_message_setup(@content) == false #finds unpost & sets message values. Makes @message & @unpost
 
           if @message.save #try to save message or return an alert
             @flash_success = "Reply Sent!"
@@ -98,19 +98,32 @@ class MessagesManager
           end
         end
 
-        else #if user is restricted from messaging
-          if !@sender_user.confirmed?
-            @flash_notice = "Something seems fishy about how you're replying to
-                            an unpost message without having been prior confirmed...
-                            but anyhoo, please visit the inbox of the email account
-                            you have on record with us to confirm your Unlist.it account."
-            @success      = false
-          # elsif @user.blacklisted? #this should be added to user & in the user policy.
-          #   @error_message = "Your account is currently suspended from use.
-          #                     If you believe this to be in error, please contact Unlist."
-          #   @success       = false
-          end
+      else #if user is restricted from messaging
+        if !@sender_user.confirmed?
+          @flash_notice = "Something seems fishy about how you're replying to
+                          an unpost message without having been prior confirmed...
+                          but anyhoo, please visit the inbox of the email account
+                          you have on record with us to confirm your Unlist.it account."
+          @success      = false
+        # elsif @user.blacklisted? #this should be added to user & in the user policy.
+        #   @error_message = "Your account is currently suspended from use.
+        #                     If you believe this to be in error, please contact Unlist."
+        #   @success       = false
         end
+      end
+
+
+    else #Admin Message.
+      @type = "Admin"
+      unless admin_message_setup(@content) == false #finds admin & sets message values. Makes @message
+        if @message.save
+          @flash_success = "Feedback Sent!"
+          @success = true
+        else
+          @error_message = "Feedback could not be sent. Please fix the errors noted and try submitting again."
+          @success = false
+        end
+      end
     end
   end
 
@@ -179,6 +192,21 @@ class MessagesManager
       @message.sender      = @sender_user #sets the message sender to current user
     else
       @error_message = "Sorry, we couldn't find the message you were replying to."
+      @success       = false
+    end
+  end
+
+  def admin_message_setup(content)
+    admin = User.where(role: "admin").take
+    if admin
+      @message = Message.new(content: content,
+                           recipient: admin,
+                              sender: @sender_user,
+                             subject: "Feedback from #{@sender_user.username}",
+                         messageable: admin) #this is really just a User type
+    else
+      @error_message = "Argh, something went terribly wrong & this message couldn't be sent!
+                        Please email us instead at admin@unlist.it -- we really want to hear what you have to say!"
       @success       = false
     end
   end

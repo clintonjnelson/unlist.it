@@ -1,8 +1,12 @@
 class MessagesController < ApplicationController
   before_action :set_user,          only: [:index]
-  before_action :require_signed_in, only: [:index]
+  before_action :require_signed_in, only: [:new_feedback, :index]
 
   def new
+    @message = Message.new
+  end
+
+  def new_feedback
     @message = Message.new
   end
 
@@ -50,11 +54,7 @@ class MessagesController < ApplicationController
                                                 params.require(:message).permit(:content)
   end
 
-  def render_or_redirect(options={}) #success, info, error
-    manager      = options[:manager]
-    success      = options[:success]
-    notice_error = options[:notice_error]
-
+  def render_or_redirect(success, notice_error, manager) #success, error msg, message info
     respond_to do |format|
       format.html do
         if manager.success
@@ -86,19 +86,20 @@ class MessagesController < ApplicationController
       when "Unpost"
         success       = @unpost
         notice_error  = 'unposts/show'
-        render_or_redirect({success: success, notice_error: notice_error, manager: manager})
       when "User"
-
+      when "Admin"
+        success = user_feedback_path(current_user)
+        notice_error = 'messages/new_feedback'
       when "Reply"
         ###THE SECOND OPTION IS JUST A TEMP GUESS FOR WHERE TO GO AFTER USERS MSG EACHOTHER
         success       = (@parent_message.messageable_type == "Unpost" ? Unpost.find(@parent_message.messageable_id) : unposts_path(current_user))
         ###THE SECOND OPTION IS JUST A TEMP GUESS FOR WHERE TO GO AFTER USERS MSG EACHOTHER
         notice_error  = (@parent_message.messageable_type == "Unpost" ? 'unposts/index' : 'messages/index')
-        render_or_redirect({success: success, notice_error: notice_error, manager: manager})
       else
         success       = Unpost.find(@parent_message.messageable_id)
         notice_error  = 'unposts/index'
-        render_or_redirect({success: success, notice_error: notice_error, manager: manager})
+
     end
+    render_or_redirect(success, notice_error, manager)
   end
 end

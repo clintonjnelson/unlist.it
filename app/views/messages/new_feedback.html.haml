@@ -1,0 +1,14 @@
+.row#userbox.col-xs-8
+  #messagecontent.well
+    #feedback.messageform.clearfix
+      %h3.text-muted We Appreciate Your Feedback!
+      %hr
+      %p  We value your feedback, because you're the ones using Unlist.it the most... that makes you our best testers.
+      %p  Surely, you know what you think is working well, what you never use, what you wish it had or could do, what could be better, and what things make you grab for your stress-releiver.
+      %br
+      %p Please use the form below if you have any suggestions, useful ideas, comments, if you find any bugs, would like to give feedback, or whatever else you deem is worth your time to convey.
+
+
+      =bootstrap_form_for [current_user, @message] do |f|
+        =f.text_area  :content, hide_label: true, rows: 6
+        =f.submit "Submit Feedback!", class: "btn btn-primary pull-right"

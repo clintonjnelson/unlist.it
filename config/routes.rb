@@ -44,6 +44,7 @@ Rails.application.routes.draw do
   resources :users,                 only: [:create, :show, :edit, :update] do
     resources :invitations,         only: [:new, :create]
     resources :messages,            only: [:new, :create, :show, :index] #INDEX specific to user browsing own items
+    get       '/feedback',        to: 'messages#new_feedback'
     resources :unposts,           except: [:index]
     get       '/unlist',              to: 'unposts#index'
   end

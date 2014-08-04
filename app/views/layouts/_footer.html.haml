@@ -20,6 +20,21 @@
         %li(role='presentation')
           =link_to "Settings",  edit_admin_setting_path(current_user), { role: 'menuitem', tabindex:"-1" }
 
+  -if (signed_in?)
+    %div= link_to 'Feedback!', user_feedback_path(current_user), { role: 'menuitem', tabindex: "-1" }
+
+    .dropdown#navbutton-admin-blog
+      %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
+        Cool Stuff
+        %span.caret
+      %ul.dropdown-menu(role='menu' aria-labelledby='AdminBlogMenu')
+        %li(role='presentation')
+          =link_to '#', { role: 'menuitem', tabindex: "-1" } do
+            %i.icon-plus
+            Add Stuff
+        %li(role='presentation')
+          =link_to "Stuff", '#', { role: 'menuitem', tabindex: "-1" }
+
   -else
     %a(href="") Link
     %a(href="") Link2
