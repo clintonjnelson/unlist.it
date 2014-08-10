@@ -20,16 +20,20 @@ Rails.application.routes.draw do
   get     '/signout',                     to: 'sessions#destroy'
   get     '/signup',                      to: 'users#new'
   get     '/userconfirmation/:token',     to: 'users#confirm_with_token',  as: 'userconfirmation'
-  patch   '/toggle_avatar',               to: 'users#toggle_avatar'
   get     '/forgot_password',             to: 'forgot_passwords#new'
   post    '/forgot_password',             to: 'forgot_passwords#create'
   get     '/safeguestconfirmation/:token',to: 'safeguests#create',          as: 'safeguestconfirmation'
   post    '/add_unimage',                 to: 'unimages#create'
   delete  '/remove_unimage',              to: 'unimages#destroy'
 
+
   #AJAX
-  post '/conditions_by_category',     to: 'unposts#conditions_by_category'
-  #post '/unposts_by_category',        to: 'pages#unposts_by_category'
+  post    '/conditions_by_category',      to: 'unposts#conditions_by_category'
+  patch   '/toggle_avatar',               to: 'users#toggle_avatar'
+  get     '/search_location',             to: 'locations#search_location'
+  post    '/search_location',             to: 'locations#set_search_location'
+  get     '/search_radius',               to: 'locations#search_radius'
+  post    '/search_radius',               to: 'locations#set_search_radius'
 
   resources :reset_passwords,       only: [:create, :show]
   resources :sessions,              only: [:create]

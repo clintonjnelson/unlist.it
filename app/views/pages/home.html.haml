@@ -3,8 +3,20 @@
 //Code for the quick-search bar
 .row
   #searcharea.col-xs-8
-    %h3 Search Unlist
-    %p= render partial: 'shared/quicksearch'
+    %h3#home-search-title
+      Search Unlist
+      %small.text-muted
+        -if session[:search_radius]
+          ="within #{session[:search_radius]} miles of"
+        -else
+          in
+      %small.text-mutes
+        -if session[:search_location]
+          ="#{session[:search_location]}"
+        -else
+          Seattle, WA
+
+    =render partial: 'shared/quicksearch'
     %br
     %p  Your old stuff may be an unlisted treasure for someone else...
     %p="There are currently #{User.count} Unlisters looking for #{Unpost.count} things."

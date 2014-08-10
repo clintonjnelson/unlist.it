@@ -70,12 +70,12 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema! if defined?(ActiveRecord::Migration)
 
 #VCR Settings
-# VCR.configure do |c|
-#   c.cassette_library_dir = 'spec/cassettes'
-#   c.hook_into :webmock
-#   c.configure_rspec_metadata!
-#   c.ignore_localhost = true
-# end
+VCR.configure do |c|
+  c.cassette_library_dir = 'spec/cassettes'
+  c.hook_into :webmock
+  c.configure_rspec_metadata!
+  c.ignore_localhost = true
+end
 
 
 #Capybara Settings
@@ -83,7 +83,8 @@ Capybara.javascript_driver = :webit  #:selenium OR :webkit
 Capybara.server_port = 3005
 Capybara.default_wait_time = 3
 
-WebMock.disable_net_connect!(:allow_localhost => true)
+#WebMock.disable_net_connect!(:allow_localhost => true)
+WebMock.allow_net_connect!(:allow_localhost => true)
 
 RSpec.configure do |config|
   config.before(:suite) do

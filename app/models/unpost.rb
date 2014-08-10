@@ -23,7 +23,7 @@ class Unpost < ActiveRecord::Base
   validates :keyword3, presence: true, allow_blank: true
   validates :keyword4, presence: true, allow_blank: true
   validates :link,     presence: true, allow_blank: true
-  validates :price,    numericality: { only_integer: true}
+  validates :price,    numericality: { only_integer: true }
 
 
   def parent_messages

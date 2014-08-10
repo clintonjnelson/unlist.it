@@ -1,4 +1,14 @@
 #quicksearch
+
+  %small#radius-location.text-muted
+    =link_to "adjust search radius", search_radius_path, { remote: true, data: { toggle: 'modal', target: '#modal-radius' } }
+    &nbsp | &nbsp
+    =link_to "change location", search_location_path, { remote: true, data: { toggle: 'modal', target: '#modal-location'} }
+
+    #modal-radius.modal.fade(role='dialog' aria-labelledby='searchRadius' aria-hidden='true')
+    #modal-location.modal.fase(role='dialog' aria-labelledby='searchLocation' aria-hidden='true')
+
+
   %ul.searchform
     =form_tag search_unposts_path, method: 'post' do
       =text_field_tag :keyword, search_placeholder(@search_string)
@@ -6,4 +16,4 @@
       %span
         in
         =select_tag :category_id, options_for_select(category_options)
-        //=render partial: 'shared/category_dropdown', locals: { categories: categories }
+

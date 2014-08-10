@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140803005750) do
+ActiveRecord::Schema.define(version: 20140809211801) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -40,6 +40,18 @@ ActiveRecord::Schema.define(version: 20140803005750) do
     t.string   "token"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "locations", force: true do |t|
+    t.float    "latitude"
+    t.float    "longitude"
+    t.integer  "radius"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+    t.string   "city"
+    t.string   "state"
+    t.integer  "zipcode"
   end
 
   create_table "messages", force: true do |t|

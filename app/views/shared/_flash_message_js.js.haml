@@ -1,0 +1,9 @@
+-if flash[:error].present?
+  $('#error-messages').addClass('alert alert-danger');
+  $('#error-messages').html( "#{ flash[:error]   }" );
+-elsif flash[:notice].present?
+  $('#error-messages').addClass('alert alert-warning');
+  $('#error-messages').html( "#{ flash[:notice]  }" );
+-elsif flash[:success].present?
+  $('#error-messages').addClass('alert alert-success');
+  $('#error-messages').html( "#{ flash[:success] }" );

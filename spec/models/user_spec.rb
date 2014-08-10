@@ -3,6 +3,7 @@ require 'spec_helper'
 describe User do
 
   it { should have_secure_password }
+  it { should have_one( :location              ) }
   it { should have_many(:invitations           ) }
   it { should have_many(:tokens                ) } #polymorphic
   it { should have_many(:unposts               ) }

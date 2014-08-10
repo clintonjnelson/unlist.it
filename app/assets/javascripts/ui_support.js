@@ -1,3 +1,10 @@
+//////////////////////// SEARCH PAGE /////////////////////////
+//Hide Modal via Form Button Click
+$(document).on("click", ".modal-close", function() {
+  $(".modal.in").modal('hide');
+});
+
+
 
 //////////////////////// UNPOST RESPONSE /////////////////////////
 //Tabbed interface for Unposts display
@@ -43,18 +50,4 @@ $(document).ready(function() {
     $(_this).remove();
   });
 });
-
-
-
-///JS FOR ADDING THE BLUEIMP LIGHTBOX - **DONT DELETE** IT WORKS for future use
-// $(document).ready(function() {
-//   $("#links").on("click", function (event) {
-//     event = event || window.event;
-//     var target = event.target || event.srcElement,
-//       link     = target.src ? target.parentNode : target,
-//       options  = {index: link, event: event},
-//       links    = this.getElementsByTagName('a');
-//     blueimp.Gallery(links, options);
-//   });
-// });
 

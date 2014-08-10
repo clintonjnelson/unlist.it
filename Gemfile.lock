@@ -106,6 +106,7 @@ GEM
     fog-json (1.0.0)
       multi_json (~> 1.0)
     formatador (0.2.4)
+    geocoder (1.2.3)
     guard (2.6.1)
       formatador (>= 0.2.4)
       listen (~> 2.7)
@@ -300,6 +301,7 @@ DEPENDENCIES
   fabrication
   faker
   fog
+  geocoder
   guard-rspec
   haml-rails
   jquery-rails

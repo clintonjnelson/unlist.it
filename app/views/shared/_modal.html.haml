@@ -1,0 +1,9 @@
+.modal-sm
+  .modal-content
+    .modal-header
+      %button.close(aria-hidden='true'){data: {dismiss: 'modal'} } x
+      %h3.text-muted
+        ="#{title}"
+
+    .modal-body.modal-form
+      =render partial: "#{partial_name}"

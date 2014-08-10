@@ -1,4 +1,0 @@
-//-######NOT CURRENTLY USED
--if flash[:error].present?
-  $('#error-messages').addClass('alert alert-danger')
-  $('#error-messages').html( escape_javascript( "#{ flash[:error] }" ) );

@@ -1,0 +1,4 @@
+=form_tag search_radius_path, {method: 'post', remote: true } do
+  =text_field_tag :radius
+  %span miles
+  =submit_tag "Update", class: "btn btn-primary btn-sm modal-close"
