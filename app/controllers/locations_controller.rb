@@ -2,41 +2,40 @@ class LocationsController < ApplicationController
 
   def search_radius #render modal form
     respond_to do |format|
-      format.html { render "search_radius.js.erb"  }
-      format.js
+      format.any(:html, :js) { render "search_radius_modal.js.erb"  }
     end
   end
 
   def set_search_radius
     if update_radius?
+      @success = true
       flash.now[:success] = "Radius Updated."
     else
       flash.now[:notice]  = "Sorry, only numbers are allowed. Please try again."
     end
 
     respond_to do |format|
-      format.js { render partial: 'shared/flash_message_js.js.haml' }
+      format.any(:html, :js) { render 'locations/update_search_radius.js' }
     end
   end
 
   def search_location #render modal form
     respond_to do |format|
-      format.html { render 'search_location.js.erb' }
-      format.js
+      format.any(:html, :js) { render 'search_location_modal.js.erb' }
     end
   end
 
   def set_search_location
     @location_param = location_param[:location]
     if update_location?
+      @success = true
       flash.now[:success] = "Location Updated"
     else
       flash.now[:notice] = "Sorry, we couldn't find that location. Please try a valid zipcode or city,state"
     end
 
     respond_to do |format|
-      format.html { render partial: 'shared/flash_message_js.js.haml' }
-      format.js   { render partial: 'shared/flash_message_js.js.haml' }
+      format.any(:html, :js) { render 'locations/update_search_location.js' }
     end
   end
 
@@ -80,6 +79,9 @@ class LocationsController < ApplicationController
       # else #assumed city,state or location
       # end
     else #if Guest
+
+#######NEED TO UPDATE SESSIONS TO COOKIES FOR GUEST #########
+
       set_session_from_new_or_existing ? true : false
     end
   end
@@ -137,6 +139,7 @@ class LocationsController < ApplicationController
           when "Zipcode"
             session[:search_zipcode  ] = @location.zipcode
         end
+        return true
       else
         false
       end

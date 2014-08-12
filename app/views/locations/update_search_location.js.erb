@@ -1,0 +1,25 @@
+<% #THERE MUST BE A DRYER WAY TO INSERT 'shared/flash_message_js' PARTIAL INTO THIS PARTIAL! %>
+
+if($('#error-messages').hasClass('alert alert-error')){
+  $('#error-messages').removeClass('alert alert-error');
+}else if($('#error-messages').hasClass('alert alert-warning')){
+  $('#error-messages').removeClass('alert alert-warning');
+};
+
+
+<% if flash[:error].present? %>
+  $('#error-messages').addClass('alert alert-danger');
+  $('#error-messages').html('<%= "#{ flash[:error]   }" %>');
+<% elsif flash[:notice].present? %>
+  $('#error-messages').addClass('alert alert-warning');
+  $('#error-messages').html('<%= "#{ flash[:notice]  }" %>');
+<% elsif flash[:success].present? %>
+  $('#error-messages').addClass('alert alert-success');
+
+  $('#error-messages').html('<%= "#{ flash[:success] }" %>');
+<% end %>
+
+
+<% if @success %>
+  $('#search_location_text').html('<%= "#{session[:search_city]}, #{session[:search_state]}" %>');
+<% end %>
