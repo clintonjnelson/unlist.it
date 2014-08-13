@@ -289,7 +289,7 @@ describe SearchesController, :vcr do
         context "that IS already stored in Locations" do
           let!(:seattle) { Fabricate(:zip_location) }
           before do
-            Geocoder.should_not_receive(:coordinates)
+            Geocoder.should_not_receive(:search)
             xhr :post, :set_search_location, location: 98164
           end
 
