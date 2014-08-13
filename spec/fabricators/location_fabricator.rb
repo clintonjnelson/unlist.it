@@ -1,7 +1,6 @@
 Fabricator(:location) do
 radius         10
 
-user
 end
 
 Fabricator(:zip_location, from: :location) do

@@ -30,10 +30,10 @@ Rails.application.routes.draw do
   #AJAX
   post    '/conditions_by_category',      to: 'unposts#conditions_by_category'
   patch   '/toggle_avatar',               to: 'users#toggle_avatar'
-  get     '/search_location',             to: 'locations#search_location'
-  post    '/search_location',             to: 'locations#set_search_location'
-  get     '/search_radius',               to: 'locations#search_radius'
-  post    '/search_radius',               to: 'locations#set_search_radius'
+  get     '/search_location',             to: 'searches#search_location'
+  post    '/search_location',             to: 'searches#set_search_location'
+  get     '/search_radius',               to: 'searches#search_radius'
+  post    '/search_radius',               to: 'searches#set_search_radius'
 
   resources :reset_passwords,       only: [:create, :show]
   resources :sessions,              only: [:create]
@@ -43,12 +43,12 @@ Rails.application.routes.draw do
       post  :search
     end
     resources :messages,            only: [:create, :index]
-    get 'show_message_form',       to: 'unposts#show_message_form' #AJAX
+    get 'show_message_form',          to: 'unposts#show_message_form' #AJAX
   end
   resources :users,                 only: [:create, :show, :edit, :update] do
     resources :invitations,         only: [:new, :create]
     resources :messages,            only: [:new, :create, :show, :index] #INDEX specific to user browsing own items
-    get       '/feedback',        to: 'messages#new_feedback'
+    get       '/feedback',            to: 'messages#new_feedback'
     resources :unposts,           except: [:index]
     get       '/unlist',              to: 'unposts#index'
   end

@@ -1,5 +1,5 @@
 class Location < ActiveRecord::Base
-  belongs_to :user
+  has_many :users
 
   #Geocoding - Checks results for success & sets error if no results
   geocoded_by         :provided_location do |obj, results|
@@ -19,7 +19,6 @@ class Location < ActiveRecord::Base
     end
   end
   after_validation    :geocode,  :if => lambda { |obj| obj.zipcode_changed? || obj.city_changed? || obj.state_changed? }
-  #before_save         :verify_success
 
 
   validates :zipcode, numericality: { only_integer: true },
@@ -31,9 +30,5 @@ class Location < ActiveRecord::Base
   def provided_location
     city_state = [self.city, self.state].join(',')
     self.zipcode || city_state
-  end
-
-  def verify_success
-
   end
 end
