@@ -1,20 +1,20 @@
--provide(:title, '')
+/ -provide(:title, '')
 
-%br
-%p= render partial: 'shared/quicksearch'
+/ %br
+/ %p= render partial: 'shared/quicksearch'
 
-//Code for unposts search results
-#searchbox.row.col-xs-8.well
-  .searchresults
-    //-# TODO: this seems like a job for a decorator object
-    %h2= "Search results for '#{ @search_string }' in #{ @search_category == '0' ? "all categories" : @search_category.name } found #{ @search_results.blank? ? 0 : @search_results.size } unposts"
-    %hr.hr-lg-solid
+/ //Code for unposts search results
+/ #searchbox.row.col-xs-8.well
+/   .searchresults
+/     //-# TODO: this seems like a job for a decorator object
+/     %h2= "Search results for '#{ @search_string }' in #{ @search_category == '0' ? "all categories" : @search_category.name } found #{ @search_results.blank? ? 0 : @search_results.size } unposts"
+/     %hr.hr-lg-solid
 
-    -if @search_results.blank?
-    -elsif @search_results.count == 1
-      =render partial: 'unposts/unpost', collection: @search_results, as: :unpost
-    -else
-      -category_array(@search_results).each do |category|
-        %h3#category-heading= link_to "#{category.name}", browse_category_path(category_id: "#{category.id}")
-        %hr.hr-xs-solid
-        =render partial: 'unposts/unpost', collection: @search_results.select{|item| item.category.id == category.id}, as: :unpost
+/     -if @search_results.blank?
+/     -elsif @search_results.count == 1
+/       =render partial: 'unposts/unpost', collection: @search_results, as: :unpost
+/     -else
+/       -category_array(@search_results).each do |category|
+/         %h3#category-heading= link_to "#{category.name}", browse_category_path(category_id: "#{category.id}")
+/         %hr.hr-xs-solid
+/         =render partial: 'unposts/unpost', collection: @search_results.select{|item| item.category.id == category.id}, as: :unpost

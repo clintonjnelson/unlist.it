@@ -76,35 +76,6 @@ class UnpostsController < ApplicationController
   end
 
 
-  ################################# NON-CRUD ###################################
-
-  #TODO As Grows: SearchesController with QueryObject
-  #OR Could just put into model until it's large enough to warrant search object
-  def search
-    @search_string = search_params[:keyword]
-    if search_params[:category_id] == "0"
-      @search_category = "0"
-      if Rails.env.development? || Rails.env.test?
-        @search_results = Unpost.active.where("keyword1 LIKE :search OR keyword2 LIKE :search OR keyword3 LIKE :search OR keyword4 LIKE :search",
-                                    { search: "%#{search_params[:keyword]}%" }).all
-      else
-        @search_results = Unpost.active.where("keyword1 ILIKE :search OR keyword2 ILIKE :search OR keyword3 ILIKE :search OR keyword4 ILIKE :search",
-                                    { search: "%#{search_params[:keyword]}%" }).all
-      end
-    else
-      @search_category = Category.find(search_params[:category_id])
-      if Rails.env.development? || Rails.env.test?
-        @search_results = Unpost.active.where("keyword1 LIKE :search OR keyword2 LIKE :search OR keyword3 LIKE :search OR keyword4 LIKE :search",
-                                      { search: "%#{search_params[:keyword]}%" }).where(category_id: search_params[:category_id]).all
-      else
-        @search_results = Unpost.active.where("keyword1 ILIKE :search OR keyword2 ILIKE :search OR keyword3 ILIKE :search OR keyword4 ILIKE :search",
-                                      { search: "%#{search_params[:keyword]}%" }).where(category_id: search_params[:category_id]).all
-      end
-
-    end
-    render 'search'
-  end
-
   ################################# AJAX ACTIONS ###############################
 
   def conditions_by_category
@@ -122,7 +93,6 @@ class UnpostsController < ApplicationController
 
   ################################ PRIVATE METHODS #############################
   private
-  ################################ BEFORE FILTERS ##############################
   def set_unpost
     @unpost = Unpost.find(params[:id])
   end
@@ -145,10 +115,6 @@ class UnpostsController < ApplicationController
 
   def unpost_token_param
     params.require(:unpost).permit(:token)
-  end
-
-  def search_params
-    params.permit(:keyword, :category_id)
   end
 
   def unimage_ids_array

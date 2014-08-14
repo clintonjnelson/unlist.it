@@ -1,5 +1,22 @@
+#This Controller is NOT model backed.
 class SearchesController < ApplicationController
+  before_action :dev_test_env?
 
+  #TODO As Grows: SearchesController with QueryObject
+  #OR Could just put into model until it's large enough to warrant search object
+  def search
+    @search_string   = search_params[:keyword]
+    @search_category = ( (search_params[:category_id] == "0") ? "0" : Category.find(search_params[:category_id]) )
+    @search_results  = UnpostsQuery.new.search(search_string: @search_string,
+                                                cateogory_id: search_params[:category_id],
+                                                      radius: nil,#session[:search_radius ],
+                                                        city: session[:search_city   ],
+                                                       state: session[:search_state  ],
+                                                     zipcode: session[:search_zipcode] )
+    render 'search'
+  end
+
+  ################################ SEARCH RADII## ##############################
   def search_radius #render modal form
     respond_to do |format|
       format.any(:html, :js) { render "search_radius_modal.js.erb"  }
@@ -19,6 +36,7 @@ class SearchesController < ApplicationController
     end
   end
 
+  ############################## SEARCH LOCATIONS ##############################
   def search_location #render modal form
     respond_to do |format|
       format.any(:html, :js) { render 'search_location_modal.js.erb' }
@@ -30,7 +48,7 @@ class SearchesController < ApplicationController
     location         = LocationsManager.new
     if @location_param.present? && location.find_or_make_location(@location_param)
       @success = true
-      set_search_sessions(location)
+      set_location_sessions(location)
       flash.now[:success] = "Location Updated"
     else
       flash.now[:notice] = "Sorry, we couldn't find that location. Please try a valid zipcode or city,state"
@@ -44,8 +62,16 @@ class SearchesController < ApplicationController
 
 
 
-  ################################ SUPPORT METHODS #############################
+  ################################ PRIVATE METHODS #############################
   private
+  def dev_test_env?
+    @dev_test_env = true if (Rails.env.development? || Rails.env.test?)
+  end
+
+  def search_params
+    params.permit(:keyword, :category_id, :radius, :city, :state, :zipcode)
+  end
+
   def radius_param
     params.permit(:radius)
   end
@@ -71,96 +97,35 @@ class SearchesController < ApplicationController
     !!(value =~ /\A[-+]?[0-9]+\z/)
   end
 
-  def set_search_sessions(location)
+  def set_location_sessions(location)
     case location.type
       when "Place"
         session[:search_city   ] = location.city
         session[:search_state  ] = location.state
+        session[:search_zipcode] = nil
       when "Zipcode"
         session[:search_zipcode] = location.zipcode
+        session[:search_city   ] = nil
+        session[:search_state  ] = nil
     end
     session[:search_latitude   ] = location.latitude
     session[:search_longitude  ] = location.longitude
   end
-  # #THIS GEOCODING PORTION IS DEFINITELY LOOKING LIKE A SERVICE
-  # #######NEED TO FINISH GEOCODING
-  # def update_location?
-  #   (@location_param.present? && set_session_from_new_or_existing) ? true : false
-  # end
 
-  # def is_number?(value)
-  #   !!(value =~ /\A[-+]?[0-9]+\z/)
-  # end
-
-  # def is_zipcode?
-  #   is_number?(@location_param) && (@location_param.length == 5)
-  # end
-
-  # def set_reverse_geo_location
-
-  # end
-
-  # def set_session_from_new_or_existing
-  #   ##Try to find location in DB
-  #   if is_zipcode? #if zipcode provided
-  #     db_location = Location.where(zipcode: @location_param.to_i).take #try to find in db
-  #     if db_location #if in db
-  #       session[:search_zipcode  ] = db_location.zipcode
-  #       session[:search_latitude ] = db_location.latitude
-  #       session[:search_longitude] = db_location.longitude
-  #       return true
-  #     else #if not in db, make new
-  #       @location           = Location.new(zipcode: @location_param.to_i)
-  #       type = "Zipcode"
-  #     end
-  #   else #if location provided
-  #     city, state = format_city_state #set city & state variables to downcase strings of each
-  #     binding.pry
-  #     db_location = Location.where(state: state).where(city: city).first #try to find location in db
-  #     if db_location #if in db
-  #       session[:search_city     ] = db_location.city.capitalize
-  #       session[:search_state    ] = db_location.state.upcase
-  #       session[:search_latitude ] = db_location.latitude
-  #       session[:search_longitude] = db_location.longitude
-  #       return true
-  #     elsif city && state #if not in db
-  #       @location       = Location.new(city: city, state: state) #make new location
-  #       type = "Place"
-  #     end
-  #   end
-
-  #   unless db_location #unless found existing
-  #     ##WHEN MAKE OOP, REALLY SHOULD SET A TYPE BASED ON INPUT
-  #     ##SAVE ALL DATA & THEN PULL ZIP OR CiTY/STATE BASED IN TYPE
-  #     if @location && @location.save #try to save new
-  #       session[:search_latitude ] = @location.reload.latitude
-  #       session[:search_longitude] = @location.reload.longitude
-  #       case type
-  #         when "Place"
-  #           session[:search_city     ] = @location.city.capitalize  #set city
-  #           session[:search_state    ] = @location.state.upcase     #set state
-  #         when "Zipcode"
-  #           session[:search_zipcode  ] = @location.zipcode
-  #       end
-  #       return true
-  #     else
-  #       false
-  #     end
-  #   end
-  # end
-
-
-  # def format_city_state
-  #   @location_param.downcase.gsub(/([^a-zA-Z]+)[\s+,\s+]/,",").split(",")
-  # end
-  # def set_session_values(options={})
-  #   session[:search_location] = @location
-  #   if location.is_a? Location
-  #     session[:city] = @location
+  # def query_unposts(search_string, category_id="0")
+  #   if @dev_test_env
+  #     search_query = Unpost.active.where("keyword1 LIKE :search OR keyword2 LIKE :search OR keyword3 LIKE :search OR keyword4 LIKE :search",
+  #                                       { search: "%#{search_string}%" })
   #   else
-  #     #REVERSE GEOCODE FOR CITY
-  #     # session[:city]    =
-  #     # session[:state]   =
+  #     search_query = Unpost.active.where("keyword1 ILIKE :search OR keyword2 ILIKE :search OR keyword3 ILIKE :search OR keyword4 ILIKE :search",
+  #                                       { search: "%#{search_string}%" })
   #   end
+  #   search_query = search_query.where(category_id: category_id) unless category_id == "0"
+  #   nearby_user_ids = LocationsManager.new.nearby_users(location, radius)
+  #   #NEED TO PULL A LIST OF NEARBY USERS BASED ON DEFAULT CITY, PROVIDED ZIPCODE, PROVIDED CITY, OR PROVIDED RADIUS FROM CITY
+  #   #FILTER THESE RESULTS BY THE NEARBY ONES
+
+
+  #   @search_results = search_query.all
   # end
 end

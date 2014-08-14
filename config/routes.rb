@@ -40,7 +40,7 @@ Rails.application.routes.draw do
   #Protects Users by anonymity. BUILD THIS OUT - ADD SLUGS TOO
   resources :unposts,               only: [:show, :index] do  #INDEX for general searching & use by non-creator
     collection do
-      post  :search
+      post  :search,                  to: 'searches#search'
     end
     resources :messages,            only: [:create, :index]
     get 'show_message_form',          to: 'unposts#show_message_form' #AJAX
