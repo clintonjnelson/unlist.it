@@ -1,3 +1,4 @@
+#THIS EXECUTES FINE IN SUBL, BUT FAILS 67, 74, 83 IN CONSOLE
 require 'spec_helper'
 require 'rake'
 require 'sidekiq/testing'
