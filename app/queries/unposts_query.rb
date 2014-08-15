@@ -1,14 +1,12 @@
-class UnpostsQuery
-  #Query needa to be able to:
+#Query needa to be able to:
     # find unposts with keywords as match; if no keywords, find all
     # filter by category; if no category - get all
     # filter by radius: if no radius, use only city or zipcode provided
     # filter by city,state or zipcode; default is Seattle, WA 98164
 
-  attr_reader :relation, :search_string, :category_id
 
-  #This is too much to load: relation = Unpost.active.all
-  #Could .extending(Scopes), but initialization of the entire Unpost set is too fat on memory
+class UnpostsQuery
+  attr_reader :relation, :search_string, :category_id
   def initialize()
     dev_test_env?
   end
@@ -18,15 +16,16 @@ class UnpostsQuery
     @search_string = options[:search_string]
     @category_id   = options[:cateogory_id ]
     @radius        = options[:radius       ]
-    @city          = options[:city         ].downcase
-    @state         = options[:state        ].downcase
+    @city          = options[:city         ]
+    @state         = options[:state        ]
+      @city.downcase!  if @city
+      @state.downcase! if @state
     @zipcode       = options[:zipcode      ]
 
     if @search_string  #if search string provided
       @relation = find_by_keyword(@search_string)
     else #if no search string, get all(?)
-      ###!!!THIS SEEMS HEAVY TO LOAD!!!###
-      @relation = Unpost.active.all
+      @relation = Unpost.active.all #gotta love Lazy Loading
     end
 
     if @category_id && (@category_id != "0") #if cateogory provided; category "0" means ALL
@@ -35,9 +34,9 @@ class UnpostsQuery
 
     if @radius  #if radius provided
       if @zipcode  #if zipcode for radius
-        @relation = within_radius_of_zipcode(@radius, @zipcode)
+        @relation = in_radius_of_zipcode(@zipcode, @radius)
       elsif @city && @state  #if place for radius
-        @relation = within_radius_of_place(@radius, @city, @state)
+        @relation = in_radius_of_city_state(@city, @state, @radius)
       end
     elsif @zipcode  #if only zipcode provided
       @relation = in_zipcode
@@ -64,12 +63,6 @@ class UnpostsQuery
   end
 
 
-
-    #nearby_user_ids = LocationsManager.new.nearby_users(location, radius)
-
-  #NEED TO PULL A LIST OF NEARBY USERS BASED ON DEFAULT CITY, PROVIDED ZIPCODE, PROVIDED CITY, OR PROVIDED RADIUS FROM CITY
-  #FILTER THESE RESULTS BY THE NEARBY ONES
-
   ############################### PRIVATE METHODS ##############################
   private
   def dev_test_env?
@@ -80,13 +73,26 @@ class UnpostsQuery
     @relation.where(category_id: category_id)
   end
 
-  #Find all related Unposts that have a user with a zipcode of @zipcode.
+  #Find related Unposts with creator in @zipcode.
   def in_zipcode
     @relation.joins(:creator => :location).where(locations: {zipcode: @zipcode})
   end
 
-  #Find all related Unposts that have a user with a city,state of @city,@state
+  #Find related Unposts with creators in @city,@state
   def in_city_state
     @relation.joins(:creator => :location).where(locations: {state: @state}).where(locations: {city: @city})
   end
+
+  #Find related Unposts with creators nearby to @zipcode
+  def in_radius_of_zipcode(zipcode, radius)
+    nearbys = Location.near("#{zipcode}", radius, order: "distance")
+    @relation.joins(:creator => :location).where(locations: { id: nearbys.map(&:id) })
+  end
+
+  #Find related Unposts with creators nearby to @city,@state
+  def in_radius_of_city_state(city, state, radius)
+    nearbys = Location.near("#{[city,state].join(',')}", radius, order: "distance")
+    @relation.joins(:creator => :location).where(locations: { id: nearbys.map(&:id) })
+  end
+
 end

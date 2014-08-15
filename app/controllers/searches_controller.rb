@@ -9,7 +9,7 @@ class SearchesController < ApplicationController
     @search_category = ( (search_params[:category_id] == "0") ? "0" : Category.find(search_params[:category_id]) )
     @search_results  = UnpostsQuery.new.search(search_string: @search_string,
                                                 cateogory_id: search_params[:category_id],
-                                                      radius: nil,#session[:search_radius ],
+                                                      radius: session[:search_radius ],
                                                         city: session[:search_city   ],
                                                        state: session[:search_state  ],
                                                      zipcode: session[:search_zipcode] )
