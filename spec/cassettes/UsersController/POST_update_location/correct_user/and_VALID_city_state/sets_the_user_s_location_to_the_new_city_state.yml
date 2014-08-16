@@ -1,0 +1,306 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=seattle,wa&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Sat, 16 Aug 2014 01:57:12 GMT
+      Expires:
+      - Sun, 17 Aug 2014 01:57:12 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Access-Control-Allow-Origin:
+      - '*'
+      Server:
+      - mafe
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {
+           "results" : [
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "Seattle",
+                       "short_name" : "Seattle",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "King County",
+                       "short_name" : "King County",
+                       "types" : [ "administrative_area_level_2", "political" ]
+                    },
+                    {
+                       "long_name" : "Washington",
+                       "short_name" : "WA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    }
+                 ],
+                 "formatted_address" : "Seattle, WA, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 47.734145,
+                          "lng" : -122.235776
+                       },
+                       "southwest" : {
+                          "lat" : 47.4955511,
+                          "lng" : -122.4359085
+                       }
+                    },
+                    "location" : {
+                       "lat" : 47.6062095,
+                       "lng" : -122.3320708
+                    },
+                    "location_type" : "APPROXIMATE",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 47.734145,
+                          "lng" : -122.235776
+                       },
+                       "southwest" : {
+                          "lat" : 47.4955511,
+                          "lng" : -122.4359085
+                       }
+                    }
+                 },
+                 "types" : [ "locality", "political" ]
+              }
+           ],
+           "status" : "OK"
+        }
+    http_version: 
+  recorded_at: Sat, 16 Aug 2014 01:57:12 GMT
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=seattle,wa&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Sat, 16 Aug 2014 01:57:12 GMT
+      Expires:
+      - Sun, 17 Aug 2014 01:57:12 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Access-Control-Allow-Origin:
+      - '*'
+      Server:
+      - mafe
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {
+           "results" : [
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "Seattle",
+                       "short_name" : "Seattle",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "King County",
+                       "short_name" : "King County",
+                       "types" : [ "administrative_area_level_2", "political" ]
+                    },
+                    {
+                       "long_name" : "Washington",
+                       "short_name" : "WA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    }
+                 ],
+                 "formatted_address" : "Seattle, WA, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 47.734145,
+                          "lng" : -122.235776
+                       },
+                       "southwest" : {
+                          "lat" : 47.4955511,
+                          "lng" : -122.4359085
+                       }
+                    },
+                    "location" : {
+                       "lat" : 47.6062095,
+                       "lng" : -122.3320708
+                    },
+                    "location_type" : "APPROXIMATE",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 47.734145,
+                          "lng" : -122.235776
+                       },
+                       "southwest" : {
+                          "lat" : 47.4955511,
+                          "lng" : -122.4359085
+                       }
+                    }
+                 },
+                 "types" : [ "locality", "political" ]
+              }
+           ],
+           "status" : "OK"
+        }
+    http_version: 
+  recorded_at: Sat, 16 Aug 2014 01:57:12 GMT
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=bellevue,wa&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Sat, 16 Aug 2014 01:57:12 GMT
+      Expires:
+      - Sun, 17 Aug 2014 01:57:12 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Access-Control-Allow-Origin:
+      - '*'
+      Server:
+      - mafe
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {
+           "results" : [
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "Bellevue",
+                       "short_name" : "Bellevue",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "King County",
+                       "short_name" : "King County",
+                       "types" : [ "administrative_area_level_2", "political" ]
+                    },
+                    {
+                       "long_name" : "Washington",
+                       "short_name" : "WA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    }
+                 ],
+                 "formatted_address" : "Bellevue, WA, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 47.660897,
+                          "lng" : -122.0871732
+                       },
+                       "southwest" : {
+                          "lat" : 47.534614,
+                          "lng" : -122.222931
+                       }
+                    },
+                    "location" : {
+                       "lat" : 47.610377,
+                       "lng" : -122.2006786
+                    },
+                    "location_type" : "APPROXIMATE",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 47.660897,
+                          "lng" : -122.0871732
+                       },
+                       "southwest" : {
+                          "lat" : 47.534614,
+                          "lng" : -122.222931
+                       }
+                    }
+                 },
+                 "types" : [ "locality", "political" ]
+              }
+           ],
+           "status" : "OK"
+        }
+    http_version: 
+  recorded_at: Sat, 16 Aug 2014 01:57:12 GMT
+recorded_with: VCR 2.9.0

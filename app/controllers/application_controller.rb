@@ -10,6 +10,11 @@ class ApplicationController < ActionController::Base
     redirect_to (signed_out? ? root_path : home_path)
   end
 
+  def access_denied_now(msg = "Access Denied.")
+    flash.now[:error] = "#{msg}"
+    render partial: 'shared/flash_message_js.js.haml'
+  end
+
   def current_user
     User.find(session[:user_id]) if signed_in?
   end
@@ -39,8 +44,18 @@ class ApplicationController < ActionController::Base
   end
 
   #verify the OR condition won't hijack functionality
+  #TODO: Verify that isn't allowing users to mask themselves as another
+  #Had issue because it was setting @user = current_user,
+    #so when checked "require_correct_user", DIDN"T FAIL!
   def set_user
-    @user = (params[:id] ? User.find(params[:id]) : current_user)
+    if    params[:id]
+      @user = User.find(params[:id])
+    elsif params[:user_id]
+      @user = User.find(params[:user_id])
+    else
+      #@user = current_user #Seems risky to EVER do this.
+    end
+    #@user = (params[:id] ? User.find(params[:id]) : (params[:user_id] ? User.find(params[:user_id]) : current_user) )
   end
 
   def set_current_user

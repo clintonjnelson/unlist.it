@@ -413,17 +413,20 @@ describe UsersController do
     end
   end
 
-  describe "POST update_location" do
+  describe "POST update_location", :vcr do
     context "correct user" do
       context "and VALID zipcode" do
-        let!(:jen) { Fabricate(:user) }
+        let!(:seattle) { Fabricate(:zip_location) }
+        let!(:jen) { Fabricate(:user, location: seattle) }
         before do
           spec_signin_user(jen)
-          xhr :post, :toggle_avatar, id: jen.id, currently: jen.use_avatar
+          xhr :post, :update_location, user_id: jen.id, location: "98057"
         end
-
-        it "toggles the User's use_avatar boolean to on (aka: true)" do
-          expect(jen.reload.use_avatar).to be_true
+        it "sets the user's location to the new zipcode" do
+          expect(User.first.location.zipcode).to eq(98057)
+        end
+        it "flashes a success message" do
+          expect(flash[:success]).to be_present
         end
         it "re-renders the edit page" do
           expect(response).to be_success
@@ -431,15 +434,18 @@ describe UsersController do
       end
 
       context "and INvalid zipcode" do
-        let!(:jen) { Fabricate(:user) }
+        let!(:seattle) { Fabricate(:zip_location) }
+        let!(:jen) { Fabricate(:user, location: seattle) }
         before do
           spec_signin_user(jen)
-          jen.update_columns(avatar: "1234", use_avatar: true)
-          xhr :post, :toggle_avatar, id: jen.id, currently: jen.use_avatar.to_s
+          xhr :post, :update_location, user_id: jen.id, location: "98notazip"
         end
 
-        it "toggles the User's use_avatar boolean to off (aka: false)" do
-          expect(jen.reload.use_avatar).to be_false
+        it "does NOT change the user's zipcode" do
+          expect(User.first.location.zipcode).to eq(98164)
+        end
+        it "flashes an error message" do
+          expect(flash[:notice]).to be_present
         end
         it "re-renders the edit page" do
           expect(response).to be_success
@@ -447,15 +453,18 @@ describe UsersController do
       end
 
       context "and VALID city,state" do
-        let!(:jen) { Fabricate(:user) }
+        let!(:seattle) { Fabricate(:city_state_location) }
+        let!(:jen) { Fabricate(:user, location: seattle) }
         before do
           spec_signin_user(jen)
-          jen.update_columns(avatar: "1234", use_avatar: true)
-          xhr :post, :toggle_avatar, id: jen.id, currently: jen.use_avatar.to_s
+          xhr :post, :update_location, user_id: jen.id, location: "bellevue, wa"
         end
-
-        it "toggles the User's use_avatar boolean to off (aka: false)" do
-          expect(jen.reload.use_avatar).to be_false
+        it "sets the user's location to the new city & state" do
+          expect(User.first.location.state).to eq('wa'      )
+          expect(User.first.location.city).to  eq('bellevue')
+        end
+        it "flashes a success message" do
+          expect(flash[:success]).to be_present
         end
         it "re-renders the edit page" do
           expect(response).to be_success
@@ -463,15 +472,19 @@ describe UsersController do
       end
 
       context "and INvalid city,state" do
-        let!(:jen) { Fabricate(:user) }
+        let!(:seattle) { Fabricate(:city_state_location) }
+        let!(:jen) { Fabricate(:user, location: seattle) }
         before do
           spec_signin_user(jen)
-          jen.update_columns(avatar: "1234", use_avatar: true)
-          xhr :post, :toggle_avatar, id: jen.id, currently: jen.use_avatar.to_s
+          xhr :post, :update_location, user_id: jen.id, location: "thisisnot,astate"
         end
 
-        it "toggles the User's use_avatar boolean to off (aka: false)" do
-          expect(jen.reload.use_avatar).to be_false
+        it "does NOT change the user's current city & state" do
+          expect(User.first.location.state).to eq('wa'      )
+          expect(User.first.location.city).to  eq('seattle')
+        end
+        it "flashes an error message" do
+          expect(flash[:notice]).to be_present
         end
         it "re-renders the edit page" do
           expect(response).to be_success
@@ -481,8 +494,16 @@ describe UsersController do
 
     context "with incorrect user" do
       let!(:jen) { Fabricate(:user) }
-      it_behaves_like "require_correct_user" do
-        let(:verb_action) { post :toggle_avatar, id: jen.id, currently: "false" }
+      let!(:joe) { Fabricate(:user) }
+      before do
+        spec_signin_user(joe)
+        xhr :post, :update_location, user_id: jen.id, location: "thisisnot,astate"
+      end
+      it "renders a flash error message" do
+        expect(flash[:error]).to be_present
+      end
+      it "re-renders the edit page" do
+        expect(response).to be_success
       end
     end
   end
