@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
   before_action :require_signed_out,    only: [:new, :create, :new_with_invite]
   before_action :require_signed_in,     only: [:show]
-  before_action :set_user,              only: [:show, :edit, :update, :toggle_avatar] #MUST come before require_current_user
-  before_action :require_correct_user,  only: [:show, :edit, :update, :toggle_avatar]
+  before_action :set_user,              only: [:show, :edit, :update, :toggle_avatar, :location_modal, :update_location] #MUST come before require_current_user
+  before_action :require_correct_user,  only: [:show, :edit, :update, :toggle_avatar, :location_modal, :update_location]
 
 ##TODO:
 ####Create a Registration Service Object
@@ -83,6 +83,30 @@ class UsersController < ApplicationController
     end
   end
 
+  def location_modal
+    respond_to do |format|
+      format.any(:html, :js) { render 'user_location_modal.js.erb' }
+    end
+  end
+
+  def update_location
+    @location_param  = location_param[:location]
+    location         = LocationsManager.new
+    if @location_param.present? && location.find_or_make_location(@location_param)
+      if update_user_location_and_variables?(location)
+        flash.now[:success] = "Your default location has been updated."
+      else
+        flash.now[:notice]  = "Sorry, we couldn't update your location. Please try again."
+      end
+    else
+      flash.now[:notice]  = "Sorry, we couldn't find that location. Please try a valid zipcode or city,state."
+    end
+
+    respond_to do |format|
+      format.any(:html, :js) { render 'users/update_user_location.js.erb' }
+    end
+  end
+
 
 ############################## PRIVATE METHODS ###############################
 private
@@ -94,7 +118,22 @@ private
     params.permit(:id, :currently)
   end
 
+  def location_param
+    params.permit(:location)
+  end
+
   def require_correct_user
     access_denied("You are not the appropriate user.") unless current_user == @user
+  end
+
+  def update_user_location_and_variables?(location)
+    if @user.update(location_id: location.id)
+      @success = true
+      @city    = location.city
+      @state   = location.state
+      true
+    else
+      false
+    end
   end
 end

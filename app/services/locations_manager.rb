@@ -1,6 +1,6 @@
 class LocationsManager
 
-  attr_reader :latitude, :longitude, :city, :state, :success, :type, :zipcode
+  attr_reader :latitude, :longitude, :city, :state, :success, :type, :zipcode, :id
   def initialize()
   end
 
@@ -10,6 +10,7 @@ class LocationsManager
     if is_zipcode? #if zipcode provided
       db_location = Location.where(zipcode: @location_input.to_i).take #try to find in db
       if db_location #if in db
+        @id        = db_location.id
         @zipcode   = db_location.zipcode
         @latitude  = db_location.latitude
         @longitude = db_location.longitude
@@ -25,6 +26,7 @@ class LocationsManager
       city, state  = format_city_state #set city & state variables to downcase strings of each
       db_location  = Location.where(state: state).where(city: city).first #try to find location in db
       if db_location #if in db
+        @id        = db_location.id
         @city      = db_location.city.capitalize
         @state     = db_location.state.upcase
         @latitude  = db_location.latitude
@@ -38,10 +40,11 @@ class LocationsManager
       end
     end
 
-    unless db_location #unless found existing
+    unless db_location #unless found existing, attempt to make new Location
       ##WHEN MAKE OOP, REALLY SHOULD SET A TYPE BASED ON INPUT
       ##SAVE ALL DATA & THEN PULL ZIP OR CiTY/STATE BASED IN TYPE
       if @location && @location.save #try to save new
+        @id        = @location.id
         @latitude  = @location.reload.latitude
         @longitude = @location.reload.longitude
         case @type

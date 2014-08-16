@@ -40,10 +40,10 @@ Rails.application.routes.draw do
   #Protects Users by anonymity. BUILD THIS OUT - ADD SLUGS TOO
   resources :unposts,               only: [:show, :index] do  #INDEX for general searching & use by non-creator
     collection do
-      post  :search,                  to: 'searches#search'
+      post      :search,              to: 'searches#search'
     end
     resources :messages,            only: [:create, :index]
-    get 'show_message_form',          to: 'unposts#show_message_form' #AJAX
+    get       'show_message_form',    to: 'unposts#show_message_form' #AJAX
   end
   resources :users,                 only: [:create, :show, :edit, :update] do
     resources :invitations,         only: [:new, :create]
@@ -51,15 +51,17 @@ Rails.application.routes.draw do
     get       '/feedback',            to: 'messages#new_feedback'
     resources :unposts,           except: [:index]
     get       '/unlist',              to: 'unposts#index'
+    get       '/location_modal',      to: 'users#location_modal'
+    post      '/update_location',     to: 'users#update_location'
   end
 
 
   namespace :admin do
     resources :categories
-    resources :conditions,          only: [:new, :create, :edit, :update, :destroy]
-    resources :settings,            only: [:edit, :update]
-    resources :users,               only: [:index, :destroy]
-    post '/conditions_by_category',   to: 'conditions#conditions_by_category'
+    resources :conditions,             only: [:new, :create, :edit, :update, :destroy]
+    resources :settings,               only: [:edit, :update]
+    resources :users,                  only: [:index, :destroy]
+    post      '/conditions_by_category', to: 'conditions#conditions_by_category'
   end
 
   mount Sidekiq::Web,                 at: '/sidekiq'  #for online monitoring

@@ -1,0 +1,16 @@
+.modal-sm
+  .modal-content
+    .modal-header
+      %button.close(aria-hidden='true'){data: {dismiss: 'modal'} } x
+      %h4.text-muted
+        Change Default Location
+        %br
+        (Enter a new: Zipcode or City,State)
+
+    .modal-body.modal-form
+      =form_tag user_update_location_path(user.id), {method: 'post', remote: true } do
+        =text_field_tag :location
+        =submit_tag "Change", class: "btn btn-primary btn-sm modal-close"
+
+
+

@@ -2,13 +2,25 @@
   #editusercontent.well
     %h2= "Edit #{@user.username.capitalize}'s Account Settings"
     %hr.hr-lg-dashed
+
+    #changedefaultlocation
+      -#This area is similar to 'shared/quicksearch' partial
+      %h5#user-location-area
+        Located In:
+        %span#user-location-text
+          =" #{@user.location.city.capitalize}, #{@user.location.state.upcase}"
+        =link_to "[Change Default Location]", user_location_modal_path(@user), { remote: true, data: { toggle: 'modal', target: '#modal-location'} }
+      #modal-location.modal.fase(role='dialog' aria-labelledby='userLocation' aria-hidden='true')
+    %br
+    %br
+
+
     -if @user.avatar.present?
       =link_to @user.avatar_url :full_avatar do
         =image_tag(@user.avatar_url :thumb_avatar)
       #avatar-switch
         =@user.decorator.use_avatar_checkbox
-        %span Use Uploaded Avatar?
-      %br
+        %span Use Uploaded Pic?
       %br
 
     =bootstrap_form_for @user, html: { multipart: true } do |f|
@@ -16,9 +28,12 @@
       =f.hidden_field :avatar_cache
       %br
 
+
+      %hr
+
       %p
         %em
           %small Note: Changing your default email will change your login email too!
       =f.email_field  :email, label: "Default Email:"
       =f.password_field :password, label: "New Password:"
-      =f.submit "Save Changes", class: "btn btn-primary"
+      =f.submit "Save Changes", class: "btn btn-primary", data: { confirm: "Note: If you changed your email address, the email you login with will change to this new email address." }

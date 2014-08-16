@@ -412,4 +412,78 @@ describe UsersController do
       end
     end
   end
+
+  describe "POST update_location" do
+    context "correct user" do
+      context "and VALID zipcode" do
+        let!(:jen) { Fabricate(:user) }
+        before do
+          spec_signin_user(jen)
+          xhr :post, :toggle_avatar, id: jen.id, currently: jen.use_avatar
+        end
+
+        it "toggles the User's use_avatar boolean to on (aka: true)" do
+          expect(jen.reload.use_avatar).to be_true
+        end
+        it "re-renders the edit page" do
+          expect(response).to be_success
+        end
+      end
+
+      context "and INvalid zipcode" do
+        let!(:jen) { Fabricate(:user) }
+        before do
+          spec_signin_user(jen)
+          jen.update_columns(avatar: "1234", use_avatar: true)
+          xhr :post, :toggle_avatar, id: jen.id, currently: jen.use_avatar.to_s
+        end
+
+        it "toggles the User's use_avatar boolean to off (aka: false)" do
+          expect(jen.reload.use_avatar).to be_false
+        end
+        it "re-renders the edit page" do
+          expect(response).to be_success
+        end
+      end
+
+      context "and VALID city,state" do
+        let!(:jen) { Fabricate(:user) }
+        before do
+          spec_signin_user(jen)
+          jen.update_columns(avatar: "1234", use_avatar: true)
+          xhr :post, :toggle_avatar, id: jen.id, currently: jen.use_avatar.to_s
+        end
+
+        it "toggles the User's use_avatar boolean to off (aka: false)" do
+          expect(jen.reload.use_avatar).to be_false
+        end
+        it "re-renders the edit page" do
+          expect(response).to be_success
+        end
+      end
+
+      context "and INvalid city,state" do
+        let!(:jen) { Fabricate(:user) }
+        before do
+          spec_signin_user(jen)
+          jen.update_columns(avatar: "1234", use_avatar: true)
+          xhr :post, :toggle_avatar, id: jen.id, currently: jen.use_avatar.to_s
+        end
+
+        it "toggles the User's use_avatar boolean to off (aka: false)" do
+          expect(jen.reload.use_avatar).to be_false
+        end
+        it "re-renders the edit page" do
+          expect(response).to be_success
+        end
+      end
+    end
+
+    context "with incorrect user" do
+      let!(:jen) { Fabricate(:user) }
+      it_behaves_like "require_correct_user" do
+        let(:verb_action) { post :toggle_avatar, id: jen.id, currently: "false" }
+      end
+    end
+  end
 end
