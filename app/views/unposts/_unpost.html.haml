@@ -30,6 +30,6 @@
           %h5.hideshow-response.text-muted.underline
             %u Hide/Show Seller Responses
           %ul.list-unstyled.hide
-            =render partial: "response_message", collection: unpost.parent_messages, as: :message, locals: { unpost: unpost }
+            =render partial: "unposts/response_message", collection: unpost.parent_messages, as: :message, locals: { unpost: unpost }
 %hr.hr-xs-solid
 

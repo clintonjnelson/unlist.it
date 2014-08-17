@@ -44,18 +44,14 @@ class ApplicationController < ActionController::Base
   end
 
   #verify the OR condition won't hijack functionality
-  #TODO: Verify that isn't allowing users to mask themselves as another
-  #Had issue because it was setting @user = current_user,
-    #so when checked "require_correct_user", DIDN"T FAIL!
+  #NEVER set '@user = current_user' where 'require_correct_user' is checked!
   def set_user
-    if    params[:id]
-      @user = User.find(params[:id])
+    if params[:id]
+      @user = User.find_by(slug: params[:id])
     elsif params[:user_id]
-      @user = User.find(params[:user_id])
-    else
-      #@user = current_user #Seems risky to EVER do this.
+      @user = User.find_by(slug: params[:user_id])
     end
-    #@user = (params[:id] ? User.find(params[:id]) : (params[:user_id] ? User.find(params[:user_id]) : current_user) )
+
   end
 
   def set_current_user

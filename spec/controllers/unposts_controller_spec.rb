@@ -54,7 +54,7 @@ describe UnpostsController do
         expect(flash[:success]).to be_present
       end
       it "redirects to the new unpost's page for viewing" do
-        expect(response).to redirect_to user_unpost_path(jen.id ,Unpost.first.id)
+        expect(response).to redirect_to user_unpost_path(jen.slug ,Unpost.first.id)
       end
     end
 
@@ -136,7 +136,7 @@ describe UnpostsController do
           expect(flash[:success]).to be_present
         end
         it "renders the 'show' template" do
-          expect(response).to redirect_to user_unpost_path(jen.id, car_unpost.id)
+          expect(response).to redirect_to user_unpost_path(jen.slug, car_unpost.id)
         end
       end
 

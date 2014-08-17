@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140812025610) do
+ActiveRecord::Schema.define(version: 20140817041054) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -137,6 +137,7 @@ ActiveRecord::Schema.define(version: 20140812025610) do
     t.boolean  "use_avatar"
     t.integer  "invite_count"
     t.integer  "location_id"
+    t.string   "slug"
   end
 
 end

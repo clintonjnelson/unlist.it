@@ -24,7 +24,7 @@
       %br
 
     =bootstrap_form_for @user, html: { multipart: true } do |f|
-      =f.file_field   :avatar,      label: "Upload A New Profile Pic"
+      =f.file_field   :avatar, label: "Upload A New Profile Pic"
       =f.hidden_field :avatar_cache
       %br
 
@@ -34,6 +34,7 @@
       %p
         %em
           %small Note: Changing your default email will change your login email too!
-      =f.email_field  :email, label: "Default Email:"
+      =f.text_field     :username, label: "Change Username:"
+      =f.email_field    :email,    label: "Default Email:"
       =f.password_field :password, label: "New Password:"
       =f.submit "Save Changes", class: "btn btn-primary", data: { confirm: "Note: If you changed your email address, the email you login with will change to this new email address." }

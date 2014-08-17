@@ -38,19 +38,18 @@ describe User do
     end
   end
 
-
-  describe "use_new_avatar_image" do
-    let(:jen) { Fabricate(:user) }
-    context "for a newly uploaded image that changes the value of :avatar" do
-      it "changes the use_avatar column to true to use the new image instead of gravatar"
-  ##TRYING TO GET THIS TO ALlOW CHANGE, BUT CARRIERWAVE IS INTERFERING PROPERLY...
-  #      jen.attributes({avatar: "1234"}).save(validate: false)
-  #      expect(jen.use_avatar).to be_true
-  #    end
+  describe 'generate_and_check_username' do
+    let!(:jen) { Fabricate(:user) }
+    it 'sets an initial value of the username to a format unlister######### for slugging' do
+      expect(User.last.username).to include('unlister')
+    end
+    it 'sets the username to a total length of 20 characters' do
+      expect(User.last.username.length).to eq(20)
+    end
+    it 'sets the slug to the username' do
+      expect(User.last.slug).to eq(User.last.username)
     end
   end
-
-
   ################################ METHODS ##############################
   describe "admin?" do
     let(:jen) { Fabricate(:user) }
