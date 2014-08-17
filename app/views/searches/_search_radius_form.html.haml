@@ -2,3 +2,5 @@
   =text_field_tag :radius
   %span miles
   =submit_tag "Update", class: "btn btn-primary btn-sm modal-close"
+
+=link_to "[remove radius]", remove_radius_path, { method: 'get', remote: true, class: 'modal-close' }

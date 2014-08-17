@@ -54,10 +54,10 @@ class UnpostsQuery
   def find_by_keyword(keyword)
     if @dev_test_env
       results = Unpost.active.where("keyword1 LIKE :search OR keyword2 LIKE :search OR keyword3 LIKE :search OR keyword4 LIKE :search",
-                           { search: "%#{keyword}%" })
+                           { search: "%#{keyword}%" }).order('created_at ASC')
     else
       results = Unpost.active.where("keyword1 ILIKE :search OR keyword2 ILIKE :search OR keyword3 ILIKE :search OR keyword4 ILIKE :search",
-                           { search: "%#{keyword}%" })
+                           { search: "%#{keyword}%" }).order('created_at ASC')
     end
     results
   end

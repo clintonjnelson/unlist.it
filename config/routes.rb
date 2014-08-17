@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   get     '/search_location',             to: 'searches#search_location'
   post    '/search_location',             to: 'searches#set_search_location'
   get     '/search_radius',               to: 'searches#search_radius'
+  get     '/remove_radius',               to: 'searches#remove_radius'
   post    '/search_radius',               to: 'searches#set_search_radius'
 
   resources :reset_passwords,       only: [:create, :show]
