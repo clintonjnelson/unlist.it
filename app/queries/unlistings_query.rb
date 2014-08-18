@@ -1,11 +1,11 @@
 #Query needa to be able to:
-    # find unposts with keywords as match; if no keywords, find all
+    # find unlistings with keywords as match; if no keywords, find all
     # filter by category; if no category - get all
     # filter by radius: if no radius, use only city or zipcode provided
     # filter by city,state or zipcode; default is Seattle, WA 98164
 
 
-class UnpostsQuery
+class UnlistingsQuery
   attr_reader :relation, :search_string, :category_id
   def initialize()
     dev_test_env?
@@ -25,7 +25,7 @@ class UnpostsQuery
     if @search_string  #if search string provided
       @relation = find_by_keyword(@search_string)
     else #if no search string, get all(?)
-      @relation = Unpost.active.all #gotta love Lazy Loading
+      @relation = Unlisting.active.all #gotta love Lazy Loading
     end
 
     if @category_id && (@category_id != "0") #if cateogory provided; category "0" means ALL
@@ -53,10 +53,10 @@ class UnpostsQuery
   ################################# QUERY SCOPES ###############################
   def find_by_keyword(keyword)
     if @dev_test_env
-      results = Unpost.active.where("keyword1 LIKE :search OR keyword2 LIKE :search OR keyword3 LIKE :search OR keyword4 LIKE :search",
+      results = Unlisting.active.where("keyword1 LIKE :search OR keyword2 LIKE :search OR keyword3 LIKE :search OR keyword4 LIKE :search",
                            { search: "%#{keyword}%" }).order('created_at ASC')
     else
-      results = Unpost.active.where("keyword1 ILIKE :search OR keyword2 ILIKE :search OR keyword3 ILIKE :search OR keyword4 ILIKE :search",
+      results = Unlisting.active.where("keyword1 ILIKE :search OR keyword2 ILIKE :search OR keyword3 ILIKE :search OR keyword4 ILIKE :search",
                            { search: "%#{keyword}%" }).order('created_at ASC')
     end
     results
@@ -73,23 +73,23 @@ class UnpostsQuery
     @relation.where(category_id: category_id)
   end
 
-  #Find related Unposts with creator in @zipcode.
+  #Find related Unlistings with creator in @zipcode.
   def in_zipcode
     @relation.joins(:creator => :location).where(locations: {zipcode: @zipcode})
   end
 
-  #Find related Unposts with creators in @city,@state
+  #Find related Unlistings with creators in @city,@state
   def in_city_state
     @relation.joins(:creator => :location).where(locations: {state: @state}).where(locations: {city: @city})
   end
 
-  #Find related Unposts with creators nearby to @zipcode
+  #Find related Unlistings with creators nearby to @zipcode
   def in_radius_of_zipcode(zipcode, radius)
     nearbys = Location.near("#{zipcode}", radius, order: "distance")
     @relation.joins(:creator => :location).where(locations: { id: nearbys.map(&:id) })
   end
 
-  #Find related Unposts with creators nearby to @city,@state
+  #Find related Unlistings with creators nearby to @city,@state
   def in_radius_of_city_state(city, state, radius)
     nearbys = Location.near("#{[city,state].join(',')}", radius, order: "distance")
     @relation.joins(:creator => :location).where(locations: { id: nearbys.map(&:id) })

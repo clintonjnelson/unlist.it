@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   root                                    to: 'pages#home'
   get     '/home',                        to: 'pages#home'
   get     '/browse',                      to: 'pages#browse'
-  get     '/browse/:category_id',         to: 'unposts#index_by_category', as: "browse_category"
+  get     '/browse/:category_id',         to: 'unlistings#index_by_category', as: "browse_category"
   get     '/tour',                        to: 'pages#tour'
   get     '/faq',                         to: 'pages#faq'
   get     '/about',                       to: 'pages#about'
@@ -28,7 +28,7 @@ Rails.application.routes.draw do
 
 
   #AJAX
-  post    '/conditions_by_category',      to: 'unposts#conditions_by_category'
+  post    '/conditions_by_category',      to: 'unlistings#conditions_by_category'
   patch   '/toggle_avatar',               to: 'users#toggle_avatar'
   get     '/search_location',             to: 'searches#search_location'
   post    '/search_location',             to: 'searches#set_search_location'
@@ -39,19 +39,19 @@ Rails.application.routes.draw do
   resources :reset_passwords,           only: [:create, :show]
   resources :sessions,                  only: [:create]
 
-  resources :unposts,                   only: [:show, :index] do  #INDEX for general searching & use by non-creator
+  resources :unlistings,                   only: [:show, :index] do  #INDEX for general searching & use by non-creator
     collection do
       post      :search,                  to: 'searches#search'
     end
     resources :messages,                only: [:create, :index]
-    get       'show_message_form',        to: 'unposts#show_message_form' #AJAX
+    get       'show_message_form',        to: 'unlistings#show_message_form' #AJAX
   end
   resources :users,                     only: [:create, :show, :edit, :update] do
     resources :invitations,             only: [:new, :create]
     resources :messages,                only: [:new, :create, :show, :index] #INDEX specific to user browsing own items
     get       '/feedback',                to: 'messages#new_feedback'
-    resources :unposts,               except: [:index]
-    get       '/unlist',                  to: 'unposts#index'
+    resources :unlistings,               except: [:index]
+    get       '/unlist',                  to: 'unlistings#index'
     get       '/location_modal',          to: 'users#location_modal'
     post      '/update_location',         to: 'users#update_location'
   end

@@ -224,7 +224,7 @@ describe UsersController do
     context "with the proper user" do
       before do
         spec_signin_user(jen)
-        get :show, { id: jen.id }
+        get :show, { id: jen.slug }
       end
       it "assigns the current_user's user" do
         expect(assigns(:user)).to be_present
@@ -236,10 +236,10 @@ describe UsersController do
 
     context "with disallowed users" do
       it_behaves_like "require_signed_in" do
-        let(:verb_action) { get :show, { id: jen.id } }
+        let(:verb_action) { get :show, { id: jen.slug } }
       end
       it_behaves_like "require_correct_user" do
-        let(:verb_action) { get :show, { id: jen.id } }
+        let(:verb_action) { get :show, { id: jen.slug } }
       end
     end
   end
@@ -251,7 +251,7 @@ describe UsersController do
     context "with the proper user" do
       before do
         spec_signin_user(jen)
-        get :edit, { id: jen.id }
+        get :edit, { id: jen.slug }
       end
       it "assigns the current_user's user" do
         expect(assigns(:user)).to be_present
@@ -263,10 +263,10 @@ describe UsersController do
 
     context "with disallowed users" do
       it_behaves_like "require_signed_in" do
-        let(:verb_action) { get :edit, { id: jen.id } }
+        let(:verb_action) { get :edit, { id: jen.slug } }
       end
       it_behaves_like "require_correct_user" do
-        let(:verb_action) { get :edit, { id: jen.id } }
+        let(:verb_action) { get :edit, { id: jen.slug } }
       end
     end
   end
@@ -278,7 +278,7 @@ describe UsersController do
     context "with the proper user & valid info" do
       before do
         spec_signin_user(jen)
-        patch :update, { id: jen.id, user: { email: "alternate@example.com", password: "password2" } }
+        patch :update, { id: jen.slug, user: { email: "alternate@example.com", password: "password2" } }
       end
       it "assigns the current_user's user" do
         expect(assigns(:user)).to be_present
@@ -301,7 +301,7 @@ describe UsersController do
     context "with the proper user & INvalid info" do
       before do
         spec_signin_user(jen)
-        patch :update, { id: jen.id, user: { email: "wrongemail", password: "password2" } }
+        patch :update, { id: jen.slug, user: { email: "wrongemail", password: "password2" } }
       end
       it "assigns the current_user's user" do
         expect(assigns(:user)).to be_present
@@ -323,10 +323,10 @@ describe UsersController do
 
     context "with disallowed users" do
       it_behaves_like "require_signed_in" do
-        let(:verb_action) { patch :update, { id: jen.id, user: { email: "wrongemail", password: "password2" } } }
+        let(:verb_action) { patch :update, { id: jen.slug, user: { email: "wrongemail", password: "password2" } } }
       end
       it_behaves_like "require_correct_user" do
-        let(:verb_action) { patch :update, { id: jen.id, user: { email: "wrongemail", password: "password2" } } }
+        let(:verb_action) { patch :update, { id: jen.slug, user: { email: "wrongemail", password: "password2" } } }
       end
     end
   end
@@ -377,7 +377,7 @@ describe UsersController do
         let!(:jen) { Fabricate(:user) }
         before do
           spec_signin_user(jen)
-          xhr :post, :toggle_avatar, id: jen.id, currently: jen.use_avatar
+          xhr :post, :toggle_avatar, id: jen.slug, currently: jen.use_avatar
         end
 
         it "toggles the User's use_avatar boolean to on (aka: true)" do
@@ -393,7 +393,7 @@ describe UsersController do
         before do
           spec_signin_user(jen)
           jen.update_columns(avatar: "1234", use_avatar: true)
-          xhr :post, :toggle_avatar, id: jen.id, currently: jen.use_avatar.to_s
+          xhr :post, :toggle_avatar, id: jen.slug, currently: jen.use_avatar.to_s
         end
 
         it "toggles the User's use_avatar boolean to off (aka: false)" do
@@ -408,7 +408,7 @@ describe UsersController do
     context "with incorrect user" do
       let!(:jen) { Fabricate(:user) }
       it_behaves_like "require_correct_user" do
-        let(:verb_action) { post :toggle_avatar, id: jen.id, currently: "false" }
+        let(:verb_action) { post :toggle_avatar, id: jen.slug, currently: "false" }
       end
     end
   end
@@ -420,7 +420,7 @@ describe UsersController do
         let!(:jen) { Fabricate(:user, location: seattle) }
         before do
           spec_signin_user(jen)
-          xhr :post, :update_location, user_id: jen.id, location: "98057"
+          xhr :post, :update_location, user_id: jen.slug, location: "98057"
         end
         it "sets the user's location to the new zipcode" do
           expect(User.first.location.zipcode).to eq(98057)
@@ -438,7 +438,7 @@ describe UsersController do
         let!(:jen) { Fabricate(:user, location: seattle) }
         before do
           spec_signin_user(jen)
-          xhr :post, :update_location, user_id: jen.id, location: "98notazip"
+          xhr :post, :update_location, user_id: jen.slug, location: "98notazip"
         end
 
         it "does NOT change the user's zipcode" do
@@ -457,7 +457,7 @@ describe UsersController do
         let!(:jen) { Fabricate(:user, location: seattle) }
         before do
           spec_signin_user(jen)
-          xhr :post, :update_location, user_id: jen.id, location: "bellevue, wa"
+          xhr :post, :update_location, user_id: jen.slug, location: "bellevue, wa"
         end
         it "sets the user's location to the new city & state" do
           expect(User.first.location.state).to eq('wa'      )
@@ -476,7 +476,7 @@ describe UsersController do
         let!(:jen) { Fabricate(:user, location: seattle) }
         before do
           spec_signin_user(jen)
-          xhr :post, :update_location, user_id: jen.id, location: "thisisnot,astate"
+          xhr :post, :update_location, user_id: jen.slug, location: "thisisnot,astate"
         end
 
         it "does NOT change the user's current city & state" do
@@ -497,7 +497,7 @@ describe UsersController do
       let!(:joe) { Fabricate(:user) }
       before do
         spec_signin_user(joe)
-        xhr :post, :update_location, user_id: jen.id, location: "thisisnot,astate"
+        xhr :post, :update_location, user_id: jen.slug, location: "thisisnot,astate"
       end
       it "renders a flash error message" do
         expect(flash[:error]).to be_present

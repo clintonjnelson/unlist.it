@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140817233749) do
+ActiveRecord::Schema.define(version: 20140818004203) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -95,7 +95,7 @@ ActiveRecord::Schema.define(version: 20140817233749) do
   end
 
   create_table "unimages", force: true do |t|
-    t.integer  "unpost_id"
+    t.integer  "unlisting_id"
     t.string   "filename"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -103,7 +103,7 @@ ActiveRecord::Schema.define(version: 20140817233749) do
     t.integer  "user_id"
   end
 
-  create_table "unposts", force: true do |t|
+  create_table "unlistings", force: true do |t|
     t.integer  "user_id"
     t.integer  "category_id"
     t.integer  "condition_id"

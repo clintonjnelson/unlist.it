@@ -54,8 +54,8 @@ describe "scheduler" do
     end
 
     before do
-      abandoned_young_unimage.update_columns(unpost_id: nil, updated_at: 6.days.ago)
-      abandoned_old_unimage.update_columns(  unpost_id: nil, updated_at: 9.days.ago)
+      abandoned_young_unimage.update_columns(unlisting_id: nil, updated_at: 6.days.ago)
+      abandoned_old_unimage.update_columns(  unlisting_id: nil, updated_at: 9.days.ago)
       Rake.application.rake_require 'tasks/scheduler'
       Rake::Task.define_task(:environment) #Stub env. Rspec runs the App, so dont want Rake to run it AGAIN.
     end

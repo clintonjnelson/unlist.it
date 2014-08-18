@@ -1,10 +1,10 @@
 //VARIOUS AJAX FORM CALLS
 
 
-//////////////////////// ADD UNPOST /////////////////////////
+//////////////////////// ADD UNLISTING /////////////////////////
 //Ajax Population of ConditionSelect For Selected Category
 $(document).ready(function() {
-  $(".unpost_category_select").on("select change", function() {
+  $(".unlisting_category_select").on("select change", function() {
     $.ajax({
       type: "POST",
       url: "/conditions_by_category",
@@ -18,12 +18,12 @@ $(document).ready(function() {
 //Ajax Population of ConditionSelect For Selected Category on LOAD
 //MAY NEED A if ($(".add-condition-category-select").length == 1) { //do stuff below// }
 $(document).ready(function() {
-  if($(".unpost_category_select").length > 0) {
+  if($(".unlisting_category_select").length > 0) {
     $.ajax({
       type: "POST",
       url: "/conditions_by_category",
       dataType: "script",
-      data: {category_id: $(".unpost_category_select").val()}
+      data: {category_id: $(".unlisting_category_select").val()}
     });
     return false;
   }
@@ -73,7 +73,7 @@ $(document).ready(function() {
 //Ajax Population of ConditionSelect For Selected Category on LOAD
 //MAY NEED A if ($(".add-condition-category-select").length == 1) { //do stuff below// }
 $(document).ready(function() {
-  if($(".unpost_category_select").length > 0) {
+  if($(".unlisting_category_select").length > 0) {
     $.ajax({
       type: "POST",
       url: "/admin/conditions_by_category",

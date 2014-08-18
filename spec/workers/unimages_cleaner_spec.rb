@@ -4,8 +4,8 @@ require 'carrierwave/test/matchers'
 Sidekiq::Testing.fake!
 
 describe UnimagesCleaner do
-  let(:unpost)   { Fabricate(:unpost) }
-  let!(:unimage) { Fabricate(:unimage, unpost_id: unpost.id) }
+  let(:unlisting)   { Fabricate(:unlisting) }
+  let!(:unimage) { Fabricate(:unimage, unlisting_id: unlisting.id) }
 
   include CarrierWave::Test::Matchers
   before do
@@ -25,7 +25,7 @@ describe UnimagesCleaner do
     #   UnimagesCleaner.perform_in(1.day, unimage_id)
     #   expect(Sidekiq::Extensions::DelayedModel.jobs.size).to eq(1)
     # end
-    it "sets the unpost filename reference to nil" do
+    it "sets the unlisting filename reference to nil" do
       unimage_id = [unimage.id]
       UnimagesCleaner.perform_async(unimage_id)
       expect(Unimage.first.filename.filename).to be_nil

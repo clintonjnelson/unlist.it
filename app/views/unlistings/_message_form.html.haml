@@ -1,10 +1,10 @@
 .contactbuyer.well
-  .gravatar= @unpost.creator.decorator.avatar_image_tag(60)
+  .gravatar= @unlisting.creator.decorator.avatar_image_tag(60)
   %h3.text-left Contact Buyer
   %br
 
   .messageform
-    =bootstrap_form_for [@unpost, @message] do |f|
+    =bootstrap_form_for [@unlisting, @message] do |f|
       -unless signed_in?
         =f.email_field :contact_email
       =f.text_area  :content, label: "Message Buyer: ", rows: 6
@@ -15,7 +15,7 @@
           =label_tag "check1", "I currently have the item described."
         %li
           =check_box_tag 'check2', true
-          =label_tag "check2", "It meets the unpost requirements listed by buyer."
+          =label_tag "check2", "It meets the unlisting requirements listed by buyer."
         %li
           =check_box_tag 'check3', true
           =label_tag "check3", "I am not a solicitor."

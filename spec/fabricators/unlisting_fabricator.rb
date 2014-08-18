@@ -1,4 +1,4 @@
-Fabricator(:unpost) do
+Fabricator(:unlisting) do
   title         { "#{Faker::Lorem.word}" }
   description   { "#{Faker::Lorem.sentence}" }
   price         { Faker::Number.number(2) }

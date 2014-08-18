@@ -6,8 +6,8 @@ $(document).on("click", ".modal-close", function() {
 
 
 
-//////////////////////// UNPOST RESPONSE /////////////////////////
-//Tabbed interface for Unposts display
+//////////////////////// UNLISTING RESPONSE /////////////////////////
+//Tabbed interface for Unlistings display
 $(function() {
   $("#tabs").tabs();
 });
@@ -22,7 +22,7 @@ $(document).ready( function() {
   });
 });
 
-//Hide or show the Unpost First Response messages & replies in Unposts section
+//Hide or show the Unlisting First Response messages & replies in Unlistings section
 $(document).ready(function() {
   $(".hideshow-response").on("click", function() {
     $(this).parent().find('ul').toggleClass("hide")

@@ -57,9 +57,9 @@
       %li(role='presentation')
         =link_to "my unlist", user_unlist_path(current_user, type: 'unlist'), { role: 'menuitem', tabindex: "-1" }
       %li(role='presentation')
-        =link_to new_user_unpost_path(current_user), { role: 'menuitem', tabindex: "-1" } do
+        =link_to new_user_unlisting_path(current_user), { role: 'menuitem', tabindex: "-1" } do
           %i.glyphicon.glyphicon-plus
-          add unpost
+          add unlisting
       %li(role='presentation')
         =link_to 'hits',  user_unlist_path(current_user, type: 'hits'), { role: 'menuitem', tabindex: "-1" }
       %li(role='presentation')

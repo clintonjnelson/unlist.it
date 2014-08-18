@@ -1,0 +1,23 @@
+-provide(:title, '')
+
+.row#userbox.col-xs-8
+  #userboxcontent
+    #tabs.well
+      %ul
+        -if @unlistings.present?
+          -category_array(@unlistings).each_with_index do |category, index|
+            %li
+              %a.text-muted.text-center{href: "#tabs-#{index+1}"}
+                =category.name
+      #unlist
+        -if @unlistings.present?
+          -category_array(@unlistings).each_with_index do |category, index|
+            %div.text-muted{id: "tabs-#{index+1}"}
+              =render @unlistings.select{|p| p.category_id == category.id}
+        -elsif params[:type] == "hits"
+          [You currently have no hits on your unlistings. You can visit the
+          =link_to "FAQ", faq_path
+          if you would like some hints on making your unlistings more easily found by sellers.]"
+        -elsif params[:type] == "unlist"
+          [ You currently have no unlistings - click #{link_to "here", new_user_unlisting_path} to create one ]
+

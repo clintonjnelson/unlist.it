@@ -7,7 +7,7 @@ class SearchesController < ApplicationController
   def search
     @search_string   = search_params[:keyword]
     @search_category = ( (search_params[:category_id] == "0") ? "0" : Category.find(search_params[:category_id]) )
-    @search_results  = UnpostsQuery.new.search(search_string: @search_string,
+    @search_results  = UnlistingsQuery.new.search(search_string: @search_string,
                                                 cateogory_id: search_params[:category_id],
                                                       radius: session[:search_radius ],
                                                         city: session[:search_city   ],
@@ -120,12 +120,12 @@ class SearchesController < ApplicationController
     session[:search_longitude  ] = location.longitude
   end
 
-  # def query_unposts(search_string, category_id="0")
+  # def query_unlistings(search_string, category_id="0")
   #   if @dev_test_env
-  #     search_query = Unpost.active.where("keyword1 LIKE :search OR keyword2 LIKE :search OR keyword3 LIKE :search OR keyword4 LIKE :search",
+  #     search_query = Unlisting.active.where("keyword1 LIKE :search OR keyword2 LIKE :search OR keyword3 LIKE :search OR keyword4 LIKE :search",
   #                                       { search: "%#{search_string}%" })
   #   else
-  #     search_query = Unpost.active.where("keyword1 ILIKE :search OR keyword2 ILIKE :search OR keyword3 ILIKE :search OR keyword4 ILIKE :search",
+  #     search_query = Unlisting.active.where("keyword1 ILIKE :search OR keyword2 ILIKE :search OR keyword3 ILIKE :search OR keyword4 ILIKE :search",
   #                                       { search: "%#{search_string}%" })
   #   end
   #   search_query = search_query.where(category_id: category_id) unless category_id == "0"

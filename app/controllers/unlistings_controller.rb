@@ -1,7 +1,7 @@
-class UnpostsController < ApplicationController
+class UnlistingsController < ApplicationController
   ##ADD THESE BEFORE ACTIONS TO SPECS
   before_action :set_current_user,     only: [:new, :create, :show, :edit, :update          ]
-  before_action :set_unpost,           only: [               :show, :edit, :update, :destroy]
+  before_action :set_unlisting,           only: [               :show, :edit, :update, :destroy]
   ###VERIFY ALREADY TESTED FOR THESE
   before_action :require_correct_user, only: [                      :edit, :update, :destroy]
   before_action :require_signed_in,    only: [:new, :create,        :edit, :update, :destroy]
@@ -9,22 +9,22 @@ class UnpostsController < ApplicationController
 
 
   def new #Loads: @user
-    @unpost   = @user.unposts.build
+    @unlisting   = @user.unlistings.build
     @token    = build_token
   end
 
   def create #Loads: @user
-    @unpost = @user.unposts.build(unpost_params)
-    @token  = unpost_token_param[:token]
-    unpost_unimages = Unimage.where(token: @token).all
-    @unpost.unimages << unpost_unimages
+    @unlisting = @user.unlistings.build(unlisting_params)
+    @token  = unlisting_token_param[:token]
+    unlisting_unimages = Unimage.where(token: @token).all
+    @unlisting.unimages << unlisting_unimages
 
-    if @user && @unpost.save
-        flash[:success] = "Unpost created!"
-        redirect_to [@user, @unpost]
+    if @user && @unlisting.save
+        flash[:success] = "Unlisting created!"
+        redirect_to [@user, @unlisting]
     else
       flash[:error] = 'Oops - there were some errors in the form. Please fix & try agian.'
-      @unimages = unpost_unimages #show any images for deletion on re-render
+      @unimages = unlisting_unimages #show any images for deletion on re-render
       render 'new'
     end
   end
@@ -33,45 +33,45 @@ class UnpostsController < ApplicationController
     case params[:type]
       when 'hits'
         #ORDER BY MOST RECENT MESSAGE - likely Join messages & order by created_at
-        @unposts = current_user.unposts.hits
+        @unlistings = current_user.unlistings.hits
       when 'watchlist'
         # This probably warrants another table completely
       else
-        @unposts = current_user.unposts.active
+        @unlistings = current_user.unlistings.active
     end
     render 'index'
   end
 
   def index_by_category #for Browse Page Results
     @categories = Category.all
-    @unposts    = Category.find(params[:category_id]).unposts.active
+    @unlistings    = Category.find(params[:category_id]).unlistings.active
     render 'pages/browse'
   end
 
-  def show #Loads: @unpost
+  def show #Loads: @unlisting
     @message = Message.new
   end
 
-  def edit #Loads: @unpost, @user
-    @token  = @unpost.unimages_token
+  def edit #Loads: @unlisting, @user
+    @token  = @unlisting.unimages_token
     @unimages = Unimage.where(token: @token).all
   end
 
-  def update #Loads: @unpost, @user
-    if @unpost && @unpost.update(unpost_params)
-      flash[:success] = 'Unpost Updated.'
-      redirect_to [@user, @unpost]
+  def update #Loads: @unlisting, @user
+    if @unlisting && @unlisting.update(unlisting_params)
+      flash[:success] = 'Unlisting Updated.'
+      redirect_to [@user, @unlisting]
     else
       flash[:error] = 'Oops - there were some errors in the form. Please fix & try agian.'
-      @unposts = Unimage.where(token: unpost_token_param[:token]).all
+      @unlistings = Unimage.where(token: unlisting_token_param[:token]).all
       render 'edit'
     end
   end
 
-  def destroy #Loads: @unpost
-    @unpost.soft_delete
+  def destroy #Loads: @unlisting
+    @unlisting.soft_delete
     UnimagesCleaner.perform_in(20.seconds, @unimage_ids_array)
-    flash[:success] = "Unpost successfully removed."
+    flash[:success] = "Unlisting successfully removed."
     redirect_to :back
   end
 
@@ -93,15 +93,15 @@ class UnpostsController < ApplicationController
 
   ################################ PRIVATE METHODS #############################
   private
-  def set_unpost
-    @unpost = Unpost.find_by(slug: params[:id])
+  def set_unlisting
+    @unlisting = Unlisting.find_by(slug: params[:id])
   end
   def require_correct_user
-    access_denied("You are not the owner of this unpost.") unless @unpost && (current_user == @unpost.creator)
+    access_denied("You are not the owner of this unlisting.") unless @unlisting && (current_user == @unlisting.creator)
   end
 
-  def unpost_params
-    params.require(:unpost).permit( :category_id,
+  def unlisting_params
+    params.require(:unlisting).permit( :category_id,
                                     :title,
                                     :description,
                                     :condition_id,
@@ -113,12 +113,12 @@ class UnpostsController < ApplicationController
                                     :link)
   end
 
-  def unpost_token_param
-    params.require(:unpost).permit(:token)
+  def unlisting_token_param
+    params.require(:unlisting).permit(:token)
   end
 
   def unimage_ids_array
-    @unimage_ids_array = @unpost.unimages.map(&:id)
+    @unimage_ids_array = @unlisting.unimages.map(&:id)
   end
 
   def build_token

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe UnpostsController do
+describe UnlistingsController do
   let(:jen) { Fabricate(:user) }
 
 
@@ -8,13 +8,13 @@ describe UnpostsController do
   describe "GET new" do
     before do
       spec_signin_user(jen)
-      get :new, user_id: jen.id
+      get :new, user_id: jen.slug
     end
     it "loads instance of the current_user as @user" do
       expect(assigns(:user)).to be_present
     end
-    it "loads the instance of a new @unpost" do
-      expect(assigns(:unpost)).to be_a_new Unpost
+    it "loads the instance of a new @unlisting" do
+      expect(assigns(:unlisting)).to be_a_new Unlisting
     end
     it "loads the instance of @unimages for file attachments" do
       expect(:unimages).to be_present
@@ -25,7 +25,7 @@ describe UnpostsController do
 
     context "with UN-signedin(guest) user" do
       it_behaves_like "require_signed_in" do
-        let(:verb_action) { get :new, user_id: jen.id }
+        let(:verb_action) { get :new, user_id: jen.slug }
       end
     end
   end
@@ -41,20 +41,20 @@ describe UnpostsController do
       it "loads instance of the current_user as @user" do
         expect(assigns(:user)).to be_present
       end
-      it "populates a new instance of @unpost" do
-        expect(assigns(:unpost)).to be_present
+      it "populates a new instance of @unlisting" do
+        expect(assigns(:unlisting)).to be_present
       end
-      it "makes a valid unpost" do
-        expect(assigns(:unpost)).to be_valid
+      it "makes a valid unlisting" do
+        expect(assigns(:unlisting)).to be_valid
       end
-      it "saves the new unpost" do
-        expect(Unpost.count).to eq(1)
+      it "saves the new unlisting" do
+        expect(Unlisting.count).to eq(1)
       end
       it "flashes a success message" do
         expect(flash[:success]).to be_present
       end
-      it "redirects to the new unpost's page for viewing" do
-        expect(response).to redirect_to user_unpost_path(jen.slug ,Unpost.first.id)
+      it "redirects to the new unlisting's page for viewing" do
+        expect(response).to redirect_to user_unlisting_path(jen.slug ,Unlisting.first.slug)
       end
     end
 
@@ -66,19 +66,19 @@ describe UnpostsController do
       it "loads instance of the current_user as @user" do
         expect(assigns(:user)).to be_present
       end
-      it "populates a new instance of @unpost" do
-        expect(assigns(:unpost)).to be_present
+      it "populates a new instance of @unlisting" do
+        expect(assigns(:unlisting)).to be_present
       end
-      it "makes an unvalid instance of an unpost" do
-        expect(assigns(:unpost)).to_not be_valid
+      it "makes an unvalid instance of an unlisting" do
+        expect(assigns(:unlisting)).to_not be_valid
       end
-      it "does not save the new unpost" do
-        expect(Unpost.count).to eq(0)
+      it "does not save the new unlisting" do
+        expect(Unlisting.count).to eq(0)
       end
       it "loads the errors for display on the form" do
-        expect(assigns(:unpost).errors.full_messages).to be_present
+        expect(assigns(:unlisting).errors.full_messages).to be_present
       end
-      it "renders the new unpost page again" do
+      it "renders the new unlisting page again" do
         expect(response).to render_template 'new'
       end
       it "flashes an error notifying user to correct errors" do
@@ -96,16 +96,16 @@ describe UnpostsController do
 
 
   describe "GET show" do
-    let(:car_unpost) { Fabricate(:unpost) }
+    let(:car_unlisting) { Fabricate(:unlisting) }
     before do
       spec_signin_user(jen)
-      get :show, user_id: jen.id, id: car_unpost.id
+      get :show, user_id: jen.slug, id: car_unlisting.slug
     end
     it "loads instance of the current_user as @user" do
       expect(assigns(:user)).to be_present
     end
-    it "loads instance of the unpost as @unpost" do
-      expect(assigns(:unpost)).to be_present
+    it "loads instance of the unlisting as @unlisting" do
+      expect(assigns(:unlisting)).to be_present
     end
     it "renders the 'show' template" do
       expect(response).to render_template 'show'
@@ -113,13 +113,13 @@ describe UnpostsController do
 
     context "with UN-signedin(guest) user" do
       it_behaves_like "require_signed_in" do
-        let(:verb_action) { get :new, user_id: jen.id }
+        let(:verb_action) { get :new, user_id: jen.slug }
       end
     end
   end
 
   describe "PATCH update" do
-    let!(:car_unpost) { Fabricate(:unpost, creator: jen) }
+    let!(:car_unlisting) { Fabricate(:unlisting, creator: jen) }
     before { spec_signin_user(jen) }
 
     context "for the correct user" do
@@ -129,14 +129,14 @@ describe UnpostsController do
         it "loads instance of the current_user as @user" do
           expect(assigns(:user)).to be_present
         end
-        it "loads instance of the unpost as @unpost" do
-          expect(assigns(:unpost)).to be_present
+        it "loads instance of the unlisting as @unlisting" do
+          expect(assigns(:unlisting)).to be_present
         end
         it "flashes a success message" do
           expect(flash[:success]).to be_present
         end
         it "renders the 'show' template" do
-          expect(response).to redirect_to user_unpost_path(jen.slug, car_unpost.id)
+          expect(response).to redirect_to user_unlisting_path(jen.slug, car_unlisting.slug)
         end
       end
 
@@ -146,8 +146,8 @@ describe UnpostsController do
         it "loads instance of the current_user as @user" do
           expect(assigns(:user)).to be_present
         end
-        it "loads instance of the unpost as @unpost" do
-          expect(assigns(:unpost)).to be_present
+        it "loads instance of the unlisting as @unlisting" do
+          expect(assigns(:unlisting)).to be_present
         end
         it "flashes a success message" do
           expect(flash[:error]).to be_present
@@ -171,15 +171,15 @@ describe UnpostsController do
 
 
   describe "GET index_by_category" do
-    let(:car_unpost) { Fabricate(:unpost) }
+    let(:car_unlisting) { Fabricate(:unlisting) }
     before do
-      post :index_by_category, { category_id: car_unpost.category.id }
+      post :index_by_category, { category_id: car_unlisting.category.id }
     end
     it "loads @categories with all categories" do
       expect(assigns(:categories)).to be_present
     end
-    it "loads @unposts with unposts for the selected category" do
-      expect(assigns(:unposts)).to eq([car_unpost])
+    it "loads @unlistings with unlistings for the selected category" do
+      expect(assigns(:unlistings)).to eq([car_unlisting])
     end
     it "renders the 'pages/browse' template" do
       expect(response).to render_template 'pages/browse'
@@ -189,22 +189,22 @@ describe UnpostsController do
 
 
   describe "GET index" do
-    let!(:car_unpost) { Fabricate(:unpost, creator: jen, inactive: true) }
-    let!(:van_unpost) { Fabricate(:unpost, creator: jen) }
-    let!(:hat_unpost) { Fabricate(:unpost) }
+    let!(:car_unlisting) { Fabricate(:unlisting, creator: jen, inactive: true) }
+    let!(:van_unlisting) { Fabricate(:unlisting, creator: jen) }
+    let!(:hat_unlisting) { Fabricate(:unlisting) }
     before do
       spec_signin_user(jen)
       get :index
     end
 
-    it "loads the unposts variable with the un-deleted unpost" do
-      expect(assigns(:unposts)).to include(van_unpost)
+    it "loads the unlistings variable with the un-deleted unlisting" do
+      expect(assigns(:unlistings)).to include(van_unlisting)
     end
-    it "does NOT load the inactive unpost" do
-      expect(assigns(:unposts)).to_not include(car_unpost)
+    it "does NOT load the inactive unlisting" do
+      expect(assigns(:unlistings)).to_not include(car_unlisting)
     end
-    it "does NOT load the unpost by another user" do
-      expect(assigns(:unposts)).to_not include(hat_unpost)
+    it "does NOT load the unlisting by another user" do
+      expect(assigns(:unlistings)).to_not include(hat_unlisting)
     end
     it "renders the 'pages/browse' template" do
       expect(response).to render_template 'index'
@@ -215,19 +215,19 @@ describe UnpostsController do
 
   describe "DELETE destroy" do
     context "with the creator's request" do
-      let!(:car_unpost)     { Fabricate(:unpost, creator: jen) }
-      let!(:parent_message) { Fabricate(:user_unpost_message ) }
+      let!(:car_unlisting)     { Fabricate(:unlisting, creator: jen) }
+      let!(:parent_message) { Fabricate(:user_unlisting_message ) }
       let!(:reply_message ) { Fabricate(:reply_message       ) }
       before do
         spec_signin_user(jen)
         jen.update_column(:avatar, "1234abcd")
         request.env["HTTP_REFERER"] = "http://test.host/"
         UnimagesCleaner.should_receive(:perform_in)         #Mock UnimagesCleaner
-        delete :destroy, user_id: jen.id, id: car_unpost.id
+        delete :destroy, user_id: jen.slug, id: car_unlisting.slug
       end
 
       it "sets set the removed boolean to true" do
-        expect(car_unpost.reload.inactive?).to be_true
+        expect(car_unlisting.reload.inactive?).to be_true
       end
       it "sets the parent message's deleted_at to a time" do
         expect(parent_message.reload.deleted_at).to be_present
@@ -244,20 +244,20 @@ describe UnpostsController do
     end
 
     context "with anyone besides the creator" do
-      let(:car_unpost) { Fabricate(:unpost, creator: jen) }
+      let(:car_unlisting) { Fabricate(:unlisting, creator: jen) }
 
       it_behaves_like "require_signed_in" do
-        let(:verb_action) { delete :destroy, { user_id: jen.id, id: car_unpost.id } }
+        let(:verb_action) { delete :destroy, { user_id: jen.slug, id: car_unlisting.slug } }
       end
       it_behaves_like "require_correct_user" do
-        let(:verb_action) { delete :destroy, { user_id: jen.id, id: car_unpost.id } }
+        let(:verb_action) { delete :destroy, { user_id: jen.slug, id: car_unlisting.slug } }
       end
     end
   end
 end
 
 def create_params
-  params = {unpost: {category_id: 3,
+  params = {unlisting: {category_id: 3,
                            title: "Volkswagen Bug",
                      description: "Want an awesome bug. Running. White with the number \"8\" on the side. ",
                     condition_id: 8,
@@ -275,7 +275,7 @@ def create_params
 end
 
 def update_params
-  params = {unpost: {category_id: 3,
+  params = {unlisting: {category_id: 3,
                            title: "Volkswagen Bug",
                      description: "Desperate. Running or not.",
                     condition_id: 8,
@@ -285,11 +285,11 @@ def update_params
                         keyword3: "ocho",
                         keyword4: "",
                             link: "http://www.herbie.com"},
-                         user_id: jen.id, id: car_unpost.id}
+                         user_id: jen.slug, id: car_unlisting.slug}
 end
 
 def invalid_update_params
-  params = {unpost: {category_id: 3,
+  params = {unlisting: {category_id: 3,
                            title: nil,
                      description: "Desperate. Running or not.",
                     condition_id: 8,
@@ -302,11 +302,11 @@ def invalid_update_params
                         #   travel: true,
                         # distance: 3,
                         #  zipcode: 98056},
-                         user_id: jen.id, id: car_unpost.id }
+                         user_id: jen.slug, id: car_unlisting.slug }
 end
 
 def invalid_create_params
-  params = {unpost: {category_id: 3,
+  params = {unlisting: {category_id: 3,
                            title: nil,
                      description: "Want an awesome bug. Running. White with the number \"8\" on the side. ",
                     condition_id: 8,

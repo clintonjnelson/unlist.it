@@ -7,11 +7,11 @@ describe SearchesController do
   describe "GET search" do
     describe "GET search" do
     let!(:autos)          { Fabricate(:category,     name: "autos"                        ) }
-    let!(:honda_van)      { Fabricate(:unpost,   category:  autos, keyword1: "honda van"   ) }
-    let!(:honda_car)      { Fabricate(:unpost,   category:  autos, keyword1: "honda civic" ) }
-    let!(:honda_mower)    { Fabricate(:unpost,                     keyword1: "honda mower" ) }
-    let!(:toyota_vehicle) { Fabricate(:unpost,   category:  autos, keyword1: "toyota hond" ) }
-    let!(:toyota_truck)   { Fabricate(:unpost,   category:  autos, keyword1: "toyota truck") }
+    let!(:honda_van)      { Fabricate(:unlisting,   category:  autos, keyword1: "honda van"   ) }
+    let!(:honda_car)      { Fabricate(:unlisting,   category:  autos, keyword1: "honda civic" ) }
+    let!(:honda_mower)    { Fabricate(:unlisting,                     keyword1: "honda mower" ) }
+    let!(:toyota_vehicle) { Fabricate(:unlisting,   category:  autos, keyword1: "toyota hond" ) }
+    let!(:toyota_truck)   { Fabricate(:unlisting,   category:  autos, keyword1: "toyota truck") }
 
       context "with specific category selected" do
         before { get :search, { keyword: "honda", category_id: autos.id } }

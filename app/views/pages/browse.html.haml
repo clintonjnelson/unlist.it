@@ -1,7 +1,7 @@
 -provide(:title, 'Browse')
 
 #browse-title
-  %h2 Browse Unlist
+  %h2 Browse Unlist.it
   %br
 
   .dropdown
@@ -14,11 +14,11 @@
           =link_to "#{category.name}", browse_category_path(category_id: category.id), { role: 'menuitem', tabindex: "-1" }
 
 //-#GOOD CANDIDATE FOR DECORATOR
-.row.col-xs-8.well#browse-unposts
-  -if @unposts.present?
-    =render @unposts
-  -elsif !defined?(@unposts)
+.row.col-xs-8.well#browse-unlistings
+  -if @unlistings.present?
+    =render @unlistings
+  -elsif !defined?(@unlistings)
     %p Please select a category above.
   -else
-    %p Sorry, there are currently no unposts in that category.
+    %p Sorry, there are currently no unlistings in that category.
 

@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
     User.find(session[:user_id]) if signed_in?
   end
 
-  def creator?(object)  #Works for Unposts,
+  def creator?(object)  #Works for Unlistings,
     session[:user_id].present? ? session[:user_id] == object.creator.id : false
   end
 

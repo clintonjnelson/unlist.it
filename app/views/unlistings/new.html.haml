@@ -1,18 +1,18 @@
 -provide(:title, '')
 
-=render partial: 'unpost_form', locals: { user: @user, unpost: @unpost, title: 'Add Unpost', button_name: 'Create Unpost' }
+=render partial: 'unlisting_form', locals: { user: @user, unlisting: @unlisting, title: 'Add Unlisting', button_name: 'Create Unlisting' }
 
 / .row#userbox.col-xs-8
 /   #userboxcontent.well
 /     %h4 Add Unlist Item
 /     %ul#additem
-/       =bootstrap_form_for [@user, @unpost], layout: :horizontal, label_col: 'col-xs-4', control_col: "col-xs-6" do |f|
+/       =bootstrap_form_for [@user, @unlisting], layout: :horizontal, label_col: 'col-xs-4', control_col: "col-xs-6" do |f|
 /         =f.label :category_id,      "Category"
-/         =f.collection_select :category_id, Category.all, :id, :name, { prompt: "select a category" }, { class: 'unpost_category_select' }
+/         =f.collection_select :category_id, Category.all, :id, :name, { prompt: "select a category" }, { class: 'unlisting_category_select' }
 /         =f.text_field :title,       label: "Title*"
 /         =f.text_area  :description, label: "Description*", size: '24x6'
 /         =f.url_field  :link,        label: "Website Example"
-/         =f.select :condition_id, [], { prompt: "select a category above", label: "Minimum Condition", }, { id: "unpost_condition_select" }
+/         =f.select :condition_id, [], { prompt: "select a category above", label: "Minimum Condition", }, { id: "unlisting_condition_select" }
 /         //-#(price == 0) => FREE, (price = -1) => Any, (price > 0) => price; Decorator or Helper for This.
 /         =f.text_field :price,    prepend: "$"
 /         =f.text_field :keyword1, label: "Keyword 1*"
@@ -25,4 +25,4 @@
 /         =f.select     :distance, options_for_select(travel_distance_options)
 /         =f.text_field :zipcode
 /         =f.form_group do
-/           =f.submit "Create UnPost", class: "btn btn-primary"
+/           =f.submit "Create Unlisting", class: "btn btn-primary"

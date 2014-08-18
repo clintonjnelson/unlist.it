@@ -14,10 +14,10 @@
   %p
     %ul.reply-form-listener
       %h4
-        -# Display Unpost info if type is 'Unpost'
-        -if message.messageable_type == 'Unpost'
-          .unpost-subject-text
-            =link_to "#{ message.subject }", unpost_path(message.messageable_id)
+        -# Display Unlisting info if type is 'Unlisting'
+        -if message.messageable_type == 'Unlisting'
+          .unlisting-subject-text
+            =link_to "#{ message.subject }", unlisting_path(message.messageable_id)
         -else
           = "#{ message.subject }"
 

@@ -1,4 +1,4 @@
-class Unpost < ActiveRecord::Base
+class Unlisting < ActiveRecord::Base
   include Sluggable
     sluggable_type   :column
     sluggable_column :title
@@ -15,11 +15,11 @@ class Unpost < ActiveRecord::Base
   # Scopes to filter query results
   scope       :active,    -> { where inactive: [false, nil]  }
   scope       :inactive,  -> { where inactive: true  }
-  scope       :hits,      -> { where "id IN (SELECT messageable_id FROM Messages where messageable_type='Unpost')" }
+  scope       :hits,      -> { where "id IN (SELECT messageable_id FROM Messages where messageable_type='Unlisting')" }
 
 
   # Validations
-  # validate  :unimages_less_than_limit_per_unpost
+  # validate  :unimages_less_than_limit_per_unlisting
   validates_presence_of  :title, :description, :keyword1,
                          :condition_id, :category_id, :user_id#, :travel
   validates   :keyword2, presence: true, allow_blank: true
@@ -34,7 +34,7 @@ class Unpost < ActiveRecord::Base
     self.messages.active.initialresponse.order('created_at DESC')
   end
 
-  # Soft-Delete replies then parents from Unpost
+  # Soft-Delete replies then parents from Unlisting
   def soft_delete
     self.update_column(:inactive, true)
     delete_correspondence

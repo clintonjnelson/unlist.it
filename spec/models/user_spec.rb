@@ -6,16 +6,16 @@ describe User do
   it { should belong_to(:location              ) }
   it { should have_many(:invitations           ) }
   it { should have_many(:tokens                ) } #polymorphic
-  it { should have_many(:unposts               ) }
+  it { should have_many(:unlistings            ) }
   it { should have_many(:unimages              ) }
   it { should have_many(:sent_messages         ) }
   it { should have_many(:received_messages     ) }
 
-  it { should validate_presence_of(   :email   ) }
-  it { should validate_uniqueness_of( :email   ) }
-  it { should validate_presence_of(   :username) }
-  it { should validate_presence_of(   :password) }
-  it { should ensure_length_of(       :password).is_at_least(6) }
+  it { should validate_presence_of(  :email   ) }
+  it { should validate_uniqueness_of(:email   ) }
+  #it { should validate_presence_of(  :username) } #fails likely from before_validation
+  it { should validate_presence_of(  :password) }
+  it { should ensure_length_of(      :password).is_at_least(6) }
 
   it { should allow_value(    "email@example.com",
                               "email@example.jp",

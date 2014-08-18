@@ -12,10 +12,10 @@ class MessagesController < ApplicationController
 
   def create
     @message        = Message.new(message_params)
-    @unpost         = Unpost.find( params[:unpost_id ]) if params[:unpost_id]
+    @unlisting         = Unlisting.find( params[:unlisting_id ]) if params[:unlisting_id]
     @parent_message = Message.find(params[:parent_msg]) if params[:parent_msg]
 
-    manager         = MessagesManager.new(unpost_id: params[:unpost_id ],
+    manager         = MessagesManager.new(unlisting_id: params[:unlisting_id ],
                                       parent_msg_id: params[:parent_msg])
 
     manager.send_message( contact_email: message_params[:contact_email],
@@ -33,7 +33,7 @@ class MessagesController < ApplicationController
     ###FIRST THING: MOVE THIS TO MODEL SO IT RETURNS WHAT YOU WANT FOR @message. Set @message that way!
     case params[:type]
       when 'hits'
-        @messages = current_user.received_messages.active.select{|m| (m.messageable_type == "Unpost") } #NOT replies
+        @messages = current_user.received_messages.active.select{|m| (m.messageable_type == "Unlisting") } #NOT replies
       when 'received'
         @messages = current_user.received_messages.active.select{|m| (m.messageable_type != "Message") } #NOT replies
       when 'sent'
@@ -81,21 +81,21 @@ class MessagesController < ApplicationController
 
   def destination_by_response(manager)
     case manager.type
-      when "Unpost"
-        success       = @unpost
-        notice_error  = 'unposts/show'
+      when "Unlisting"
+        success       = @unlisting
+        notice_error  = 'unlistings/show'
       when "User"
       when "Admin"
         success = user_feedback_path(current_user)
         notice_error = 'messages/new_feedback'
       when "Reply"
         ###THE SECOND OPTION IS JUST A TEMP GUESS FOR WHERE TO GO AFTER USERS MSG EACHOTHER
-        success       = (@parent_message.messageable_type == "Unpost" ? Unpost.find(@parent_message.messageable_id) : unposts_path(current_user))
+        success       = (@parent_message.messageable_type == "Unlisting" ? Unlisting.find(@parent_message.messageable_id) : unlistings_path(current_user))
         ###THE SECOND OPTION IS JUST A TEMP GUESS FOR WHERE TO GO AFTER USERS MSG EACHOTHER
-        notice_error  = (@parent_message.messageable_type == "Unpost" ? 'unposts/index' : 'messages/index')
+        notice_error  = (@parent_message.messageable_type == "Unlisting" ? 'unlistings/index' : 'messages/index')
       else
-        success       = Unpost.find(@parent_message.messageable_id)
-        notice_error  = 'unposts/index'
+        success       = Unlisting.find(@parent_message.messageable_id)
+        notice_error  = 'unlistings/index'
 
     end
     render_or_redirect(success, notice_error, manager)

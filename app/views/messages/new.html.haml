@@ -1,7 +1,7 @@
 .row#userbox.col-xs-8
   #messagecontent.well
     .messageform
-      =bootstrap_form_for [@unpost, @message] do |f|
+      =bootstrap_form_for [@unlisting, @message] do |f|
         =f.email_field :contact_email
         =f.text_area  :content, label: "Message Unlister: ", rows: 6
         =f.submit "Send Message", class: "btn btn-default"

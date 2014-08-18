@@ -1,0 +1,4 @@
+-if @unlistings.present?
+  $("#browse-unlistings").html("#{ escape_javascript( render @unlistings ) }")
+-else
+  $("#browse-unlistings").html("#{ escape_javascript( "Sorry, there are unlistings currently in this category." )}")

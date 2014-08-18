@@ -1,7 +1,7 @@
 class MessagesManager
   attr_reader :user, :safeguest, :success, :type, :sender_type, :sender_status, :error_message, :flash_success, :flash_notice, :message
-  def initialize(options={}) #receives unpost_id & reply
-    @unpost_id     = options[:unpost_id]
+  def initialize(options={}) #receives unlisting_id & reply
+    @unlisting_id     = options[:unlisting_id]
     @parent_msg_id = options[:parent_msg_id]
   end
 
@@ -11,21 +11,21 @@ class MessagesManager
     @content       = options[:content]
     @sender_user   = options[:sender_user]
 
-    ###### UNPOST MESSAGES ######
-    if unpost_message?
-      @type    = "Unpost"
+    ###### UNLISTING MESSAGES ######
+    if unlisting_message?
+      @type    = "Unlisting"
 
       if from_user?(@sender_user) #if from a user
         @sender_type = "User"
 
         if user_message_allowed? #check if user can send message
 
-          unless unpost_message_setup(@content) == false #finds unpose & sets message values. Makes @message & @unpost
+          unless unlisting_message_setup(@content) == false #finds unpose & sets message values. Makes @message & @unlisting
             @message.sender = @sender_user #sets the message sender to current user
 
             if @message.save #try to save message or return an alert
               @flash_success = "Message Sent!"
-              @success       = true #Success. Could return the message? Need to redirect to @unpost.
+              @success       = true #Success. Could return the message? Need to redirect to @unlisting.
             else
               @error_message = "Message could not be sent. Please fix errors & try again."
               @success       = false
@@ -36,7 +36,7 @@ class MessagesManager
           if !@sender_user.confirmed?
             @flash_notice = "Welcome! Please see the email we sent you when you
                             registered - in it there is a link to confirm your account.
-                           Then you will be able to contact users on unposts!"
+                           Then you will be able to contact users on unlistings!"
             @success      = false
           # elsif @user.blacklisted? #this should be added to user & in the user policy.
           #   @error_message = "Your account is currently suspended from use.
@@ -58,12 +58,12 @@ class MessagesManager
           @success       = false
 
         elsif @safeguest && safeguest_message_allowed? #if allowed to message
-          unless unpost_message_setup(@content, @contact_email) == false #finds unpost & sets message values. Makes @message & @unpost
+          unless unlisting_message_setup(@content, @contact_email) == false #finds unlisting & sets message values. Makes @message & @unlisting
             @message.sender = @user #sets the message sender to safeguest
 
             if @message.save #try to save message or return an alert
               @flash_success = "Message Sent!"
-              @success       = true #Success. Could return the message? Need to redirect to @unpost.
+              @success       = true #Success. Could return the message? Need to redirect to @unlisting.
             else
               @error_message = "Message could not be sent. Please fix errors & try again."
               @success       = false
@@ -87,11 +87,11 @@ class MessagesManager
     elsif reply_message?
       @type = "Reply"
       if user_message_allowed? #check if user can send message
-        unless reply_message_setup(@content) == false #finds unpost & sets message values. Makes @message & @unpost
+        unless reply_message_setup(@content) == false #finds unlisting & sets message values. Makes @message & @unlisting
 
           if @message.save #try to save message or return an alert
             @flash_success = "Reply Sent!"
-            @success       = true #Success. Could return the message? Need to redirect to @unpost.
+            @success       = true #Success. Could return the message? Need to redirect to @unlisting.
           else
             @error_message = "Reply could not be sent. Please fix errors & try again."
             @success       = false
@@ -101,7 +101,7 @@ class MessagesManager
       else #if user is restricted from messaging
         if !@sender_user.confirmed?
           @flash_notice = "Something seems fishy about how you're replying to
-                          an unpost message without having been prior confirmed...
+                          an unlisting message without having been prior confirmed...
                           but anyhoo, please visit the inbox of the email account
                           you have on record with us to confirm your Unlist.it account."
           @success      = false
@@ -130,8 +130,8 @@ class MessagesManager
   ################################# SUPPORT METHODS ############################
 
   # DETERMINE MESSAGE TYPE
-  def unpost_message?
-    @unpost_id.present? && !@reply
+  def unlisting_message?
+    @unlisting_id.present? && !@reply
   end
 
   def reply_message?
@@ -168,15 +168,15 @@ class MessagesManager
   end
 
   #SETTING UP MESSAGES
-  def unpost_message_setup(content, contact_email=nil)
+  def unlisting_message_setup(content, contact_email=nil)
     @message = Message.new(content: content, contact_email: contact_email)
-    @unpost  = Unpost.find(@unpost_id)
-    if @unpost
-      @message.subject     = "RE: " + @unpost.title
-      @message.recipient   = @unpost.creator
-      @message.messageable = @unpost
+    @unlisting  = Unlisting.find(@unlisting_id)
+    if @unlisting
+      @message.subject     = "RE: " + @unlisting.title
+      @message.recipient   = @unlisting.creator
+      @message.messageable = @unlisting
     else
-      @error_message = "Unpost could not be found."
+      @error_message = "Unlisting could not be found."
       @success       = false
     end
   end

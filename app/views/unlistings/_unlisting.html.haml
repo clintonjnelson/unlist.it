@@ -1,0 +1,35 @@
+-#This is for listing out unlisting summaries in :index or such
+
+.unlisting-box
+  %h5
+    =link_to unlisting_path(unlisting) do
+      -if unlisting.unimages.present?
+        =image_tag(unlisting.unimages.first.filename.url(:thumb_unimage), height: 60)
+      -else
+        =unlisting.creator.decorator.avatar_image_tag(60)
+    =link_to "#{ unlisting.title }", unlisting_path(unlisting)
+  %p
+    %ul
+      %li
+        Example:
+        %span= link_to "#{ unlisting.link }", url: "unlisting.link"
+      %li= "Description: #{ truncate(unlisting.description, length: 45) }"
+      %li= "Condition: #{ unlisting.condition.level }"
+      %li= "Pay up to: #{ number_to_currency(unlisting.price, precision: 0) }"
+      %li
+        ="Posted: #{ time_ago_in_words(unlisting.created_at) } ago "
+        -if signed_in? && creator?(unlisting)
+          %small &nbsp|
+          %small= link_to " [delete]", user_unlisting_path(unlisting.creator.id, unlisting.id), method: 'delete'
+        -else
+          %small= link_to "[contact buyer]", unlisting_path(unlisting)
+
+      -if unlisting.parent_messages.present? && signed_in? && (unlisting.creator.id == current_user.id)
+
+        %li.list-no-bullet
+          %h5.hideshow-response.text-muted.underline
+            %u Hide/Show Seller Responses
+          %ul.list-unstyled.hide
+            =render partial: "unlistings/response_message", collection: unlisting.parent_messages, as: :message, locals: { unlisting: unlisting }
+%hr.hr-xs-solid
+

@@ -3,16 +3,16 @@ Fabricator(:message) do
   content { "#{ Faker::Lorem.sentence }" }
 end
 
-Fabricator(:user_unpost_message, from: :message) do
-  messageable_type  "Unpost"
+Fabricator(:user_unlisting_message, from: :message) do
+  messageable_type  "Unlisting"
   messageable_id    1
   sender
   recipient
 end
 
-Fabricator(:guest_unpost_message, from: :message) do
+Fabricator(:guest_unlisting_message, from: :message) do
   contact_email     { "#{ Faker::Internet.safe_email }" }
-  messageable_type  "Unpost"
+  messageable_type  "Unlisting"
   messageable_id    1
   recipient
 end

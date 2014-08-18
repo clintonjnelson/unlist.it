@@ -32,7 +32,9 @@ module Sluggable
 
   #private
   def generate_slug_from_slug_column
-    self.send(self.class.slug_column.to_sym).scan(/[a-zA-Z0-9]+/).join("-").downcase
+    unless self.send(self.class.slug_column.to_sym).blank?
+      self.send(self.class.slug_column.to_sym).scan(/[a-zA-Z0-9]+/).join("-").downcase
+    end
   end
 
   def generate_random_number_of_length(length)
@@ -44,6 +46,10 @@ module Sluggable
   end
 
   def verify_unique_or_increment_slug(slug_base)
+    if slug_base.blank?
+      errors.add(:base, 'Could Not Process Due To A Missing Value')
+      return false
+    end
     slugtest = slug_base
     count    = 2   #2nd copy requires increment at 2
     while self.class.find_by(slug: slugtest) && (self.class.find_by(slug: slugtest) != self)

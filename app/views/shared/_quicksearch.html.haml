@@ -23,7 +23,7 @@
 
 
   %ul.searchform
-    =form_tag search_unposts_path, method: 'post' do
+    =form_tag search_unlistings_path, method: 'post' do
       =text_field_tag :keyword, search_placeholder(@search_string)
       =submit_tag "Search", class: "btn btn-default btn-sm"
       %span

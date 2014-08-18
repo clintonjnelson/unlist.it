@@ -27,8 +27,8 @@ describe Message do
   end
 
   describe "slugging" do
-    let!(:guest_message) { Fabricate(:guest_unpost_message) }
-    let!(:user_message)  { Fabricate(:user_unpost_message ) }
+    let!(:guest_message) { Fabricate(:guest_unlisting_message) }
+    let!(:user_message)  { Fabricate(:user_unlisting_message ) }
     context "for a new message" do
       it "generates a slug for the message" do
         expect(Message.first.slug).to be_present
@@ -45,9 +45,9 @@ describe Message do
   end
 
   describe "replies" do
-    context "for an unpost parent message with replies" do
-      let!(:jen_unpost)       { Fabricate(:unpost) }
-      let!(:parent_message)   { Fabricate(:user_unpost_message) }
+    context "for an unlisting parent message with replies" do
+      let!(:jen_unlisting)       { Fabricate(:unlisting) }
+      let!(:parent_message)   { Fabricate(:user_unlisting_message) }
       let!(:active_message )  { Fabricate(:reply_message      ) }
       let!(:deleted_message ) { Fabricate(:reply_message, deleted_at: Time.now ) }
 
@@ -58,9 +58,9 @@ describe Message do
   end
 
   describe "delete_subcorrespondence" do
-    context "for an unpost parent message with replies" do
-      let!(:jen_unpost)     { Fabricate(:unpost) }
-      let!(:parent_message) { Fabricate(:user_unpost_message) }
+    context "for an unlisting parent message with replies" do
+      let!(:jen_unlisting)     { Fabricate(:unlisting) }
+      let!(:parent_message) { Fabricate(:user_unlisting_message) }
       let!(:reply_message ) { Fabricate(:reply_message      ) }
 
       it "deletes the reply messages" do

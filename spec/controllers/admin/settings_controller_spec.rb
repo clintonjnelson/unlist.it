@@ -46,7 +46,7 @@ describe Admin::SettingsController do
           expect(flash[:success]).to be_present
         end
         it "redirects to the edit form" do
-          expect(response).to redirect_to edit_admin_setting_path(joe_admin.id)
+          expect(response).to redirect_to edit_admin_setting_path(joe_admin.slug)
         end
       end
 
