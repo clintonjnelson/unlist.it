@@ -39,9 +39,27 @@ describe Unpost do
     end
   end
 
+  describe "slugging" do
+    let!(:jen_unpost) { Fabricate(:unpost, title: "Toyota Corolla GTS") }
+    context "for a new unpost with unique title" do
+      it "generates a slug for the unpost" do
+        expect(Unpost.last.slug).to be_present
+      end
+      it "makes the slug from the new unpost title using dashes for spaces" do
+        expect(Unpost.last.slug).to eq("toyota-corolla-gts")
+      end
+    end
+    context "for a new unpost with once-prior used title" do
+      it "adds a number identifier to the end of the unpost with same title" do
+        similar_unpost = Fabricate(:unpost, title: "Toyota Corolla GTS")
+        expect(Unpost.last.slug).to eq('toyota-corolla-gts-2')
+      end
+    end
+  end
+
   describe "the assocated unimages_within_limit validation" do
     let!(:jen_unpost) { Fabricate(:unpost) }
-    before { 6.times {Fabricate(:unimage, unpost: jen_unpost) } }
+    before { 6.times  { Fabricate(:unimage, unpost: jen_unpost) } }
 
     it "limits the maximum number of unimages for an unpost to six" do
       seventh_unimage = jen_unpost.unimages.create(unpost: jen_unpost, filename: '123456789.jpg')

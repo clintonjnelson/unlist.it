@@ -1,16 +1,17 @@
 class User < ActiveRecord::Base
+  #User slugs itself due to complexities with setting initial username
 
   belongs_to :location
   has_many   :invitations
-  has_many   :received_messages, -> { (order "created_at DESC") }, class_name: 'Message', foreign_key: 'recipient_id'
-  has_many   :sent_messages, ->{ order( "created_at DESC" ) },     class_name: 'Message', foreign_key: 'sender_id'
+  has_many   :received_messages, -> { order( "created_at DESC" ) }, class_name: 'Message', foreign_key: 'recipient_id'
+  has_many   :sent_messages,     -> { order( "created_at DESC" ) }, class_name: 'Message', foreign_key: 'sender_id'
   has_many   :tokens
   has_many   :unposts
   has_many   :unimages
 
   # External Forces
   has_secure_password
-  mount_uploader :avatar, AvatarUploader
+  mount_uploader    :avatar, AvatarUploader
 
   # Callbacks
   before_create     :set_initial_prt_created_at

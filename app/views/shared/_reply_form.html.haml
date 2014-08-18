@@ -2,4 +2,4 @@
 .reply-form.col-xs-10.col-xs-offset-1.well.hide{id: "reply-form-#{message.id}"}
   =bootstrap_form_for message.messages.build, url: user_messages_path([current_user, message.messages.build], parent_msg: message), remote: true do |f|
     =f.text_area :content, size: "35x4", label: "add a reply"
-    =f.submit "reply", class: 'btn btn-default btn-xs'
+    =f.submit "send", class: 'btn btn-default btn-xs'

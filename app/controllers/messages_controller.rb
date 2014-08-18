@@ -28,9 +28,7 @@ class MessagesController < ApplicationController
   #maybe 3 actions - received_index & sent_index & hits_index
   #could make OOP with ViewsObject to render correct one in index
   #would take a parameter of request, and return array of correct messages & heading name Index/Sent/Hits
-  #TODO: Show only primary messages, displaying replies inside when clicked to show
 
-    #Show replies within message or in a message-show page?
   def index
     ###FIRST THING: MOVE THIS TO MODEL SO IT RETURNS WHAT YOU WANT FOR @message. Set @message that way!
     case params[:type]

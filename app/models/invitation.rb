@@ -29,12 +29,12 @@ class Invitation < ActiveRecord::Base
 
     if admin
       message = Message.create(sender_id: 1,
-                            recipient: inviter,
-                        contact_email: nil,
-                              subject: title,
-                              content: message,
-                     messageable_type: "User",
-                       messageable_id: 1 )
+                               recipient: inviter,
+                           contact_email: nil,
+                                 subject: title,
+                                 content: message,
+                        messageable_type: "User",
+                          messageable_id: 1 )
     end
   end
 end

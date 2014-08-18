@@ -53,7 +53,12 @@
     %ul.unpost-top-details
       %li= "Price: #{@unpost.price}"
       %li= "Condition: #{@unpost.condition.level}"
-      %li= "Looking In: #{@unpost.zipcode}"
+      %li
+        Looking In:
+        -if @unpost.creator.location.zipcode
+          ="#{@unpost.creator.location.zipcode}"
+        -elsif @unpost.creator.location.city && @unpost.creator.location.state
+          ="#{@unpost.creator.location.city.capitalize}, #{@unpost.creator.location.state.upcase}"
     %p
       Keywords:
       %ul.unpost-keywords
@@ -65,13 +70,6 @@
         -unless @unpost.keyword4.blank?
           %li= " | #{@unpost.keyword4}"
         //-#Need a decorator here to gather keywords & display them properly
-    %h7
-      Location/Travel Information
-      %ul.unpost-travel-info
-        %li= "Willing to travel?: #{@unpost.travel}"
-        %li= "Max Distance: #{@unpost.distance} miles"
-        -#Use GEOCODER or similar gem here
-        %li= "From: #{@unpost.zipcode}"
 
 
 

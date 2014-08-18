@@ -1,6 +1,9 @@
 class Unpost < ActiveRecord::Base
+  include Sluggable
+    sluggable_type   :column
+    sluggable_column :title
 
-  belongs_to  :creator, foreign_key: 'user_id', class_name: "User"
+  belongs_to  :creator,  foreign_key: 'user_id', class_name: "User"
   belongs_to  :category
   belongs_to  :condition
   has_many    :messages, as: :messageable
@@ -10,20 +13,21 @@ class Unpost < ActiveRecord::Base
   #before_validation :filter_dollar_symbols_from_price
 
   # Scopes to filter query results
-  scope      :active,      -> { where inactive: [false, nil]  }
-  scope      :inactive,    -> { where inactive: true  }
-  scope      :hits,        -> { where "id IN (SELECT messageable_id FROM Messages where messageable_type='Unpost')" }
+  scope       :active,    -> { where inactive: [false, nil]  }
+  scope       :inactive,  -> { where inactive: true  }
+  scope       :hits,      -> { where "id IN (SELECT messageable_id FROM Messages where messageable_type='Unpost')" }
 
 
   # Validations
   # validate  :unimages_less_than_limit_per_unpost
-  validates_presence_of :title, :description, :keyword1,
-                        :condition_id, :category_id, :user_id#, :travel
-  validates :keyword2, presence: true, allow_blank: true
-  validates :keyword3, presence: true, allow_blank: true
-  validates :keyword4, presence: true, allow_blank: true
-  validates :link,     presence: true, allow_blank: true
-  validates :price,    numericality: { only_integer: true }
+  validates_presence_of  :title, :description, :keyword1,
+                         :condition_id, :category_id, :user_id#, :travel
+  validates   :keyword2, presence: true, allow_blank: true
+  validates   :keyword3, presence: true, allow_blank: true
+  validates   :keyword4, presence: true, allow_blank: true
+  validates   :link,     presence: true, allow_blank: true
+  validates   :price,    numericality: { only_integer: true }
+
 
 
   def parent_messages

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140817041054) do
+ActiveRecord::Schema.define(version: 20140817233749) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 20140817041054) do
     t.string   "messageable_type"
     t.integer  "messageable_id"
     t.datetime "deleted_at"
+    t.string   "slug"
   end
 
   create_table "safeguests", force: true do |t|
@@ -121,6 +122,7 @@ ActiveRecord::Schema.define(version: 20140817041054) do
     t.datetime "updated_at"
     t.boolean  "inactive"
     t.string   "unimages_token"
+    t.string   "slug"
   end
 
   create_table "users", force: true do |t|

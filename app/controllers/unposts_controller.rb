@@ -94,7 +94,7 @@ class UnpostsController < ApplicationController
   ################################ PRIVATE METHODS #############################
   private
   def set_unpost
-    @unpost = Unpost.find(params[:id])
+    @unpost = Unpost.find_by(slug: params[:id])
   end
   def require_correct_user
     access_denied("You are not the owner of this unpost.") unless @unpost && (current_user == @unpost.creator)

@@ -1,4 +1,7 @@
 class Message < ActiveRecord::Base
+  include Sluggable
+    sluggable_type :number, 15 #15 digit random number
+
   belongs_to :messageable, polymorphic: true #unpost & user
   belongs_to :recipient,   foreign_key: 'recipient_id', class_name: 'User'
   belongs_to :sender,      foreign_key: 'sender_id', class_name: 'User' #sender is nil for guests
@@ -17,6 +20,7 @@ class Message < ActiveRecord::Base
   validates_presence_of :sender_id,     unless: 'self.contact_email.present?'
   validates_presence_of :contact_email, unless: 'self.sender_id.present?'
 
+
   def replies
     self.messages.active.reply_filter.order('created_at DESC')
   end
@@ -24,7 +28,7 @@ class Message < ActiveRecord::Base
   def delete_subcorrespondence
     self.messages.each do |reply|
       reply.update_column(:deleted_at, Time.now)
-    end if self.messages.present?
+    end if self.messages.present? #double-check this is supposed to be .present? & not .blank?
   end
 
   #Probably need to make a message inactive when:
@@ -34,7 +38,6 @@ class Message < ActiveRecord::Base
 
 
   #Looks like need columns like:
-    #NOW:   Messages.inactive (:boolean)
-    #LATER: Messages.status (:string, status can be: "suspended", "inappropriate", "spam", "etc")
+    #Messages.status (:string, status can be: "suspended", "inappropriate", "spam", "etc")
       #This seems like would utilize a MessagesPolicy? UserPolicy would get involves with suspensions & such.
 end

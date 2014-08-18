@@ -26,6 +26,23 @@ describe Message do
     #it { should_not validate_presence_of(:contact_email ) }
   end
 
+  describe "slugging" do
+    let!(:guest_message) { Fabricate(:guest_unpost_message) }
+    let!(:user_message)  { Fabricate(:user_unpost_message ) }
+    context "for a new message" do
+      it "generates a slug for the message" do
+        expect(Message.first.slug).to be_present
+        expect(Message.last.slug ).to be_present
+      end
+      it "generates a slug for the message" do
+        expect(Message.first.slug).to be_a String
+        expect(Message.last.slug ).to be_a String
+      end
+      it "generates unique slugs for each message" do
+        expect(Message.first.slug).to_not eq(Message.last.slug)
+      end
+    end
+  end
 
   describe "replies" do
     context "for an unpost parent message with replies" do
