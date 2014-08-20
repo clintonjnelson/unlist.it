@@ -13,6 +13,6 @@ CarrierWave.configure do |config|
     #config.fog_public     = false                                   # optional, defaults to true
   else
     config.storage = :file
-    config.enable_processing = true #Rails.env.development? #enable for developmebt ENV but NOT testing
+    config.enable_processing = true #enable for development & testing
   end
 end

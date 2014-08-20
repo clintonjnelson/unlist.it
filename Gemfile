@@ -11,36 +11,27 @@ gem 'carrierwave'                 #Manage Images & Uploads
 gem 'coffee-rails'
 gem 'dropzonejs-rails'
 gem 'email_validator'             #Email validations made simple
-#gem 'figaro'                     #Manage ENV from YAML
 gem 'fog'                         #AMAZON S3
 gem 'geocoder'
 gem 'haml-rails'
-#gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
 gem 'jquery-turbolinks'
-#gem 'jquery-fileupload-rails'
 gem 'jquery-ui-rails'
 gem 'mini_magick'                 #Image control for use with Carrierwave
-#gem 'paratrooper'                #deployment made simple
+gem 'paratrooper'                #deployment made simple
 gem 'sass-rails'
-#gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'sidekiq'                     #allows workers to handle queued tasks in background
 gem 'sinatra', require: nil       #For Sidekiq online monitoring
 gem 'turbolinks'
 gem 'uglifier'
-#gem 'unicorn'                    #multiple instances of app for speed in production
-#gem 'therubyracer',  platforms: :ruby
+gem 'unicorn'                    #multiple instances of app for speed in production
 
 group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
-  #gem 'debugger'  #recommended by Rails
-  #gem 'factory_girl_rails'
   gem 'faker'
   gem 'guard-rspec'
-  #gem 'pg'
   gem 'pry'
-  #gem 'pry-nav'
   gem 'rspec-rails'
   gem 'spork-rails'
   gem 'sqlite3'
@@ -68,5 +59,18 @@ end
 group :production, :staging do
   gem 'pg'
   gem 'rails_12factor'
-  #gem 'sentry-raven'
+  gem 'sentry-raven'
 end
+
+# Removed gems from Main
+  #gem 'jquery-fileupload-rails'
+  #gem 'figaro'                     #Manage ENV from YAML
+  #gem 'jbuilder', '~> 2.0'
+  #gem 'sdoc', '~> 0.4.0',          group: :doc
+  #gem 'therubyracer',  platforms: :ruby
+
+# Removed gems from :development, :test
+  #gem 'debugger'  #recommended by Rails
+  #gem 'factory_girl_rails'
+  #gem 'pg'
+  #gem 'pry-nav'

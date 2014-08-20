@@ -1,39 +1,54 @@
 Rails.application.configure do
   config.cache_classes = true
-  config.eager_load = true
+  config.eager_load    = true
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
 
   # Assets Configs
-  config.serve_static_assets = false
+  config.serve_static_assets  = false
   config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compress = true
-  config.assets.compile = false
-  config.assets.digest = true
+  config.assets.compile  = false
+  config.assets.digest   = true
   # Version of your assets, change this if you want to expire all your assets.
-  config.assets.version = '1.0'
+  config.assets.version  = '1.0'
 
 
   # Mailer Configs
-  # config.action_mailer.default_url_options = { host: "arcane-stream-2628.herokuapp.com" }
-  # config.action_mailer.delivery_method = :smtp
-  # ActionMailer::Base.smtp_settings = {
-  # :port           => ENV['MAILGUN_SMTP_PORT'],
-  # :address        => ENV['MAILGUN_SMTP_SERVER'],
-  # :user_name      => ENV['MAILGUN_SMTP_LOGIN'],
-  # :password       => ENV['MAILGUN_SMTP_PASSWORD'],
-  # :domain         => 'arcane-stream-2628.heroku.com',
-  # :authentication => :plain }
-  # #ActionMailer::Base.delivery_method = :smtp
-
-
-  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.action_mailer.default_url_options = { host: "unlist-it.herokuapp.com" }
+  config.action_mailer.delivery_method = :smtp
+  ActionMailer::Base.smtp_settings = {
+    :port           => ENV['MAILGUN_SMTP_PORT'    ],
+    :address        => ENV['MAILGUN_SMTP_SERVER'  ],
+    :user_name      => ENV['MAILGUN_SMTP_LOGIN'   ],
+    :password       => ENV['MAILGUN_SMTP_PASSWORD'],
+    :domain         => 'unlist-it.heroku.com',
+    :authentication => :plain }
+  #ActionMailer::Base.delivery_method = :smtp
 
   # Set to :debug to see everything in the log.
   config.log_level = :info
+
+  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
+  # the I18n.default_locale when a translation cannot be found).
+  config.i18n.fallbacks = true
+
+  # Use default logging formatter so that PID and timestamp are not suppressed.
+  config.log_formatter = ::Logger::Formatter.new
+
+  # Do not dump schema after migrations.
+  config.active_record.dump_schema_after_migration = false
+
+  # Send deprecation notices to registered listeners.
+  config.active_support.deprecation = :notify
+
+  # Make sure errors get to SentryRaven
+  config.action_dispatch.show_exceptions = false
+
+  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
+  # config.force_ssl = true
 
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]
@@ -55,19 +70,6 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
-  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
-  # the I18n.default_locale when a translation cannot be found).
-  config.i18n.fallbacks = true
-
-  # Send deprecation notices to registered listeners.
-  config.active_support.deprecation = :notify
-
   # Disable automatic flushing of the log to improve performance.
   # config.autoflush_log = false
-
-  # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
-
-  # Do not dump schema after migrations.
-  config.active_record.dump_schema_after_migration = false
 end
