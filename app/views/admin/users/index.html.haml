@@ -7,7 +7,7 @@
       -@users.each do |user|
         %h4
           =link_to user_path(user) do
-            =gravatar_image(user, 60)
+            =user.decorator.avatar_image_tag(60)
           =link_to "#{user.username}", user_path(user)
         %p
           %ul
