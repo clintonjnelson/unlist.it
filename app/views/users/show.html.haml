@@ -13,7 +13,7 @@
     %p= "Password: ***hidden***"
     %p
       ="Default Location: "
-      -if @user.location.zipcode?
+      -if @user.location.zipcode.present?
         %span= "#{@user.zipcode}"
       -elsif @user.location.state && @user.location.city
         %span= "#{@user.location.city.capitalize}, #{@user.location.state.upcase}"
