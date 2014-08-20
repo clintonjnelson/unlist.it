@@ -15,7 +15,8 @@ class User < ActiveRecord::Base
 
   # Callbacks
   before_create     :set_initial_prt_created_at
-  before_validation :generate_and_check_username, on: :create
+  before_validation :generate_and_check_username,  on: :create
+  before_validation :set_user_location_to_default, on: :create
   before_save       :toggle_avatar_use_with_changes
 
   # Validations
@@ -41,6 +42,10 @@ class User < ActiveRecord::Base
 
   def set_initial_prt_created_at
     self.prt_created_at = 1.month.ago #for security
+  end
+
+  def set_user_location_to_default
+    self.location = Location.first
   end
 
   def toggle_avatar_use_with_changes
