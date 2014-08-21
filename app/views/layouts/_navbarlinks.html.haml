@@ -7,6 +7,8 @@
     %ul.dropdown-menu(role='menu' aria-labelledby='AdminUsersMenu')
       %li(role='presentation')
         =link_to "manage users",  admin_users_path(current_user), { role: 'menuitem', tabindex:"-1" }
+      %li(role='presentation')
+        =link_to "send invitation",  new_user_invitation_path(current_user), { role: 'menuitem', tabindex:"-1" }
 
   .dropdown#navbutton-admin-components
     %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')

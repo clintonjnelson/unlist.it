@@ -6,11 +6,11 @@
         %span.caret
       %ul.dropdown-menu(role='menu' aria-labelledby='AdminBlogMenu')
         %li(role='presentation')
-          =link_to '#', { role: 'menuitem', tabindex: "-1" } do
+          =link_to '#new_post', { role: 'menuitem', tabindex: "-1" } do
             %i.icon-plus
             New Post
         %li(role='presentation')
-          =link_to "view posts", '#', { role: 'menuitem', tabindex: "-1" }
+          =link_to "#view posts", '#', { role: 'menuitem', tabindex: "-1" }
 
     .dropdown#navbutton-admin-settings
       %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
@@ -18,24 +18,28 @@
         %span.caret
       %ul.dropdown-menu(role='menu' aria-labelledby='AdminSettingsMenu')
         %li(role='presentation')
-          =link_to "Settings",  edit_admin_setting_path(current_user), { role: 'menuitem', tabindex:"-1" }
+          =link_to "settings",  edit_admin_setting_path(current_user), { role: 'menuitem', tabindex:"-1" }
 
   -if (signed_in?)
-    %div= link_to 'Feedback!', user_feedback_path(current_user), { role: 'menuitem', tabindex: "-1" }
-
-    .dropdown#navbutton-admin-blog
+    .dropdown#navbutton-user-info
       %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
-        Cool Stuff
+        info
         %span.caret
       %ul.dropdown-menu(role='menu' aria-labelledby='AdminBlogMenu')
         %li(role='presentation')
-          =link_to '#', { role: 'menuitem', tabindex: "-1" } do
-            %i.icon-plus
-            Add Stuff
+          =link_to "faq", faq_path, { role: 'menuitem', tabindex: "-1" }
         %li(role='presentation')
-          =link_to "Stuff", '#', { role: 'menuitem', tabindex: "-1" }
+          =link_to "about", about_path, { role: 'menuitem', tabindex: "-1" }
+        %li(role='presentation')
+          =link_to "tour", tour_path, { role: 'menuitem', tabindex: "-1" }
+        / %li(role='presentation')
+        /   =link_to '#', { role: 'menuitem', tabindex: "-1" } do
+        /     %i.icon-plus
+        /     Add Stuff
+    %div= link_to 'feedback', user_feedback_path(current_user), { role: 'menuitem', tabindex: "-1" }
+    %div= link_to 'send invitation', new_user_invitation_path(current_user), { role: 'menuitem', tabindex: "-1" }
 
   -else
-    %a(href="") Link
-    %a(href="") Link2
-    %a(href="") Link3
+    / %a(href="") Link
+    / %a(href="") Link2
+    / %a(href="") Link3
