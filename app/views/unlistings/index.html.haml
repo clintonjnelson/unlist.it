@@ -19,5 +19,5 @@
           =link_to "FAQ", faq_path
           if you would like some hints on making your unlistings more easily found by sellers.]"
         -elsif params[:type] == "unlist"
-          [ You currently have no unlistings - click #{link_to "here", new_user_unlisting_path} to create one ]
+          =link_to "[You currently have no unlistings - click here  to create one]", new_user_unlisting_path
 

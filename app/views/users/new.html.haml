@@ -8,7 +8,6 @@
 
   .signup-form
     =bootstrap_form_for @user do |f|
-      =f.text_field :username,     label: "Username:"
       =f.email_field :email,       label: "Email Address:"
       =f.password_field :password, label: "Password:"
       -if @token.present?

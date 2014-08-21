@@ -27,8 +27,8 @@ class UsersController < ApplicationController
 
     if @invite && @user.save
       Token.create(creator: @user, tokenable: @user)
-      UnlistMailer.registration_confirmation_email(@user.id).deliver
-      #UnlistMailer.delay.confirmation_email(@user.id)  #Sidekiq Worker
+      #UnlistMailer.registration_confirmation_email(@user.id).deliver
+      UnlistMailer.delay.confirmation_email(@user.id)  #Sidekiq Worker
       @invite.set_redeemed                       #temporary to be removed later
       flash[:success] = "Welcome to Unlist! You have been sent an email to confirm registration. Please click the link in the email to complete your registration!"
       signin_user(@user)
@@ -69,7 +69,7 @@ class UsersController < ApplicationController
       token.update_attribute(:token, nil)
       UnlistMailer.welcome_email(user.id).deliver
       ##UnlistMailer.delay.welcome_email(user) #Sidekiq Worker
-      flash[:success] = "Thank you - your email has been confirmed! The Unlist world is now your oyster - help someone deliver you a pearl!"
+      flash[:success] = "Thank you - your email has been confirmed! The Unlist.it world is now your oyster - help someone deliver you a pearl!"
       signed_in? ? (redirect_to home_path) : signin_user(user)
     else
       redirect_to invalid_address_path
