@@ -67,8 +67,8 @@ class UsersController < ApplicationController
     if token && user
       user.update_attribute(:confirmed, true)
       token.update_attribute(:token, nil)
-      UnlistMailer.welcome_email(user.id).deliver
-      ##UnlistMailer.delay.welcome_email(user) #Sidekiq Worker
+      #UnlistMailer.welcome_email(user.id).deliver
+      UnlistMailer.delay.welcome_email(user) #Sidekiq Worker
       flash[:success] = "Thank you - your email has been confirmed! The Unlist.it world is now your oyster - help someone deliver you a pearl!"
       signed_in? ? (redirect_to home_path) : signin_user(user)
     else

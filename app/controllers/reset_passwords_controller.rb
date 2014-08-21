@@ -44,7 +44,8 @@ class ResetPasswordsController < ApplicationController
   def update_password_or_retry
     if @user.update(password: params[:password])
       @user.clear_reset_token
-      UnlistMailer.password_reset_confirmation_email(@user.id).deliver
+      # UnlistMailer.password_reset_confirmation_email(@user.id).deliver
+      UnlistMailer.delay.password_reset_confirmation_email(@user.id)
       flash[:success] = 'Your password has been changed. You may now use it to login.'
       redirect_to root_path
     else

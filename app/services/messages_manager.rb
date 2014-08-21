@@ -223,7 +223,8 @@ class MessagesManager
   end
 
   def send_confirmation_email_and_render_instructions
-    UnlistMailer.safeguest_confirmation_email(@safeguest.id).deliver
+    #UnlistMailer.safeguest_confirmation_email(@safeguest.id).deliver
+    UnlistMailer.delay.safeguest_confirmation_email(@safeguest.id)
     @flash_notice = 'You must be on our list of safe-emails to contact Unlist members.
                      Please check your email for a confirmation link to add you to our safe-email list.
                      Then you can re-click this Send Message link & your message will be sent.'
