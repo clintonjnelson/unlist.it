@@ -30,7 +30,7 @@ class UserDecorator
                                                                           host: "#{Rails.application.config.action_mailer.default_url_options[:host]}",
                                                                           controller: "users",
                                                                           action: 'toggle_avatar',
-                                                                          id: @user.id,
+                                                                          id: @user.slug,
                                                                           currently: @user.use_avatar),
                                                             method: 'PATCH' },
                                                     class: "avatar-checkbox") #html name, html value, checkbox checked?, {Ajax Call stuff}
