@@ -19,9 +19,9 @@ class MessagesController < ApplicationController
                                          parent_msg_id: params[:parent_msg])
 
     msg_response.send_message( contact_email: message_params[:contact_email],
-                            sender_user: current_user,
-                        reply_recipient: params[:sender_id],
-                                content: message_params[:content])
+                                 sender_user: current_user,
+                             reply_recipient: params[:sender_id],
+                                     content: message_params[:content])
     destination_by_response(msg_response)
   end
 
