@@ -1,10 +1,12 @@
 # Duplciate of Production Environment, except servers
 
 Rails.application.configure do
+  host_address = "unlist-it-staging.herokuapp.com"
   config.cache_classes = true
   config.eager_load    = true
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
+  config.action_controller.default_url_options = { host: host_address }
 
   # Assets Configs
   config.serve_static_assets  = false
@@ -19,7 +21,7 @@ Rails.application.configure do
 
 
   # Mailer Configs
-  config.action_mailer.default_url_options = { host: "unlist-it-staging.herokuapp.com" }
+  config.action_mailer.default_url_options = { host: host_address }
   config.action_mailer.delivery_method = :smtp
   ActionMailer::Base.smtp_settings = {
     :port           => ENV['MAILGUN_SMTP_PORT'    ],
