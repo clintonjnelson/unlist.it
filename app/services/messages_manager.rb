@@ -47,7 +47,7 @@ class MessagesManager
 
 
       elsif from_guest?(@contact_email) #if from a guest
-        @safeguest = Safeguest.where(email: @contact_email).take
+        @safeguest   = Safeguest.where(email: @contact_email).take
 
         if @safeguest.blank? #if email not on list
           invite_new_safeguest(@contact_email) #invite guest
@@ -55,11 +55,11 @@ class MessagesManager
         elsif @safeguest && @safeguest.blacklisted? #if has been blacklisted
           @flash_notice = "Your account is currently suspended from use.
                            If you believe this to be in error, please contact Unlist."
-          @success       = false
+          @success      = false
 
         elsif @safeguest && safeguest_message_allowed? #if allowed to message
           unless unlisting_message_setup(@content, @contact_email) == false #finds unlisting & sets message values. Makes @message & @unlisting
-            @message.sender = @user #sets the message sender to safeguest
+            @message.sender  = nil #sets the message sender to safeguest
 
             if @message.save #try to save message or return an alert
               @flash_success = "Message Sent!"

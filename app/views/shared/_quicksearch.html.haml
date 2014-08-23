@@ -8,9 +8,16 @@
       -else
         in
     %small.text-muted#search_location_text
-      -if session[:search_state] #ONLY TEMP FOR DISPLAY
+      -if session[:search_state] #if search place is set
         ="#{session[:search_city]}, #{session[:search_state]}"
-      -else
+      -elsif session[:search_zipcode] #if search zipcode is set
+        ="#{session[:search_zipcode]}"
+      -elsif signed_in? #if user
+        -if current_user.location.city.present? #if user has set a place
+          ="#{current_user.location.city}, #{current_user.location.state}"
+        -elsif current_user.location.zipcode.present? #if user has set a zipcode
+          ="#{current_user.location.zipcode}"
+      -else #default to Seattle
         Seattle, WA
 
   %small#radius-location.text-muted

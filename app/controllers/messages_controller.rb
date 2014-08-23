@@ -57,7 +57,7 @@ class MessagesController < ApplicationController
       format.html do
         if msg_response.success
           flash[:success]    = "#{msg_response.flash_success}"
-          redirect_to request.referer #:back ####COULD GO TO success VARIABLE HERE IF NEED
+          redirect_to success #:back ####COULD GO TO success VARIABLE HERE IF NEED
         elsif msg_response.flash_notice
           flash.now[:notice] = "#{msg_response.flash_notice}"
           render notice_error
