@@ -89,9 +89,8 @@ class MessagesController < ApplicationController
         success = user_feedback_path(current_user)
         notice_error = 'messages/new_feedback'
       when "Reply"
-        ###THE SECOND OPTION IS JUST A TEMP GUESS FOR WHERE TO GO AFTER USERS MSG EACHOTHER
+        #placeholder destination, but will actually be JS response (see above)
         success       = (@parent_message.messageable_type == "Unlisting" ? Unlisting.find(@parent_message.messageable_id) : unlistings_path(current_user))
-        ###THE SECOND OPTION IS JUST A TEMP GUESS FOR WHERE TO GO AFTER USERS MSG EACHOTHER
         notice_error  = (@parent_message.messageable_type == "Unlisting" ? 'unlistings/index' : 'messages/index')
       else
         success       = Unlisting.find(@parent_message.messageable_id)
