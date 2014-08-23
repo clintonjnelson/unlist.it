@@ -8,11 +8,11 @@ Rails.application.configure do
 
   # Assets Configs
   config.serve_static_assets  = false
-  config.action_controller.asset_host = Proc.new { |source|
-    if source =~ /\b(.png|.jpg|.gif|.ico)\b/i
-      "https://s3.amazonaws.com/unlist-assets"
-    end
-  }
+  # config.action_controller.asset_host = Proc.new { |source|
+  #   if source =~ /\b(.png|.jpg|.gif|.ico)\b/i
+  #     "https://s3.amazonaws.com/unlist-assets"
+  #   end
+  # }
   config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
   # Do not fallback to assets pipeline if a precompiled asset is missed.
