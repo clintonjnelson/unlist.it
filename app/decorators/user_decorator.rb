@@ -27,7 +27,7 @@ class UserDecorator
                                                     @user.use_avatar,
                                                     data: { remote: true,
                                                             url: url_for( only_path: false,
-                                                                          host: "#{Rails.application.config.action_mailer.default_url_options}",
+                                                                          host: "#{Rails.application.config.action_mailer.default_url_options[:host]}",
                                                                           controller: "users",
                                                                           action: 'toggle_avatar',
                                                                           id: @user.id,
