@@ -9,7 +9,7 @@
   .signup-form
     =bootstrap_form_for @user do |f|
       =f.email_field :email,       label: "Email Address:"
-      =f.password_field :password, label: "Password:"
+      =f.password_field :password, label: "Choose Password:"
       -if @token.present?
         =hidden_field_tag :token, @token
       =f.submit "Sign Up!", class: "btn btn-primary"
