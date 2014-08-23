@@ -3,7 +3,7 @@ class Safeguest < ActiveRecord::Base
 
   ################################## CALLBACKS #################################
   before_create :create_confirmation_token
-
+  before_create :downcase_email
 
 
   ################################## VALIDATIONS ###############################
@@ -29,6 +29,10 @@ class Safeguest < ActiveRecord::Base
   def create_confirmation_token
     self.confirm_token =            Safeguest.secure_token
     self.confirm_token_created_at = Time.now
+  end
+
+  def downcase_email
+    self.email = self.email.downcase
   end
 
   def reset_confirmation_token
