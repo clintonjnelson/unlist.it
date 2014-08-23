@@ -20,6 +20,8 @@ if($('#error-messages').hasClass('alert-error')){
 <% end %>
 
 
-<% if @success %>
+<% if @success && session[:search_city] %>
   $('#search_location_text').html('<%= "#{session[:search_city]}, #{session[:search_state]}" %>');
+<% elsif @success && session[:search_zipcode] %>
+  $('#search_location_text').html('<%= "#{session[:search_zipcode]}" %>');
 <% end %>
