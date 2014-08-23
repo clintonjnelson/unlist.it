@@ -1,7 +1,7 @@
 class MessagesManager
   attr_reader :user, :safeguest, :success, :type, :sender_type, :sender_status, :error_message, :flash_success, :flash_notice, :message
   def initialize(options={}) #receives unlisting_id & reply
-    @unlisting_id     = options[:unlisting_id]
+    @unlisting_id  = options[:unlisting_id]
     @parent_msg_id = options[:parent_msg_id]
   end
 
@@ -170,7 +170,7 @@ class MessagesManager
   #SETTING UP MESSAGES
   def unlisting_message_setup(content, contact_email=nil)
     @message = Message.new(content: content, contact_email: contact_email)
-    @unlisting  = Unlisting.find(@unlisting_id)
+    @unlisting  = Unlisting.find_by(slug: @unlisting_id) #######SLUGGING VERIFY THIS WORKS!!!
     if @unlisting
       @message.subject     = "RE: " + @unlisting.title
       @message.recipient   = @unlisting.creator
