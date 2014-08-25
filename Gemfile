@@ -1,30 +1,30 @@
-source 'https://rubygems.org'
-ruby '2.0.0'
-gem 'rails' #, '4.1.1'
+  source 'https://rubygems.org'
+  ruby '2.0.0'
+  gem 'rails' #, '4.1.1'
 
 
-gem 'bcrypt'
-gem 'bootstrap_form'
-gem 'bootstrap-sass'
-#gem 'blueimp-gallery', '2.11.0.1' #Responsive Unimages Viewer; **WIRED & WORKING IF UNCOMMENT AREAS
-gem 'carrierwave'                 #Manage Images & Uploads
-gem 'coffee-rails'
-gem 'dropzonejs-rails'
-gem 'email_validator'             #Email validations made simple
-gem 'fog'                         #AMAZON S3
-gem 'geocoder'
-gem 'haml-rails'
-gem 'jquery-rails'
-gem 'jquery-turbolinks'
-gem 'jquery-ui-rails'
-gem 'mini_magick'                 #Image control for use with Carrierwave
-gem 'paratrooper'                #deployment made simple
-gem 'sass-rails'
-gem 'sidekiq'                     #allows workers to handle queued tasks in background
-gem 'sinatra', require: nil       #For Sidekiq online monitoring
-gem 'turbolinks'
-gem 'uglifier'
-gem 'unicorn'                    #multiple instances of app for speed in production
+  gem 'bcrypt'
+  gem 'bootstrap_form'
+  gem 'bootstrap-sass'
+  #gem 'blueimp-gallery', '2.11.0.1' #Responsive Unimages Viewer; **WIRED & WORKING IF UNCOMMENT AREAS
+  gem 'carrierwave'                 #Manage Images & Uploads
+  gem 'coffee-rails'
+  gem 'dropzonejs-rails'
+  gem 'email_validator'             #Email validations made simple
+  gem 'fog'                         #AMAZON S3
+  gem 'geocoder'
+  gem 'haml-rails'
+  gem 'jquery-rails'
+  gem 'jquery-turbolinks'
+  gem 'jquery-ui-rails'
+  gem 'mini_magick'                 #Image control for use with Carrierwave
+  gem 'paratrooper'                #deployment made simple
+  gem 'sass-rails'
+  gem 'sidekiq'                     #allows workers to handle queued tasks in background
+  gem 'sinatra', require: nil       #For Sidekiq online monitoring
+  gem 'turbolinks'
+  gem 'uglifier'
+  gem 'unicorn'                    #multiple instances of app for speed in production
 
 group :development, :test do
   gem 'better_errors'

@@ -47,7 +47,7 @@ Rails.application.configure do
   config.active_support.deprecation = :notify
 
   # Make sure errors get to SentryRaven
-  config.action_dispatch.show_exceptions = false
+  config.action_dispatch.show_exceptions = true
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
