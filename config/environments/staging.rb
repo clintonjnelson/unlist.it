@@ -7,7 +7,7 @@ Rails.application.configure do
   config.action_controller.perform_caching = true
 
   # Assets Configs
-  config.serve_static_assets  = true #to get error pages to work
+  config.serve_static_assets  = false
   config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
   # Do not fallback to assets pipeline if a precompiled asset is missed.
