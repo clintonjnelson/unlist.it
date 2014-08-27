@@ -5,20 +5,27 @@
   #showusercontent.well
     .gravatar= @user.decorator.avatar_image_tag(60)
     %h2.text-left#profile-name
-      ="#{@user.username.capitalize}'s Profile"
-      %small= link_to "[edit info]", edit_user_path(current_user)
-    %hr.hr-lg-dashed
-
-    %p= "Email: #{@user.email}"
-    %p= "Password: ***hidden***"
+      ="#{@user.username.capitalize}"
     %p
-      ="Default Location: "
       -if @user.location.zipcode.present?
         %span= "#{@user.zipcode}"
       -elsif @user.location.state && @user.location.city
         %span= "#{@user.location.city.capitalize}, #{@user.location.state.upcase}"
-    %p= "[DISPLAY THIS LOCATION NAME & MAYBE MAP]"
 
-    %hr.hr-xs-solid
-    %h5= "Status"
-    %p= "Number of Unlistings: #{@user.unlistings.active.count} Unlistings"
+    %br
+    %br
+    %h4.text-muted= "Unlistings to-date: #{@user.unlistings.active.count}"
+
+    #tabs.well
+      %ul
+        -if @unlistings.present?
+          -category_array(@unlistings).each_with_index do |category, index|
+            %li
+              %a.text-muted.text-center{href: "#tabs-#{index+1}"}
+                =category.name
+      #unlist
+        -if @unlistings.present?
+          -category_array(@unlistings).each_with_index do |category, index|
+            %div.text-muted{id: "tabs-#{index+1}"}
+              =render @unlistings.select{|p| p.category_id == category.id}
+

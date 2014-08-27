@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many   :tokens
   has_many   :unlistings
   has_many   :unimages
+  has_one    :questionaire
 
   # External Forces
   has_secure_password

@@ -1,12 +1,12 @@
 class UnlistingsController < ApplicationController
   ##ADD THESE BEFORE ACTIONS TO SPECS
-  before_action :set_current_user,     only: [:new, :create, :show, :edit, :update          ]
-  before_action :set_unlisting,           only: [               :show, :edit, :update, :destroy]
+  before_action :set_current_user,          only: [:new, :create, :show, :edit, :update          ]
+  before_action :set_unlisting,             only: [               :show, :edit, :update, :destroy]
   ###VERIFY ALREADY TESTED FOR THESE
-  before_action :require_correct_user, only: [                      :edit, :update, :destroy]
-  before_action :require_signed_in,    only: [:new, :create,        :edit, :update, :destroy]
-
-
+  before_action :require_correct_user,      only: [                      :edit, :update, :destroy]
+  before_action :require_signed_in,         only: [:new, :create,        :edit, :update, :destroy]
+  before_action :filter_symbols_from_price, only: [      :create,               :update          ]
+  before_action :format_link,               only: [      :create,               :update          ]
 
   def new #Loads: @user
     @unlisting   = @user.unlistings.build
@@ -98,6 +98,22 @@ class UnlistingsController < ApplicationController
   end
   def require_correct_user
     access_denied("You are not the owner of this unlisting.") unless @unlisting && (current_user == @unlisting.creator)
+  end
+
+  def filter_symbols_from_price
+    if params[:unlisting][:price].present?
+      price_string = params[:unlisting][:price]
+      price_string.gsub!('$', '')
+      price_string.gsub!(',', '')
+      price_string.to_i ? (params[:unlisting][:price] = price_string.to_i) : true #true so can throw validation error later
+    end
+  end
+
+  def format_link
+    url_string = params[:unlisting][:link]
+    if url_string.present?
+      (url_string.starts_with?("http://") || url_string.starts_with?("https://")) ? url_string : "http://#{url_string}"
+    end
   end
 
   def unlisting_params

@@ -48,13 +48,13 @@
     %h5
       Here's An Example:
       =link_to "#{@unlisting.link}", @unlisting.link, target: 'blank'
-    %p= "Subject: #{ @unlisting.title }"
-    %p= "Description: #{@unlisting.description}"
+    %p= "Looking for:  #{ @unlisting.title       }"
+    %p= "Description:  #{ @unlisting.description }"
     %ul.unlisting-top-details
-      %li= "Price: #{@unlisting.price}"
-      %li= "Condition: #{@unlisting.condition.level}"
+      %li= "Pay up to: #{ number_to_currency(@unlisting.price, precision: 0) }"
+      %li= "Condition: #{ @unlisting.condition.level                         }"
       %li
-        Looking In:
+        Location:
         -if @unlisting.creator.location.zipcode
           ="#{@unlisting.creator.location.zipcode}"
         -elsif @unlisting.creator.location.city && @unlisting.creator.location.state

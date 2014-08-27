@@ -2,7 +2,10 @@
 #headerbar.container
   .row
     .col-xs-3#unlisticonbox
-      %h6#unlist-version ALPHA
+      -if signed_in?
+        =link_to "ALPHA", edit_user_questionaire_path(current_user, 1), class: 'unlist-version' #path to questionaire
+      -else
+        %h6.unlist-version ALPHA
       %h1#unlistheadericon
         =link_to 'Unlist.it', root_path
         / Login/User Box Located In Header (Right Side)

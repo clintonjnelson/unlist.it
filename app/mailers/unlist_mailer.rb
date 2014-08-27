@@ -50,6 +50,14 @@ class UnlistMailer < ActionMailer::Base
           subject: 'Welcome to Unlist!')
   end
 
+  def questionaire_email(user_id)
+    @user = User.find(user_id)
+    use_developer_email_if_in_staging
+    mail(to: @user.email,
+         from: 'clintonjnelson@live.com',
+         subject: "Unlist Testing - Feedback Questions")
+  end
+
 private
   def use_developer_email_if_in_staging
     @user.email  = ENV['STAGING_EMAIL'] if (@user && Rails.env.staging?)

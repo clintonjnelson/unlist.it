@@ -39,7 +39,7 @@ Rails.application.routes.draw do
   resources :reset_passwords,           only: [:create, :show]
   resources :sessions,                  only: [:create]
 
-  resources :unlistings,                   only: [:show, :index] do  #INDEX for general searching & use by non-creator
+  resources :unlistings,                only: [:show, :index] do  #INDEX for general searching & use by non-creator
     collection do
       post      :search,                  to: 'searches#search'
     end
@@ -50,7 +50,9 @@ Rails.application.routes.draw do
     resources :invitations,             only: [:new, :create]
     resources :messages,                only: [:new, :create, :show, :index] #INDEX specific to user browsing own items
     get       '/feedback',                to: 'messages#new_feedback'
-    resources :unlistings,               except: [:index]
+    resources :questionaires,           only: [:edit, :update]
+    get       '/email_questionaire',      to: 'questionaires#questionaire_email'
+    resources :unlistings,            except: [:index]
     get       '/unlist',                  to: 'unlistings#index'
     get       '/location_modal',          to: 'users#location_modal'
     post      '/update_location',         to: 'users#update_location'

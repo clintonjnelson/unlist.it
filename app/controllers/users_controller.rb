@@ -43,6 +43,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    @unlistings = @user.unlistings.active if @user #load all active unlistings
   end
 
   def edit
