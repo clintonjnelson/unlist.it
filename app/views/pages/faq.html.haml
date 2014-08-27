@@ -4,22 +4,39 @@
 #faq.row.col-xs-8.col-xs-offset-1.well
   %h2 Unlist - Frequently Asked Questions
   %ul
-    %li= link_to 'What is an unlist?', faq_path(anchor: 'q1')
-    %li= link_to 'What is an unlist good for?', faq_path(anchor: 'q2')
-    %li= link_to 'What info is required to sign up?', faq_path(anchor: 'q3')
-    %li= link_to 'Can I login with other social media accounts?', faq_path(anchor: 'q4')
-    %li= link_to 'Do I need to signup to browse or search Unlist postings & contact interested buyers?', faq_path(anchor: 'q5')
+    %li= link_to 'Unlisting? Unlist? What are these?', faq_path(anchor: 'q1')
+    %li= link_to 'So, what\'s the big deal?', faq_path(anchor: 'q2')
+    %li= link_to 'What is an unlist good for?', faq_path(anchor: 'q3')
+    %li= link_to 'What info is required to sign up?', faq_path(anchor: 'q4')
+    %li= link_to 'Can I login with other social media accounts?', faq_path(anchor: 'q5')
+    %li= link_to 'Do I need to signup to browse or search Unlist postings & contact interested buyers?', faq_path(anchor: 'q6')
+    %li= link_to "What is \"Community Reuse\" (aka: \"ReUse\"", faq_path(anchor: 'q7')
   %br
   %br
   %br
 
 
   // FAQ #1
-  %h3#q1
-    What is an unlist?
+  %h3#q1 "Unlisting? Unlist? What are these?
   %hr
-  %p When a Wishlist marries a Wanted Ad and has a baby - it's an Unlist. An Unlist is your personal list of requests to buy things. Each request is called an unlisting.
+  %h4 First, the "Un"
+  %P The "Un" reflects that the focus of these listings is NOT of what you have (like the many other classified sites out there). Rather, these are things you DON'T yet have.. hence the "Un".
+  %br
 
+  %h4 What is an "unlisting"?
+  %p It is probably described as the combination of a wishlist and a local classified. It is an ad describing what you are looking for, so that a seller can find & contact you directly.
+  %br
+
+  %h4 What is an "unlist"?
+  %p
+    Maybe more clearly written as "unList". It is a bunch of unlistings - things you're trying to find to buy (or as
+    =link_to ' Community Reuse', faq_path(anchor: 'q6')
+    ).
+  %br
+  %br
+
+  // FAQ #2
+  %h3#q2 So, what's the big deal?
   %p
     Easier for buyers
     %ul
@@ -30,16 +47,14 @@
     Easier for sellers
     %ul
       %li Stop spending hours managing online ads. Find buyers instantly with a search.
-      %li= "Is someone interested in your --insert your thing here--? Find out the demand and how much people will pay for --it--."
+      %li= "Curious if people are interested in things you have? Find out the demand and how much people will pay."
 
-  %h5
-    Wanted Ad + Wishlist = Unlist
   %br
   %br
 
 
-  // FAQ #2
-  %h3#q2 What is an Unlist good for?
+  // FAQ #3
+  %h3#q3 What is an Unlist good for?
   %hr
 
   %p It helps promote a more sustainable world.
@@ -47,14 +62,17 @@
     %li
       Posting & managing ads for a cheap items in the past probably isn't worth the hassle, so we throw lots of stuff away.
       %br
-      Sad, because someone probably wants it. Now you can see instantly & contact them immediately. Win-win.
+      Sad, because someone would probably like it. Now you can see instantly if anyone is interested & contact them immediately. Win-win.
+      (See also
+      =link_to ' Community Reuse', faq_path(anchor: 'q6')
+      )
     %li
       Unlistings foster community sharing. Give items away in your local community!
   %br
 
   %p It saves everyone lots of time & hassle.
   %ul
-    %li Don't browse what is for sale, browse what people want. Now you have almost instant sales.
+    %li Don't browse what is for sale, browse what people want. If you have stuff, you can connect to buyers immediately.
   %br
 
   %p Unlist provides new opportunities:
@@ -66,8 +84,8 @@
   %br
   %br
 
-  // FAQ #3
-  %h3#q3 What information is required to sign up?
+  // FAQ #4
+  %h3#q4 What information is required to sign up?
   %hr
 
   %ul
@@ -85,12 +103,12 @@
       "You can also use
       =link_to 'social media logins',
       faq_path(anchor: 'q4')
-      , if you'd prefer to avoid having another login/password to remember."
+      , if you'd prefer to avoid having another password to remember."
   %br
   %br
 
-  // FAQ #4
-  %h3#q4
+  // FAQ #5
+  %h3#q5
     Can I login to Unlist with other social media accounts (such as Facebook or Twitter)?
   %hr
   %ul
@@ -100,8 +118,8 @@
   %br
   %br
 
-  // FAQ #5
-  %h3#q5
+  // FAQ #6
+  %h3#q6
     Do I need an account to use Unlist?
   %hr
   %ul
@@ -109,6 +127,16 @@
       %p You can browse & search to your heart's content without an account.
       %p With an account you can make unlistings and contact anyone.
       %p If you don't want a full account, but still want to be able to contact buyers, you can add your email to your SafeGuests email list. This grants you access to contact many users (note: we do allow our users to choose whether or not to allow contact from SafeGuests or to limit contact from full-users only).
+
+  // FAQ #7
+  %h3#q7
+    What is "Community Reuse" (aka: "ReUse")?
+  %hr
+  %ul
+    %li.list-no-bullet
+      %p Community Reuse is a way of helping others & the environment by giving away to other people things you no longer need.
+      %p This promotes community and sustainability at a local and global level. This is not a new idea, and is hopefully already going on in the community around you. You can find more information on the movement by searching online for "Community Reuse". "Buy Nothing" or "Trash Backwards" is a great project that was started on Bainbridge Island, WA (a ferry ride from Seattle, WA) that has been doing a great job of promoting this way of living.The idea is simple: instead of throwing potentially us-able items away, arrange to leave it on your doorstep for an interested someone to pick up, or arrange to drop it off at their doorstep.
+      %p Unlist.it hopes to similarly help foster this movement in local communities everywhere. So, before you throw away usable items (yes, even plastic bags, wine bottles, clothes, the list goes on...), do a quick local search and see if you can help a neighbor and reduce the load on our landfills.
 
 
 
