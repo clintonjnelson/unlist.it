@@ -63,7 +63,7 @@ class UnlistingsController < ApplicationController
       redirect_to [@user, @unlisting]
     else
       flash[:error] = 'Oops - there were some errors in the form. Please fix & try agian.'
-      @unimages = Unimage.where(token: unlisting_token_param[:token]).all ####CHANGED FROM @UNLISTINGS TO @UNIMAGES
+      @unimages = Unimage.where(token: unlisting_token_param[:token]).all
       render 'edit'
     end
   end

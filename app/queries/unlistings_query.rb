@@ -45,6 +45,10 @@ class UnlistingsQuery
       @relation = in_city_state
     # elsif @state #may want another option of JUST state
     #   @relation = in_state
+    else #if no location provided, use Default = Seattle, WA
+      @city  = "Seattle"
+      @state = "WA"
+      @relation = in_city_state
     end
     @relation.all
   end

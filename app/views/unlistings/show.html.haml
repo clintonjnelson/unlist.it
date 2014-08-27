@@ -14,7 +14,7 @@
       ///POSSIBLE CANDIDATE FOR DECORATOR
       -if signed_in? && creator?(@unlisting)
         =@unlisting.creator.decorator.avatar_image_tag(60)
-        %p= link_to "[edit post]", edit_user_unlisting_path(current_user, @unlisting), class: 'contact-buyer-link'
+        %p= link_to "[edit unListing]", edit_user_unlisting_path(current_user, @unlisting), class: 'contact-buyer-link'
       -else
         =link_to unlisting_show_message_form_path(@unlisting), remote: true, class: 'contact-buyer-link' do
           =@unlisting.creator.decorator.avatar_image_tag(60)
