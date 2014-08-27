@@ -17,13 +17,12 @@ class UrlValidator < ActiveModel::EachValidator
 
   def verify_exists?(url_string)
     url = URI.parse(url_string)
-    binding.pry
     request = Net::HTTP.new(url.host, url.port)
     request.use_ssl = (url.scheme == 'https')
     path = url.path if url.path.present?
     res = request.request_head(path || '/')
     if res.kind_of?(Net::HTTPRedirection)
-      url_exist?(res['location']) # Go after any redirect and make sure you can access the redirected URL
+      verify_exists?(res['location']) # Recursive chck redirect and make sure you can access the redirected URL
     else
       ! %W(4 5).include?(res.code[0]) # Not from 4xx or 5xx families
     end

@@ -72,8 +72,9 @@ $(document).ready(function() {
 
 //Ajax Population of ConditionSelect For Selected Category on LOAD
 //MAY NEED A if ($(".add-condition-category-select").length == 1) { //do stuff below// }
+//VERIFY THIS WORKS!!!
 $(document).ready(function() {
-  if($(".unlisting_category_select").length > 0) {
+  if($(".add-condition-category-select").length > 0) {
     $.ajax({
       type: "POST",
       url: "/admin/conditions_by_category",

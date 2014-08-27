@@ -9,22 +9,22 @@ class UnlistingsController < ApplicationController
   before_action :format_link,               only: [      :create,               :update          ]
 
   def new #Loads: @user
-    @unlisting   = @user.unlistings.build
-    @token    = build_token
+    @unlisting = @user.unlistings.build
+    @token     = build_token
   end
 
   def create #Loads: @user
     @unlisting = @user.unlistings.build(unlisting_params)
-    @token  = unlisting_token_param[:token]
-    unlisting_unimages = Unimage.where(token: @token).all
-    @unlisting.unimages << unlisting_unimages
-
+    @token     = unlisting_token_param[:token]
+    unlisting_unimages        = Unimage.where(token: @token).all
+    @unlisting.unimages       << unlisting_unimages
+    @unlisting.unimages_token = @token
     if @user && @unlisting.save
         flash[:success] = "Unlisting created!"
         redirect_to [@user, @unlisting]
     else
       flash[:error] = 'Oops - there were some errors in the form. Please fix & try agian.'
-      @unimages = unlisting_unimages #show any images for deletion on re-render
+      @unimages = unlisting_unimages #show any images for management on re-render
       render 'new'
     end
   end
@@ -63,7 +63,7 @@ class UnlistingsController < ApplicationController
       redirect_to [@user, @unlisting]
     else
       flash[:error] = 'Oops - there were some errors in the form. Please fix & try agian.'
-      @unlistings = Unimage.where(token: unlisting_token_param[:token]).all
+      @unimages = Unimage.where(token: unlisting_token_param[:token]).all ####CHANGED FROM @UNLISTINGS TO @UNIMAGES
       render 'edit'
     end
   end
@@ -81,7 +81,7 @@ class UnlistingsController < ApplicationController
   def conditions_by_category
     @conditions = Condition.where(category_id: params[:category_id]).all
     respond_to do |format|
-      format.js {render 'conditions_by_category'}
+      format.any(:js, :html) {render 'unlistings/conditions_by_category.js.haml'}
     end
   end
 
@@ -110,9 +110,9 @@ class UnlistingsController < ApplicationController
   end
 
   def format_link
-    url_string = params[:unlisting][:link]
+    url_string = unlisting_params[:link]
     if url_string.present?
-      (url_string.starts_with?("http://") || url_string.starts_with?("https://")) ? url_string : "http://#{url_string}"
+      (url_string.starts_with?("http://") || url_string.starts_with?("https://")) ? url_string : (params[:unlisting][:link] = "http://#{url_string}")
     end
   end
 

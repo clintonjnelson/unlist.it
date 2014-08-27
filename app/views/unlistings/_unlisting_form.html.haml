@@ -25,6 +25,7 @@
 
     %br
     %ul#additem
+      %p.text-muted * = required fields
       -# Verify if still need multipart here
       =bootstrap_form_for [user, unlisting], html: { multipart: true }, layout: :horizontal, label_col: 'col-xs-4', control_col: "col-xs-6" do |f|
         =f.hidden_field :token, value: "#{@token}"
@@ -34,7 +35,7 @@
         =f.text_field  :link,       label: "Website Example"
         =f.select :condition_id, [], { prompt: "select a category above", label: "Minimum Condition*", }, { id: "unlisting_condition_select" }
         //-#(price == 0) => FREE, (price = -1) => Any, (price > 0) => price; Decorator or Helper for This.
-        =f.text_field :price,    label: "Price (up to)", prepend: "$"
+        =f.text_field :price,    label: "Price (up to)*", prepend: "$"
         =f.text_field :keyword1, label: "Keyword 1*"
         =f.text_field :keyword2, label: "Keyword 2"
         =f.text_field :keyword3, label: "Keyword 3"

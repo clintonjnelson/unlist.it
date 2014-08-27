@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-before_filter :require_signed_in, only: [:destroy]
+before_filter :require_signed_in,  only: [:destroy]
 before_filter :require_signed_out, only: [:create]
 
   def create
@@ -14,6 +14,7 @@ before_filter :require_signed_out, only: [:create]
 
   def destroy
     session[:user_id] = nil
-    redirect_to root_path, notice: "You're now signed out."
+    flash[:notice] = "You're now signed out."
+    redirect_to root_path
   end
 end
