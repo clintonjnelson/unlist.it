@@ -2,25 +2,12 @@ require 'spec_helper'
 #INDEX is done - pulls messages for displaying on user interface
 
 
-
-describe MessagesController do
+describe MessagesController, :vcr do
   let(:jen)          { Fabricate(:user) }
   let(:jens_unlisting)  { Fabricate(:unlisting, creator: jen) }
-  before { request.env["HTTP_REFERER"] = "where_i_came_from" }
-  ##COULD USE THIS FOR THE TYPICAL USER CASE...
-  # describe "GET new" do
-  #   context "with valid information" do
-  #     before { get :new }
-  #     it "creates a new message instance" do
-  #       expect(assigns(:message)).to be_a_new Message
-  #     end
-  #     it "renders the 'new' view template" do
-  #       expect(response).to render_template 'new'
-  #     end
-  #   end
-  # end
+  #before { request.env["HTTP_REFERER"] = "where_i_came_from" }
 
-  #I THINK THIS SHOULD BE REFACTORED AS A POLICY OR SERVICE OBJECT
+  #REFACTOR IN THE QUERY OBJECT SPEC
   describe "GET index" do
     let!(:sent_unlisting_message)     { Fabricate(:user_unlisting_message,  sender:        jen) }
     let!(:received_unlisting_message) { Fabricate(:user_unlisting_message,  recipient:     jen) }
@@ -106,11 +93,17 @@ describe MessagesController do
     describe "message about unlisting to user from guest" do
       context "with valid information" do
         context "with NEW, UN-confirmed, and valid guest email" do
-          before { post :create, { unlisting_id: jens_unlisting.id,
-                                     message: { content: "I would love to sell you mine!",
-                                                contact_email: "guest@example.com",
-                                                reply: false } } }
-          after { ActionMailer::Base.deliveries.clear }
+          before do
+            Sidekiq::Testing.inline!
+            post :create, { unlisting_id: jens_unlisting.slug,
+                                   message: { content: "I would love to sell you mine!",
+                                              contact_email: "guest@example.com",
+                                              reply: false } }
+          end
+          after do
+            ActionMailer::Base.deliveries.clear
+            Sidekiq::Worker.clear_all
+          end
 
           it "makes a new safeguest" do
             expect(Safeguest.all.count).to eq(1)
@@ -137,7 +130,7 @@ describe MessagesController do
 
         context "with EXISTING, UN-confirmed guest with valid token" do
           let!(:joe_guest) { Fabricate(:safeguest, email: "guest@example.com") }
-          before { post :create, { unlisting_id: jens_unlisting.id,
+          before { post :create, { unlisting_id: jens_unlisting.slug,
                                      message: { content: "I would love to sell you mine!",
                                                 contact_email: "guest@example.com",
                                                 reply: false } } }
@@ -158,10 +151,12 @@ describe MessagesController do
           let!(:joe_guest) { Fabricate(:safeguest, email: "guest@example.com") }
           before do
             joe_guest.update_column(:confirm_token_created_at, 1.month.ago)
-            post :create, { unlisting_id: jens_unlisting.id,
-                            message: { content: "I would love to sell you mine!",
-                                       contact_email: "guest@example.com",
-                                       reply: false } }
+            Sidekiq::Testing.inline! do
+            post :create, { unlisting_id: jens_unlisting.slug,
+                                 message: { content: "I would love to sell you mine!",
+                                      contact_email: "guest@example.com",
+                                              reply: false } }
+            end
           end
           after { ActionMailer::Base.deliveries.clear }
 
@@ -186,7 +181,7 @@ describe MessagesController do
           let!(:joe_guest) { Fabricate(:safeguest, email: "guest@example.com",
                                                    confirmed: true,
                                                    blacklisted: true) }
-          before { post :create, { unlisting_id: jens_unlisting.id,
+          before { post :create, { unlisting_id: jens_unlisting.slug,
                             message: { content: "I would love to sell you mine!",
                                        contact_email: "guest@example.com",
                                        reply: false } } }
@@ -205,7 +200,7 @@ describe MessagesController do
 
         context "with EXISTING CONFIRMED safeguest" do
           let!(:joe_guest) { Fabricate(:safeguest, email: "guest@example.com", confirmed: true) }
-          before { post :create, { unlisting_id: jens_unlisting.id,
+          before { post :create, { unlisting_id: jens_unlisting.slug,
                                      message: { content: "I would love to sell you mine!",
                                                 contact_email: "guest@example.com",
                                                 reply: false } } }
@@ -234,7 +229,7 @@ describe MessagesController do
       context "with INVALID information" do
         context "with existng confirmed safeguest" do
           let!(:joe_guest) { Fabricate(:safeguest, email: "guest@example.com", confirmed: true) }
-          before { post :create, { unlisting_id: jens_unlisting.id,
+          before { post :create, { unlisting_id: jens_unlisting.slug,
                                      message: { content: "",
                                                 contact_email: "guest@example.com",
                                                 reply: false } } }
@@ -251,7 +246,7 @@ describe MessagesController do
         end
 
         context "for an INvalid email address" do
-          before { post :create, { unlisting_id: jens_unlisting.id,
+          before { post :create, { unlisting_id: jens_unlisting.slug,
                                      message: { content: "I would like to sell you one!",
                                                 contact_email: "example.com",
                                                 reply: false } } }
@@ -275,7 +270,7 @@ describe MessagesController do
         before do
           spec_signin_user(jen)
           jen.update_attribute(:confirmed, true)
-          post :create, { unlisting_id: jens_unlisting.id,
+          post :create, { unlisting_id: jens_unlisting.slug,
                           message: { content: "I would love to sell you mine!",
                                      contact_email: nil,
                                      reply: false } }
@@ -303,14 +298,14 @@ describe MessagesController do
           expect(flash[:success]).to be_present
         end
         it "redirects to the unlisting page" do
-          expect(response).to redirect_to "where_i_came_from"
+          expect(response).to redirect_to jens_unlisting
         end
       end
 
       context "with INvalid information who is confirmed" do
         before do
           spec_signin_user(jen)
-          post :create, { unlisting_id: jens_unlisting.id,
+          post :create, { unlisting_id: jens_unlisting.slug,
                             message: { content: nil,
                                        contact_email: nil,
                                        reply: false } }
@@ -331,7 +326,7 @@ describe MessagesController do
         before do
           spec_signin_user(jen)
           jen.update_attribute(:confirmed, false)
-          post :create, { unlisting_id: jens_unlisting.id,
+          post :create, { unlisting_id: jens_unlisting.slug,
                             message: { content: "I would love to sell you mine!",
                                      contact_email: nil,
                                      reply: false } }
@@ -349,13 +344,13 @@ describe MessagesController do
     end
 
     describe "Message-message (aka: reply) from a user" do
-      let!(:unlisting)        { Fabricate(:unlisting) }
+      let!(:unlisting)     { Fabricate(:unlisting) }
       let(:parent_message) { Fabricate(:user_unlisting_message, recipient: jen) }
       context "with valid information" do
         before do
           spec_signin_user(jen)
           jen.update_attributes(confirmed: true)
-          post :create, { user_id: jen.id,
+          post :create, { user_id: jen.slug,
                           parent_msg: parent_message.id,
                           message: { content: "I would love to buy it! Let's meet at Starbucks." } }
         end
@@ -391,7 +386,7 @@ describe MessagesController do
         #### JS RESPONSE VERSION FOR REPLIES
         context "for a parent message on an Unlisting" do
           it "redirects to the message show page" do
-            expect(response).to redirect_to "where_i_came_from"
+            expect(response).to redirect_to unlisting
           end
         end
 

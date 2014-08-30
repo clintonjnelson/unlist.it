@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe UnlistingsController do
+describe UnlistingsController, :vcr do
   let(:jen) { Fabricate(:user) }
 
 

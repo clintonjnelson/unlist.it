@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://maps.googleapis.com/maps/api/geocode/json?address=seattle,wa&language=en&sensor=false
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=98164&language=en&sensor=false
     body:
       encoding: US-ASCII
       string: ''
@@ -21,9 +21,9 @@ http_interactions:
       Content-Type:
       - application/json; charset=UTF-8
       Date:
-      - Tue, 12 Aug 2014 03:55:32 GMT
+      - Sat, 30 Aug 2014 01:00:23 GMT
       Expires:
-      - Wed, 13 Aug 2014 03:55:32 GMT
+      - Sun, 31 Aug 2014 01:00:23 GMT
       Cache-Control:
       - public, max-age=86400
       Access-Control-Allow-Origin:
@@ -46,6 +46,16 @@ http_interactions:
               {
                  "address_components" : [
                     {
+                       "long_name" : "98164",
+                       "short_name" : "98164",
+                       "types" : [ "postal_code" ]
+                    },
+                    {
+                       "long_name" : "Central Business District",
+                       "short_name" : "Central Business District",
+                       "types" : [ "neighborhood", "political" ]
+                    },
+                    {
                        "long_name" : "Seattle",
                        "short_name" : "Seattle",
                        "types" : [ "locality", "political" ]
@@ -66,44 +76,44 @@ http_interactions:
                        "types" : [ "country", "political" ]
                     }
                  ],
-                 "formatted_address" : "Seattle, WA, USA",
+                 "formatted_address" : "Seattle, WA 98164, USA",
                  "geometry" : {
                     "bounds" : {
                        "northeast" : {
-                          "lat" : 47.734145,
-                          "lng" : -122.235776
+                          "lat" : 47.607265,
+                          "lng" : -122.3311479
                        },
                        "southwest" : {
-                          "lat" : 47.4955511,
-                          "lng" : -122.4359085
+                          "lat" : 47.60537189999999,
+                          "lng" : -122.3335642
                        }
                     },
                     "location" : {
-                       "lat" : 47.6062095,
-                       "lng" : -122.3320708
+                       "lat" : 47.606503,
+                       "lng" : -122.3323955
                     },
                     "location_type" : "APPROXIMATE",
                     "viewport" : {
                        "northeast" : {
-                          "lat" : 47.734145,
-                          "lng" : -122.235776
+                          "lat" : 47.60766743029149,
+                          "lng" : -122.3310070697085
                        },
                        "southwest" : {
-                          "lat" : 47.4955511,
-                          "lng" : -122.4359085
+                          "lat" : 47.60496946970849,
+                          "lng" : -122.3337050302915
                        }
                     }
                  },
-                 "types" : [ "locality", "political" ]
+                 "types" : [ "postal_code" ]
               }
            ],
            "status" : "OK"
         }
     http_version: 
-  recorded_at: Tue, 12 Aug 2014 03:55:32 GMT
+  recorded_at: Sat, 30 Aug 2014 01:00:23 GMT
 - request:
     method: get
-    uri: http://maps.googleapis.com/maps/api/geocode/json?address=seattle,wa&language=en&sensor=false
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=98164&language=en&sensor=false
     body:
       encoding: US-ASCII
       string: ''
@@ -122,9 +132,9 @@ http_interactions:
       Content-Type:
       - application/json; charset=UTF-8
       Date:
-      - Tue, 12 Aug 2014 03:55:32 GMT
+      - Sat, 30 Aug 2014 01:00:23 GMT
       Expires:
-      - Wed, 13 Aug 2014 03:55:32 GMT
+      - Sun, 31 Aug 2014 01:00:23 GMT
       Cache-Control:
       - public, max-age=86400
       Access-Control-Allow-Origin:
@@ -147,6 +157,16 @@ http_interactions:
               {
                  "address_components" : [
                     {
+                       "long_name" : "98164",
+                       "short_name" : "98164",
+                       "types" : [ "postal_code" ]
+                    },
+                    {
+                       "long_name" : "Central Business District",
+                       "short_name" : "Central Business District",
+                       "types" : [ "neighborhood", "political" ]
+                    },
+                    {
                        "long_name" : "Seattle",
                        "short_name" : "Seattle",
                        "types" : [ "locality", "political" ]
@@ -167,41 +187,41 @@ http_interactions:
                        "types" : [ "country", "political" ]
                     }
                  ],
-                 "formatted_address" : "Seattle, WA, USA",
+                 "formatted_address" : "Seattle, WA 98164, USA",
                  "geometry" : {
                     "bounds" : {
                        "northeast" : {
-                          "lat" : 47.734145,
-                          "lng" : -122.235776
+                          "lat" : 47.607265,
+                          "lng" : -122.3311479
                        },
                        "southwest" : {
-                          "lat" : 47.4955511,
-                          "lng" : -122.4359085
+                          "lat" : 47.60537189999999,
+                          "lng" : -122.3335642
                        }
                     },
                     "location" : {
-                       "lat" : 47.6062095,
-                       "lng" : -122.3320708
+                       "lat" : 47.606503,
+                       "lng" : -122.3323955
                     },
                     "location_type" : "APPROXIMATE",
                     "viewport" : {
                        "northeast" : {
-                          "lat" : 47.734145,
-                          "lng" : -122.235776
+                          "lat" : 47.60766743029149,
+                          "lng" : -122.3310070697085
                        },
                        "southwest" : {
-                          "lat" : 47.4955511,
-                          "lng" : -122.4359085
+                          "lat" : 47.60496946970849,
+                          "lng" : -122.3337050302915
                        }
                     }
                  },
-                 "types" : [ "locality", "political" ]
+                 "types" : [ "postal_code" ]
               }
            ],
            "status" : "OK"
         }
     http_version: 
-  recorded_at: Tue, 12 Aug 2014 03:55:32 GMT
+  recorded_at: Sat, 30 Aug 2014 01:00:23 GMT
 - request:
     method: get
     uri: http://maps.googleapis.com/maps/api/geocode/json?address=olympia,wa&language=en&sensor=false
@@ -223,9 +243,9 @@ http_interactions:
       Content-Type:
       - application/json; charset=UTF-8
       Date:
-      - Tue, 12 Aug 2014 03:55:32 GMT
+      - Sat, 30 Aug 2014 01:00:23 GMT
       Expires:
-      - Wed, 13 Aug 2014 03:55:32 GMT
+      - Sun, 31 Aug 2014 01:00:23 GMT
       Cache-Control:
       - public, max-age=86400
       Access-Control-Allow-Origin:
@@ -302,5 +322,5 @@ http_interactions:
            "status" : "OK"
         }
     http_version: 
-  recorded_at: Tue, 12 Aug 2014 03:55:32 GMT
+  recorded_at: Sat, 30 Aug 2014 01:00:23 GMT
 recorded_with: VCR 2.9.0

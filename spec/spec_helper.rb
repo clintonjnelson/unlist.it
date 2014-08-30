@@ -55,12 +55,12 @@ require 'rspec/autorun'
 require 'capybara/rails'
 require 'capybara/rspec'
 require 'capybara/email/rspec'
-#require 'sidekiq/testing'
-# require 'sidekiq/testing/inline'
+require 'sidekiq/testing'
+#require 'sidekiq/testing/inline'
 require 'shoulda/matchers'
 # require 'vcr'
 require 'webmock/rspec'
-
+DatabaseCleaner.logger = Rails.logger
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
@@ -75,6 +75,7 @@ VCR.configure do |c|
   c.hook_into :webmock
   c.configure_rspec_metadata!
   c.ignore_localhost = true
+  sleep 1.second #use sleep to avoid Exceeding API call limit
 end
 
 
@@ -85,6 +86,16 @@ Capybara.default_wait_time = 3
 
 #WebMock.disable_net_connect!(:allow_localhost => true)
 WebMock.allow_net_connect!(:allow_localhost => true)
+
+# Sidekiq
+RSpec.configure do |config|
+  config.before(:each) do | example |
+    # Clears out the jobs for tests using the fake testing
+    Sidekiq::Worker.clear_all
+  end
+end
+  #Sidekiq::Testing.inline!
+  # Sidekiq::Testing.fake!
 
 RSpec.configure do |config|
   config.before(:suite) do
@@ -105,10 +116,6 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
-
-  # Sidekiq
-  # Sidekiq::Testing.inline!
-  # Sidekiq::Testing.fake!
 
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures

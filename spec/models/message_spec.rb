@@ -44,7 +44,7 @@ describe Message do
     end
   end
 
-  describe "replies" do
+  describe "replies", :vcr do
     context "for an unlisting parent message with replies" do
       let!(:jen_unlisting)       { Fabricate(:unlisting) }
       let!(:parent_message)   { Fabricate(:user_unlisting_message) }
@@ -57,7 +57,7 @@ describe Message do
     end
   end
 
-  describe "delete_subcorrespondence" do
+  describe "delete_subcorrespondence", :vcr do
     context "for an unlisting parent message with replies" do
       let!(:jen_unlisting)     { Fabricate(:unlisting) }
       let!(:parent_message) { Fabricate(:user_unlisting_message) }

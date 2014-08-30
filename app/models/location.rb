@@ -9,6 +9,8 @@ class Location < ActiveRecord::Base
       geo           = results.first
       obj.latitude  = geo.latitude
       obj.longitude = geo.longitude
+      obj.city      = geo.city.downcase           #always want city/state for reference via input w/zip
+      obj.state     = geo.state_code.downcase     #always want city/state for reference via input w/zip
     end
   end
   reverse_geocoded_by :latitude, :longitude do |obj, results|
@@ -18,11 +20,13 @@ class Location < ActiveRecord::Base
       obj.zipcode = geo.postal_code
     end
   end
-  after_validation    :geocode,  :if => lambda { |obj| obj.zipcode_changed? || obj.city_changed? || obj.state_changed? }
 
-
+  # Callbacks
+  after_validation    :geocode, :if => lambda { |obj| obj.zipcode_changed? || obj.city_changed? || obj.state_changed? }
+  # Validations
   validates :zipcode, numericality: { only_integer: true },
-                                       allow_blank: true
+                            length: {           is: 5    },
+                       allow_blank:           true
   validates :state,         length: {           is: 2    },
                                        allow_blank: true
 

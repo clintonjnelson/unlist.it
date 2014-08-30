@@ -1,0 +1,951 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=98164&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Sat, 30 Aug 2014 00:59:00 GMT
+      Expires:
+      - Sun, 31 Aug 2014 00:59:00 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Access-Control-Allow-Origin:
+      - '*'
+      Server:
+      - mafe
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {
+           "results" : [
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "98164",
+                       "short_name" : "98164",
+                       "types" : [ "postal_code" ]
+                    },
+                    {
+                       "long_name" : "Central Business District",
+                       "short_name" : "Central Business District",
+                       "types" : [ "neighborhood", "political" ]
+                    },
+                    {
+                       "long_name" : "Seattle",
+                       "short_name" : "Seattle",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "King County",
+                       "short_name" : "King County",
+                       "types" : [ "administrative_area_level_2", "political" ]
+                    },
+                    {
+                       "long_name" : "Washington",
+                       "short_name" : "WA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    }
+                 ],
+                 "formatted_address" : "Seattle, WA 98164, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 47.607265,
+                          "lng" : -122.3311479
+                       },
+                       "southwest" : {
+                          "lat" : 47.60537189999999,
+                          "lng" : -122.3335642
+                       }
+                    },
+                    "location" : {
+                       "lat" : 47.606503,
+                       "lng" : -122.3323955
+                    },
+                    "location_type" : "APPROXIMATE",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 47.60766743029149,
+                          "lng" : -122.3310070697085
+                       },
+                       "southwest" : {
+                          "lat" : 47.60496946970849,
+                          "lng" : -122.3337050302915
+                       }
+                    }
+                 },
+                 "types" : [ "postal_code" ]
+              }
+           ],
+           "status" : "OK"
+        }
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 00:59:00 GMT
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=98164&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Sat, 30 Aug 2014 00:59:00 GMT
+      Expires:
+      - Sun, 31 Aug 2014 00:59:00 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Access-Control-Allow-Origin:
+      - '*'
+      Server:
+      - mafe
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {
+           "results" : [
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "98164",
+                       "short_name" : "98164",
+                       "types" : [ "postal_code" ]
+                    },
+                    {
+                       "long_name" : "Central Business District",
+                       "short_name" : "Central Business District",
+                       "types" : [ "neighborhood", "political" ]
+                    },
+                    {
+                       "long_name" : "Seattle",
+                       "short_name" : "Seattle",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "King County",
+                       "short_name" : "King County",
+                       "types" : [ "administrative_area_level_2", "political" ]
+                    },
+                    {
+                       "long_name" : "Washington",
+                       "short_name" : "WA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    }
+                 ],
+                 "formatted_address" : "Seattle, WA 98164, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 47.607265,
+                          "lng" : -122.3311479
+                       },
+                       "southwest" : {
+                          "lat" : 47.60537189999999,
+                          "lng" : -122.3335642
+                       }
+                    },
+                    "location" : {
+                       "lat" : 47.606503,
+                       "lng" : -122.3323955
+                    },
+                    "location_type" : "APPROXIMATE",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 47.60766743029149,
+                          "lng" : -122.3310070697085
+                       },
+                       "southwest" : {
+                          "lat" : 47.60496946970849,
+                          "lng" : -122.3337050302915
+                       }
+                    }
+                 },
+                 "types" : [ "postal_code" ]
+              }
+           ],
+           "status" : "OK"
+        }
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 00:59:01 GMT
+- request:
+    method: head
+    uri: http://www.google.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 30 Aug 2014 00:59:01 GMT
+      Expires:
+      - '-1'
+      Cache-Control:
+      - private, max-age=0
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Set-Cookie:
+      - NID=67=FUAuvxj60urKFxG6WUpxZj7jphj1uFVJgLcSCR6R6EgSda-0Qfp8J4cBBYgQabpRWqmTsLYUBCKz9yeumEnGT3E-j6oxleRw7alSyGMM9DmQRvGrI9XsuBk899PsXhT3;
+        expires=Sun, 01-Mar-2015 00:59:01 GMT; path=/; domain=.google.com; HttpOnly
+      - PREF=ID=a56c8daf7a47ecef:FF=0:TM=1409360341:LM=1409360341:S=x4E9H8VNY7k5aJf8;
+        expires=Mon, 29-Aug-2016 00:59:01 GMT; path=/; domain=.google.com
+      P3p:
+      - CP="This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&answer=151657
+        for more info."
+      Server:
+      - gws
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 00:59:01 GMT
+- request:
+    method: head
+    uri: http://www.google.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 30 Aug 2014 00:59:01 GMT
+      Expires:
+      - '-1'
+      Cache-Control:
+      - private, max-age=0
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Set-Cookie:
+      - NID=67=WxbMlvTWd7VymoF2S2WUK26v_4tfGAUpPE_bg31ioN8rJDmZ3JbkjHJ4hqGN5uwl3ei5bYc3J_mePue27pHZD-Frc5_roNnrQFxx4FqWQqzf_hUdeQzEvuT1kpRZyxIR;
+        expires=Sun, 01-Mar-2015 00:59:01 GMT; path=/; domain=.google.com; HttpOnly
+      - PREF=ID=ebb61b54697ac8f2:FF=0:TM=1409360341:LM=1409360341:S=84Nv7XpKRTAiFLIp;
+        expires=Mon, 29-Aug-2016 00:59:01 GMT; path=/; domain=.google.com
+      P3p:
+      - CP="This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&answer=151657
+        for more info."
+      Server:
+      - gws
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 00:59:01 GMT
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=98164&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Sat, 30 Aug 2014 00:59:01 GMT
+      Expires:
+      - Sun, 31 Aug 2014 00:59:01 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Access-Control-Allow-Origin:
+      - '*'
+      Server:
+      - mafe
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {
+           "results" : [
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "98164",
+                       "short_name" : "98164",
+                       "types" : [ "postal_code" ]
+                    },
+                    {
+                       "long_name" : "Central Business District",
+                       "short_name" : "Central Business District",
+                       "types" : [ "neighborhood", "political" ]
+                    },
+                    {
+                       "long_name" : "Seattle",
+                       "short_name" : "Seattle",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "King County",
+                       "short_name" : "King County",
+                       "types" : [ "administrative_area_level_2", "political" ]
+                    },
+                    {
+                       "long_name" : "Washington",
+                       "short_name" : "WA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    }
+                 ],
+                 "formatted_address" : "Seattle, WA 98164, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 47.607265,
+                          "lng" : -122.3311479
+                       },
+                       "southwest" : {
+                          "lat" : 47.60537189999999,
+                          "lng" : -122.3335642
+                       }
+                    },
+                    "location" : {
+                       "lat" : 47.606503,
+                       "lng" : -122.3323955
+                    },
+                    "location_type" : "APPROXIMATE",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 47.60766743029149,
+                          "lng" : -122.3310070697085
+                       },
+                       "southwest" : {
+                          "lat" : 47.60496946970849,
+                          "lng" : -122.3337050302915
+                       }
+                    }
+                 },
+                 "types" : [ "postal_code" ]
+              }
+           ],
+           "status" : "OK"
+        }
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 00:59:01 GMT
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=98164&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Sat, 30 Aug 2014 00:59:01 GMT
+      Expires:
+      - Sun, 31 Aug 2014 00:59:01 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Access-Control-Allow-Origin:
+      - '*'
+      Server:
+      - mafe
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {
+           "results" : [
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "98164",
+                       "short_name" : "98164",
+                       "types" : [ "postal_code" ]
+                    },
+                    {
+                       "long_name" : "Central Business District",
+                       "short_name" : "Central Business District",
+                       "types" : [ "neighborhood", "political" ]
+                    },
+                    {
+                       "long_name" : "Seattle",
+                       "short_name" : "Seattle",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "King County",
+                       "short_name" : "King County",
+                       "types" : [ "administrative_area_level_2", "political" ]
+                    },
+                    {
+                       "long_name" : "Washington",
+                       "short_name" : "WA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    }
+                 ],
+                 "formatted_address" : "Seattle, WA 98164, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 47.607265,
+                          "lng" : -122.3311479
+                       },
+                       "southwest" : {
+                          "lat" : 47.60537189999999,
+                          "lng" : -122.3335642
+                       }
+                    },
+                    "location" : {
+                       "lat" : 47.606503,
+                       "lng" : -122.3323955
+                    },
+                    "location_type" : "APPROXIMATE",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 47.60766743029149,
+                          "lng" : -122.3310070697085
+                       },
+                       "southwest" : {
+                          "lat" : 47.60496946970849,
+                          "lng" : -122.3337050302915
+                       }
+                    }
+                 },
+                 "types" : [ "postal_code" ]
+              }
+           ],
+           "status" : "OK"
+        }
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 00:59:01 GMT
+- request:
+    method: head
+    uri: http://www.google.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 30 Aug 2014 00:59:01 GMT
+      Expires:
+      - '-1'
+      Cache-Control:
+      - private, max-age=0
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Set-Cookie:
+      - NID=67=pfx853o4o7ukfeDF1hmJ8Sl2gpsM25TLyI-7dmBn33zcrooOsAYCmic6tQH_97reSdV_HW2juCyzR_8H-Um877CMKka62ua4hUETEx7jQJm8r5DcXUDO-AA1uBOAsMiM;
+        expires=Sun, 01-Mar-2015 00:59:01 GMT; path=/; domain=.google.com; HttpOnly
+      - PREF=ID=a962a6c06429afde:FF=0:TM=1409360341:LM=1409360341:S=Nk2ZnWs-FXBdpajx;
+        expires=Mon, 29-Aug-2016 00:59:01 GMT; path=/; domain=.google.com
+      P3p:
+      - CP="This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&answer=151657
+        for more info."
+      Server:
+      - gws
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 00:59:01 GMT
+- request:
+    method: head
+    uri: http://www.google.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 30 Aug 2014 00:59:01 GMT
+      Expires:
+      - '-1'
+      Cache-Control:
+      - private, max-age=0
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Set-Cookie:
+      - NID=67=LTGMcTi4YrQcuoO6W0_nQ9cO30Exfx9Xdia4DrMEbW3-l4jawiY_mPvheWXhRNs5xJCl2ysv9I9vT4Xazq3Na7cXOrxc5vkXU1ruHLNSFctuvdkSTrfX4Q301bLpi3cc;
+        expires=Sun, 01-Mar-2015 00:59:01 GMT; path=/; domain=.google.com; HttpOnly
+      - PREF=ID=7df73acbdbb91370:FF=0:TM=1409360341:LM=1409360341:S=z26Q8BgbrN3sPLl1;
+        expires=Mon, 29-Aug-2016 00:59:01 GMT; path=/; domain=.google.com
+      P3p:
+      - CP="This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&answer=151657
+        for more info."
+      Server:
+      - gws
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 00:59:01 GMT
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=98164&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Sat, 30 Aug 2014 00:59:01 GMT
+      Expires:
+      - Sun, 31 Aug 2014 00:59:01 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Access-Control-Allow-Origin:
+      - '*'
+      Server:
+      - mafe
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {
+           "results" : [
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "98164",
+                       "short_name" : "98164",
+                       "types" : [ "postal_code" ]
+                    },
+                    {
+                       "long_name" : "Central Business District",
+                       "short_name" : "Central Business District",
+                       "types" : [ "neighborhood", "political" ]
+                    },
+                    {
+                       "long_name" : "Seattle",
+                       "short_name" : "Seattle",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "King County",
+                       "short_name" : "King County",
+                       "types" : [ "administrative_area_level_2", "political" ]
+                    },
+                    {
+                       "long_name" : "Washington",
+                       "short_name" : "WA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    }
+                 ],
+                 "formatted_address" : "Seattle, WA 98164, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 47.607265,
+                          "lng" : -122.3311479
+                       },
+                       "southwest" : {
+                          "lat" : 47.60537189999999,
+                          "lng" : -122.3335642
+                       }
+                    },
+                    "location" : {
+                       "lat" : 47.606503,
+                       "lng" : -122.3323955
+                    },
+                    "location_type" : "APPROXIMATE",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 47.60766743029149,
+                          "lng" : -122.3310070697085
+                       },
+                       "southwest" : {
+                          "lat" : 47.60496946970849,
+                          "lng" : -122.3337050302915
+                       }
+                    }
+                 },
+                 "types" : [ "postal_code" ]
+              }
+           ],
+           "status" : "OK"
+        }
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 00:59:01 GMT
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=98164&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Sat, 30 Aug 2014 00:59:01 GMT
+      Expires:
+      - Sun, 31 Aug 2014 00:59:01 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Access-Control-Allow-Origin:
+      - '*'
+      Server:
+      - mafe
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {
+           "results" : [
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "98164",
+                       "short_name" : "98164",
+                       "types" : [ "postal_code" ]
+                    },
+                    {
+                       "long_name" : "Central Business District",
+                       "short_name" : "Central Business District",
+                       "types" : [ "neighborhood", "political" ]
+                    },
+                    {
+                       "long_name" : "Seattle",
+                       "short_name" : "Seattle",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "King County",
+                       "short_name" : "King County",
+                       "types" : [ "administrative_area_level_2", "political" ]
+                    },
+                    {
+                       "long_name" : "Washington",
+                       "short_name" : "WA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    }
+                 ],
+                 "formatted_address" : "Seattle, WA 98164, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 47.607265,
+                          "lng" : -122.3311479
+                       },
+                       "southwest" : {
+                          "lat" : 47.60537189999999,
+                          "lng" : -122.3335642
+                       }
+                    },
+                    "location" : {
+                       "lat" : 47.606503,
+                       "lng" : -122.3323955
+                    },
+                    "location_type" : "APPROXIMATE",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 47.60766743029149,
+                          "lng" : -122.3310070697085
+                       },
+                       "southwest" : {
+                          "lat" : 47.60496946970849,
+                          "lng" : -122.3337050302915
+                       }
+                    }
+                 },
+                 "types" : [ "postal_code" ]
+              }
+           ],
+           "status" : "OK"
+        }
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 00:59:01 GMT
+- request:
+    method: head
+    uri: http://www.google.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 30 Aug 2014 00:59:01 GMT
+      Expires:
+      - '-1'
+      Cache-Control:
+      - private, max-age=0
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Set-Cookie:
+      - NID=67=Pe6URpD7ZYimzoXvhJY_a20tAE9HmmDHknQY9ZgrsZekrnYr5rUEUnjquNPt4WCs9wHTd6pFyeC3S1vMoEBdM7UX8u46_B5_4kFOcFaexmqmVgtE9ZAV8dRkg8jN-KA3;
+        expires=Sun, 01-Mar-2015 00:59:01 GMT; path=/; domain=.google.com; HttpOnly
+      - PREF=ID=6427c92f92490dc9:FF=0:TM=1409360341:LM=1409360341:S=r03AgIUdNUDongg7;
+        expires=Mon, 29-Aug-2016 00:59:01 GMT; path=/; domain=.google.com
+      P3p:
+      - CP="This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&answer=151657
+        for more info."
+      Server:
+      - gws
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 00:59:01 GMT
+- request:
+    method: head
+    uri: http://www.google.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 30 Aug 2014 00:59:01 GMT
+      Expires:
+      - '-1'
+      Cache-Control:
+      - private, max-age=0
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Set-Cookie:
+      - NID=67=glO7oIIx4AvL6zhTKB2QkvEvbNrqPXOnoEwEa4OX9Q3vbtmuHO47AwRxxhx-AkJul_7iX4uuNfnE_TAf8yRrk83oVSjVCAm8FSzNhybm8b-DnPi2mg1W4EsnfrNKA1uo;
+        expires=Sun, 01-Mar-2015 00:59:01 GMT; path=/; domain=.google.com; HttpOnly
+      - PREF=ID=3598e68a4a580153:FF=0:TM=1409360341:LM=1409360341:S=Rsu2jT_C-yMDmeDO;
+        expires=Mon, 29-Aug-2016 00:59:01 GMT; path=/; domain=.google.com
+      P3p:
+      - CP="This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&answer=151657
+        for more info."
+      Server:
+      - gws
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 00:59:02 GMT
+recorded_with: VCR 2.9.0

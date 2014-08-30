@@ -40,7 +40,6 @@ class UnlistingsQuery
       end
     elsif @zipcode  #if only zipcode provided
       @relation = in_zipcode
-      binding.pry
     elsif @city && @state  #if only place provided
       @relation = in_city_state
     # elsif @state #may want another option of JUST state

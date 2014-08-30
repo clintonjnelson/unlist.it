@@ -1,0 +1,695 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=98164&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Sat, 30 Aug 2014 01:05:14 GMT
+      Expires:
+      - Sun, 31 Aug 2014 01:05:14 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Access-Control-Allow-Origin:
+      - '*'
+      Server:
+      - mafe
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {
+           "results" : [
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "98164",
+                       "short_name" : "98164",
+                       "types" : [ "postal_code" ]
+                    },
+                    {
+                       "long_name" : "Central Business District",
+                       "short_name" : "Central Business District",
+                       "types" : [ "neighborhood", "political" ]
+                    },
+                    {
+                       "long_name" : "Seattle",
+                       "short_name" : "Seattle",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "King County",
+                       "short_name" : "King County",
+                       "types" : [ "administrative_area_level_2", "political" ]
+                    },
+                    {
+                       "long_name" : "Washington",
+                       "short_name" : "WA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    }
+                 ],
+                 "formatted_address" : "Seattle, WA 98164, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 47.607265,
+                          "lng" : -122.3311479
+                       },
+                       "southwest" : {
+                          "lat" : 47.60537189999999,
+                          "lng" : -122.3335642
+                       }
+                    },
+                    "location" : {
+                       "lat" : 47.606503,
+                       "lng" : -122.3323955
+                    },
+                    "location_type" : "APPROXIMATE",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 47.60766743029149,
+                          "lng" : -122.3310070697085
+                       },
+                       "southwest" : {
+                          "lat" : 47.60496946970849,
+                          "lng" : -122.3337050302915
+                       }
+                    }
+                 },
+                 "types" : [ "postal_code" ]
+              }
+           ],
+           "status" : "OK"
+        }
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 01:05:14 GMT
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=98164&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Sat, 30 Aug 2014 01:05:14 GMT
+      Expires:
+      - Sun, 31 Aug 2014 01:05:14 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Access-Control-Allow-Origin:
+      - '*'
+      Server:
+      - mafe
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {
+           "results" : [
+              {
+                 "address_components" : [
+                    {
+                       "long_name" : "98164",
+                       "short_name" : "98164",
+                       "types" : [ "postal_code" ]
+                    },
+                    {
+                       "long_name" : "Central Business District",
+                       "short_name" : "Central Business District",
+                       "types" : [ "neighborhood", "political" ]
+                    },
+                    {
+                       "long_name" : "Seattle",
+                       "short_name" : "Seattle",
+                       "types" : [ "locality", "political" ]
+                    },
+                    {
+                       "long_name" : "King County",
+                       "short_name" : "King County",
+                       "types" : [ "administrative_area_level_2", "political" ]
+                    },
+                    {
+                       "long_name" : "Washington",
+                       "short_name" : "WA",
+                       "types" : [ "administrative_area_level_1", "political" ]
+                    },
+                    {
+                       "long_name" : "United States",
+                       "short_name" : "US",
+                       "types" : [ "country", "political" ]
+                    }
+                 ],
+                 "formatted_address" : "Seattle, WA 98164, USA",
+                 "geometry" : {
+                    "bounds" : {
+                       "northeast" : {
+                          "lat" : 47.607265,
+                          "lng" : -122.3311479
+                       },
+                       "southwest" : {
+                          "lat" : 47.60537189999999,
+                          "lng" : -122.3335642
+                       }
+                    },
+                    "location" : {
+                       "lat" : 47.606503,
+                       "lng" : -122.3323955
+                    },
+                    "location_type" : "APPROXIMATE",
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 47.60766743029149,
+                          "lng" : -122.3310070697085
+                       },
+                       "southwest" : {
+                          "lat" : 47.60496946970849,
+                          "lng" : -122.3337050302915
+                       }
+                    }
+                 },
+                 "types" : [ "postal_code" ]
+              }
+           ],
+           "status" : "OK"
+        }
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 01:05:14 GMT
+- request:
+    method: head
+    uri: http://www.google.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 30 Aug 2014 01:05:14 GMT
+      Expires:
+      - '-1'
+      Cache-Control:
+      - private, max-age=0
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Set-Cookie:
+      - NID=67=icWI_5VuQWV4YJ1OURPVCyoCwDHtwM-xo7KL3nztx12vqwfCdCq9u3EDmbW1JKnatcl4kLWj-66BFeZb9b5jAAaVmeMh4Gv2vlbCxkOxf9ApJFNS9z9Pw7EMZ0sL5zdr;
+        expires=Sun, 01-Mar-2015 01:05:14 GMT; path=/; domain=.google.com; HttpOnly
+      - PREF=ID=61c5a3d070ec2ab2:FF=0:TM=1409360714:LM=1409360714:S=hPmF2TUjffCoe1AW;
+        expires=Mon, 29-Aug-2016 01:05:14 GMT; path=/; domain=.google.com
+      P3p:
+      - CP="This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&answer=151657
+        for more info."
+      Server:
+      - gws
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 01:05:14 GMT
+- request:
+    method: head
+    uri: http://www.google.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 30 Aug 2014 01:05:14 GMT
+      Expires:
+      - '-1'
+      Cache-Control:
+      - private, max-age=0
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Set-Cookie:
+      - NID=67=KxA7LNFZyztWrPMbsgmy78H91gfjsEEZXW8UU1Aoxmmj0FwVgLMiKxOFsd4JmfNi2eYsyCXSZ1jw--oRFu_SAp2gCJASlnPcMVf6627NaVBP5GP86SvWDB32eFEATKpB;
+        expires=Sun, 01-Mar-2015 01:05:14 GMT; path=/; domain=.google.com; HttpOnly
+      - PREF=ID=23ed2c65d9334679:FF=0:TM=1409360714:LM=1409360714:S=lvmxTrsAc0EUDQCW;
+        expires=Mon, 29-Aug-2016 01:05:14 GMT; path=/; domain=.google.com
+      P3p:
+      - CP="This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&answer=151657
+        for more info."
+      Server:
+      - gws
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 01:05:14 GMT
+- request:
+    method: head
+    uri: http://www.google.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 30 Aug 2014 01:12:23 GMT
+      Expires:
+      - '-1'
+      Cache-Control:
+      - private, max-age=0
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Set-Cookie:
+      - NID=67=GZzjz0KSSJo31SQTZJg-nc6ZtxKKfqA-eOPvXN89RXe1dDOhKwdkcQuD1WYAqVoT2wr06x3RY-y5TALg9q02n5OqKvw1CD3EV08WGiblt4Gs4dRtA9YXAVwP5bwTARf5;
+        expires=Sun, 01-Mar-2015 01:12:23 GMT; path=/; domain=.google.com; HttpOnly
+      - PREF=ID=0d927a0920fd1924:FF=0:TM=1409361143:LM=1409361143:S=3RU4pUyNpJWOeU9j;
+        expires=Mon, 29-Aug-2016 01:12:23 GMT; path=/; domain=.google.com
+      P3p:
+      - CP="This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&answer=151657
+        for more info."
+      Server:
+      - gws
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 01:12:22 GMT
+- request:
+    method: head
+    uri: http://www.google.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 30 Aug 2014 01:12:23 GMT
+      Expires:
+      - '-1'
+      Cache-Control:
+      - private, max-age=0
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Set-Cookie:
+      - NID=67=EC5nX0xldfxlQNWmrs-Y7AU72iJjMOnIROUNPJnY4jIQvKLR4cbT8ZS5WkkSarJVdNl4IABJDcjw6CCnzSip5rFKRTVD_k9Mwj1bmYxsiKlOJgUR-JdcxhM0nbsA6PIQ;
+        expires=Sun, 01-Mar-2015 01:12:23 GMT; path=/; domain=.google.com; HttpOnly
+      - PREF=ID=fff664e7d9f1539f:FF=0:TM=1409361143:LM=1409361143:S=tiKmH9Ovv-HyKKga;
+        expires=Mon, 29-Aug-2016 01:12:23 GMT; path=/; domain=.google.com
+      P3p:
+      - CP="This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&answer=151657
+        for more info."
+      Server:
+      - gws
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 01:12:23 GMT
+- request:
+    method: head
+    uri: http://www.google.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 30 Aug 2014 01:12:23 GMT
+      Expires:
+      - '-1'
+      Cache-Control:
+      - private, max-age=0
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Set-Cookie:
+      - NID=67=um08ubyavu5187nbIKA9tpnqOtxO-xlfRhLSJIO6EdzIH_DK69Yu0Sz9KWpkP3ycG71R9stKvr4ochfoAMK736AEk3sZK8YuUOJt8xbvVaDxpVbfn4Hz80os34tVW_ky;
+        expires=Sun, 01-Mar-2015 01:12:23 GMT; path=/; domain=.google.com; HttpOnly
+      - PREF=ID=9aa93c951ba0b6d3:FF=0:TM=1409361143:LM=1409361143:S=U9m-cMdjfj5bs3rX;
+        expires=Mon, 29-Aug-2016 01:12:23 GMT; path=/; domain=.google.com
+      P3p:
+      - CP="This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&answer=151657
+        for more info."
+      Server:
+      - gws
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 01:12:23 GMT
+- request:
+    method: head
+    uri: http://www.google.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 30 Aug 2014 01:12:23 GMT
+      Expires:
+      - '-1'
+      Cache-Control:
+      - private, max-age=0
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Set-Cookie:
+      - NID=67=fyD2akoxUmGU6zGTceEMFB_rMJmUkwDgxDon-TLWXql-UpFqgQUn1_BY1vELwW4iQHA4cRlRz7njLMssf8yltjdq322jJ7wLWOESD34odBUyTvHNqcVBjdBxz6s-L3mM;
+        expires=Sun, 01-Mar-2015 01:12:23 GMT; path=/; domain=.google.com; HttpOnly
+      - PREF=ID=4eb8aa2f18840c58:FF=0:TM=1409361143:LM=1409361143:S=yyg3IqqZrMdOYgd6;
+        expires=Mon, 29-Aug-2016 01:12:23 GMT; path=/; domain=.google.com
+      P3p:
+      - CP="This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&answer=151657
+        for more info."
+      Server:
+      - gws
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 01:12:23 GMT
+- request:
+    method: head
+    uri: http://www.google.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 30 Aug 2014 01:12:23 GMT
+      Expires:
+      - '-1'
+      Cache-Control:
+      - private, max-age=0
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Set-Cookie:
+      - NID=67=bJFs2kqrFMVaNgN-krfsQnC7lDLj6Febe55lab0snYM97-Qxk0xFMQw1J6CLkLJ7WMERIB2aKTpGm-q08EKyeD5V5QXhD_nr313rWxHJQn7qkCQ5nqCrjMhMVR2EBYsf;
+        expires=Sun, 01-Mar-2015 01:12:23 GMT; path=/; domain=.google.com; HttpOnly
+      - PREF=ID=0b347eb42303eb26:FF=0:TM=1409361143:LM=1409361143:S=oBTTRGMxE0RO0jxy;
+        expires=Mon, 29-Aug-2016 01:12:23 GMT; path=/; domain=.google.com
+      P3p:
+      - CP="This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&answer=151657
+        for more info."
+      Server:
+      - gws
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 01:12:23 GMT
+- request:
+    method: head
+    uri: http://www.google.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 30 Aug 2014 01:12:23 GMT
+      Expires:
+      - '-1'
+      Cache-Control:
+      - private, max-age=0
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Set-Cookie:
+      - NID=67=VP7xOzKvdWQWwVRPo62IoWMR7hcuskb-XcsZbqFGqFBfDYlqNywcul3TSKVjXeS83jpz7etjS-4bW93RTrCDZLY_Js-EAVM8LAGf-g06MdDj63QZM2kRq9AqHRP9ROM8;
+        expires=Sun, 01-Mar-2015 01:12:23 GMT; path=/; domain=.google.com; HttpOnly
+      - PREF=ID=4e292048353fd40b:FF=0:TM=1409361143:LM=1409361143:S=ivb4dtyzalxRkrAk;
+        expires=Mon, 29-Aug-2016 01:12:23 GMT; path=/; domain=.google.com
+      P3p:
+      - CP="This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&answer=151657
+        for more info."
+      Server:
+      - gws
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 01:12:23 GMT
+- request:
+    method: head
+    uri: http://www.google.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 30 Aug 2014 01:12:23 GMT
+      Expires:
+      - '-1'
+      Cache-Control:
+      - private, max-age=0
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Set-Cookie:
+      - NID=67=PH-RSjW3cX1ArLdD0SkEBUuINnfqTdW28b0okDfS75v1dS6UITAYwG5bJZKa3GOaUtc8YaZPhIle_pv_uuUce9IAndKKnqjwGD07-yNicdPGxXCjl9s8T3LTc7ScnZTJ;
+        expires=Sun, 01-Mar-2015 01:12:23 GMT; path=/; domain=.google.com; HttpOnly
+      - PREF=ID=a232c77d0257eb04:FF=0:TM=1409361143:LM=1409361143:S=ZF8PuZkgMsMDCZE1;
+        expires=Mon, 29-Aug-2016 01:12:23 GMT; path=/; domain=.google.com
+      P3p:
+      - CP="This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&answer=151657
+        for more info."
+      Server:
+      - gws
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 01:12:23 GMT
+- request:
+    method: head
+    uri: http://www.google.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 30 Aug 2014 01:12:24 GMT
+      Expires:
+      - '-1'
+      Cache-Control:
+      - private, max-age=0
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Set-Cookie:
+      - NID=67=EUhXNlHK6R08U3s10Lmxwx5tZHm-R0ie67yCt3HNOeELKF1TEjYrZCa0J-ImNKHEOVBUeQTGqggTKCd7eirOnUdvH8eISPG7LQaeS0AEhjCiQbJH8LYyOiLzLqKm2JBz;
+        expires=Sun, 01-Mar-2015 01:12:24 GMT; path=/; domain=.google.com; HttpOnly
+      - PREF=ID=8c66d0f7d59ab449:FF=0:TM=1409361144:LM=1409361144:S=whYAwhymIfe_ax90;
+        expires=Mon, 29-Aug-2016 01:12:24 GMT; path=/; domain=.google.com
+      P3p:
+      - CP="This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&answer=151657
+        for more info."
+      Server:
+      - gws
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alternate-Protocol:
+      - 80:quic
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sat, 30 Aug 2014 01:12:23 GMT
+recorded_with: VCR 2.9.0

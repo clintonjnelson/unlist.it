@@ -5,7 +5,7 @@ describe Unimage do
   it { should belong_to(:unlisting) }
 
 
-  describe "unimages_within_limit validation" do
+  describe "unimages_within_limit validation", :vcr do
     let!(:jen_unlisting) { Fabricate(:unlisting) }
     before { 6.times {Fabricate(:unimage, unlisting: jen_unlisting) } }
 

@@ -3,7 +3,6 @@ require 'spec_helper'
 describe Category do
   it { should have_many(:conditions).order('position') }
   it { should have_many(:conditions).dependent(:destroy) }
-  #it { should have_many(:conditions).through(:categories_conditions) }
 
   it { should validate_presence_of(:name) }
 

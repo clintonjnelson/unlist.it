@@ -2,10 +2,8 @@
 require 'spec_helper'
 require 'rake'
 require 'sidekiq/testing'
-Sidekiq::Testing.inline!
 
-
-describe "scheduler" do
+describe "scheduler", :vcr do
 
   describe ":issue_invitations" do
     let!(:setting)      { Fabricate(:setting) }
@@ -17,6 +15,7 @@ describe "scheduler" do
     end
 
     before do
+      Sidekiq::Testing.inline!
       Rake.application.rake_require 'tasks/scheduler'
       Rake::Task.define_task(:environment) #Stub env. Rspec runs the App, so dont want Rake to run it AGAIN.
     end

@@ -13,11 +13,11 @@ end
 
 
 
-desc "Heroku scheduler task to clean out database unimages that never were associated with an Unpost"
+desc "Heroku scheduler task to clean out database unimages that never were associated with an Unlisting"
 task :wipe_abandoned_unimages => :environment do
   puts "Sweeping the server for abandoned unimages..."
 
-  unclaimed = Unimage.where(unpost_id: nil).where("updated_at < ?", 1.week.ago).all.map(&:id)
+  unclaimed = Unimage.where(unlisting_id: nil).where("updated_at < ?", 1.week.ago).all.map(&:id)
   UnimagesCleaner.perform_async(unclaimed, true)
 
   puts "done."

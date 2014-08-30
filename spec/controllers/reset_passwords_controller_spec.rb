@@ -49,7 +49,9 @@ describe ResetPasswordsController do
       let(:jen) { Fabricate(:user, password: 'password') }
       before do
         jen.update_attributes(prt: '1234abcd', prt_created_at: 1.minute.ago)
-        post :create, { token: jen.prt, password: 'new_password' }
+        Sidekiq::Testing.inline! do
+          post :create, { token: jen.prt, password: 'new_password' }
+        end
       end
 
       it 'sets @user to the user via the token' do
@@ -83,7 +85,9 @@ describe ResetPasswordsController do
       let!(:jen) { Fabricate(:user, password: 'password') }
       before do
         jen.update_attributes(prt: '1234abcd', prt_created_at: 1.day.ago)
-        post :create, { token: jen.prt, password: 'new_password' }
+        Sidekiq::Testing.inline! do
+          post :create, { token: jen.prt, password: 'new_password' }
+        end
       end
 
       it 'sets the user prt value to nil' do

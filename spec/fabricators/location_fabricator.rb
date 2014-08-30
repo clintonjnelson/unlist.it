@@ -1,6 +1,5 @@
 Fabricator(:location) do
-radius         10
-
+  zipcode        98164
 end
 
 Fabricator(:zip_location, from: :location) do

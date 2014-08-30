@@ -9,8 +9,10 @@ describe InvitationsController do
       let!(:jen)        { Fabricate(:user, invite_count: 4) }
       before do
         spec_signin_user(jen)
-        post :create, { invitation: { recipient_email: "joe@example.com"  },
-                           user_id: jen.id }
+        Sidekiq::Testing.inline! do
+          post :create, { invitation: { recipient_email: "joe@example.com"  },
+                             user_id: jen.id }
+        end
       end
 
       it "loads the new invitation" do
@@ -50,8 +52,10 @@ describe InvitationsController do
       let!(:jen)        { Fabricate(:user, invite_count: 4) }
       before do
         spec_signin_user(jen)
-        post :create, { invitation: { recipient_email: "joeexample.com"  },
-                           user_id: jen.id }
+        Sidekiq::Testing.inline! do
+          post :create, { invitation: { recipient_email: "joeexample.com"  },
+                             user_id: jen.id }
+        end
       end
 
       it "does not save the invitation" do
@@ -72,8 +76,10 @@ describe InvitationsController do
       let!(:jen)        { Fabricate(:user, invite_count: 0) }
       before do
         spec_signin_user(jen)
-        post :create, { invitation: { recipient_email: "joeexample.com"  },
-                           user_id: jen.id }
+        Sidekiq::Testing.inline! do
+          post :create, { invitation: { recipient_email: "joeexample.com"  },
+                             user_id: jen.id }
+        end
       end
 
       it "does not save the invitation" do

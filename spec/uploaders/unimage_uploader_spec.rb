@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'carrierwave/test/matchers'
 
-describe UnimageUploader do
+describe UnimageUploader, :vcr do
   include CarrierWave::Test::Matchers
   let!(:unimage) { Fabricate(:unimage) }
   before do

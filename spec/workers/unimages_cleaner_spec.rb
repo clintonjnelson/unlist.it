@@ -3,7 +3,7 @@ require 'sidekiq/testing'
 require 'carrierwave/test/matchers'
 Sidekiq::Testing.fake!
 
-describe UnimagesCleaner do
+describe UnimagesCleaner, :vcr do
   let(:unlisting)   { Fabricate(:unlisting) }
   let!(:unimage) { Fabricate(:unimage, unlisting_id: unlisting.id) }
 

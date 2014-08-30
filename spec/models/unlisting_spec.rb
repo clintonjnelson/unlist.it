@@ -1,8 +1,11 @@
 require 'spec_helper'
 
-describe Unlisting do
+describe Unlisting, :vcr do
   describe "associations & validations" do
-    before { Unlisting.any_instance.stub(:set_slug) }
+    before do
+      Unlisting.any_instance.stub(:set_slug)
+      UrlValidator.any_instance.stub(:validate_each).and_return(true)
+    end
     it { should belong_to(:creator        ).with_foreign_key(:user_id) }
     it { should belong_to(:category       ) }
     it { should belong_to(:condition      ) }

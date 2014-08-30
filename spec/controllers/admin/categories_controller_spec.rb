@@ -144,9 +144,9 @@ describe Admin::CategoriesController do
 
 
   describe "DELETE destroy" do
-    let!(:games) { Fabricate(:category, name: 'games') }
-    let!(:good) { Fabricate(:condition, level: 'good', category: games) }
-    let!(:fair) { Fabricate(:condition, level: 'fair', category: games) }
+    let!(:games) { Fabricate(:category,   name: 'games'                ) }
+    let!(:good)  { Fabricate(:condition, level: 'good', category: games) }
+    let!(:fair)  { Fabricate(:condition, level: 'fair', category: games) }
     before do
       spec_signin_user(jen)
       delete :destroy, { id: games.id }

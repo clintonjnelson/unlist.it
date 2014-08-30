@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe UsersController do
+describe UsersController, :vcr do
   after do
     ActionMailer::Base.deliveries.clear
-    #Sidekiq::Worker.clear_all
+    Sidekiq::Worker.clear_all
   end
 
   describe "GET new" do
@@ -119,7 +119,11 @@ describe UsersController do
       context "with valid token & input" do
         let!(:user_invite) { Fabricate(:invitation, sender: joe ) }
         let(:params)       { { user: { email: jen.email, password: jen.password, username: jen.username }, token: user_invite.token } }
-        before             { post :create, params }
+        before do
+          Sidekiq::Testing.inline! do
+            post :create, params
+          end
+        end
 
         it "assigns the input info to the user variable" do
           expect(assigns(:user)).to be_present
@@ -168,7 +172,11 @@ describe UsersController do
       context "with valid token and INvalid input" do
         let!(:user_invite) { Fabricate(:invitation, sender: joe ) }
         let(:params)       { { user: { email: "example.com", password: jen.password, username: jen.username }, token: user_invite.token } }
-        before             { post :create, params }
+        before do
+          Sidekiq::Testing.inline! do
+            post :create, params
+          end
+        end
 
         it "assigns the input info to the user variable" do
           expect(assigns(:user)).to be_present
@@ -238,7 +246,7 @@ describe UsersController do
       it_behaves_like "require_signed_in" do
         let(:verb_action) { get :show, { id: jen.slug } }
       end
-      it_behaves_like "require_correct_user" do
+      it_behaves_like "require_signed_in" do
         let(:verb_action) { get :show, { id: jen.slug } }
       end
     end
@@ -336,7 +344,11 @@ describe UsersController do
     context "with valid token" do
       let(:jen) { Fabricate(:user) }
       let(:token) { Fabricate(:user_token, creator: jen) }
-      before { get :confirm_with_token, { token: token.token } }
+      before do
+        Sidekiq::Testing.inline! do
+          get :confirm_with_token, { token: token.token }
+        end
+      end
 
       it "confirms the user by setting user's confirmed attribute to true" do
         expect(User.first).to be_confirmed
@@ -413,7 +425,7 @@ describe UsersController do
     end
   end
 
-  describe "POST update_location", :vcr do
+  describe "POST update_location" do
     context "correct user" do
       context "and VALID zipcode" do
         let!(:seattle) { Fabricate(:zip_location) }

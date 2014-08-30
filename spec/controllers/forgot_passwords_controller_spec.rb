@@ -1,11 +1,15 @@
 require 'spec_helper'
 
-describe ForgotPasswordsController do
+describe ForgotPasswordsController, :vcr do
   let!(:jen) { Fabricate(:user, email: 'jen@example.com') }
 
   describe "POST create" do
     context "with valid email provided" do
-      before { post :create, email: 'jen@example.com' }
+      before do
+        Sidekiq::Testing.inline! do
+          post :create, email: 'jen@example.com'
+        end
+      end
       after  { ActionMailer::Base.deliveries.clear }
       it 'sets the user associated with the email' do
         expect(assigns(:user)).to eq(jen)
