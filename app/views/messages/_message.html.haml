@@ -17,7 +17,7 @@
         -# Display Unlisting info if type is 'Unlisting'
         -if message.messageable_type == 'Unlisting'
           .unlisting-subject-text
-            =link_to "#{ message.subject }", unlisting_path(message.messageable_id)
+            =link_to "#{ message.subject }", unlisting_path(message.messageable.slug)
         -else
           = "#{ message.subject }"
 
