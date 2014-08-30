@@ -97,7 +97,7 @@ class User < ActiveRecord::Base
 
   # Maybe move this to UserPolicy... or InvitationPolicy?
   def invitations_avail?
-    self.invite_count > 0
+    self.invite_count.nil? ? false : (self.invite_count > 0)
   end
 
   def to_param #make program use slug instead of id in params

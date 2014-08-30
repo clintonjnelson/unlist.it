@@ -4,7 +4,7 @@ class InvitationsController < ApplicationController
 
   def new
     @invitation = Invitation.new
-    flash.now[:notice] = "You have #{ view_context.pluralize(current_user.invite_count, 'credit') } remaining."
+    flash.now[:notice] = "You have #{ view_context.pluralize((current_user.invite_count.nil? ? 0 : current_user.invite_count), 'credit') } remaining."
   end
 
   def create
