@@ -29,7 +29,7 @@
       -# Verify if still need multipart here
       =bootstrap_form_for [user, unlisting], html: { multipart: true }, layout: :horizontal, label_col: 'col-xs-4', control_col: "col-xs-6" do |f|
         =f.hidden_field :token, value: "#{@token}"
-        =f.collection_select :category_id, Category.all, :id, :name, { prompt: "select a category" }, { class: 'unlisting_category_select' }
+        =f.collection_select :category_id, Category.order('name ASC').all, :id, :name, { prompt: "select a category" }, { class: 'unlisting_category_select' }
         =f.text_field :title,       label: "Title*"
         =f.text_area  :description, label: "Description*", size: '24x6', placeholder: "Describe what you're looking for...."
         =f.text_field  :link,       label: "Website Example"
