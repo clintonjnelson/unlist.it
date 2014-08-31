@@ -43,8 +43,8 @@ class UnlistingsController < ApplicationController
   end
 
   def index_by_category #for Browse Page Results
-    @categories = Category.all
-    @unlistings    = Category.find(params[:category_id]).unlistings.active
+    @categories = Category.order('name ASC').all
+    @unlistings = Category.find(params[:category_id]).unlistings.active
     render 'pages/browse'
   end
 

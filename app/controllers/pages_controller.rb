@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
 
   def browse
-    @categories = Category.all
+    @categories = Category.order('name ASC').all
   end
 
   def home
