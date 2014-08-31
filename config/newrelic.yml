@@ -152,7 +152,7 @@ common: &default_settings
     # Determines whether the agent will capture query plans for slow
     # SQL queries.  Only supported in mysql and postgres.  Should be
     # set to false when using other adapters.
-    explain_enabled: false #SET BACK TO TRUE IF EVER UPGRADE TO RUBY >= 3.7.3
+    explain_enabled: false #Could set back to true if would be useful
 
     # Threshold for query execution time below which query plans will
     # not be captured.  Relevant only when `explain_enabled` is true.
