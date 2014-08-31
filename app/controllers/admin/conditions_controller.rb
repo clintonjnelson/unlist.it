@@ -12,7 +12,7 @@ class Admin::ConditionsController < AdminController
     @add = ConditionsManager.new(@category).add_or_update_condition(condition_params, params["conditions"])
     if @add
       flash[:success] = "Condition was successfully saved."
-      redirect_to admin_categories_path
+      redirect_to new_admin_condition_path
     else
       flash[:error] = "Please fix the form/order errors below & try again."
       redirect_to new_admin_condition_path
