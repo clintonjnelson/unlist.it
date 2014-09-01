@@ -16,19 +16,20 @@ class UrlValidator < ActiveModel::EachValidator
   end
 
   def verify_exists?(url_string)
-    url = URI.parse(url_string)
-    request = Net::HTTP.new(url.host, url.port)
-    request.use_ssl = (url.scheme == 'https')
-    path = url.path if url.path.present?
-    res = request.request_head(path || '/')
-    if res.kind_of?(Net::HTTPRedirection)
-      verify_exists?(res['location']) # Recursive chck redirect and make sure you can access the redirected URL
-    else
-      ! %W(4 5).include?(res.code[0]) # Not from 4xx or 5xx families
+    begin
+      url      = URI.parse(url_string)
+      http     = Net::HTTP.new(url.host, url.port)
+      request  = Net::HTTP::Get.new(url.request_uri)
+      response = http.request(request)
+      if response.kind_of?(Net::HTTPRedirection)
+        verify_exists?(response['location']) # Recursive check redirect and make sure you can access the redirected URL
+      else
+        ! %W(4).include?(response.code[0]) # Not 4xx status types; 5xx at least indicates hit something
+      end
+    rescue Errno::ENOENT, SocketError
+      false #false if can't find the server
     end
-  rescue Errno::ENOENT, SocketError
-    false #false if can't find the server
-  request.finish if request.active?
+    #request.finish# if request.active? not required for GET
   end
 
   def error_message

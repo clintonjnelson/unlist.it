@@ -91,6 +91,15 @@ class UnlistingsController < ApplicationController
     end
   end
 
+  def show_thumbnails
+    info = LinkThumbnailer.generate(params[:link]) #grab the info from the link
+    binding.pry
+    thumbnails = info.images.all.src.to_s
+    respond_to do |format|
+      format.js { render }
+    end
+  end
+
   ################################ PRIVATE METHODS #############################
   private
   def set_unlisting
@@ -118,15 +127,15 @@ class UnlistingsController < ApplicationController
 
   def unlisting_params
     params.require(:unlisting).permit( :category_id,
-                                    :title,
-                                    :description,
-                                    :condition_id,
-                                    :price,
-                                    :keyword1,
-                                    :keyword2,
-                                    :keyword3,
-                                    :keyword4,
-                                    :link)
+                                       :title,
+                                       :description,
+                                       :condition_id,
+                                       :price,
+                                       :keyword1,
+                                       :keyword2,
+                                       :keyword3,
+                                       :keyword4,
+                                       :link)
   end
 
   def unlisting_token_param

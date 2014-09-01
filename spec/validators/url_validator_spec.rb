@@ -12,8 +12,13 @@ describe UrlValidator, :vcr do
       Test.new
     end
 
-    it "raises an error" do
+    it "does NOT raise an error" do
       subject.link = 'http://www.google.com'
+      subject.valid?
+      expect(subject.errors.full_messages).to eq []
+    end
+    it "will hit a complex amazon url" do
+      subject.link = "http://www.amazon.com/BABYBJORN-Travel-Crib-Light-Silver/dp/B005EWF4BY/ref=sr_1_2?ie=UTF8&qid=1409544080&sr=8-2&keywords=babybjorn+travel+crib"
       subject.valid?
       expect(subject.errors.full_messages).to eq []
     end

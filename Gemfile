@@ -17,14 +17,15 @@
   gem 'jquery-rails'
   gem 'jquery-turbolinks'
   gem 'jquery-ui-rails'
+  gem 'link_thumbnailer'            #Replace this with my own Nokogiri class later
   gem 'mini_magick'                 #Image control for use with Carrierwave
-  gem 'paratrooper'                #deployment made simple
+  gem 'paratrooper'                 #deployment made simple
   gem 'sass-rails'
   gem 'sidekiq'                     #allows workers to handle queued tasks in background
   gem 'sinatra', require: nil       #For Sidekiq online monitoring
   gem 'turbolinks'
   gem 'uglifier'
-  gem 'unicorn'                    #multiple instances of app for speed in production
+  gem 'unicorn'                     #multiple instances of app for speed in production
 
 group :development, :test do
   gem 'better_errors'

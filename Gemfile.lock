@@ -88,6 +88,8 @@ GEM
       i18n (~> 0.5)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
+    fastimage (1.6.3)
+      addressable (~> 2.3, >= 2.3.5)
     ffi (1.9.3)
     fog (1.22.1)
       fog-brightbox
@@ -130,6 +132,7 @@ GEM
       excon (~> 0.27)
       multi_json (~> 1.8)
     hike (1.2.3)
+    htmlentities (4.3.2)
     i18n (0.6.9)
     ipaddress (0.8.0)
     jquery-rails (3.1.0)
@@ -146,6 +149,14 @@ GEM
       addressable (~> 2.3)
     letter_opener (1.2.0)
       launchy (~> 2.2)
+    link_thumbnailer (2.2.3)
+      activesupport (>= 3.0)
+      fastimage (~> 1.6)
+      json (~> 1.7, >= 1.7.7)
+      net-http-persistent (~> 2.9)
+      nokogiri (~> 1.6)
+      rake (>= 0.9)
+      video_info (~> 2.3)
     listen (2.7.5)
       celluloid (>= 0.15.2)
       rb-fsevent (>= 0.9.3)
@@ -162,6 +173,7 @@ GEM
     minitest (5.3.4)
     multi_json (1.10.0)
     multipart-post (2.0.0)
+    net-http-persistent (2.9.4)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.1)
@@ -300,6 +312,10 @@ GEM
       raindrops (~> 0.7)
     uuidtools (2.1.5)
     vcr (2.9.0)
+    video_info (2.3.1)
+      addressable
+      htmlentities
+      multi_json
     webmock (1.18.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
@@ -335,6 +351,7 @@ DEPENDENCIES
   jquery-ui-rails
   launchy
   letter_opener
+  link_thumbnailer
   mini_magick
   newrelic_rpm
   paratrooper

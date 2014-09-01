@@ -8,7 +8,7 @@ class UserDecorator
   end
 
   def avatar_image_tag(size = 80, avatar_version = :thumb_avatar)
-    @size = size
+    @size = size #check out the CSS file for max_width & max-height
     @avatar_version = avatar_version
     if @user.use_avatar? && @user.avatar                #user has elected to use uploaded avatar
       avatar_image                                      #display linked image or image only
@@ -41,10 +41,12 @@ private
   def gravatar_image
     gravatar_id = Digest::MD5::hexdigest(@user.email.downcase)
     gravatar_url = "https://secure.gravatar.com/avatar/#{gravatar_id}?s=#{@size}&d=mm"
-    ActionController::Base.helpers.image_tag(gravatar_url, alt: @user.username, size: @size, class: "gravatar")
+    #ActionController::Base.helpers.image_tag(gravatar_url, alt: @user.username, size: @size, class: "gravatar")
+    ActionController::Base.helpers.image_tag(gravatar_url, alt: @user.username, class: "gravatar")
   end
 
   def avatar_image
-    ActionController::Base.helpers.image_tag(@user.avatar_url(@avatar_version), size: "#{@size}", alt: @user.username)
+    #ActionController::Base.helpers.image_tag(@user.avatar_url(@avatar_version), size: "#{@size}", alt: @user.username)
+    ActionController::Base.helpers.image_tag(@user.avatar_url(@avatar_version), alt: @user.username, class: "avatar")
   end
 end
