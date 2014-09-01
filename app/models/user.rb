@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
   end
 
   def set_initial_invitations_to_settings_ration
-    initial_value     = Settings.first.invites_ration
+    initial_value     = Setting.first.invites_ration
     self.invite_count = initial_value
   end
 
