@@ -8,7 +8,7 @@
     %a.btn.btn-default.dropdown-toggle.sr-only#browse-categories-dropdown(data-toggle='dropdown')
       Select A Category
       %span.caret
-    %ul.dropdown-menu(role='menu' aria-labelledby='browseCategoriesMenu')
+    %ul.dropdown-menu.scrollable-menu(role='menu' aria-labelledby='browseCategoriesMenu')
       -@categories.each do |category|
         %li(role='presentation')
           =link_to "#{category.name}", browse_category_path(category_id: category.id), { role: 'menuitem', tabindex: "-1" }
