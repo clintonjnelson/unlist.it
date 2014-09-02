@@ -6,7 +6,7 @@ class UnlistingsController < ApplicationController
   before_action :require_correct_user,      only: [                      :edit, :update, :destroy]
   before_action :require_signed_in,         only: [:new, :create,        :edit, :update, :destroy]
   before_action :filter_symbols_from_price, only: [      :create,               :update          ]
-  before_action :format_link,               only: [      :create,               :update          ]
+  before_action :format_input_link,         only: [      :create,               :update          ]
 
   def new #Loads: @user
     @unlisting = @user.unlistings.build
@@ -15,13 +15,17 @@ class UnlistingsController < ApplicationController
 
   def create #Loads: @user
     @unlisting = @user.unlistings.build(unlisting_params)
-    @token     = unlisting_token_param[:token]
+    set_or_update_link_image_column
+
+    #Load images from token & save token
+    @token                    = unlisting_token_param[:token]
     unlisting_unimages        = Unimage.where(token: @token).all
     @unlisting.unimages       << unlisting_unimages
     @unlisting.unimages_token = @token
+
     if @user && @unlisting.save
-        flash[:success] = "Unlisting created!"
-        redirect_to [@user, @unlisting]
+      flash[:success] = "Unlisting created!"
+      redirect_to [@user, @unlisting]
     else
       flash[:error] = 'Oops - there were some errors in the form. Please fix & try agian.'
       @unimages = unlisting_unimages #show any images for management on re-render
@@ -58,6 +62,8 @@ class UnlistingsController < ApplicationController
   end
 
   def update #Loads: @unlisting, @user
+    set_or_update_link_image_column
+
     if @unlisting && @unlisting.update(unlisting_params)
       flash[:success] = 'Unlisting Updated.'
       redirect_to [@user, @unlisting]
@@ -92,16 +98,19 @@ class UnlistingsController < ApplicationController
   end
 
   def show_thumbnails
-    info = LinkThumbnailer.generate(params[:link]) #grab the info from the link
-    binding.pry
-    thumbnails = info.images.all.src.to_s
+    #COULD TURN THIS INTO A SERVICE/MANAGER THAT RETURNS JUST THE ARRAY OF LINKS
+    @unlisting = Unlisting.find_by(slug: params[:unlisting_slug])
+    set_thumbnail_links_array
+
+
     respond_to do |format|
-      format.js { render }
+      format.any(:js) { render 'unlistings/show_thumbnails.js.erb'  }
     end
   end
 
   ################################ PRIVATE METHODS #############################
   private
+  ################################ BEFORE ACTIONS ##############################
   def set_unlisting
     @unlisting = Unlisting.find_by(slug: params[:id])
   end
@@ -118,13 +127,13 @@ class UnlistingsController < ApplicationController
     end
   end
 
-  def format_link
-    url_string = unlisting_params[:link]
-    if url_string.present?
-      (url_string.starts_with?("http://") || url_string.starts_with?("https://")) ? url_string : (params[:unlisting][:link] = "http://#{url_string}")
-    end
+  def format_input_link
+    url_string    = unlisting_params[:link]
+    formatted_url = format_url(url_string)
+    params[:unlisting][:link] = formatted_url unless (url_string == formatted_url)
   end
 
+  #################################### PARAMS ##################################
   def unlisting_params
     params.require(:unlisting).permit( :category_id,
                                        :title,
@@ -140,6 +149,43 @@ class UnlistingsController < ApplicationController
 
   def unlisting_token_param
     params.require(:unlisting).permit(:token)
+  end
+
+  def link_params
+    params.fetch(:image_links, {}).permit('0', '1', '2', '3', '4', :link_radio_select, :use_thumb_image)
+  end
+
+  ############################### SUPPORT METHODS ##############################
+
+  #This manages the setting & updating of external image links for Unlistings
+  def set_or_update_link_image_column
+    if link_params[:use_thumb_image].nil? #remove if user un-checks the box
+      @unlisting.link_image = nil
+    elsif @unlisting.link_image == link_params[:use_thumb_image] #NO change, if they match
+      return
+    else #check if any of the bullets are selected
+      if link_params[:link_radio_select].nil? #if none was selected, default to NO change
+        return
+      else #if one was selected, update for it
+        @unlisting.link_image = link_params[link_params[:link_radio_select]]
+      end
+    end
+  end
+
+  def set_thumbnail_links_array
+    url = format_url(params[:thumb_url])
+    info = LinkThumbnailer.generate(url) #grab the info from the link
+    @thumbnail_links = []
+    info.images.each do |thumb|
+      @thumbnail_links.push(thumb.src.to_s)
+    end
+  end
+
+  def format_url(url_string)
+    if url_string.present?
+      formatted_url = (url_string.starts_with?("http://") || url_string.starts_with?("https://")) ? url_string : "http://#{url_string}"
+    end
+    formatted_url
   end
 
   def unimage_ids_array

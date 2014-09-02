@@ -2,6 +2,45 @@
 
 
 //////////////////////// ADD UNLISTING /////////////////////////
+//Load the Website Thumbnails of provided URL (limited to 5 per configs)
+$(document).ready(function() {
+  $(".link-thumbnails-input").on("change", function() {
+    $.ajax({
+      type: "POST",
+      url: "/show_thumbnails",
+      dataType: "script",
+      data: {
+              thumb_url:      $(this).val(),
+              unlisting_slug: $('.link-thumbnails').data('id')
+            }
+    });
+    return false;
+  });
+});
+
+//Ajax population of the links if the website is already loaded
+//TODO: ADD SHOWING OF THE IMAGES IF THE UNLISTING LINK IMAGE USE IS SELECTED
+$(document).ready(function() {
+  if($(".link-thumbnails-input").length > 0) {
+    var _this = ".link-thumbnails-input"
+    $.ajax({
+      type: "POST",
+      url: "/show_thumbnails",
+      dataType: "script",
+      data: {
+              thumb_url:      $(_this).val(),
+              unlisting_slug: $('.link-thumbnails').data('id')
+            }   //Load directly due to if statement
+    });
+    return false;
+  };
+});
+
+
+
+
+
+
 //Ajax Population of ConditionSelect For Selected Category
 $(document).ready(function() {
   $(".unlisting_category_select").on("select change", function() {

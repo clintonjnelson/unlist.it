@@ -6,6 +6,14 @@ $(document).on("click", ".modal-close", function() {
 
 
 
+//////////////////////// ADD UNLISTING /////////////////////////
+//Toggle the Hide or Show for radio button selection of Linked URL Thumbs
+$(document).on("click", "#image_links_use_thumb_image", function() {
+  $('#link-image-thumbs').toggleClass("hide");
+});
+
+
+
 //////////////////////// UNLISTING RESPONSE /////////////////////////
 //Tabbed interface for Unlistings display
 $(function() {

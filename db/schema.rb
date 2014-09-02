@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140825040927) do
+ActiveRecord::Schema.define(version: 20140902010233) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(version: 20140825040927) do
     t.boolean  "inactive"
     t.string   "unimages_token"
     t.string   "slug"
+    t.string   "link_image"
   end
 
   create_table "users", force: true do |t|

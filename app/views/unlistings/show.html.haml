@@ -20,8 +20,11 @@
           =@unlisting.creator.decorator.avatar_image_tag(60)
         %p= link_to "[contact buyer]", unlisting_show_message_form_path(@unlisting), remote: true, class: 'contact-buyer-link'
 
-    -if @unlisting.unimages.present?
+    -if @unlisting.unimages.present? || @unlisting.link_image.present?
       .galleria
+        -if @unlisting.link_image.present?
+          %a{ href: @unlisting.link_image, title: "external link", alt: 'external photo' }
+            =image_tag(@unlisting.link_image)
         -@unlisting.unimages.each do |unimage|
           %a{ href: unimage.filename.url(:full_unimage), title: unimage.id, alt: 'unimage photo' }
             =image_tag(unimage.filename.url(:thumb_unimage))

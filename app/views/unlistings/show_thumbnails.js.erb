@@ -1,0 +1,4 @@
+<% if @thumbnail_links.present? %>
+  $('.link-thumbnails').html("<%= escape_javascript( render partial: 'thumbnail_images',
+                                                                      locals: { thumb_links: @thumbnail_links } )%>");
+<% end %>

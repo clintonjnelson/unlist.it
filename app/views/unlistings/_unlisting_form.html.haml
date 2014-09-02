@@ -21,6 +21,13 @@
             %input{ name: 'unimage[token]',    value: unimage.token,   type: 'hidden' }
             %input{ name: 'unimage[filename]', value: unimage.filename, type: 'hidden' }
             %a.remove-unimage.btn.btn-default.btn-xs remove
+    -if @unlisting.present? && @unlisting.link_image.present?
+      #link-image-reload-display
+        %h5.text-muted
+          Primary Linked Image:
+          .link-image-preview-template
+            .viewer
+              =image_tag @unlisting.link_image
 
 
     %br
@@ -32,8 +39,13 @@
         =f.collection_select :category_id, Category.order('name ASC').all, :id, :name, { prompt: "select a category" }, { class: 'unlisting_category_select' }
         =f.text_field :title,       label: "Title*"
         =f.text_area  :description, label: "Description*", size: '24x6', placeholder: "Describe what you're looking for...."
-        =f.text_field  :link,       label: "Website Example"
-        =f.select :condition_id, [], { prompt: "select a category above", label: "Minimum Condition*", }, { id: "unlisting_condition_select" }
+
+        -# Use thumbnailer to load link images
+        =f.text_field  :link,       label: "Website Example", class: "link-thumbnails-input"
+        .link-thumbnails{ data: { id: @unlisting.slug } }
+
+
+        =f.select :condition_id, [], { prompt: "select a category above", label: "Minimum Condition*"}, { id: "unlisting_condition_select" }
         //-#(price == 0) => FREE, (price = -1) => Any, (price > 0) => price; Decorator or Helper for This.
         =f.text_field :price,    label: "Price (up to)*", prepend: "$"
         =f.text_field :keyword1, label: "Keyword 1*"
