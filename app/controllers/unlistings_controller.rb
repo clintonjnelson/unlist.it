@@ -102,7 +102,6 @@ class UnlistingsController < ApplicationController
     @unlisting = Unlisting.find_by(slug: params[:unlisting_slug])
     set_thumbnail_links_array
 
-
     respond_to do |format|
       format.any(:js) { render 'unlistings/show_thumbnails.js.erb'  }
     end
@@ -173,19 +172,24 @@ class UnlistingsController < ApplicationController
   end
 
   def set_thumbnail_links_array
-    url = format_url(params[:thumb_url])
-    info = LinkThumbnailer.generate(url) #grab the info from the link
-    @thumbnail_links = []
-    info.images.each do |thumb|
-      @thumbnail_links.push(thumb.src.to_s)
+    if url = format_url(params[:thumb_url])
+      info = LinkThumbnailer.generate(url) #grab the info from the link
+      @thumbnail_links = []
+      info.images.each do |thumb|
+        @thumbnail_links.push(thumb.src.to_s)
+      end
+    else
+      return false
     end
   end
 
   def format_url(url_string)
     if url_string.present?
-      formatted_url = (url_string.starts_with?("http://") || url_string.starts_with?("https://")) ? url_string : "http://#{url_string}"
+      return formatted_url = (url_string.starts_with?("http://") || url_string.starts_with?("https://")) ? url_string : "http://#{url_string}"
+    else
+      return false
     end
-    formatted_url
+    #formatted_url
   end
 
   def unimage_ids_array

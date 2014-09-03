@@ -12,7 +12,7 @@ class InvitationsController < ApplicationController
     credits = InvitationCredit.new(@user)
 
     if credits.any? && @invitation.save
-      #UnlistMailer.invitation_email(@invitation.id).deliver
+      #UnlistMailer.invitation_email(@invitation.id).deliver  #USE IN DEVELOPMENT FOR EMAILING
       UnlistMailer.delay.invitation_email(@invitation.id) #sidekiq worker
       credits.use_credit
       flash[:success] = "Message Sent! They're lucky to have a friend like you

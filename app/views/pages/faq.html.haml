@@ -11,132 +11,150 @@
     %li= link_to 'Can I login with other social media accounts?', faq_path(anchor: 'q5')
     %li= link_to 'Do I need to signup to browse or search Unlist postings & contact interested buyers?', faq_path(anchor: 'q6')
     %li= link_to "What is \"Community Reuse\" (aka: \"ReUse\"", faq_path(anchor: 'q7')
+    %li= link_to "How do I get started using Unlist.it?", faq_path(anchor: 'q8')
   %br
   %br
   %br
 
 
   // FAQ #1
-  %h3#q1 "Unlisting? Unlist? What are these?
+  %h3#q1
+    "Unlisting? Unlist? What are these?
+  %ul
+    %li.list-no-bullet
+      %h5 First, the "un"
+    %ul
+      %li.list-no-bullet The "un" stands for "do-not-yet-have". Unlisters are people looking for stuff. Unlistings are their wanted-ads. Unlist is a bunch of those ads.
+      %br
+
+  %ul
+    %li.list-no-bullet
+      %h5 What is an "unlisting"?
+    %ul
+      %li.list-no-bullet It is probably described as the combination of a wishlist and a local classified. It is an ad describing what you are looking for, so that a seller can find & contact you directly.
+      %br
+  %ul
+    %li.list-no-bullet
+      %h5 What is an "unlist"?
+    %ul
+      %li.list-no-bullet
+        Maybe more clearly written as "unList". Kind of like a wishlist. It is a bunch of unlistings - things you're trying to find to buy (or as
+        =link_to ' Community Reuse', faq_path(anchor: 'q6')
+        ).
   %hr
-  %h4 First, the "Un"
-  %P The "Un" reflects that the focus of these listings is NOT of what you have (like the many other classified sites out there). Rather, these are things you DON'T yet have.. hence the "Un".
-  %br
-
-  %h4 What is an "unlisting"?
-  %p It is probably described as the combination of a wishlist and a local classified. It is an ad describing what you are looking for, so that a seller can find & contact you directly.
-  %br
-
-  %h4 What is an "unlist"?
-  %p
-    Maybe more clearly written as "unList". It is a bunch of unlistings - things you're trying to find to buy (or as
-    =link_to ' Community Reuse', faq_path(anchor: 'q6')
-    ).
-  %br
   %br
 
   // FAQ #2
-  %h3#q2 So, what's the big deal?
-  %p
-    Easier for buyers
+  %h3#q2
+    So, what's the big deal?
+  %ul
+    %li.list-no-bullet
+      %h5 Easier for buyers
     %ul
-      %li Stop spending hours looking for items online. Make an unlisting for that item & a seller will find you.
-      %li Once you have your unlist, your searching is done. Your unlist is always working to help sellers find you.
+      %li.list-no-bullet Stop spending hours looking for items online. Make an unlisting for that item & a seller will find you.
+      %li.list-no-bullet Once you have your unlist, your searching is done. Your unlist is always working to help sellers find you.
 
-  %p
-    Easier for sellers
+  %ul
+    %li.list-no-bullet
+      %h5 Easier for sellers
     %ul
-      %li Stop spending hours managing online ads. Find buyers instantly with a search.
-      %li= "Curious if people are interested in things you have? Find out the demand and how much people will pay."
-
-  %br
+      %li.list-no-bullet Stop spending hours managing online ads. Find buyers instantly with a search.
+      %li.list-no-bullet Curious if people are interested in things you have? Find out the demand and how much people will pay.
+  %hr
   %br
 
 
   // FAQ #3
-  %h3#q3 What is an Unlist good for?
+  %h3#q3
+    What is an Unlist good for?
+  %ul
+    %li.list-no-bullet
+      %h5 It helps promote a more sustainable world.
+    %ul
+      %li.list-no-bullet
+        Posting & managing ads for a cheap items in the past probably isn't worth the hassle, so we throw lots of stuff away.
+        %br
+        Sad, because someone would probably like it. Now you can see instantly if anyone is interested & contact them immediately. Win-win.
+        (See also
+        =link_to ' Community Reuse', faq_path(anchor: 'q6')
+        )
+      %li.list-no-bullet
+        Unlistings foster community sharing. Give items away in your local community!
+
+    %li.list-no-bullet
+      %h5 It saves everyone lots of time & hassle.
+    %ul
+      %li.list-no-bullet Don't browse what is for sale, browse what people want. If you have stuff, you can connect to buyers immediately.
+
+    %li.list-no-bullet
+      %h5 Unlist provides new opportunities:
+    %ul
+      %li.list-no-bullet Rare or odd items are hard for buyers to find & similarly hard work for sellers to sell. Not anymore. Find out instantly if there is a buyer out there for your stuff. And buyers, all you need to do is make an unlisting for it & wait to be found.
+      %li.list-no-bullet Finding stuff can be hard, frustrating, and time consuming. Unlist turns the status-quo inside-out and saves everyone time.
   %hr
-
-  %p It helps promote a more sustainable world.
-  %ul
-    %li
-      Posting & managing ads for a cheap items in the past probably isn't worth the hassle, so we throw lots of stuff away.
-      %br
-      Sad, because someone would probably like it. Now you can see instantly if anyone is interested & contact them immediately. Win-win.
-      (See also
-      =link_to ' Community Reuse', faq_path(anchor: 'q6')
-      )
-    %li
-      Unlistings foster community sharing. Give items away in your local community!
-  %br
-
-  %p It saves everyone lots of time & hassle.
-  %ul
-    %li Don't browse what is for sale, browse what people want. If you have stuff, you can connect to buyers immediately.
-  %br
-
-  %p Unlist provides new opportunities:
-  %ul
-    %li
-      Rare or odd items are hard for buyers to find & similarly hard work for sellers to sell. Not anymore. Find out instantly if there is a buyer out there for your stuff. And buyers, all you need to do is make an unlisting for it & wait to be found.
-    %li
-      Finding stuff can be hard, frustrating, and time consuming. Unlist turns the status-quo inside-out and saves everyone time.
-  %br
   %br
 
   // FAQ #4
-  %h3#q4 What information is required to sign up?
-  %hr
-
+  %h3#q4
+    What information is required to sign up?
   %ul
     %li.list-no-bullet
-      %p
-        You just need:
-        %ul
-          %li A valid email address
-          %li A password (to secure your unlist.it account)
-        %br
-        That's it.
-      %p
-        We don't want your specific personal info -- that would be WAAY too much for us to worry about. Plus, it wouldn't help you at all.
-    %p
+      %h5 You just need:
+    %ul
+      %li.list-no-bullet A valid email address
+      %li.list-no-bullet A password (to secure your unlist.it account)
+    %li.list-no-bullet
+      %h5 That's it.
+    %ul
+      %li.list-no-bullet We don't want your specific personal info. That wouldn't benefit you at all. Plus, we sleep better at night without that.
+    %br
+
+    %li.list-no-bullet
       "You can also use
       =link_to 'social media logins',
       faq_path(anchor: 'q4')
       , if you'd prefer to avoid having another password to remember."
-  %br
+  %hr
   %br
 
   // FAQ #5
   %h3#q5
     Can I login to Unlist with other social media accounts (such as Facebook or Twitter)?
-  %hr
   %ul
     %li.list-no-bullet
       %p Yes, of course! We currently support Facebook, Twitter, and Pintrest account logins.
       %h4.text-muted [FUTURE FEATURE]
-  %br
+  %hr
   %br
 
   // FAQ #6
   %h3#q6
     Do I need an account to use Unlist?
-  %hr
   %ul
-    %li.list-no-bullet
-      %p You can browse & search to your heart's content without an account.
-      %p With an account you can make unlistings and contact anyone.
-      %p If you don't want a full account, but still want to be able to contact buyers, you can add your email to your SafeGuests email list. This grants you access to contact many users (note: we do allow our users to choose whether or not to allow contact from SafeGuests or to limit contact from full-users only).
+    %li.list-no-bullet You can browse & search to your heart's content without an account.
+    %li.list-no-bullet With an account you can make unlistings and contact anyone.
+    %li.list-no-bullet If you don't want a full account, but still want to be able to contact buyers, you can add your email to your SafeGuests email list. This grants you access to contact many users (note: we do allow our users to choose whether or not to allow contact from SafeGuests or to limit contact from full-users only).
+  %hr
+  %br
 
   // FAQ #7
   %h3#q7
     What is "Community Reuse" (aka: "ReUse")?
+  %ul
+    %li.list-no-bullet Community Reuse is a way of helping others & the environment by giving away to other people things you no longer need.
+    %li.list-no-bullet This promotes community and sustainability at a local and global level. This is not a new idea, and is hopefully already going on in the community around you. You can find more information on the movement by searching online for "Community Reuse". "Buy Nothing" or "Trash Backwards" is a great project that was started on Bainbridge Island, WA (a ferry ride from Seattle, WA) that has been doing a great job of promoting this way of living.The idea is simple: instead of throwing potentially us-able items away, arrange to leave it on your doorstep for an interested someone to pick up, or arrange to drop it off at their doorstep.
+    %li.list-no-bullet Unlist.it hopes to similarly help foster this movement in local communities everywhere. So, before you throw away usable items (yes, even plastic bags, wine bottles, clothes, the list goes on...), do a quick local search and see if you can help a neighbor and reduce the load on our landfills.
   %hr
+  %br
+
+  // FAQ #8
+  %h3#q8
+    How do I get started using Unlist.it?
   %ul
     %li.list-no-bullet
-      %p Community Reuse is a way of helping others & the environment by giving away to other people things you no longer need.
-      %p This promotes community and sustainability at a local and global level. This is not a new idea, and is hopefully already going on in the community around you. You can find more information on the movement by searching online for "Community Reuse". "Buy Nothing" or "Trash Backwards" is a great project that was started on Bainbridge Island, WA (a ferry ride from Seattle, WA) that has been doing a great job of promoting this way of living.The idea is simple: instead of throwing potentially us-able items away, arrange to leave it on your doorstep for an interested someone to pick up, or arrange to drop it off at their doorstep.
-      %p Unlist.it hopes to similarly help foster this movement in local communities everywhere. So, before you throw away usable items (yes, even plastic bags, wine bottles, clothes, the list goes on...), do a quick local search and see if you can help a neighbor and reduce the load on our landfills.
-
-
+      You can use Unlist.it as an "Unlister" by
+      =link_to 'signing up', signup_path, target: '_blank'
+      or as a guest (we call them "SafeGuests"). Please see our
+      =link_to 'getting started', gettingstarted_path, target: '_blank'
+      for more information on getting started as a bona fied "Unlister".
 

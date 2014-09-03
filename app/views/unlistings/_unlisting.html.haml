@@ -3,8 +3,10 @@
 .unlisting-box
   %h5
     =link_to unlisting_path(unlisting) do
-      -if unlisting.unimages.present?
-        =image_tag(unlisting.unimages.first.filename.url(:thumb_unimage), height: 60)
+      -if unlisting.link_image.present?
+        =image_tag(unlisting.link_image, class: 'thumbnail-80')
+      -elsif unlisting.unimages.present?
+        =image_tag(unlisting.unimages.first.filename.url(:thumb_unimage), class: 'thumbnail-80')
       -else
         =unlisting.creator.decorator.avatar_image_tag(60)
     =link_to "#{ unlisting.title }", unlisting_path(unlisting)
@@ -13,7 +15,7 @@
       %li
         Example:
         %span= link_to "#{ unlisting.link }", url: "unlisting.link"
-      %li= "Description: #{ truncate(unlisting.description, length: 45) }"
+      %li= "Description: #{ unlisting.description.truncate(45) }"
       %li= "Condition: #{ unlisting.condition.level }"
       %li= "Pay up to: #{ number_to_currency(unlisting.price, precision: 0) }"
       %li

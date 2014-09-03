@@ -31,7 +31,8 @@ class UsersController < ApplicationController
       UnlistMailer.delay.registration_confirmation_email(@user.id)  #Sidekiq Worker
       @invite.set_redeemed                       #temporary to be removed later
       flash[:success] = "Welcome to Unlist! You have been sent an email to confirm registration. Please click the link in the email to complete your registration!"
-      signin_user(@user)
+      signin_user(@user, true)
+      redirect_to gettingstarted_path
     elsif !@invite
       flash[:error] = "Sorry, we could not find your invitation in our system.
                        Please contact the person who sent it to you or Unlist.it"
@@ -71,7 +72,8 @@ class UsersController < ApplicationController
       #UnlistMailer.welcome_email(user.id).deliver
       UnlistMailer.delay.welcome_email(user) #Sidekiq Worker
       flash[:success] = "Thank you - your email has been confirmed! The Unlist.it world is now your oyster - help someone deliver you a pearl!"
-      signed_in? ? (redirect_to home_path) : signin_user(user)
+      signin_user(user, true) unless signed_in?
+      redirect_to gettingstarted_path
     else
       redirect_to invalid_address_path
     end

@@ -58,10 +58,10 @@ class ApplicationController < ActionController::Base
     @user = current_user
   end
 
-  def signin_user(user)
+  def signin_user(user, stay=false)
     session[:user_id] = user.id
     flash[:success] ||= "Welcome, #{user.username}!"
-    redirect_to home_path
+    redirect_to home_path unless stay
   end
 
 end

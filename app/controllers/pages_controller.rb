@@ -5,12 +5,5 @@ class PagesController < ApplicationController
   end
 
   def home
-    # if session[:zipcode]
-    #   @location = session[:zipcode]
-    # elsif request.remote_ip
-    #   @location = request.remote_ip
-    # else
-    #   @location = "Seattle, WA"
-    # end
   end
 end

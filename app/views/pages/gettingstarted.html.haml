@@ -1,0 +1,54 @@
+-provide(:title, 'Unlist.it')
+
+//Getting Started Page
+.row.col-xs-8.col-xs-offset-1.well
+  %h2 Getting Started
+  %br
+  %br
+
+
+  %h4.text-muted How To Begin
+  %ol
+    %li=link_to 'Sign up', signup_path, target: '_blank'
+    %li Confirm your email via the link we'll email you
+  %br
+  %br
+
+  %h4.text-muted Setup Your Unlist
+  %ol
+    %li
+      Think of a bunch of stuff you're looking to buy/get.
+      %br This will be your unlist.
+      %em ("un" as in "do-not-yet-have")
+    %br
+    %li
+      Start Adding Unlistings - one for each thing
+      %br
+      %em (When signed in, this is found under the Unlist tab => "+add unlisting")
+      %ul
+        %li Choose example website & photo
+        %li Even upload up to 6 images (drag & drop enabled)
+        %li Choose good keywords - used for primary search
+      %br
+    %li
+      Once your unlistings are all in, sit back.
+      %br Sellers will search, find your unlisting, and contact you.
+    %br
+    %br
+  %h4.text-muted Other ways to use Unlist
+  %ol
+    %li Search Unlist.it to see if anyone is interested in things you have
+    %li Sell to a local Unlister unlisting for things you have
+    %li Search Unlist.it to scope pricing demanded by buyers
+    %li
+      =link_to "Community Recycle", faq_path(anchor: "q7")
+      things that others want to promote sustainable living
+      %br
+      Do so by a Community Recycle unlisting of something you want
+      %br
+      Do so by browsing Community Recycle unlistings in your area to give stuff away
+
+
+
+
+

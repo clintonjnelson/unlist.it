@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get     '/about',                       to: 'pages#about'
   get     '/contact',                     to: 'pages#contact'
   get     '/futurefeature',               to: 'pages#futurefeature'
+  get     '/gettingstarted',              to: 'pages#gettingstarted'
   get     '/invalid_address',             to: 'pages#invalid_address'
   get     '/expired_link',                to: 'pages#expired_link'
   get     '/invite-registration/:token',  to: 'users#new_with_invite',     as: 'register_with_invite'

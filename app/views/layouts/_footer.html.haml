@@ -23,13 +23,15 @@
   -if (signed_in?)
     .dropdown#navbutton-user-info
       %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
-        info
+        info/help
         %span.caret
       %ul.dropdown-menu(role='menu' aria-labelledby='AdminBlogMenu')
         %li(role='presentation')
           =link_to "faq", faq_path, { role: 'menuitem', tabindex: "-1" }
         %li(role='presentation')
           =link_to "about", about_path, { role: 'menuitem', tabindex: "-1" }
+        %li(role='presentation')
+          =link_to "getting started", gettingstarted_path, { role: 'menuitem', tabindex: "-1" }
         %li(role='presentation')
           =link_to "tour", tour_path, { role: 'menuitem', tabindex: "-1" }
         / %li(role='presentation')
