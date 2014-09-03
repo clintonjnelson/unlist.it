@@ -3,7 +3,8 @@ require 'spec_helper'
 
 
 describe MessagesController, :vcr do
-  let(:jen)          { Fabricate(:user) }
+  let!(:settings)       { Fabricate(:setting) }
+  let(:jen)             { Fabricate(:user) }
   let(:jens_unlisting)  { Fabricate(:unlisting, creator: jen) }
   #before { request.env["HTTP_REFERER"] = "where_i_came_from" }
 
@@ -11,11 +12,11 @@ describe MessagesController, :vcr do
   describe "GET index" do
     let!(:sent_unlisting_message)     { Fabricate(:user_unlisting_message,  sender:        jen) }
     let!(:received_unlisting_message) { Fabricate(:user_unlisting_message,  recipient:     jen) }
-    let!(:sent_user_message)       { Fabricate(:user_message,         sender:        jen) }
-    let!(:received_user_message)   { Fabricate(:user_message,         recipient:     jen, content: "not an unlisting message", messageable_type: 'User') }
-    let!(:guest_message)           { Fabricate(:guest_unlisting_message, recipient:     jen, contact_email: "guest@example.com") }
+    let!(:sent_user_message)          { Fabricate(:user_message,         sender:        jen) }
+    let!(:received_user_message)      { Fabricate(:user_message,         recipient:     jen, content: "not an unlisting message", messageable_type: 'User') }
+    let!(:guest_message)              { Fabricate(:guest_unlisting_message, recipient:     jen, contact_email: "guest@example.com") }
     let!(:unlisting_reply)            { Fabricate(:reply_message,        messageable:   sent_unlisting_message) }
-    let!(:user_reply)              { Fabricate(:reply_message,        messageable:   sent_user_message) }
+    let!(:user_reply)                 { Fabricate(:reply_message,        messageable:   sent_user_message) }
     before { spec_signin_user(jen) }
 
 
@@ -129,11 +130,11 @@ describe MessagesController, :vcr do
         end
 
         context "with EXISTING, UN-confirmed guest with valid token" do
-          let!(:joe_guest) { Fabricate(:safeguest, email: "guest@example.com") }
+          let!(:joe_guest)       { Fabricate(:safeguest, email: "guest@example.com") }
           before { post :create, { unlisting_id: jens_unlisting.slug,
-                                     message: { content: "I would love to sell you mine!",
-                                                contact_email: "guest@example.com",
-                                                reply: false } } }
+                                        message: { content: "I would love to sell you mine!",
+                                             contact_email: "guest@example.com",
+                                                     reply: false } } }
           after { ActionMailer::Base.deliveries.clear }
 
           it "does NOT save the message" do
@@ -154,8 +155,8 @@ describe MessagesController, :vcr do
             Sidekiq::Testing.inline! do
             post :create, { unlisting_id: jens_unlisting.slug,
                                  message: { content: "I would love to sell you mine!",
-                                      contact_email: "guest@example.com",
-                                              reply: false } }
+                                            contact_email: "guest@example.com",
+                                            reply: false } }
             end
           end
           after { ActionMailer::Base.deliveries.clear }
@@ -228,11 +229,11 @@ describe MessagesController, :vcr do
 
       context "with INVALID information" do
         context "with existng confirmed safeguest" do
-          let!(:joe_guest) { Fabricate(:safeguest, email: "guest@example.com", confirmed: true) }
+          let!(:joe_guest)       { Fabricate(:safeguest, email: "guest@example.com", confirmed: true) }
           before { post :create, { unlisting_id: jens_unlisting.slug,
-                                     message: { content: "",
-                                                contact_email: "guest@example.com",
-                                                reply: false } } }
+                                        message: { content: "",
+                                                   contact_email: "guest@example.com",
+                                                   reply: false } } }
 
           it "does NOT create a new message" do
             expect(Message.count).to eq(0)
@@ -247,9 +248,9 @@ describe MessagesController, :vcr do
 
         context "for an INvalid email address" do
           before { post :create, { unlisting_id: jens_unlisting.slug,
-                                     message: { content: "I would like to sell you one!",
-                                                contact_email: "example.com",
-                                                reply: false } } }
+                                        message: { content: "I would like to sell you one!",
+                                                   contact_email: "example.com",
+                                                   reply: false } } }
 
           it "does NOT create a new message" do
             expect(Message.count).to eq(0)
@@ -271,9 +272,9 @@ describe MessagesController, :vcr do
           spec_signin_user(jen)
           jen.update_attribute(:confirmed, true)
           post :create, { unlisting_id: jens_unlisting.slug,
-                          message: { content: "I would love to sell you mine!",
-                                     contact_email: nil,
-                                     reply: false } }
+                               message: { content: "I would love to sell you mine!",
+                                          contact_email: nil,
+                                          reply: false } }
         end
 
         it "sets the recipient to the owner/creator of the unlisting" do
@@ -306,9 +307,9 @@ describe MessagesController, :vcr do
         before do
           spec_signin_user(jen)
           post :create, { unlisting_id: jens_unlisting.slug,
-                            message: { content: nil,
-                                       contact_email: nil,
-                                       reply: false } }
+                               message: { content: nil,
+                                          contact_email: nil,
+                                          reply: false } }
         end
 
         it "does NOT create a new message" do

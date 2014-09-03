@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe User do
+  let!(:settings) { Fabricate(:setting) }
+
 
   it { should have_secure_password }
   it { should belong_to(:location              ) }
@@ -70,7 +72,8 @@ describe User do
       end
     end
     context "with NO invitations left" do
-      let(:jen) { Fabricate(:user, invite_count: 0) }
+      let(:jen) { Fabricate(:user) }
+      before { jen.update_column(:invite_count, 0) }
       it "returns false" do
         expect(jen.invitations_avail?).to be_false
       end

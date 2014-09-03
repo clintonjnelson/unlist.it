@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe UnlistingsController, :vcr do
+  let!(:settings) { Fabricate(:setting) }
   let(:jen) { Fabricate(:user) }
-
 
 
   describe "GET new" do

@@ -1,10 +1,11 @@
 require 'spec_helper'
 
 describe ConditionsManager do
-  let!(:autos) { Fabricate(:category, name: 'autos') }
-  let!(:good)  { Fabricate(:condition, category: autos, level: 'good') }
-  let!(:fair)  { Fabricate(:condition, category: autos, level: 'fair') }
-  let!(:poor)  { Fabricate(:condition, category: autos, level: 'poor') }
+  let!(:settings) { Fabricate(:setting) }
+  let!(:autos)    { Fabricate(:category, name: 'autos') }
+  let!(:good)     { Fabricate(:condition, category: autos, level: 'good') }
+  let!(:fair)     { Fabricate(:condition, category: autos, level: 'fair') }
+  let!(:poor)     { Fabricate(:condition, category: autos, level: 'poor') }
 
   describe "for a new condition creation" do
     context "with valid input" do

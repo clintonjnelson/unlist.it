@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe UrlValidator, :vcr do
+  let!(:settings) { Fabricate(:setting) }
 
   context "for a valid URL" do
     subject do

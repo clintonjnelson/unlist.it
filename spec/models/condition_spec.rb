@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Condition do
+  let!(:settings) { Fabricate(:setting) }
+
   it { should belong_to(:category) }
   #it { should have_many(:categories).through(:categories_conditions) }
 

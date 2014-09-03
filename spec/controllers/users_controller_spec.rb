@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe UsersController, :vcr do
+  let!(:settings) { Fabricate(:setting) }
   after do
     ActionMailer::Base.deliveries.clear
     Sidekiq::Worker.clear_all

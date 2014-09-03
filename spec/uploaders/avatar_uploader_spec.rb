@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'carrierwave/test/matchers'
 
 describe AvatarUploader do
+  let!(:settings) { Fabricate(:setting) }
+
   include CarrierWave::Test::Matchers
   let!(:joe_user) { Fabricate(:user) }
   before do

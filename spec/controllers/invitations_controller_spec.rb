@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe InvitationsController do
+  let!(:settings) { Fabricate(:setting) }
 
   describe "POST create" do
     after { ActionMailer::Base.deliveries.clear }

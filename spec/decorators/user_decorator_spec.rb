@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe UserDecorator do
+  let!(:settings) { Fabricate(:setting) }
 
   describe "for a user without avatar" do
     let!(:jen) { Fabricate(:user) }

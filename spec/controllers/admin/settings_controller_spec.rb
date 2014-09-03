@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Admin::SettingsController do
   let!(:settings) { Fabricate(:setting) }
+  let!(:settings) { Fabricate(:setting) }
 
   describe "GET edit" do
     let(:joe_admin) { Fabricate(:admin) }

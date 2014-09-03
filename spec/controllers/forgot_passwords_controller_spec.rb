@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe ForgotPasswordsController, :vcr do
-  let!(:jen) { Fabricate(:user, email: 'jen@example.com') }
+  let!(:settings) { Fabricate(:setting) }
+  let!(:jen)      { Fabricate(:user, email: 'jen@example.com') }
 
   describe "POST create" do
     context "with valid email provided" do

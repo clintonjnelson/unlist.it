@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Safeguest do
+  let!(:settings) { Fabricate(:setting) }
+
 
   it { should     validate_uniqueness_of(:email).case_insensitive }
   it { should     allow_value('joe@example.com', 'm@foo.jp').for( :email) }

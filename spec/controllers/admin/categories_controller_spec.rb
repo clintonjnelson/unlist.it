@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Admin::CategoriesController do
+  let!(:settings) { Fabricate(:setting) }
   let(:jen)   { Fabricate(:admin) }
   let!(:autos) { Fabricate(:category, name: 'autos') }
 

@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe SafeguestsController do
+  let!(:settings) { Fabricate(:setting) }
 
   describe 'GET create' do
     context "with valid confirm_token" do

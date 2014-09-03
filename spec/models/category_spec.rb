@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Category do
+  let!(:settings) { Fabricate(:setting) }
+
   it { should have_many(:conditions).order('position') }
   it { should have_many(:conditions).dependent(:destroy) }
 

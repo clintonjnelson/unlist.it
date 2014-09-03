@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe SearchesController, :vcr do
+  let!(:settings) { Fabricate(:setting) }
 
   describe "POST set_search_radius" do
     context "for a Guest or User" do

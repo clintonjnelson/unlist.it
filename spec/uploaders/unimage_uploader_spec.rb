@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'carrierwave/test/matchers'
 
 describe UnimageUploader, :vcr do
+  let!(:settings) { Fabricate(:setting) }
+
   include CarrierWave::Test::Matchers
   let!(:unimage) { Fabricate(:unimage) }
   before do

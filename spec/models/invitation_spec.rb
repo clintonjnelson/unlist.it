@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Invitation do
+  let!(:settings) { Fabricate(:setting) }
+
   it { should belong_to(:sender).with_foreign_key(:user_id) }
   it { should validate_presence_of(:recipient_email) }
   it { should validate_presence_of(:user_id) }

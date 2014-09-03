@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe Unlisting, :vcr do
+  let!(:settings) { Fabricate(:setting) }
+
+
   describe "associations & validations" do
     before do
       Unlisting.any_instance.stub(:set_slug)

@@ -4,10 +4,10 @@ require 'rake'
 require 'sidekiq/testing'
 
 describe "scheduler", :vcr do
+  let!(:setting) { Fabricate(:setting) }
 
   describe ":issue_invitations" do
-    let!(:setting)      { Fabricate(:setting) }
-    let!(:jen)          { Fabricate(:user, invite_count: 1) }
+    let!(:jen)          { Fabricate(:user, invite_count: 4) }
     let!(:joe)          { Fabricate(:user, invite_count: 4) }
     let(:run_issue_invites) do
       Rake::Task[:issue_invitations].reenable
@@ -15,6 +15,7 @@ describe "scheduler", :vcr do
     end
 
     before do
+      jen.update_column(:invite_count, 1)
       Sidekiq::Testing.inline!
       Rake.application.rake_require 'tasks/scheduler'
       Rake::Task.define_task(:environment) #Stub env. Rspec runs the App, so dont want Rake to run it AGAIN.
@@ -26,7 +27,7 @@ describe "scheduler", :vcr do
 
     context "for a user with full invites" do
       it "adds no additional invites" do
-        expect(User.last.invite_count).to eq(4)
+        expect(User.first.invite_count).to eq(1)
         run_issue_invites
         expect(User.last.invite_count).to eq(4)
       end

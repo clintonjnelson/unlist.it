@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe ResetPasswordsController do
+  let!(:settings) { Fabricate(:setting) }
 
   describe 'GET show' do
     context 'with a valid token' do

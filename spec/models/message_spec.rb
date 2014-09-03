@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe Message do
+  let!(:settings) { Fabricate(:setting) }
+
+
   it { should belong_to(:recipient).with_foreign_key(:recipient_id) }
   it { should belong_to(:sender   ).with_foreign_key(:sender_id   ) }
   it { should have_many(:messages ) }

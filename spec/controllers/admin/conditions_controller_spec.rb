@@ -3,10 +3,11 @@ require 'spec_helper'
 #Note: mocks the ConditionsManager service object
 
 describe Admin::ConditionsController do
-  let(:jen) { Fabricate(:admin) }
-  let!(:autos) { Fabricate(:category, name: "autos") }
-  let!(:good)  { Fabricate(:condition, category: autos, level: "good", position: 1) }
-  let!(:bad)   { Fabricate(:condition, category: autos, level: "bad", position: 2) }
+  let!(:settings) { Fabricate(:setting) }
+  let(:jen)       { Fabricate(:admin) }
+  let!(:autos)    { Fabricate(:category, name: "autos") }
+  let!(:good)     { Fabricate(:condition, category: autos, level: "good", position: 1) }
+  let!(:bad)      { Fabricate(:condition, category: autos, level: "bad", position: 2) }
 
   describe "authorization & access" do
     context "for unauthorized users (ie: NON-admin)" do
@@ -55,14 +56,14 @@ describe Admin::ConditionsController do
         ConditionsManager.any_instance.should_receive(:add_or_update_condition).and_return(true)
         spec_signin_user(jen)
         post :create, { condition: { category_id: 1, level: "average", position: 2 },
-                      conditions: [ { id: "1", position: "1" } ] }
+                       conditions: [ { id: "1", position: "1" } ] }
       end
 
       it "sets the category to be the chosen category" do
         expect(assigns(:category)).to eq(autos)
       end
       it "redirects to the categories index page" do
-        expect(response).to redirect_to admin_categories_path
+        expect(response).to redirect_to new_admin_condition_path
       end
     end
 
@@ -72,13 +73,13 @@ describe Admin::ConditionsController do
         ConditionsManager.any_instance.should_receive(:add_or_update_condition).and_return(true)
         spec_signin_user(jen)
         post :create, { condition: { category_id: 2, level: "new", position: 2 },
-                      conditions: [ ] }
+                       conditions: [ ] }
       end
       it "sets the category to be the chosen category" do
         expect(assigns(:category)).to eq(games)
       end
-      it "redirects to the categories index page" do
-        expect(response).to redirect_to admin_categories_path
+      it "redirects to the new condition page" do
+        expect(response).to redirect_to new_admin_condition_path
       end
     end
 
@@ -87,7 +88,7 @@ describe Admin::ConditionsController do
         ConditionsManager.any_instance.should_receive(:add_or_update_condition).and_return(false)
         spec_signin_user(jen)
         post :create, { condition: { category_id: 1, level: nil, position: 3 },
-                      conditions: [ { id: "1", position: "1" }, { id: "2", position: "2" } ] }
+                       conditions: [ { id: "1", position: "1" }, { id: "2", position: "2" } ] }
       end
       it "sets the category to be the chosen category" do
         expect(assigns(:category)).to eq(autos)
@@ -105,7 +106,7 @@ describe Admin::ConditionsController do
         ConditionsManager.any_instance.should_receive(:add_or_update_condition).and_return(false)
         spec_signin_user(jen)
         post :create, { condition: { category_id: 1, level: "average", position: 1 },
-                      conditions: [ { id: "1", position: "1" }, { id: "2", position: "2" } ] }
+                       conditions: [ { id: "1", position: "1" }, { id: "2", position: "2" } ] }
       end
       it "flashes an error message" do
         expect(flash[:error]).to be_present

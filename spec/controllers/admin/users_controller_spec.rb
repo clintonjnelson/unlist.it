@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Admin::UsersController do
+  let!(:settings) { Fabricate(:setting) }
   let(:joe_admin) { Fabricate(:admin) }
   let!(:jim) { Fabricate(:user) }
   let!(:jen) { Fabricate(:user) }

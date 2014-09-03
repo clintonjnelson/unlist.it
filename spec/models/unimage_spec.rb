@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Unimage do
+  let!(:settings) { Fabricate(:setting) }
+
 
   it { should belong_to(:unlisting) }
 

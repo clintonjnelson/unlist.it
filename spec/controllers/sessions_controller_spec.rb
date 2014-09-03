@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe SessionsController do
+  let!(:settings) { Fabricate(:setting) }
 
   describe "POST create" do
     let(:jen) { Fabricate(:user) }

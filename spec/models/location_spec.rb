@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe Location, :vcr do
+  let!(:settings) { Fabricate(:setting) }
+
+
   it { should have_many(:users) }
 
   context "with zipcode provided" do
