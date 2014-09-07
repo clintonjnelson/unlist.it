@@ -1,8 +1,8 @@
 class MessagesManager
   attr_reader :user, :safeguest, :success, :type, :sender_type, :sender_status, :error_message, :flash_success, :flash_notice, :message
-  def initialize(options={}) #receives unlisting_id & reply
-    @unlisting_id  = options[:unlisting_id]
-    @parent_msg_id = options[:parent_msg_id]
+  def initialize(options={}) #receives reply & unlisting_slug
+    @unlisting_slug  = options[:unlisting_slug]
+    @parent_msg_id   = options[:parent_msg_id ]
   end
 
 
@@ -57,6 +57,10 @@ class MessagesManager
         elsif @safeguest && @safeguest.blacklisted? #if has been blacklisted
           @flash_notice = "Your account is currently suspended from use.
                            If you believe this to be in error, please contact Unlist."
+          @success      = false
+
+        elsif @safeguest && creator_restricts_safeguests?
+          @flash_notice = "Sorry, the creator of this unlist only allows contact by other Unlist.it users."
           @success      = false
 
         elsif @safeguest && safeguest_message_allowed? #if allowed to message
@@ -134,7 +138,7 @@ class MessagesManager
 
   # DETERMINE MESSAGE TYPE
   def unlisting_message?
-    @unlisting_id.present? && !@reply
+    @unlisting_slug.present? && !@reply
   end
 
   def reply_message?
@@ -151,11 +155,18 @@ class MessagesManager
   end
 
   #PERMISSIONS
+  def creator_restricts_safeguests?
+    @unlisting = Unlisting.find_by(slug: @unlisting_slug)
+    value      = UserPolicy.new(@unlisting.creator).safeguest_contact_allowed?
+    !value
+  end
+
   def user_message_allowed?
     @user_message_allowed ||= UserPolicy.new(user: @sender_user).messages_allowed?
     # False should pass back an error with message for flash
   end
 
+  #CHANGE THE NAME OF THIS ONE TO CLARIFY IT FROM USERS ALLOWING SAFEGUEST MESSAGES.
   def safeguest_message_allowed?
     @safeguest_message_allowed ||= UserPolicy.new(safeguest: @safeguest).messages_allowed?
     # False should pass back an error with message for flash
@@ -177,7 +188,7 @@ class MessagesManager
   #SETTING UP MESSAGES
   def unlisting_message_setup(content, contact_email=nil)
     @message = Message.new(content: content, contact_email: contact_email)
-    @unlisting  = Unlisting.find_by(slug: @unlisting_id) #######SLUGGING VERIFY THIS WORKS!!!
+    @unlisting  = Unlisting.find_by(slug: @unlisting_slug) #######SLUGGING VERIFY THIS WORKS!!!
     if @unlisting
       @message.subject     = "RE: " + @unlisting.title
       @message.recipient   = @unlisting.creator

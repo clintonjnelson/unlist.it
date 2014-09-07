@@ -15,10 +15,15 @@
       -if signed_in? && creator?(@unlisting)
         =@unlisting.creator.decorator.avatar_image_tag(60)
         %p= link_to "[edit unlisting]", edit_user_unlisting_path(current_user, @unlisting), class: 'contact-buyer-link'
-      -else
+      -elsif signed_in? || @allow_safeguest
         =link_to unlisting_show_message_form_path(@unlisting), remote: true, class: 'contact-buyer-link' do
           =@unlisting.creator.decorator.avatar_image_tag(60)
         %p= link_to "[contact buyer]", unlisting_show_message_form_path(@unlisting), remote: true, class: 'contact-buyer-link'
+      -else
+        =@unlisting.creator.decorator.avatar_image_tag(60)
+        %p
+          %small [User Contact Only]
+
 
     -if @unlisting.unimages.present? || @unlisting.link_image.present?
       .galleria
@@ -42,7 +47,12 @@
     %p= "Looking for:  #{ @unlisting.title       }"
     %p= "Description:  #{ @unlisting.description }"
     %ul.unlisting-top-details
-      %li= "Pay up to: #{ number_to_currency(@unlisting.price, precision: 0) }"
+      -if @unlisting.price == 0
+        %li
+          Pay up to:
+          %span.green-color [Community Recycle]
+      -else
+        %li= "Pay up to: #{ number_to_currency(@unlisting.price, precision: 0) }"
       %li= "Condition: #{ @unlisting.condition.level                         }"
       %li
         Location:

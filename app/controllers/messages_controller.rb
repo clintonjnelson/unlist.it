@@ -15,8 +15,8 @@ class MessagesController < ApplicationController
     @unlisting      = Unlisting.find_by(slug: params[:unlisting_id ]) if params[:unlisting_id]
     @parent_message = Message.find(           params[:parent_msg   ]) if params[:parent_msg]
 
-    msg_response    = MessagesManager.new(unlisting_id: params[:unlisting_id ],
-                                         parent_msg_id: params[:parent_msg])
+    msg_response    = MessagesManager.new(unlisting_slug: params[:unlisting_id ],
+                                         parent_msg_id:   params[:parent_msg])
 
     msg_response.send_message( contact_email: message_params[:contact_email],
                                  sender_user: current_user,

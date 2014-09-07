@@ -38,11 +38,11 @@
         /   =link_to '#', { role: 'menuitem', tabindex: "-1" } do
         /     %i.icon-plus
         /     Add Stuff
-    %div= link_to 'news/blog',       blogs_path,                             { role: 'menuitem', tabindex: "-1" }
+    //%div= link_to 'news/blog',       blogs_path,                             { role: 'menuitem', tabindex: "-1" }
     %div= link_to 'feedback',        user_feedback_path(current_user),       { role: 'menuitem', tabindex: "-1" }
     %div= link_to 'send invitation', new_user_invitation_path(current_user), { role: 'menuitem', tabindex: "-1" }
 
   -else
-    %div= link_to 'news/blog',       blogs_path,          { role: 'menuitem', tabindex: "-1" }
+    //%div= link_to 'news/blog',       blogs_path,          { role: 'menuitem', tabindex: "-1" }
     %div= link_to "getting started", gettingstarted_path, { role: 'menuitem', tabindex: "-1" }
 

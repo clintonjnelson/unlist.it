@@ -53,6 +53,8 @@ class UnlistingsController < ApplicationController
   end
 
   def show #Loads: @unlisting
+    ## UPDATE SPECS FOR @allow_safeguest VARIABLE
+    @allow_safeguest = UserPolicy.new(user: @unlisting.creator).safeguest_contact_allowed?
     @message = Message.new
   end
 
