@@ -3,9 +3,9 @@ require 'spec_helper'
 
 
 describe MessagesController, :vcr do
-  let!(:settings)       { Fabricate(:setting) }
-  let(:jen)             { Fabricate(:user) }
-  let(:jens_unlisting)  { Fabricate(:unlisting, creator: jen) }
+  let!(:settings     ) { Fabricate(:setting) }
+  let(:jen           ) { Fabricate(:user   ) }
+  let(:jens_unlisting) { Fabricate(:unlisting, creator: jen) }
   #before { request.env["HTTP_REFERER"] = "where_i_came_from" }
 
   #REFACTOR IN THE QUERY OBJECT SPEC

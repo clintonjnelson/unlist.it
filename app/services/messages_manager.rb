@@ -157,7 +157,7 @@ class MessagesManager
   #PERMISSIONS
   def creator_restricts_safeguests?
     @unlisting = Unlisting.find_by(slug: @unlisting_slug)
-    value      = UserPolicy.new(@unlisting.creator).safeguest_contact_allowed?
+    value      = UserPolicy.new(user: @unlisting.creator).safeguest_contact_allowed?
     !value
   end
 

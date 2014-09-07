@@ -7,6 +7,7 @@ describe PreferencesController do
   let!(:jen)      { Fabricate(:user   ) }
 
   describe "PATCH update" do
+    before { spec_signin_user(jen) }
 
     context "for an update to the hit_notifications " do
       context "from on to off" do
