@@ -1,10 +1,14 @@
 class UserPolicy
   attr_reader :user
   def initialize(options={}) #could be a user or a safeguest
-    @user      = options[:user]
+    @user      = options[:user     ]
     @safeguest = options[:safeguest]
   end
 
+
+  def hit_notifications_on? #User Preference
+    @user.preference.hit_notifications ? true : false
+  end
 
   def messages_allowed?
     if @user && !@user.confirmed? #|| @user.blacklisted? ...or maybe .suspended?)
@@ -16,5 +20,9 @@ class UserPolicy
     else
       true
     end
+  end
+
+  def safeguest_contact_allowed? #User Preferences
+    @user.preference.safeguest_contact ? true : false
   end
 end

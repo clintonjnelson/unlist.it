@@ -1,6 +1,16 @@
 class UnlistMailer < ActionMailer::Base
   default from: "info@unlist.it"
 
+  def hit_notification_email(unlisting_id, contacter_type)
+    @unlisting = Unlisting.find(unlisting_id)
+    @user      = @unlisting.creator
+    @contacter = contacter_type
+    use_developer_email_if_in_staging
+    mail(to: @user.email,
+         from: 'info@unlist.it',
+         subject: "You've Been Contacted On An Unlisting")
+  end
+
   def invitation_email(invitation_id)
     @invitation = Invitation.find(invitation_id)
     @user       = @invitation.sender
@@ -26,6 +36,14 @@ class UnlistMailer < ActionMailer::Base
          subject: 'Unlist Password Changed')
   end
 
+  def questionaire_email(user_id)
+    @user = User.find(user_id)
+    use_developer_email_if_in_staging
+    mail(to: @user.email,
+         from: 'clintonjnelson@live.com',
+         subject: "Unlist Testing - Feedback Questions")
+  end
+
   def registration_confirmation_email(user_id)
     @user = User.find(user_id)
     use_developer_email_if_in_staging
@@ -48,14 +66,6 @@ class UnlistMailer < ActionMailer::Base
     mail( to: @user.email,
           from: 'info@unlist.it',
           subject: 'Welcome to Unlist!')
-  end
-
-  def questionaire_email(user_id)
-    @user = User.find(user_id)
-    use_developer_email_if_in_staging
-    mail(to: @user.email,
-         from: 'clintonjnelson@live.com',
-         subject: "Unlist Testing - Feedback Questions")
   end
 
 private

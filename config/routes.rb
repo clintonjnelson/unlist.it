@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   post    '/search_radius',               to: 'searches#set_search_radius'
 
 
+  resources :blogs,                     only: [:index]
   resources :reset_passwords,           only: [:create, :show]
   resources :sessions,                  only: [:create]
 
@@ -53,6 +54,7 @@ Rails.application.routes.draw do
     resources :invitations,             only: [:new, :create]
     resources :messages,                only: [:new, :create, :show, :index] #INDEX specific to user browsing own items
     get       '/feedback',                to: 'messages#new_feedback'
+    resources :preferences,             only: [:update]
     resources :questionaires,           only: [:edit, :update]
     get       '/email_questionaire',      to: 'questionaires#questionaire_email'
     resources :unlistings,            except: [:index]
@@ -63,6 +65,7 @@ Rails.application.routes.draw do
 
 
   namespace :admin do
+    resources :blogs,                   only: [:new, :create, :edit, :update, :destroy]
     resources :categories
     resources :conditions,              only: [:new, :create, :edit, :update, :destroy]
     resources :settings,                only: [:edit, :update]

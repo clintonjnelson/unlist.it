@@ -16,9 +16,9 @@
     .col-xs-3
       #unlistuserbox
         -if signed_in?
-          =link_to user_path(current_user) do
+          =link_to edit_user_path(current_user) do
             =current_user.decorator.avatar_image_tag(55)
-          %p=link_to "#{current_user.username.capitalize}", user_path(current_user)
+          %p=link_to "#{current_user.username.capitalize}", edit_user_path(current_user)
           =link_to "signout", signout_path, class: "btn btn-default btn-small"
         -else
           =form_tag sessions_path do |f|

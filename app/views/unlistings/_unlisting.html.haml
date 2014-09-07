@@ -8,7 +8,8 @@
       -elsif unlisting.unimages.present?
         =image_tag(unlisting.unimages.first.filename.url(:thumb_unimage), class: 'thumbnail-80')
       -else
-        =unlisting.creator.decorator.avatar_image_tag(60)
+        //Don't display anything for now - later a generic unlist image holder
+        -#=unlisting.creator.decorator.avatar_image_tag(60)
     =link_to "#{ unlisting.title }", unlisting_path(unlisting)
   %p
     %ul
@@ -17,14 +18,18 @@
         %span= link_to "#{ unlisting.link }", url: "unlisting.link"
       %li= "Description: #{ unlisting.description.truncate(45) }"
       %li= "Condition: #{ unlisting.condition.level }"
-      %li= "Pay up to: #{ number_to_currency(unlisting.price, precision: 0) }"
+      //REPLACE WITH DECORATOR TO AVOID EXCESS LOGIC; TURN COLOR GREEN IF IS "COMMUNITY RECYCLE"
+      -if unlisting.price == 0
+        %li
+          Pay up to:
+          %span.green-color [Community Recycle]
+      -else
+        %li= "Pay up to: #{ number_to_currency(unlisting.price, precision: 0) }"
       %li
         ="Posted: #{ time_ago_in_words(unlisting.created_at) } ago "
         -if signed_in? && creator?(unlisting)
           %small &nbsp|
           %small= link_to " [delete]", user_unlisting_path(unlisting.creator.id, unlisting.id), method: 'delete'
-        -else
-          %small= link_to "[contact buyer]", unlisting_path(unlisting)
 
       -if unlisting.parent_messages.present? && signed_in? && (unlisting.creator.id == current_user.id)
 

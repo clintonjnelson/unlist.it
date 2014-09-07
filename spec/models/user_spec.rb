@@ -12,6 +12,7 @@ describe User do
   it { should have_many(:unimages              ) }
   it { should have_many(:sent_messages         ) }
   it { should have_many(:received_messages     ) }
+  it { should have_one( :preference            ) }
 
   it { should validate_presence_of(  :email   ) }
   it { should validate_uniqueness_of(:email   ) }
@@ -37,6 +38,16 @@ describe User do
     let(:jen) { Fabricate(:user) }
     it 'sets the initial created_at time to an expired time' do
       expect(jen.prt_created_at).to be < 2.hours.ago
+    end
+  end
+
+  describe 'set_initial_preferences' do
+    let!(:jen) { Fabricate(:user) }
+    it 'sets the hit_notifications preference to true' do
+      expect(jen.preference.hit_notifications).to be_true
+    end
+    it 'sets the safeguest_contact preference to true' do
+      expect(jen.preference.safeguest_contact).to be_true
     end
   end
 

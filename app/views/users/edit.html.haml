@@ -1,8 +1,6 @@
 .row#userbox.col-xs-8
-  #editusercontent.well
-    %h2= "Edit #{@user.username.capitalize}'s Account Settings"
-    %hr.hr-lg-dashed
-
+  .editusercontent.well
+    %h2= "#{@user.username.capitalize}'s Account"
     #changedefaultlocation
       -#This area is similar to 'shared/quicksearch' partial
       %h5#user-location-area
@@ -11,10 +9,20 @@
           =" #{@user.location.city.capitalize}, #{@user.location.state.upcase}"
         =link_to "[Change Default Location]", user_location_modal_path(@user), { remote: true, data: { toggle: 'modal', target: '#modal-location'} }
       #modal-location.modal.fase(role='dialog' aria-labelledby='userLocation' aria-hidden='true')
-    %br
-    %br
 
 
+  .editusercontent.well
+    %h4.text-muted Account Preferences
+    %hr
+    =bootstrap_form_for [current_user, @user.preference] do |p|
+      =p.check_box :hit_notifications, label: "Hit Notifications via Email"
+      =p.check_box :safeguest_contact, label: "Allow safeguests to contact me"
+      =p.submit "Update Preferences",  class: "btn btn-primary"
+
+
+  .editusercontent.well
+    %h4.text-muted Account Settings
+    %hr
     -if @user.avatar.present?
       =link_to @user.avatar_url :full_avatar do
         =image_tag(@user.avatar_url :thumb_avatar)
@@ -27,12 +35,10 @@
       =f.file_field   :avatar, label: "Upload A New Profile Pic"
       =f.hidden_field :avatar_cache
       %br
-      %hr
 
-      %p
-        %em
-          %small Note: Changing your default email will change your login email too!
       =f.text_field     :username, label: "Change Username:"
-      =f.email_field    :email,    label: "Default Email:"
+      =f.label          :email, "Default Email:"
+      %small (Changing your default email will change your LOGIN email too!)
+      =f.email_field    :email,    hide_label: true
       =f.password_field :password, label: "New Password:"
-      =f.submit "Save Changes", class: "btn btn-primary", data: { confirm: "Note: If you changed your email address, the email you login with will change to this new email address." }
+      =f.submit "Update Settings", class: "btn btn-primary", data: { confirm: "Note: If you changed your email address, the email you login with will change to this new email address." }

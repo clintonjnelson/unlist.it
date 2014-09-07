@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   has_many   :unlistings
   has_many   :unimages
   has_one    :questionaire
+  has_one    :preference
 
   # External Forces
   has_secure_password
@@ -20,6 +21,7 @@ class User < ActiveRecord::Base
   before_validation :set_user_location_to_default,               on: :create
   before_validation :set_initial_invitations_to_settings_ration, on: :create
   before_save       :toggle_avatar_use_with_changes
+  after_save        :make_user_preferences
 
   # Validations
   validates :email,    email:    true
@@ -49,6 +51,10 @@ class User < ActiveRecord::Base
 
   def set_initial_prt_created_at
     self.prt_created_at = 1.month.ago #for security
+  end
+
+  def make_user_preferences
+    self.create_preference
   end
 
   def set_user_location_to_default

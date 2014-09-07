@@ -25,6 +25,7 @@ class MessagesManager
 
             if @message.save #try to save message or return an alert
               @flash_success = "Message Sent!"
+              hit_notification_email(@unlisting, @sender_type)
               @success       = true #Success. Could return the message? Need to redirect to @unlisting.
             else
               @error_message = "Message could not be sent. Please fix errors & try again."
@@ -48,6 +49,7 @@ class MessagesManager
 
       elsif from_guest?(@contact_email) #if from a guest
         @safeguest   = Safeguest.where(email: @contact_email).take
+        @sender_type = "Safeguest"
 
         if @safeguest.blank? #if email not on list
           invite_new_safeguest(@contact_email) #invite guest
@@ -63,6 +65,7 @@ class MessagesManager
 
             if @message.save #try to save message or return an alert
               @flash_success = "Message Sent!"
+              hit_notification_email(@unlisting, @sender_type)
               @success       = true #Success. Could return the message? Need to redirect to @unlisting.
             else
               @error_message = "Message could not be sent. Please fix errors & try again."
@@ -162,6 +165,10 @@ class MessagesManager
     message_params[:contact_email].present? && !@safeguest.confirmed?
   end
 
+  def hit_notifications_allowed?(creator)
+    UserPolicy.new(user: creator).hit_notifications_on?
+  end
+
   #RETURN VALUE METHODS
   def successful?
     @success
@@ -211,7 +218,12 @@ class MessagesManager
     end
   end
 
-  #TAKING ACTION
+  def hit_notification_email(unlisting, type)
+      #UnlistMailer.delay.hit_notification_email(unlisting.id, type) if hit_notifications_allowed?(unlisting.creator)
+      UnlistMailer.hit_notification_email(unlisting.id, type).deliver if hit_notifications_allowed?(unlisting.creator)
+  end
+
+  #INVITE USER TO UNLIST OR PROMPT TO FIX ERRORS
   def invite_new_safeguest(contact_email)
     @safeguest = Safeguest.new(email: contact_email)
     if @safeguest.save
