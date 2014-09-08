@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  #Version 0.7 (Alpha) --users will have role "Alpha"
   #User slugs itself due to complexities with setting initial username
 
   belongs_to :location
@@ -17,6 +18,8 @@ class User < ActiveRecord::Base
 
   # Callbacks
   before_create     :set_initial_prt_created_at
+  before_create     :set_alpha_role #THIS WILL CHANGE TO BETA, & THEN BE REMOVED UPON FULL RELEASE
+  before_create     :make_alpha_questionaire
   before_validation :generate_and_check_username,                on: :create
   before_validation :set_user_location_to_default,               on: :create
   before_validation :set_initial_invitations_to_settings_ration, on: :create
@@ -42,6 +45,16 @@ class User < ActiveRecord::Base
     end
     self.username = name
     self.slug     = name
+  end
+
+  #ALPHA ONLY
+  def set_alpha_role #WILL CHANGE TO BETA
+    self.role = "alpha" #WILL CHANGE TO BETA
+  end
+
+  #ALPHA ONLY
+  def make_alpha_questionaire #WILL CHANGE TO BETA
+    self.create_questionaire
   end
 
   def set_initial_invitations_to_settings_ration

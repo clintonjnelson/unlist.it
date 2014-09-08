@@ -2,7 +2,7 @@
 #headerbar.container
   .row
     .col-xs-3#unlisticonbox
-      -if signed_in?
+      -if signed_in? && current_user.role == ("alpha" || "beta")
         =link_to "ALPHA", edit_user_questionaire_path(current_user, 1), class: 'unlist-version' #path to questionaire
       -else
         %h6.unlist-version ALPHA
