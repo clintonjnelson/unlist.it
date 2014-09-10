@@ -10,19 +10,15 @@
     %h2= "Search results for '#{ @search_string }' in #{ @search_category == '0' ? "all categories" : @search_category.name } found #{pluralize(@search_results.total_entries, 'unlisting')}"
     %hr.hr-lg-solid
 
-    -if @search_results.blank?
-      / -elsif @search_results.count == 1
-      /   =render partial: 'unlistings/unlisting', collection: @search_results, as: :unlisting
-    -else
-      .infinite-search-results
-        =render partial: 'unlistings/unlisting', collection: @search_results, as: :unlisting
-      =link_to "load more results", search_unlistings_path(category_id: @search_category, keyword: @search_string, page: @search_results.next_page), {method: 'post', class: 'infinite-load-post', remote: (true if @search_results.next_page)}
+    .infinite-search-results
+      =render partial: 'unlistings/unlisting', collection: @search_results, as: :unlisting
+    =link_to "load more results", search_unlistings_path(category_id: @search_category, keyword: @search_string, page: @search_results.next_page), {method: 'post', class: 'infinite-load-post', remote: (true if @search_results.next_page)}
 
-      -#Former approach of loading the results to display by category
-      / -category_array(@search_results).each do |category|
-      /   %h3#category-heading= link_to "#{category.name}", browse_category_path(category_id: "#{category.id}")
-      /   %hr.hr-xs-solid
+    -#Former approach of loading the results to display by category
+    / -category_array(@search_results).each do |category|
+    /   %h3#category-heading= link_to "#{category.name}", browse_category_path(category_id: "#{category.id}")
+    /   %hr.hr-xs-solid
 
-      /     =render partial: 'unlistings/unlisting', collection: @search_results.select{|item| item.category.id == category.id}, as: :unlisting
-      /     =link_to "load more results", search_unlistings_path(category_id: category.id, keyword: @search_string, load_more_page: true), class: 'click-load', remote: true if @search_results.next_page
+    /     =render partial: 'unlistings/unlisting', collection: @search_results.select{|item| item.category.id == category.id}, as: :unlisting
+    /     =link_to "load more results", search_unlistings_path(category_id: category.id, keyword: @search_string, load_more_page: true), class: 'click-load', remote: true if @search_results.next_page
 

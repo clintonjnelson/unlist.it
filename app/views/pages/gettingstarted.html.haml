@@ -9,15 +9,19 @@
 
   %h4.text-muted How To Begin
   %ol
-    %li=link_to 'Sign up', signup_path, target: '_blank'
-    %li Confirm your email via the link we'll email you
+    %li
+      =link_to 'Sign up', signup_path, target: '_blank'
+      %small.text-muted (If you've already done this, skip ahead)
+    %li
+      Confirm your email via the link we'll email you
+      %small.text-muted (If you've already done this, skip ahead)
   %br
   %br
 
   %h4.text-muted Setup Your Unlist
   %ol
     %li
-      Think of a bunch of stuff you're looking to buy/get.
+      Think of a bunch of stuff you're looking to buy.
       %br This will be your unlist.
       %em ("un" as in "do-not-yet-have")
     %br
@@ -27,7 +31,7 @@
       %em (When signed in, this is found under the Unlist tab => "+add unlisting")
       %ul
         %li Choose example website & photo
-        %li Even upload up to 6 images (drag & drop enabled)
+        %li Upload up to 6 images (drag & drop enabled)
         %li Choose good keywords - used for primary search
       %br
     %li
@@ -38,8 +42,7 @@
   %h4.text-muted Other ways to use Unlist
   %ol
     %li Search Unlist.it to see if anyone is interested in things you have
-    %li Sell to a local Unlister unlisting for things you have
-    %li Search Unlist.it to scope pricing demanded by buyers
+    %li Search Unlist.it to scope pricing demanded by unlisters(buyers)
     %li
       =link_to "Community Recycle", faq_path(anchor: "q7")
       things that others want to promote sustainable living
