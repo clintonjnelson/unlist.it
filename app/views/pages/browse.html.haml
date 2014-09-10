@@ -16,7 +16,10 @@
 //-#GOOD CANDIDATE FOR DECORATOR
 .row.col-xs-8.well#browse-unlistings
   -if @unlistings.present?
-    =render @unlistings
+    .infinite-unlistings
+      =render @unlistings
+    -# Add infinite-scrolling
+    =link_to "load more unlistings", browse_category_path(@category, page: @unlistings.next_page), class: 'infinite-load', remote: true if @unlistings.next_page
   -elsif !defined?(@unlistings)
     %p Please select a category above.
   -else

@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   # External Forces
   has_secure_password
   mount_uploader    :avatar, AvatarUploader
+  self.per_page  =  20
 
   # Callbacks
   before_create     :set_initial_prt_created_at
@@ -114,10 +115,8 @@ class User < ActiveRecord::Base
   end
 
   def all_msgs_sent_received
-    messages_array = []
-    messages_array << self.received_messages
-    messages_array << self.sent_messages
-    messages_array.flatten.uniq.sort.reverse.select{|m| ((m.messageable_type != "Message") && (m.deleted_at == nil))} #NOT replies
+    Message.where([ "sender_id = :sender OR recipient_id = :recipient", { sender: self.id, recipient: self.id } ]).active.where.not("messageable_type = 'Message'").order('created_at DESC')
+    # self.received_messages.push(self.sent_messages).flatten.uniq.sort.reverse.select{|m| ((m.messageable_type != "Message") && (m.deleted_at == nil))} #NOT replies
   end
 
   # Maybe move this to UserPolicy... or InvitationPolicy?

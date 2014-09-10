@@ -11,4 +11,7 @@
         -else
           all messages
       .hr-xs-solid
-      =render(@messages) || "No messages to display."
+      .infinite-messages
+        =render(@messages) || "No messages to display."
+      =link_to "load more messages", user_messages_path(current_user, type: params[:type], page: @messages.next_page), class: "infinite-load", remote: true if @messages.next_page
+

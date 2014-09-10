@@ -1,0 +1,6 @@
+-# PAGINATED Unlistings-Browse VIA JS/RAILS-AJAX
+$('.infinite-unlistings').append(" #{ escape_javascript(render @unlistings) } ");
+$('a.infinite-load').attr('href', "#{ browse_category_path(@category, page: @unlistings.next_page) } ");
+
+-unless @unlistings.next_page
+  $('a.infinite-load').remove();

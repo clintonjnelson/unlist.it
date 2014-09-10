@@ -48,8 +48,12 @@ class UnlistingsController < ApplicationController
 
   def index_by_category #for Browse Page Results
     @categories = Category.order('name ASC').all
-    @unlistings = Category.find(params[:category_id]).unlistings.active
-    render 'pages/browse'
+    @category   = Category.find(params[:category_id])
+    @unlistings = @category.unlistings.active.paginate(page: params[:page])
+    respond_to do |format|
+      format.html { render 'pages/browse' }
+      format.js   { render 'pages/browse.js.haml' }
+    end
   end
 
   def show #Loads: @unlisting

@@ -10,8 +10,11 @@ class SearchesController < ApplicationController
                                                          radius: session[:search_radius ],
                                                            city: session[:search_city   ],
                                                           state: session[:search_state  ],
-                                                        zipcode: session[:search_zipcode] )
-    render 'search'
+                                                        zipcode: session[:search_zipcode] ).paginate(page: params[:page])
+    respond_to do |format|
+      format.html { render 'search' }
+      format.js   { render 'search' } #for pagination
+    end
   end
 
   ################################ SEARCH RADII## ##############################
@@ -117,4 +120,45 @@ class SearchesController < ApplicationController
     session[:search_latitude   ] = location.latitude
     session[:search_longitude  ] = location.longitude
   end
+
+
+
+  #####PAGINATING THE SEARCH RESULTS FOR MULTIPLE CATEGORIES#######
+  ####ISSUE IS THAT STILL NEED TO BE ABLE TO LOAD MORE RESULTS FOR AN INDIVIDUAL CATEGORY
+  ####BUT WHAT IF NO MORE RESULTS TO LOAD? SOUNDS LIKE A MESS OF CONDITIONALS FOR LOADING.
+  ####It should break up the results into sections based on category_id
+  ####Each of the tabs should be able to pull more results as necessary for that category
+  ####it should load only the sections that the user clicks on - NOT INFINITE LOADING
+
+  ####FROM CONTROLLER:
+
+  # THIS SETS UP THE PARAMS BECAUSE IT WILL HAVE LOADED THE FIRST ALREADY AS THE LARGE ARRAY, NOT INDIVIDUALLY
+    # params_page = ( (params[:load_more_pages].nil? ? params[:page] : (params[:page]) ) #THINK I NEED A +1 HERE!!
+  # THIS SETS UP THE RESULTS LIMITED TO 3 PER CATEGORY USING THE INSTANCE METHODS BELOW.
+    # If 0, should break up into results per category for loading pagination by category
+    # if @search_category == "0"
+    #   @search_results = build_paginated_results(@search_results, 3)
+    # end
+
+  # def build_paginated_results(initial_results, limit=10)
+  #   build_category_array(initial_results).each do |category|
+  #     final_results.push(initial_results.select{ |item| item.category.id == category.id }.first(limit))
+  #   end
+  #   final_results
+  # end
+
+  # def build_category_array(unlistings_set)
+  #   category_array = []
+  #   unlistings_set.each do |unlisting|
+  #     category_array.push(unlisting.category) #unless unlisting.category.nil? #MAKE THIS ARRAY.NEW
+  #   end
+  #   category_array.sort.uniq
+  # end
+
+  ####FROM VIEW
+    # Attempting to have a way to get at having link id available & ability to append to a specific class by category_id
+      # %div{class: "search-category-#{category.id}", data: { category: category.id } }
+
+    #Started on the link
+      #=link_to "load more results", search_unlistings_path(category_id: category.id, keyword: @search_string, load_more_page: true), class: 'click-load', remote: true if @search_results.next_page
 end

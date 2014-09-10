@@ -13,7 +13,6 @@ class Unlisting < ActiveRecord::Base
   # Callbacks
 
 
-
   # Scopes to filter query results
   scope       :active,    -> { where inactive: [false, nil]  }
   scope       :inactive,  -> { where inactive: true  }
@@ -21,8 +20,7 @@ class Unlisting < ActiveRecord::Base
 
 
   # Validations
-  validates_presence_of  :title, :description, :keyword1,
-                         :condition_id, :category_id, :user_id#, :travel
+  validates_presence_of  :title, :description, :keyword1, :condition_id, :category_id, :user_id#, :travel
   validates   :keyword2, presence: true, allow_blank: true
   validates   :keyword3, presence: true, allow_blank: true
   validates   :keyword4, presence: true, allow_blank: true
@@ -30,6 +28,8 @@ class Unlisting < ActiveRecord::Base
                               url: true, allow_blank: true
   validates   :price,    numericality: { only_integer: true }
 
+  #Exernal Forces
+  self.per_page = 20
 
 
   def parent_messages

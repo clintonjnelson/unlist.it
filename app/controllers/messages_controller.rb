@@ -32,16 +32,25 @@ class MessagesController < ApplicationController
   def index
     ###FIRST THING: MOVE THIS TO MODEL SO IT RETURNS WHAT YOU WANT FOR @message. Set @message that way!
     case params[:type]
+      when 'contact'
+        @messages = []
+      when 'feedback'
+        @messages = []
       when 'hits'
-        @messages = current_user.received_messages.active.select{|m| (m.messageable_type == "Unlisting") } #NOT replies
+        @messages = current_user.received_messages.active.where("messageable_type = 'Unlisting'").paginate(page: params[:page]) #NOT replies
+      when 'joined'
+        @messages = []
       when 'received'
-        @messages = current_user.received_messages.active.select{|m| (m.messageable_type != "Message") } #NOT replies
+        @messages = current_user.received_messages.active.where.not("messageable_type = 'Message'").paginate(page: params[:page]) #NOT replies
       when 'sent'
-        @messages = current_user.sent_messages.active.select{|m| (m.messageable_type != "Message") } #NOT replies
+        @messages = current_user.sent_messages.active.where.not("messageable_type = 'Message'").paginate(page: params[:page]) #NOT replies
       else
-        @messages = current_user.all_msgs_sent_received
+        @messages = current_user.all_msgs_sent_received.paginate(page: params[:page])
     end
-    render 'index'
+
+    respond_to do |format|
+      format.any(:html, :js) { render 'index' }
+    end
   end
 
 

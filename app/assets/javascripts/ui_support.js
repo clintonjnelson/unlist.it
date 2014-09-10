@@ -4,6 +4,22 @@ $(document).on("click", ".modal-close", function() {
   $(".modal.in").modal('hide');
 });
 
+//Infinite Scrolling
+$(document).on('ready, page:change', function(){
+  var loading_stuff = false;
+  $('a.infinite-load-post').on('inview', function(e, visible){
+    if(loading_stuff || !visible) {
+      return;
+    }
+    loading_stuff = true;
+    $.ajax({
+      url: $(this).attr('href'),
+      method: "post",
+      dataType: "script"
+    });
+    loading_stuff = false;
+  });
+});
 
 
 //////////////////////// ADD UNLISTING /////////////////////////
@@ -15,6 +31,21 @@ $(document).on("click", "#image_links_use_thumb_image", function() {
 
 
 //////////////////////// UNLISTING RESPONSE /////////////////////////
+//Infinite Scrolling
+$(document).on('ready, page:change', function(){
+  var loading_stuff = false;
+  $('a.infinite-load').on('inview', function(e, visible){
+    if(loading_stuff || !visible) {
+      return;
+    }
+    loading_stuff = true;
+    $.getScript($(this).attr('href'), function(){
+      loading_stuff = false;
+    });
+  });
+});
+
+
 //Tabbed interface for Unlistings display
 $(function() {
   $("#tabs").tabs();

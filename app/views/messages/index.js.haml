@@ -1,0 +1,7 @@
+-# PAGINATED Message LOADING VIA JS/RAILS-AJAX
+$('.infinite-messages').append(" #{ escape_javascript( render @messages ) } ");
+
+$('a.infinite-load').attr('href', "#{ user_messages_path(current_user, type: params[:type], page: @messages.next_page) } ");
+
+-unless @messages.next_page
+  $('a.infinite-load').remove();

@@ -1,6 +1,6 @@
 class Message < ActiveRecord::Base
   include Sluggable
-    sluggable_type :number, 15 #15 digit random number
+    sluggable_type :number, 15 #Use a 15-digit random number
 
   belongs_to :messageable, polymorphic: true #unlisting & user
   belongs_to :recipient,   foreign_key: 'recipient_id', class_name: 'User'
@@ -12,6 +12,7 @@ class Message < ActiveRecord::Base
   scope   :initialresponse, -> { where messageable_type: 'Unlisting'  }
   scope   :reply_filter,    -> { where messageable_type: 'Message' }
 
+  # Validations
   validates :messageable_type,  presence: true
   validates :messageable_id,    presence: true
   validates :recipient_id,      presence: true
@@ -19,6 +20,10 @@ class Message < ActiveRecord::Base
   validates :content,           presence: true
   validates_presence_of :sender_id,     unless: 'self.contact_email.present?'
   validates_presence_of :contact_email, unless: 'self.sender_id.present?'
+
+  # External Forces
+  self.per_page = 20
+
 
 
   def replies
