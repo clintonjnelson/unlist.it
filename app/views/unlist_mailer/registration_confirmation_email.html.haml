@@ -2,14 +2,14 @@
 %html(lang="en-US")
   %body
     %h3="Thank you for registering to join Unlist.it!"
-    %br= "We need to confirm that you're a real person, and you can do so by clicking the link below."
+    %br= "We need to confirm that you're a real person. You can do so by clicking the link below."
     %hr
     %br
-    %p Just click this link and your registration will be complete:
+    %p Click this link and your registration will be complete:
     %p= link_to "CONFIRM MY EMAIL", userconfirmation_url(@user.tokens.first.token)
     %br
 
-    %p Alternatively, you can paste this link text into your browser address bar:
+    %p Alternatively, you can paste this link into your browser address bar:
     %p= link_to "#{userconfirmation_url(@user.tokens.first)}", userconfirmation_url(@user.tokens.first.token)
     %br
 
