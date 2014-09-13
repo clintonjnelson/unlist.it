@@ -11,7 +11,7 @@
     %ul.dropdown-menu.scrollable-menu(role='menu' aria-labelledby='browseCategoriesMenu')
       -@categories.each do |category|
         %li(role='presentation')
-          =link_to "#{category.name}", browse_category_path(category_id: category.id), { role: 'menuitem', tabindex: "-1" }
+          =link_to "#{category.name}", browse_category_path(category), { role: 'menuitem', tabindex: "-1" }
 
 //-#GOOD CANDIDATE FOR DECORATOR
 .row.col-xs-8.well#browse-unlistings

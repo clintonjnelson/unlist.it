@@ -7,7 +7,7 @@ describe InvitationsController do
     after { ActionMailer::Base.deliveries.clear }
 
     context "with valid email & available invitations" do
-      let!(:jen)        { Fabricate(:user, invite_count: 4) }
+      let!(:jen) { Fabricate(:user, invite_count: 4) }
       before do
         spec_signin_user(jen)
         Sidekiq::Testing.inline! do

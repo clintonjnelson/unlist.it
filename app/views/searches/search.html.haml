@@ -12,7 +12,7 @@
 
     .infinite-search-results
       =render partial: 'unlistings/unlisting', collection: @search_results, as: :unlisting
-    =link_to "load more results", search_unlistings_path(category_id: @search_category, keyword: @search_string, page: @search_results.next_page), {method: 'post', class: 'infinite-load-post', remote: (true if @search_results.next_page)}
+    =link_to "load more results", search_unlistings_path(category_id: @search_category, keyword: @search_string, page: @search_results.next_page), class: 'infinite-load-post', remote: true if @search_results.next_page
 
     -#Former approach of loading the results to display by category
     / -category_array(@search_results).each do |category|

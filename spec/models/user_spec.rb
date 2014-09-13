@@ -65,8 +65,9 @@ describe User do
   end
   ################################ METHODS ##############################
   describe "admin?" do
-    let(:jen) { Fabricate(:user) }
+    let(:jen) { Fabricate(:user)  }
     let(:joe) { Fabricate(:admin) }
+    before    { joe.update_column(:role, "admin") }
     it "returns true if user's role attribute is 'admin'" do
       expect(joe.admin?).to be_true
     end

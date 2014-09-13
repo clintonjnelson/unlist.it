@@ -6,6 +6,8 @@ describe Admin::SettingsController do
 
   describe "GET edit" do
     let(:joe_admin) { Fabricate(:admin) }
+    before          { joe_admin.update_column(:role, "admin") }
+
     context "with a signed_in admin" do
       before do
         spec_signin_user(joe_admin)
@@ -29,6 +31,7 @@ describe Admin::SettingsController do
 
   describe "PATCH update" do
     let(:joe_admin) { Fabricate(:admin) }
+    before          { joe_admin.update_column(:role, "admin") }
     context "with a signed_in admin" do
       context "with VALID input" do
         before do

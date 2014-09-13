@@ -32,7 +32,10 @@ describe Invitation do
 
     context "with the intended admin user found" do
       let!(:admin) { Fabricate(:admin) }
-      before       { invite.set_redeemed }
+      before do
+        admin.update_column(:role, "admin")
+        invite.set_redeemed
+      end
 
       it 'sends a message to the inviter of the new user' do
         expect(Message.all.count).to eq(1)

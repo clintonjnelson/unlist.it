@@ -116,6 +116,7 @@ describe UsersController, :vcr do
     context "with invitation token in params" do
       let(:admin) { Fabricate(:admin                    ) }
       let(:joe)   { Fabricate(:user                     ) }
+      before      { admin.update_column(:role, "admin") }
 
       context "with valid token & input" do
         let!(:user_invite) { Fabricate(:invitation, sender: joe ) }
@@ -136,7 +137,7 @@ describe UsersController, :vcr do
           expect(assigns(:invite)).to eq(user_invite)
         end
         it "creates a new user" do
-          expect(User.count).to eq(2)
+          expect(User.count).to eq(3)
         end
         ##I think I should refactor to remove Token model.
         it "creates a new placeholder Token object for the user token associated with the user" do
@@ -148,7 +149,7 @@ describe UsersController, :vcr do
           expect(User.last.tokens.first.token).to be_present
         end
         it "signs the user in" do
-          expect(session[:user_id]).to eq(2)
+          expect(session[:user_id]).to eq(3)
         end
         it "flashes the Welcome message" do
           expect(flash[:success]).to be_present
@@ -183,7 +184,7 @@ describe UsersController, :vcr do
           expect(assigns(:user)).to be_present
         end
         it "does not create a new user" do
-          expect(User.count).to eq(1)
+          expect(User.count).to eq(2)
         end
         it "does not send an email" do
           expect(ActionMailer::Base.deliveries).to be_empty
@@ -214,7 +215,7 @@ describe UsersController, :vcr do
           expect(assigns(:invite)).to be_nil
         end
         it "does NOT create a new user" do
-          expect(User.count).to eq(1)
+          expect(User.count).to eq(2)
         end
         it "flashes the error message" do
           expect(flash[:error]).to be_present

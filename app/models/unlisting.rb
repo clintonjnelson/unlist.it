@@ -1,5 +1,5 @@
 class Unlisting < ActiveRecord::Base
-  include Sluggable
+  include Sluggable #Uses title for slug instead of :id
     sluggable_type   :column
     sluggable_column :title
 

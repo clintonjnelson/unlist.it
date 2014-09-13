@@ -4,10 +4,11 @@ require 'spec_helper'
 
 describe Admin::ConditionsController do
   let!(:settings) { Fabricate(:setting) }
-  let(:jen)       { Fabricate(:admin) }
+  let!(:jen)      { Fabricate(:admin) }
   let!(:autos)    { Fabricate(:category, name: "autos") }
   let!(:good)     { Fabricate(:condition, category: autos, level: "good", position: 1) }
   let!(:bad)      { Fabricate(:condition, category: autos, level: "bad", position: 2) }
+  before          { jen.update_column(:role, "admin") }
 
   describe "authorization & access" do
     context "for unauthorized users (ie: NON-admin)" do

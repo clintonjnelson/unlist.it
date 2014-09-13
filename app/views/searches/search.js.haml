@@ -1,7 +1,9 @@
 -# PAGINATED Unlistings-Search VIA JS/RAILS-AJAX
+-if @search_results.next_page
+  $('a.infinite-load-post').attr('href', "#{ search_unlistings_path(category_id: @search_category, keyword: @search_string, page: @search_results.next_page) } ");
+-else
+  $('a.infinite-load-post').remove();
+
 $('.infinite-search-results').append(" #{ escape_javascript( render partial: 'unlistings/unlisting', collection: @search_results, as: :unlisting ) } ");
 
-$('a.infinite-load-post').attr('href', "#{ search_unlistings_path(category_id: @search_category, keyword: @search_string, page: @search_results.next_page) } ");
 
--unless @search_results.next_page
-  $('a.infinite-load-post').remove();

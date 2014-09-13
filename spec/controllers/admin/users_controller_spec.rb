@@ -1,10 +1,11 @@
 require 'spec_helper'
 
 describe Admin::UsersController do
-  let!(:settings) { Fabricate(:setting) }
-  let(:joe_admin) { Fabricate(:admin) }
-  let!(:jim) { Fabricate(:user) }
-  let!(:jen) { Fabricate(:user) }
+  let!(:settings)  { Fabricate(:setting) }
+  let!(:jim)       { Fabricate(:user)  }
+  let!(:jen)       { Fabricate(:user)  }
+  let!(:joe_admin) { Fabricate(:admin) }
+  before           { joe_admin.update_column(:role, "admin") }
 
   describe "GET index" do
     context "with a signed-in admin" do

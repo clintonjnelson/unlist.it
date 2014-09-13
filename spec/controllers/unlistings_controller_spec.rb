@@ -173,7 +173,7 @@ describe UnlistingsController, :vcr do
   describe "GET index_by_category" do
     let(:car_unlisting) { Fabricate(:unlisting) }
     before do
-      post :index_by_category, { category_id: car_unlisting.category.id }
+      post :index_by_category, { category_id: car_unlisting.category.slug }
     end
     it "loads @categories with all categories" do
       expect(assigns(:categories)).to be_present

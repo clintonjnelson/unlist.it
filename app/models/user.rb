@@ -40,7 +40,6 @@ class User < ActiveRecord::Base
   ############################## CUSTOM CALLBACKS ##############################
   def generate_and_check_username
     name = generate_username
-    #usernames = User.all.map(&:username)
     for name in User.all.map(&:username)
       name = generate_username
     end
@@ -119,7 +118,6 @@ class User < ActiveRecord::Base
     # self.received_messages.push(self.sent_messages).flatten.uniq.sort.reverse.select{|m| ((m.messageable_type != "Message") && (m.deleted_at == nil))} #NOT replies
   end
 
-  # Maybe move this to UserPolicy... or InvitationPolicy?
   def invitations_avail?
     self.invite_count.nil? ? false : (self.invite_count > 0)
   end

@@ -2,8 +2,9 @@ require 'spec_helper'
 
 describe Admin::CategoriesController do
   let!(:settings) { Fabricate(:setting) }
-  let(:jen)   { Fabricate(:admin) }
-  let!(:autos) { Fabricate(:category, name: 'autos') }
+  let!(:jen)      { Fabricate(:admin) }
+  let!(:autos)    { Fabricate(:category, name: 'autos') }
+  before          { jen.update_column(:role,   "admin") }
 
   describe "authorization & access" do
     context "for unauthorized users (ie: NON-admin)" do
@@ -72,7 +73,7 @@ describe Admin::CategoriesController do
   describe "GET edit" do
     before do
       spec_signin_user(jen)
-      get :edit, { id: autos.id }
+      get :edit, { id: autos.slug }
     end
     it "loads the category to be edited" do
       expect(assigns(:category)).to eq(autos)
@@ -87,7 +88,7 @@ describe Admin::CategoriesController do
     context "with valid information" do
       before do
         spec_signin_user(jen)
-        patch :update, { id: autos.id, category: { name: 'autoes' } }
+        patch :update, { id: autos.slug, category: { name: 'autoes' } }
       end
       it "loads the category to be edited" do
         expect(assigns(:category)).to be_present
@@ -109,7 +110,7 @@ describe Admin::CategoriesController do
     context "with valid information" do
       before do
         spec_signin_user(jen)
-        patch :update, { id: autos.id, category: { name: '' } }
+        patch :update, { id: autos.slug, category: { name: '' } }
       end
       it "loads the category to be edited" do
         expect(assigns(:category)).to be_present
@@ -150,7 +151,7 @@ describe Admin::CategoriesController do
     let!(:fair)  { Fabricate(:condition, level: 'fair', category: games) }
     before do
       spec_signin_user(jen)
-      delete :destroy, { id: games.id }
+      delete :destroy, { id: games.slug }
     end
     it "destroys the requested category" do
       expect(Category.where(name: "games" )).to eq([])
