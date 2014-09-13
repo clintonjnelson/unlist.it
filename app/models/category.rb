@@ -24,8 +24,4 @@ class Category < ActiveRecord::Base
   def downcase_name
     self.name = self.name.downcase
   end
-  ###DELETE THIS AFTER RUN ONCE - REDUNDANT TO THE SLUGGABLE GEM
-  def set_slug
-    self.slug = self.name.scan(/[a-zA-Z0-9]+/).join("-").downcase
-  end
 end
