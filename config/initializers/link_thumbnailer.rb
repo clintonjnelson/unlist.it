@@ -4,7 +4,7 @@ LinkThumbnailer.configure do |config|
   config.redirect_limit = 3
 
   # Set user agent
-  config.user_agent = 'link_thumbnailer'
+  config.user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13"
 
   # Enable or disable SSL verification
   # config.verify_ssl = true
@@ -51,7 +51,7 @@ LinkThumbnailer.configure do |config|
   # config.negative_regex = /combx|comment|com-|contact|foot|footer|footnote|masthead|media|meta|outbrain|promo|related|scroll|shoutbox|sidebar|sponsor|shopping|tags|tool|widget|modal/i
 
   # Numbers of images to fetch. Fetching too many images will be slow.
-  config.image_limit = 5
+  config.image_limit = 7
 
   # Whether you want LinkThumbnailer to return image size and type or not.
   # Setting this value to false will increase performance since for each images, LinkThumbnailer

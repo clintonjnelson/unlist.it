@@ -14,8 +14,7 @@ module ApplicationHelper
   end
 
   def category_options
-    options = [["please select category", 0]] + (Category.order('name ASC').all.map{|category| [category.name.downcase, category.id]})#.sort{ |a,b| a[0] <=> b[0] }
-
+    options = [["all categories", 0]] + (Category.order('name ASC').all.map{|category| [category.name.downcase, category.id]})#.sort{ |a,b| a[0] <=> b[0] }
   end
 
   #Need this to be IN-PAGE dynamic using Ajax triggered by selection

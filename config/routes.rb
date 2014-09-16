@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get     '/faq',                         to: 'pages#faq'
   get     '/about',                       to: 'pages#about'
   get     '/contact',                     to: 'pages#contact'
+  get     '/termsandconditions',          to: 'pages#termsandconditions'
   get     '/futurefeature',               to: 'pages#futurefeature'
   get     '/gettingstarted',              to: 'pages#gettingstarted'
   get     '/invalid_address',             to: 'pages#invalid_address'

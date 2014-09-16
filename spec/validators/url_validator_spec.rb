@@ -23,6 +23,11 @@ describe UrlValidator, :vcr do
       subject.valid?
       expect(subject.errors.full_messages).to eq []
     end
+    it "will hit an a-typical website format" do
+      subject.link = "http://jcrew.com"
+      subject.valid?
+      expect(subject.errors.full_messages).to eq []
+    end
   end
 
   context "for an invalid URL" do

@@ -91,7 +91,7 @@ class UnlistingsController < ApplicationController
   ################################# AJAX ACTIONS ###############################
 
   def conditions_by_category
-    @conditions = Condition.where(category_id: params[:category_id]).all
+    @conditions = Condition.order('position ASC').where(category_id: params[:category_id]).all
     respond_to do |format|
       format.any(:js, :html) {render 'unlistings/conditions_by_category.js.haml'}
     end
