@@ -13,8 +13,8 @@
         %span= "#{@user.location.city.capitalize}, #{@user.location.state.upcase}"
     -if signed_in? && owner?(@user)
       %p
-        %span Status:
-        %strong=  "#{ (@user.status == 'OK') ? 'Everything is OK' : @user.status }"
+        Status:
+        %span= "#{ (@user.status == 'OK') ? 'Everything is OK' : @user.status }"
       -if @user.status == 'Unconfirmed'
         =link_to "resend confirmation email", user_resend_confirmation_path(@user)
     %br

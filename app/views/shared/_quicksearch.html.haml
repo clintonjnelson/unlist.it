@@ -32,7 +32,8 @@
   %ul.searchform
     =form_tag search_unlistings_path, method: 'post' do
       =text_field_tag :keyword, search_placeholder(@search_string)
-      =submit_tag "Search", class: "btn btn-default btn-sm"
+      =button_tag(type: 'submit', class: "btn btn-default btn-sm search-button") do
+        %i.glyphicon.glyphicon-search
       %span
         in
         =select_tag :category_id, options_for_select(category_options)
