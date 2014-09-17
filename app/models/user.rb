@@ -18,12 +18,11 @@ class User < ActiveRecord::Base
   self.per_page  =  20
 
   # Callbacks
-  before_create     :set_initial_prt_created_at
-  before_create     :set_alpha_role #THIS WILL CHANGE TO BETA, & THEN BE REMOVED UPON FULL RELEASE
-  before_create     :make_alpha_questionaire
   before_validation :generate_and_check_username,                on: :create
   before_validation :set_user_location_to_default,               on: :create
   before_validation :set_initial_invitations_to_settings_ration, on: :create
+  before_create     :set_initial_values
+  before_create     :make_alpha_questionaire  #THIS WILL EVENTUALLY BE REMOVED
   before_save       :toggle_avatar_use_with_changes
   after_save        :make_user_preferences
 
@@ -38,6 +37,12 @@ class User < ActiveRecord::Base
 
 
   ############################## CUSTOM CALLBACKS ##############################
+  def set_initial_values
+    self.role   = "alpha" #WILL CHANGE TO BETA
+    self.status = "Unconfirmed"
+    set_initial_prt_created_at
+  end
+
   def generate_and_check_username
     name = generate_username
     for name in User.all.map(&:username)
@@ -47,12 +52,7 @@ class User < ActiveRecord::Base
     self.slug     = name
   end
 
-  #ALPHA ONLY
-  def set_alpha_role #WILL CHANGE TO BETA
-    self.role = "alpha" #WILL CHANGE TO BETA
-  end
-
-  #ALPHA ONLY
+  #ALPHA ONLY - REMOVED LATER
   def make_alpha_questionaire #WILL CHANGE TO BETA
     self.create_questionaire
   end
@@ -82,51 +82,56 @@ class User < ActiveRecord::Base
     end
   end
 
-  ############################### PUBLIC METHODS ###############################
-  def admin?
-    role == "admin"
-  end
 
+
+  ############################### PUBLIC METHODS ###############################
+  #Token Methods
   def create_reset_token
     self.update_columns(prt: User.secure_token, prt_created_at: Time.now)
   end
-
   def clear_reset_token
     self.update_columns(prt: nil, prt_created_at: 1.month.ago)
   end
-
-  def decorator
-    UserDecorator.new(self)
+  def expired_token?(timeframe)
+    self.prt_created_at.blank? ? true : self.prt_created_at < timeframe.hours.ago
   end
 
+  #Generate Methods
   #Generate unlister with 9-Digit number (eg: unlister123456789)
   def generate_username
     digits = SecureRandom.random_number(1000000000000).to_s.ljust(12,"0")
     fullname = "unlister" + digits
   end
-
-  def expired_token?(timeframe)
-    self.prt_created_at.blank? ? true : self.prt_created_at < timeframe.hours.ago
-  end
-
   def self.secure_token
     SecureRandom.urlsafe_base64
   end
 
+  # Checks
+  def admin?
+    role == "admin"
+  end
+  def invitations_avail?
+    self.invite_count.nil? ? false : (self.invite_count > 0)
+  end
+
+  #Query Methods
   def all_msgs_sent_received
     Message.where([ "sender_id = :sender OR recipient_id = :recipient", { sender: self.id, recipient: self.id } ]).active.where.not("messageable_type = 'Message'").order('created_at DESC')
     # self.received_messages.push(self.sent_messages).flatten.uniq.sort.reverse.select{|m| ((m.messageable_type != "Message") && (m.deleted_at == nil))} #NOT replies
   end
 
-  def invitations_avail?
-    self.invite_count.nil? ? false : (self.invite_count > 0)
+  #Setting & Resetting Values
+  def set_confirmed
+    self.update_columns(confirmed: true, status: "OK")
   end
-
-  def to_param #make program use slug instead of id in params
-    self.slug
-  end
-
   def use_default_avatar
     self.update_column(:use_avatar, false)
+  end
+
+  def decorator
+    UserDecorator.new(self)
+  end
+  def to_param #make program use slug instead of id in params
+    self.slug
   end
 end

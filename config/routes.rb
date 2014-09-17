@@ -52,8 +52,10 @@ Rails.application.routes.draw do
     resources :messages,                only: [:create, :index]
     get       'show_message_form',        to: 'unlistings#show_message_form' #AJAX
   end
+
   resources :users,                     only: [:create, :show, :edit, :update] do
     resources :invitations,             only: [:new, :create]
+    get       'resend_confirmation',      to: 'users#resend_confirmation_email'
     resources :messages,                only: [:new, :create, :show, :index] #INDEX specific to user browsing own items
     get       '/feedback',                to: 'messages#new_feedback'
     resources :preferences,             only: [:update]

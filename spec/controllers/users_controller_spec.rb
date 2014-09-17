@@ -355,6 +355,9 @@ describe UsersController, :vcr do
       it "confirms the user by setting user's confirmed attribute to true" do
         expect(User.first).to be_confirmed
       end
+      it "sets the user's status to 'OK'" do
+        expect(User.first.status).to eq("OK")
+      end
       it "sends a welcome email" do
         expect(ActionMailer::Base.deliveries.count).to eq(1)
       end

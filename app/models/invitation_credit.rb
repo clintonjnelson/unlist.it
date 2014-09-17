@@ -1,4 +1,4 @@
-class InvitationCredit
+class InvitationCredit #Domain Object
   attr_accessor :user
   attr_reader   :invite_count
   def initialize(user)

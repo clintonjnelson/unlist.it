@@ -31,7 +31,7 @@ class Invitation < ActiveRecord::Base
                            contact_email: nil,
                                  subject: title,
                                  content: message,
-                                msg_type: "Join"
+                                msg_type: "Join",
                         messageable_type: "User",
                           messageable_id: 1 )
     end

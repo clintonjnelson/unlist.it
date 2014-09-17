@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
   before_action :require_signed_out,       only: [:new, :create, :new_with_invite]
   before_action :require_signed_in,        only: [:show]
-  before_action :set_user,                 only: [:show, :edit, :update, :toggle_avatar, :location_modal, :update_location] #MUST come before require_current_user
-  before_action :require_correct_user,     only: [       :edit, :update, :toggle_avatar]
+  before_action :set_user,                 only: [:show, :edit, :update, :toggle_avatar, :resend_confirmation_email,:location_modal, :update_location] #MUST come before require_current_user
+  before_action :require_correct_user,     only: [       :edit, :update, :toggle_avatar, :resend_confirmation_email]
   before_action :require_correct_user_now, only: [:location_modal, :update_location]
 
 ##TODO:
@@ -63,12 +63,24 @@ class UsersController < ApplicationController
 
 
 ######################### CUSTOM(NON-CRUD) USER ACTIONS ######################
+  def resend_confirmation_email
+    unless @user && @user.confirmed?
+      #UnlistMailer.registration_confirmation_email(@user.id).deliver
+      UnlistMailer.delay.registration_confirmation_email(@user.id)  #Sidekiq Worker
+      flash[:status] = "Email re-sent."
+      redirect_to @user
+    else
+      flash[:notice] = "You're already confirmed. Contact Unlist.it if this doesn't seem correct."
+      redirect_to @user
+    end
+  end
+
   def confirm_with_token
     token = Token.where(token: params[:token]).take
     user = User.find(token.user_id) if token
     if token && user
-      user.update_attribute(:confirmed, true)
-      token.update_attribute(:token, nil)
+      user.set_confirmed
+      token.clear_token
       #UnlistMailer.welcome_email(user.id).deliver
       UnlistMailer.delay.welcome_email(user) #Sidekiq Worker
       flash[:success] = "Thank you - your email has been confirmed! The Unlist.it world is now your oyster - help someone deliver you a pearl!"

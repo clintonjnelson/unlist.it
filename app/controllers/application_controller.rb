@@ -2,8 +2,8 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+  helper_method :signed_in?, :creator?, :owner?, :current_user
 
-  helper_method :signed_in?, :creator?, :current_user
 
   def access_denied(msg = "Access Denied.")
     flash[:error] = "#{msg}"
@@ -20,7 +20,11 @@ class ApplicationController < ActionController::Base
   end
 
   def creator?(object)  #Works for Unlistings,
-    session[:user_id].present? ? session[:user_id] == object.creator.id : false
+    session[:user_id].present? ? (session[:user_id] == object.creator.id) : false
+  end
+
+  def owner?(user)
+    session[:user_id].present? ? (session[:user_id] == user.id) : false
   end
 
   def guest_user?

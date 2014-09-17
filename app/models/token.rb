@@ -12,6 +12,14 @@ class Token < ActiveRecord::Base
   validates_uniqueness_of :creator, scope: [ :tokenable_id, :tokenable_type ]
   validates_presence_of   :tokenable, :token
 
+
+
+  ############################# PUBLIC METHODS #################################
+  def clear_token
+    self.update_attribute(:token, nil)
+  end
+
+  ############################# PRIVATE METHODS ################################
   private
   def generate_token
     self.token = SecureRandom.urlsafe_base64

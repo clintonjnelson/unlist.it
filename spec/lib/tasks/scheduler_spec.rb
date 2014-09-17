@@ -54,6 +54,7 @@ describe "scheduler", :vcr do
     end
 
     before do
+      Sidekiq::Testing.inline!
       abandoned_young_unimage.update_columns(unlisting_id: nil, updated_at: 6.days.ago)
       abandoned_old_unimage.update_columns(  unlisting_id: nil, updated_at: 9.days.ago)
       Rake.application.rake_require 'tasks/scheduler'
