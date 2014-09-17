@@ -1,0 +1,51 @@
+-# For use on Admin's Message pages
+.message-box
+  %h5.sender-link
+    -# Display Sender's Contact Info
+    -if message.sender.present?
+      =link_to "#{ message.sender.username }", user_path(message.sender)
+      =link_to user_path(message.sender) do
+        =message.sender.decorator.avatar_image_tag(60)
+    -elsif message.contact_email.present?
+      Safeguest:
+      %span
+        =mail_to "#{message.contact_email}", message.contact_email
+
+  %p
+    %ul.reply-form-listener
+      %h4
+        -# Display Unlisting info if type is 'Unlisting'
+        -if message.messageable_type == 'Unlisting'
+          .unlisting-subject-text
+            =link_to "#{ message.subject }", unlisting_path(message.messageable.slug)
+        -else
+          = "#{ message.subject }"
+
+      -# Display Message Info
+      %p= " \"#{ message.content }\" "
+      %small
+        -if message.recipient == current_user
+          ="Received: #{ time_ago_in_words(message.created_at) } ago | "
+        -else
+          ="Sent: #{ time_ago_in_words(message.created_at) } ago | "
+        %span= link_to "[delete]", user_message_path(current_user, message), method: 'delete'
+
+      -#Links for showing replies & the reply form
+      -if message.contact_email.blank? && signed_in?
+        %h5
+          -if message.replies.present?
+            %span.hideshow-replies Hide/Show Replies
+          %span.reply-form-show reply
+
+      -# Display Form & Replies for User interactions
+      -if message.contact_email.blank? && signed_in?
+        -# If not from an outside user, load the reply form
+        =render partial: 'shared/reply_form', locals: {message: message}
+
+        -# If there are messages, load them, but hide them.
+        -if message.replies.present?
+          .replies.hide
+            -# Show all replies in DESC order
+            =render partial: 'shared/reply', collection: message.replies, as: :reply
+
+  %hr.hr-xs-solid

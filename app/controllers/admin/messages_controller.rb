@@ -20,7 +20,7 @@ class Admin::MessagesController < AdminController
     end
 
     respond_to do |format|
-      format.any(:html, :js) { render 'index' }
+      format.any(:html, :js) { render 'messages/index' }
     end
   end
 end

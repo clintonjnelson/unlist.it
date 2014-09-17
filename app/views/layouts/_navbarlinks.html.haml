@@ -28,11 +28,17 @@
       %span.caret
     %ul.dropdown-menu(role='menu' aria-labelledby='AdminMessagesMenu')
       %li(role='presentation')
-        =link_to 'inbox', user_messages_path(current_user, type: 'received'), { role: 'menuitem', tabindex: "-1" }
+        =link_to 'inbox', admin_messages_path(type: 'received'), { role: 'menuitem', tabindex: "-1" }
       %li(role='presentation')
-        =link_to 'sent',  user_messages_path(current_user, type: 'sent'), { role: 'menuitem', tabindex: "-1" }
+        =link_to 'sent',  admin_messages_path(type: 'sent'), { role: 'menuitem', tabindex: "-1" }
       %li(role='presentation')
-        =link_to 'all',  user_messages_path(current_user), { role: 'menuitem', tabindex: "-1" }
+        =link_to 'contact', admin_messages_path(type: 'contact'), { role: 'menuitem', tabindex: "-1" }
+      %li(role='presentation')
+        =link_to 'feedback', admin_messages_path(type: 'feedback'), { role: 'menuitem', tabindex: "-1" }
+      %li(role='presentation')
+        =link_to 'joined', admin_messages_path(type: 'joined'), { role: 'menuitem', tabindex: "-1" }
+      %li(role='presentation')
+        =link_to 'all',  admin_messages_path, { role: 'menuitem', tabindex: "-1" }
 
   / .dropdown#navbutton-admin-blog
   /   %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
