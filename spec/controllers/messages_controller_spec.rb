@@ -398,6 +398,116 @@ describe MessagesController, :vcr do
       end
     end
 
+
+
+    describe "Feedback Message from a User" do
+      #COPY FROM THE ONE ABOVE & TAILOR FOR FEEDBACK.
+    end
+
+
+
+    describe "Contact Message from Outsider" do
+      let(:jen) { Fabricate(:admin) }
+      context "with valid information" do
+        before do
+          jen.update_column(:role, "admin")
+          MessagesController.any_instance.should_receive(:verify_recaptcha).and_return(true)
+          post :create, message: { contact_email: "somedude@example.com", content: "Nice site." }, contact: "true"
+        end
+
+        it "makes a new message message" do
+          expect(assigns(:message)).to be_present
+        end
+        it "does not find an unlisting" do
+          expect(assigns(:unlisting)).to_not be_present
+        end
+        it "creates a new contact message" do
+          expect(Message.all.count).to eq(1)
+        end
+        it "sets admin as the recipient for the message" do
+          expect(Message.last.recipient).to eq(jen)
+        end
+        it "sets the type to be 'Contact'" do
+          expect(Message.last.msg_type).to eq("Contact")
+        end
+        it "sets the subject to include both 'Contact' and the sender's contact email" do
+          expect(Message.last.subject).to include('Contact', "somedude@example.com")
+        end
+        it "sets the contact_email to the one provided by outside user" do
+          expect(Message.last.contact_email).to eq("somedude@example.com")
+        end
+        it "sets the sender column to nil" do
+          expect(Message.last.sender).to eq(nil)
+        end
+        it "sets the messageable_type to 'User' since it goes to the Admin" do
+          expect(Message.last.messageable_type).to eq('User')
+        end
+        it "sets the messageable_id to the id of the Admin" do
+          expect(Message.last.messageable_id).to eq(jen.id)
+        end
+        it "flashes a success message to the outsider" do
+          expect(flash[:success]).to be_present
+        end
+        it "redirects back to the contact page" do
+          expect(response).to redirect_to contact_path
+        end
+      end
+
+      context "with INvalid recaptcha" do #recaptcha returns FALSE
+        before do
+          jen.update_column(:role, "admin")
+          MessagesController.any_instance.should_receive(:verify_recaptcha).and_return(false)
+          post :create, message: { contact_email: "somedude@example.com", content: "Nice site." }, contact: "true"
+        end
+
+        it "does not make a new message" do
+          expect(Message.all.count).to eq(0)
+        end
+        it "flashes a notice message to the outsider" do
+          expect(flash[:error]).to be_present
+        end
+        it "renders the contact page" do
+          expect(response).to render_template 'pages/contact'
+        end
+      end
+
+      context "with INvalid email" do
+        before do
+          jen.update_column(:role, "admin")
+          MessagesController.any_instance.should_receive(:verify_recaptcha).and_return(true)
+          post :create, message: { contact_email: "", content: "Nice site." }, contact: "true"
+        end
+
+        it "does not make a new message" do
+          expect(Message.all.count).to eq(0)
+        end
+        it "flashes a notice message to the outsider" do
+          expect(flash[:error]).to be_present
+        end
+        it "renders the contact page" do
+          expect(response).to render_template 'pages/contact'
+        end
+      end
+
+      context "with INvalid content" do
+        before do
+          jen.update_column(:role, "admin")
+          MessagesController.any_instance.should_receive(:verify_recaptcha).and_return(true)
+          post :create, message: { contact_email: "someguy@example.com", content: "" }, contact: "true"
+        end
+
+        it "does not make a new message" do
+          expect(Message.all.count).to eq(0)
+        end
+        it "flashes a notice message to the outsider" do
+          expect(flash[:error]).to be_present
+        end
+        it "renders the contact page" do
+          expect(response).to render_template 'pages/contact'
+        end
+      end
+    end
+
     # describe "messages to user OR admin from user" do
     #   before do
     #     spec_signin_user(jen)

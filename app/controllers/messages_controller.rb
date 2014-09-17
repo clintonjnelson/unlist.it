@@ -21,7 +21,9 @@ class MessagesController < ApplicationController
     msg_response.send_message( contact_email: message_params[:contact_email],
                                  sender_user: current_user,
                              reply_recipient: params[:sender_id],
-                                     content: message_params[:content])
+                                     content: message_params[:content],
+                                   recaptcha: verify_recaptcha,
+                                 contact_msg: params[:contact]) #ONLY used for
     destination_by_response(msg_response)
   end
 
@@ -32,14 +34,8 @@ class MessagesController < ApplicationController
   def index
     ###FIRST THING: MOVE THIS TO MODEL SO IT RETURNS WHAT YOU WANT FOR @message. Set @message that way!
     case params[:type]
-      when 'contact'
-        @messages = []
-      when 'feedback'
-        @messages = []
       when 'hits'
         @messages = current_user.received_messages.active.where("messageable_type = 'Unlisting'").paginate(page: params[:page]) #NOT replies
-      when 'joined'
-        @messages = []
       when 'received'
         @messages = current_user.received_messages.active.where.not("messageable_type = 'Message'").paginate(page: params[:page]) #NOT replies
       when 'sent'
@@ -90,13 +86,17 @@ class MessagesController < ApplicationController
 
   def destination_by_response(msg_response)
     case msg_response.type
+      when "Admin"
+      when "Contact"
+        success      = contact_path
+        notice_error = 'pages/contact'
+      when "Feedback"
+        success = user_feedback_path(current_user)
+        notice_error = 'messages/new_feedback'
       when "Unlisting"
         success       = @unlisting
         notice_error  = 'unlistings/show'
       when "User"
-      when "Admin"
-        success = user_feedback_path(current_user)
-        notice_error = 'messages/new_feedback'
       when "Reply"
         #placeholder destination, but will actually be JS response (see above)
         success       = (@parent_message.messageable_type == "Unlisting" ? Unlisting.find(@parent_message.messageable_id) : unlistings_path(current_user))

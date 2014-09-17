@@ -10,8 +10,7 @@ class Invitation < ActiveRecord::Base
   def set_redeemed
     sender_notification(self.sender)
     self.update_column(:token, nil)
-    ## Could make a new message in here notifying sender that recipient signed up
-    ## Could send a first-message to the recipient welcoming them
+    ##### Send a message to the recipient welcoming them to Unlist.it####
   end
 
 
@@ -26,13 +25,13 @@ class Invitation < ActiveRecord::Base
     title   = "#{self.recipient_email} Has Joined Unlist"
     message = "Your invitation to #{self.recipient_email} has been accepted! Thanks for helping us grow - one quality person at a time."
     admin   = User.find_by(role: "admin") || User.find_by(role: "Admin")
-
     if admin
       message = Message.create(sender_id: 1,
                                recipient: inviter,
                            contact_email: nil,
                                  subject: title,
                                  content: message,
+                                msg_type: "Join"
                         messageable_type: "User",
                           messageable_id: 1 )
     end

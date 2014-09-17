@@ -20,6 +20,7 @@
   gem 'link_thumbnailer'            #Replace this with my own Nokogiri class later
   gem 'mini_magick'                 #Image control for use with Carrierwave
   gem 'paratrooper'                 #deployment made simple
+  gem 'recaptcha', require: 'recaptcha/rails'
   gem 'sass-rails'
   gem 'sidekiq'                     #allows workers to handle queued tasks in background
   gem 'sinatra', require: nil       #For Sidekiq online monitoring

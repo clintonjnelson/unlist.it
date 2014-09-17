@@ -9,7 +9,9 @@ class MessagesManager
   def send_message(options={}) #receives contact_email, sender_user, reply_recipient
     @contact_email = options[:contact_email]
     @content       = options[:content]
+    @recaptcha     = options[:recaptcha]
     @sender_user   = options[:sender_user]
+    @contact_msg   = options[:contact_msg]
 
     ###### UNLISTING MESSAGES ######
     if unlisting_message?
@@ -120,9 +122,24 @@ class MessagesManager
       end
 
 
-    else #Admin Message.
-      @type = "Admin"
-      unless admin_message_setup(@content) == false #finds admin & sets message values. Makes @message
+    ###### OUTSIDER CONTACT ######
+    elsif from_outsider?
+      @type = "Contact"
+      unless contact_message_setup(@content) == false
+        if @recaptcha && @message.save
+          @flash_success = "Message sent!"
+          @success = true
+        else
+          @error_message = "Oops - contact message could not be sent. Please fix the errors below & try again."
+          @success = false
+        end
+      end
+
+
+    ###### FEEDBACK MESSAGE TO ADMIN ######
+    else
+      @type = "Feedback"
+      unless feedback_message_setup(@content) == false #finds admin & sets message values. Makes @message
         if @message.save
           @flash_success = "Feedback Sent!"
           @success = true
@@ -152,6 +169,10 @@ class MessagesManager
 
   def from_guest?(contact_email)
     contact_email.present?
+  end
+
+  def from_outsider?
+    @contact_msg == "true" ? true : false
   end
 
   #PERMISSIONS
@@ -186,6 +207,58 @@ class MessagesManager
   end
 
   #SETTING UP MESSAGES
+  def contact_message_setup(content)
+    admin = User.where(role: "admin").take
+    if admin && @contact_email
+      @message = Message.new(content: content,
+                           recipient: admin,
+                       contact_email: @contact_email,
+                             subject: "Contact from #{@contact_email}",
+                            msg_type: @type,
+                         messageable: admin) #User type with admin's id
+    else
+      @error_message = "Contact message could not be sent. Please provide a valid contact email."
+      @success       =  false
+    end
+  end
+
+  def feedback_message_setup(content)
+    admin = User.where(role: "admin").take
+    if admin
+      @message = Message.new(content: content,
+                           recipient: admin,
+                              sender: @sender_user,
+                             subject: "Feedback from #{@sender_user.username}",
+                            msg_type: @type,
+                         messageable: admin) #User type with admin's id
+    else
+      @error_message = "Argh, something went terribly wrong & this message couldn't be sent!
+                        Feel free to email us instead at admin@unlist.it -- we really want to hear what you have to say!"
+      @success       = false
+    end
+  end
+
+  def reply_message_setup(content)
+    parent_message = Message.find(@parent_msg_id)
+    if parent_message
+      @message = parent_message.messages.build(content: content,
+                                               subject: parent_message.subject,
+                                           messageable: parent_message, #sets messageable_type to "Message"; sets messageable_id
+                                             recipient: ((@sender_user == parent_message.recipient) ? parent_message.sender : parent_message.recipient),
+                                                sender: @sender_user,   #sets the message sender to current user
+                                               subject: parent_message.subject,
+                                              msg_type: @type)
+      # @message.subject     = parent_message.subject
+      # @message.messageable = parent_message
+      # @message.recipient   = ((@sender_user == parent_message.recipient) ? parent_message.sender : parent_message.recipient)
+      # @message.subject     = parent_message.subject
+      # @message.sender      = @sender_user
+    else
+      @error_message = "Sorry, we couldn't find the message you were replying to."
+      @success       = false
+    end
+  end
+
   def unlisting_message_setup(content, contact_email=nil)
     @message = Message.new(content: content, contact_email: contact_email)
     @unlisting  = Unlisting.find_by(slug: @unlisting_slug) #######SLUGGING VERIFY THIS WORKS!!!
@@ -195,36 +268,6 @@ class MessagesManager
       @message.messageable = @unlisting
     else
       @error_message = "Unlisting could not be found."
-      @success       = false
-    end
-  end
-
-  def reply_message_setup(content)
-    parent_message = Message.find(@parent_msg_id)
-    if parent_message
-      @message = parent_message.messages.build(content: content)
-      @message.subject     = parent_message.subject
-      @message.messageable = parent_message #sets messageable_type to "Message"; sets messageable_id
-      @message.recipient   = ((@sender_user == parent_message.recipient) ? parent_message.sender : parent_message.recipient)
-      @message.subject     = parent_message.subject
-      @message.sender      = @sender_user #sets the message sender to current user
-    else
-      @error_message = "Sorry, we couldn't find the message you were replying to."
-      @success       = false
-    end
-  end
-
-  def admin_message_setup(content)
-    admin = User.where(role: "admin").take
-    if admin
-      @message = Message.new(content: content,
-                           recipient: admin,
-                              sender: @sender_user,
-                             subject: "Feedback from #{@sender_user.username}",
-                         messageable: admin) #this is really just a User type
-    else
-      @error_message = "Argh, something went terribly wrong & this message couldn't be sent!
-                        Please email us instead at admin@unlist.it -- we really want to hear what you have to say!"
       @success       = false
     end
   end

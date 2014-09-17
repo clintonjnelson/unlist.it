@@ -9,6 +9,17 @@
   %p We hope your experience is a good one, and we'd like to hear about how it is working (or not working) for you! Whatever you write will be individually read by us.
   %br
   %p Please use the form below if you have any suggestions, useful ideas, comments, or problems. Whatever you deem is worth your time to convey, we deem is worth our while to read.
+  %br
+  %br
+
+  =bootstrap_form_for @message do |f|
+    =f.text_area :content, label: "Leave us a message:", size: "15x10"
+    -if !signed_in?
+      =f.text_field     :contact_email, label: "Email address:"
+      =recaptcha_tags(  theme: 'white')
+      =hidden_field_tag :contact, "true"
+    =f.submit "send", class: 'btn btn-primary'
+
 
   %h3.text-muted
     [feature to come]

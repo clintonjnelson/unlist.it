@@ -6,8 +6,7 @@ describe Category do
   it { should have_many(:conditions).order('position') }
   it { should have_many(:conditions).dependent(:destroy) }
 
-  it { should validate_presence_of(:name) }
-
+  #it { should validate_presence_of(:name) }
 
   describe "reorder_conditions" do
     context "with direct numbering" do

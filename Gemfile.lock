@@ -222,6 +222,7 @@ GEM
     rb-fsevent (0.9.4)
     rb-inotify (0.9.4)
       ffi (>= 0.5.0)
+    recaptcha (0.3.6)
     redis (3.0.7)
     redis-namespace (1.4.1)
       redis (~> 3.0.4)
@@ -360,6 +361,7 @@ DEPENDENCIES
   pry
   rails
   rails_12factor
+  recaptcha
   rspec-rails
   sass-rails
   selenium-webdriver

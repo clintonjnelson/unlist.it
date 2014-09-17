@@ -41,6 +41,7 @@ Rails.application.routes.draw do
 
 
   resources :blogs,                     only: [:index]
+  resources :messages,                  only: [:create] #for the Contact page
   resources :reset_passwords,           only: [:create, :show]
   resources :sessions,                  only: [:create]
 
@@ -69,6 +70,7 @@ Rails.application.routes.draw do
     resources :blogs,                   only: [:new, :create, :edit, :update, :destroy]
     resources :categories
     resources :conditions,              only: [:new, :create, :edit, :update, :destroy]
+    resources :messages,                only: [:index]
     resources :settings,                only: [:edit, :update]
     resources :users,                   only: [:index, :destroy]
     post      '/conditions_by_category',  to: 'conditions#conditions_by_category'
