@@ -6,9 +6,13 @@
       %span.caret
     %ul.dropdown-menu(role='menu' aria-labelledby='AdminUsersMenu')
       %li(role='presentation')
-        =link_to "manage users",  admin_users_path(current_user), { role: 'menuitem', tabindex:"-1" }
+        =link_to admin_users_path(current_user), { role: 'menuitem', tabindex:"-1" } do
+          %i.glyphicon.glyphicon-warning-sign
+          manage users
       %li(role='presentation')
-        =link_to "send invitation",  new_user_invitation_path(current_user), { role: 'menuitem', tabindex:"-1" }
+        =link_to new_user_invitation_path(current_user), { role: 'menuitem', tabindex:"-1" } do
+          %i.glyphicon.glyphicon-send
+          send invitation
 
   .dropdown#navbutton-admin-components
     %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
@@ -16,9 +20,14 @@
       %span.caret
     %ul.dropdown-menu(role='menu' aria-labelledby='AdminComponentsMenu')
       %li(role='presentation')
-        =link_to "add category",  new_admin_category_path, { role: 'menuitem', tabindex: "-1" }
+        =link_to  new_admin_category_path, { role: 'menuitem', tabindex: "-1" } do
+          %i.glyphicon.glyphicon-plus
+          add category
       %li(role='presentation')
-        =link_to "add condition", new_admin_condition_path, { role: 'menuitem', tabindex: "-1" }
+        =link_to new_admin_condition_path, { role: 'menuitem', tabindex: "-1" } do
+          %i.glyphicon.glyphicon-plus-sign
+          add condition
+
       %li(role='presentation')
         =link_to "view all",      admin_categories_path, { role: 'menuitem', tabindex: "-1" }
 
@@ -28,15 +37,25 @@
       %span.caret
     %ul.dropdown-menu(role='menu' aria-labelledby='AdminMessagesMenu')
       %li(role='presentation')
-        =link_to 'inbox', admin_messages_path(type: 'received'), { role: 'menuitem', tabindex: "-1" }
+        =link_to admin_messages_path(type: 'received'), { role: 'menuitem', tabindex: "-1" } do
+          %i.glyphicon.glyphicon-envelope
+          inbox
       %li(role='presentation')
-        =link_to 'sent',  admin_messages_path(type: 'sent'), { role: 'menuitem', tabindex: "-1" }
+        =link_to admin_messages_path(type: 'sent'), { role: 'menuitem', tabindex: "-1" } do
+          %i.glyphicon.glyphicon-share-alt
+          sent
       %li(role='presentation')
-        =link_to 'contact', admin_messages_path(type: 'contact'), { role: 'menuitem', tabindex: "-1" }
+        =link_to admin_messages_path(type: 'contact'), { role: 'menuitem', tabindex: "-1" } do
+          %i.glyphicon.glyphicon-volume-down
+          contact
       %li(role='presentation')
-        =link_to 'feedback', admin_messages_path(type: 'feedback'), { role: 'menuitem', tabindex: "-1" }
+        =link_to admin_messages_path(type: 'feedback'), { role: 'menuitem', tabindex: "-1" } do
+          %i.glyphicon.glyphicon-volume-up
+          feedback
       %li(role='presentation')
-        =link_to 'joined', admin_messages_path(type: 'joined'), { role: 'menuitem', tabindex: "-1" }
+        =link_to admin_messages_path(type: 'joined'), { role: 'menuitem', tabindex: "-1" } do
+          %i.glyphicon.glyphicon-ok-circle
+          joined
       %li(role='presentation')
         =link_to 'all',  admin_messages_path, { role: 'menuitem', tabindex: "-1" }
 
@@ -63,15 +82,21 @@
       %span.caret
     %ul.dropdown-menu(role='menu' aria-labelledby='UserUnlistMenu')
       %li(role='presentation')
-        =link_to "my unlist", user_unlist_path(current_user, type: 'unlist'), { role: 'menuitem', tabindex: "-1" }
+        =link_to user_unlist_path(current_user, type: 'hits'), { role: 'menuitem', tabindex: "-1" } do
+          %i.glyphicon.glyphicon-star
+          hits
       %li(role='presentation')
         =link_to new_user_unlisting_path(current_user), { role: 'menuitem', tabindex: "-1" } do
           %i.glyphicon.glyphicon-plus
           add unlisting
       %li(role='presentation')
-        =link_to 'hits',  user_unlist_path(current_user, type: 'hits'), { role: 'menuitem', tabindex: "-1" }
+        =link_to user_unlist_path(current_user, type: 'unlist'), { role: 'menuitem', tabindex: "-1" } do
+          %i.glyphicon.glyphicon-list-alt
+          my unlist
       %li(role='presentation')
-        =link_to "watchlist", futurefeature_path, { role: 'menuitem', tabindex: "-1" }
+        =link_to futurefeature_path, { role: 'menuitem', tabindex: "-1" } do
+          %i.glyphicon.glyphicon-heart
+          friend unlists
 
   .dropdown#navbutton-user-unlist
     %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
@@ -79,11 +104,17 @@
       %span.caret
     %ul.dropdown-menu(role='menu' aria-labelledby='UserUnlistMenu')
       %li(role='presentation')
-        =link_to 'inbox', user_messages_path(current_user, type: 'received'), { role: 'menuitem', tabindex: "-1" }
+        =link_to user_messages_path(current_user, type: 'received'), { role: 'menuitem', tabindex: "-1" } do
+          %i.glyphicon.glyphicon-envelope
+          inbox
       %li(role='presentation')
-        =link_to 'hits',  user_messages_path(current_user, type: 'hits'), { role: 'menuitem', tabindex: "-1" }
+        =link_to user_messages_path(current_user, type: 'hits'), { role: 'menuitem', tabindex: "-1" } do
+          %i.glyphicon.glyphicon-star-empty
+          hits
       %li(role='presentation')
-        =link_to 'sent',  user_messages_path(current_user, type: 'sent'), { role: 'menuitem', tabindex: "-1" }
+        =link_to user_messages_path(current_user, type: 'sent'), { role: 'menuitem', tabindex: "-1" } do
+          %i.glyphicon.glyphicon-share-alt
+          sent
       %li(role='presentation')
         =link_to 'all',  user_messages_path(current_user), { role: 'menuitem', tabindex: "-1" }
 
@@ -93,9 +124,13 @@
       %span.caret
     %ul.dropdown-menu(role='menu' aria-labelledby='UserUnlistMenu')
       %li(role='presentation')
-        =link_to "profile",      user_path(current_user), { role: 'menuitem', tabindex: "-1" }
+        =link_to user_path(current_user), { role: 'menuitem', tabindex: "-1" } do
+          %i.glyphicon.glyphicon-user
+          profile
       %li(role='presentation')
-        =link_to "edit profile", edit_user_path(current_user), { role: 'menuitem', tabindex: "-1" }
+        =link_to edit_user_path(current_user), { role: 'menuitem', tabindex: "-1" } do
+          %i.glyphicon.glyphicon-pencil
+          edit profile
 
 
   /-#///////////////////// GUEST DROPDOWN MENUS /////////////////////////
