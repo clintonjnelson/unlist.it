@@ -23,7 +23,7 @@ class QuestionairesController < ApplicationController
     if @user
       #UnlistMailer.delay.questionaire_email(@user.id)
       UnlistMailer.questionaire_email(@user.id).deliver
-      flash[:success] = "Email Sent"
+      flash[:success]    = "Email Sent"
       redirect_to edit_user_questionaire_path(current_user, current_user.questionaire)
     else
       flash.now[:notice] = "Email could not be sent"

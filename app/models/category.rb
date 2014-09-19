@@ -14,6 +14,7 @@ class Category < ActiveRecord::Base
   # Validations
   validates :name, presence: true
 
+
   def reorder_conditions
     conditions.each_with_index do |condition, index|
       condition.update_column(:position, (index+1))

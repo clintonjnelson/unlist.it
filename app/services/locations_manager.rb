@@ -14,12 +14,12 @@ class LocationsManager
         @zipcode   = db_location.zipcode
         @latitude  = db_location.latitude
         @longitude = db_location.longitude
-        @type     = "Zipcode"
+        @type      = "Zipcode"
         @success   = true
         return successful?
       else #if not in db, make new
-        @location = Location.new(zipcode: @location_input.to_i)
-        @type     = "Zipcode"
+        @location  = Location.new(zipcode: @location_input.to_i)
+        @type      = "Zipcode"
       end
 
     else #if location info provided

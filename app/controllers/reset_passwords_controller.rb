@@ -49,7 +49,7 @@ class ResetPasswordsController < ApplicationController
       flash[:success] = 'Your password has been changed. You may now use it to login.'
       redirect_to root_path
     else
-      flash[:error] = 'Your new password is not usable. Please try again'
+      flash[:error]   = 'Your new password is not usable. Please try again'
       render 'show'
     end
   end

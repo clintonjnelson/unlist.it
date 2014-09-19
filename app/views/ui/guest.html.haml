@@ -11,10 +11,7 @@
     %p
       Maybe you have some...
 
-  //Code for the new user Sign Up section of the Page
-  //-if signedin?
-  //DO SOMETHING FOR SIGNED IN USERS IN BODY
-  //-else
+
   #signup.col-xs-4
     %h2
       Join the Unlist.it community!
@@ -28,5 +25,4 @@
         %input(type="password")
       %li
         %input(type='submit' value='Sign Up' class='btn btn-default')
-      /=form_for(@user) do |f|
-      /  = render partial: 'shared/userform', locals: {button_name: "Sign Up!", f: f }
+

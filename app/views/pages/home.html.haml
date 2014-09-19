@@ -9,10 +9,6 @@
     %p.status-text.text-muted="There are currently #{User.count} Unlisters looking for #{Unlisting.count} things."
 
 
-  //Code for the new user Sign Up section of the Page
-  //-if signedin?
-  //DO SOMETHING FOR SIGNED IN USERS IN BODY
-  //-else
   -unless signed_in?
     #signup.col-xs-4
       =link_to signup_path do

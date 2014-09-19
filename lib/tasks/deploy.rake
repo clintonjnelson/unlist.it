@@ -4,7 +4,7 @@ namespace :deploy do
   desc 'Deploy app in staging environment'
   task :staging do
     deployment = Paratrooper::Deploy.new("unlist-it-staging") do |deploy|
-      deploy.tag   = 'staging'
+      deploy.tag  = 'staging'
     end
     deployment.deploy
   end

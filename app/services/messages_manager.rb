@@ -128,10 +128,10 @@ class MessagesManager
       unless contact_message_setup(@content) == false
         if @recaptcha && @message.save
           @flash_success = "Message sent!"
-          @success = true
+          @success       = true
         else
           @error_message = "Oops - contact message could not be sent. Please fix the errors below & try again."
-          @success = false
+          @success       = false
         end
       end
 
@@ -142,10 +142,10 @@ class MessagesManager
       unless feedback_message_setup(@content) == false #finds admin & sets message values. Makes @message
         if @message.save
           @flash_success = "Feedback Sent!"
-          @success = true
+          @success       = true
         else
           @error_message = "Feedback could not be sent. Please fix the errors noted and try submitting again."
-          @success = false
+          @success       = false
         end
       end
     end

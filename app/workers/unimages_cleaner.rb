@@ -1,7 +1,7 @@
 class UnimagesCleaner
   include Sidekiq::Worker
 
-  # HAVE YET TO BE ABLE TO TEST THIS WORKER FOR ALL BUT SET FILENAME TO NIL
+
   def perform(unimage_ids_array, exterminate=false)
     unimage_ids_array.each do |unimage_id|
       u = Unimage.find(unimage_id)

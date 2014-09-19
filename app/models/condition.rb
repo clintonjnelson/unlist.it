@@ -1,6 +1,4 @@
 class Condition < ActiveRecord::Base
-  #has_many :categories_conditions
-  #has_many :categories, through: :categories_conditions
   belongs_to :category
 
   validates :level,     presence:     true,

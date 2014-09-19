@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'spork'
-#uncomment the following line to use spork with the debugger
-#require 'spork/ext/ruby-debug'
+
 
 Spork.prefork do
   # Loading more in this block will cause your tests to run faster. However,
@@ -40,14 +39,9 @@ end
 #
 # Any code that is left outside the two blocks will be run during preforking
 # *and* during each_run -- that's probably not what you want.
-#
-# These instructions should self-destruct in 10 seconds.  If they don't, feel
-# free to delete them.
 
 
 
-
-# This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
@@ -56,7 +50,6 @@ require 'capybara/rails'
 require 'capybara/rspec'
 require 'capybara/email/rspec'
 require 'sidekiq/testing'
-#require 'sidekiq/testing/inline'
 require 'shoulda/matchers'
 # require 'vcr'
 require 'webmock/rspec'
@@ -66,7 +59,7 @@ DatabaseCleaner.logger = Rails.logger
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 # Checks for pending migrations before tests are run.
-# If you are not using ActiveRecord, you can remove this line.
+# If stop using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema! if defined?(ActiveRecord::Migration)
 
 #VCR Settings
@@ -94,8 +87,6 @@ RSpec.configure do |config|
     Sidekiq::Worker.clear_all
   end
 end
-  #Sidekiq::Testing.inline!
-  # Sidekiq::Testing.fake!
 
 RSpec.configure do |config|
   config.before(:suite) do
@@ -118,7 +109,7 @@ RSpec.configure do |config|
   end
 
 
-  # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
+  # Remove this line if you stop using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = false   # Set to false for Selenium
   config.infer_base_class_for_anonymous_controllers = false

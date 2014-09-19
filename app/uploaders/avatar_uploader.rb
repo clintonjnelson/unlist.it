@@ -46,10 +46,4 @@ class AvatarUploader < CarrierWave::Uploader::Base
       var = :"@#{mounted_as}_secure_token"
       model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.hex(length/2))
     end
-
-  #Modified the original wiki recommendation after this rant:
-    #WHAT THE HECK IS THIS DOING? DO I REALLY NEED TO CHASE DOWN ALL OF THIS STUFF??
-    #WHY NOT JUST GENERATE A SIMPLE TOKEN AND SET IT AS A NAME?
-    # WHAT IS WHAT IS THIS IV GETTING AND THEN SETTING THIS ODD VAR TOKEN.
-    #ARGGGHHHH - THESE DOCS SUCK.
 end

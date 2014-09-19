@@ -88,11 +88,11 @@ class MessagesController < ApplicationController
     case msg_response.type
       when "Admin"
       when "Contact"
-        success      = contact_path
-        notice_error = 'pages/contact'
+        success       = contact_path
+        notice_error  = 'pages/contact'
       when "Feedback"
-        success = user_feedback_path(current_user)
-        notice_error = 'messages/new_feedback'
+        success       = user_feedback_path(current_user)
+        notice_error  = 'messages/new_feedback'
       when "Unlisting"
         success       = @unlisting
         notice_error  = 'unlistings/show'

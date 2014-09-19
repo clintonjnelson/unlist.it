@@ -9,7 +9,7 @@ class ConditionsManager
     @condition_params   = condition_params   #condition: { id: -, level: "--", position: -, ... }
     @conditions_params  = conditions_params  #conditions: { 'id': 1, 'position': ... } ##NOTE: no level, not changed here
     @existing_condition = Condition.where(id: obj_id).take
-    response = update_position_transaction
+    response            = update_position_transaction
   end
 
 
@@ -44,7 +44,7 @@ class ConditionsManager
     @conditions_params.each do |condition_item_data|
       condition_item = Condition.find(condition_item_data["id"])
       condition_item_data["position"] = "blank" if condition_item_data["position"].blank?
-      condition_item.update_attributes!(position: condition_item_data["position"])
+      condition_item.update_attributes!(position:  condition_item_data["position"])
     end
   end
 end

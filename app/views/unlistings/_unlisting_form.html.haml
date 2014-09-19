@@ -46,7 +46,6 @@
 
 
         =f.select :condition_id, [], { prompt: "select a category above", label: "Minimum Condition*"}, { id: "unlisting_condition_select" }
-        //-#(price == 0) => FREE, (price = -1) => Any, (price > 0) => price; Decorator or Helper for This.
         =f.text_field :price,    label: "Price (up to)*", prepend: "$"
         =f.text_field :keyword1, label: "Keyword 1*"
         =f.text_field :keyword2, label: "Keyword 2"

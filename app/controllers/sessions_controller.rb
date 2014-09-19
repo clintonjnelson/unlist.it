@@ -14,7 +14,7 @@ before_filter :require_signed_out, only: [:create]
 
   def destroy
     session[:user_id] = nil
-    flash[:notice] = "You're now signed out."
+    flash[:notice]    = "You're now signed out."
     redirect_to root_path
   end
 end

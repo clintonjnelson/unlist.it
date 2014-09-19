@@ -9,7 +9,6 @@
         =image_tag(unlisting.unimages.first.filename.url(:thumb_unimage), class: 'thumbnail-80')
       -else
         //Don't display anything for now - later a generic unlist image holder
-        -#=unlisting.creator.decorator.avatar_image_tag(60)
     =link_to "#{ unlisting.title }", unlisting_path(unlisting)
   %p
     %ul
@@ -18,7 +17,7 @@
         %span= link_to "#{ unlisting.link }", url: "unlisting.link"
       %li= "Description: #{ unlisting.description.truncate(45) }"
       %li= "Condition: #{ unlisting.condition.level }"
-      //REPLACE WITH DECORATOR TO AVOID EXCESS LOGIC; TURN COLOR GREEN IF IS "COMMUNITY RECYCLE"
+
       -if unlisting.price == 0
         %li
           Pay up to:

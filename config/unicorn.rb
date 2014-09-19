@@ -25,8 +25,7 @@ after_fork do |server, worker|
 
   # I think this triggers the config we setup in Heroku for REDIS_URL.
   # Seems like you could still get over nano's 10 connection limit
-  # If had (2)Sidekiq's x 5 = 10. Then had (1)Web. Total = 11. Correct?
-  # Maybe I'm just not getting this chunk of code...
+  # If had (2)Sidekiq's x 5 = 10. Then had (1)Web. Total = 11.
   Sidekiq.configure_client do |config|
     config.redis = { :size => 1 }
   end

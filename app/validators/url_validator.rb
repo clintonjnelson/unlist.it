@@ -22,13 +22,14 @@ class UrlValidator < ActiveModel::EachValidator
       http     = Net::HTTP.new(url.host, url.port)
       case url.scheme
         when "http"
-          request  = Net::HTTP::Get.new(url.request_uri)
+          request          = Net::HTTP::Get.new(url.request_uri)
         when "https"
-          http.use_ssl = true
+          http.use_ssl     = true
           http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-          request = Net::HTTP::Get.new(url.request_uri)
+          request          = Net::HTTP::Get.new(url.request_uri)
       end
       response = http.request(request)
+
       if response.kind_of?(Net::HTTPRedirection)
         verify_exists?(response['location']) # Recursive check redirect and make sure you can access the redirected URL
       else

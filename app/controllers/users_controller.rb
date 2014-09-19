@@ -5,8 +5,6 @@ class UsersController < ApplicationController
   before_action :require_correct_user,     only: [       :edit, :update, :toggle_avatar, :resend_confirmation_email]
   before_action :require_correct_user_now, only: [:location_modal, :update_location]
 
-##TODO:
-####Create a Registration Service Object
 
   def new
     @user  = User.new
@@ -17,8 +15,6 @@ class UsersController < ApplicationController
     @token = params[:token]
     render 'new'
   end
-
-  #ADD TOKEN TO CURRENT SIGNUP SHEET & ADD CONDITIONALS TO #CREATE ACTION
 
   def create
     @user  = User.new(user_params)

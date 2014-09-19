@@ -1,5 +1,4 @@
 require 'spec_helper'
-
 #Note: mocks the ConditionsManager service object
 
 describe Admin::ConditionsController do

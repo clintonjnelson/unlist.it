@@ -60,7 +60,7 @@ class SearchesController < ApplicationController
       set_location_sessions(location)
       flash.now[:success] = "Location Updated"
     else
-      flash.now[:notice] = "Sorry, we couldn't find that location. Please try a valid zipcode or city,state"
+      flash.now[:notice]  = "Sorry, we couldn't find that location. Please try a valid zipcode or city,state"
     end
 
     respond_to do |format|

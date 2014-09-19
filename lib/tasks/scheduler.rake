@@ -1,5 +1,5 @@
 
-desc "Heroku scheduler task to give users invitations allotment"
+desc "Heroku scheduler task to assign allotment of user invitations"
 task :issue_invitations => :environment do
   puts "Rationing out invitations to users..."
 
@@ -41,7 +41,3 @@ def distribute_invitations(user, settings)
     end
   end
 end
-
-#need to define table with:
-  #invites_ration
-  #invites_max

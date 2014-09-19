@@ -9,7 +9,7 @@ class Admin::ConditionsController < AdminController
 
   def create
     @category = Category.find(params[:condition][:category_id])
-    @add = ConditionsManager.new(@category).add_or_update_condition(condition_params, params["conditions"])
+    @add      = ConditionsManager.new(@category).add_or_update_condition(condition_params, params["conditions"])
     if @add
       flash[:success] = "Condition was successfully saved."
       redirect_to new_admin_condition_path
@@ -25,7 +25,7 @@ class Admin::ConditionsController < AdminController
 
   def update
     @category = @condition.category
-    @update = ConditionsManager.new(@category).add_or_update_condition(condition_params, params["conditions"], params[:id])
+    @update   = ConditionsManager.new(@category).add_or_update_condition(condition_params, params["conditions"], params[:id])
     if @update
       flash[:success] = "Changes saved."
       redirect_to admin_categories_path

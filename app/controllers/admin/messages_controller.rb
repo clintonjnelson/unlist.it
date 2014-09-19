@@ -1,7 +1,7 @@
 class Admin::MessagesController < AdminController
 
   def index
-    ###FIRST THING: MOVE THIS TO MODEL SO IT RETURNS WHAT YOU WANT FOR @message. Set @message that way!
+    ###TODO: MOVE THIS TO QueryObject SO IT RETURNS WHAT YOU WANT FOR @message. Set @message that way!
     case params[:type]
       when 'contact'
         @messages = current_user.received_messages.active.where("msg_type = 'Contact'").paginate(page: params[:page])
