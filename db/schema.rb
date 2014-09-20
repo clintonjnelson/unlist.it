@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140917013951) do
+ActiveRecord::Schema.define(version: 20140920195940) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -140,7 +140,7 @@ ActiveRecord::Schema.define(version: 20140917013951) do
     t.string   "keyword2"
     t.string   "keyword3"
     t.string   "keyword4"
-    t.string   "link"
+    t.text     "link",           limit: 255
     t.integer  "price"
     t.boolean  "travel"
     t.integer  "distance"
