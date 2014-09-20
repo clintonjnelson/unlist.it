@@ -14,7 +14,7 @@
     %ul
       %li
         Example:
-        %span= link_to "#{ unlisting.link }", url: "unlisting.link"
+        %span= link_to "#{ unlisting.link }", url: "unlisting.link", class: "wrap-link"
       %li= "Description: #{ unlisting.description.truncate(45) }"
       %li= "Condition: #{ unlisting.condition.level }"
 
