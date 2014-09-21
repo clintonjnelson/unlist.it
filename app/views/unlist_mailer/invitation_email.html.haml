@@ -1,16 +1,16 @@
 !!! 5
 %html(lang="en-US")
   %body
-    %h3 You've Been Cordially Invited to Join Unlist.it
+    %h3 You've Been Cordially Invited to Join Unlist
     %hr
-    %p.text-muted Unlist.it turns community classifieds upside-down --- sellers search for buyers and everyone wins.
-    %p.text-muted Unlist.it is a community engaged in sustainable-living through time-thrifty, local, buyer-centric classifieds.
+    %p.text-muted Unlist turns community classifieds upside-down --- sellers search for buyers and everyone wins.
+    %p.text-muted Unlist is a community engaged in sustainable-living through time-thrifty, local, buyer-centric classifieds.
 
 
     %br
     %p= "#{@user.username} has invited you, so feel special -- they decided you are worthy of one of their limited number of invitations."
     %p
-      Unlist.it is currently in beta-testing and by invitation ONLY. Click the following invitation link to sign up:
+      Unlist is currently in beta-testing and by invitation ONLY. Click the following invitation link to sign up:
       =link_to "Join Unlist.it", register_with_invite_url(@invitation.token)
     %p
       Or paste this link into your browser:
