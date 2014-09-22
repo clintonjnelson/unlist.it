@@ -72,6 +72,7 @@ Rails.application.routes.draw do
     resources :blogs,                   only: [:new, :create, :edit, :update, :destroy]
     resources :categories
     resources :conditions,              only: [:new, :create, :edit, :update, :destroy]
+    resources :invitations,             only: [:index]
     resources :messages,                only: [:index]
     resources :settings,                only: [:edit, :update]
     resources :users,                   only: [:index, :destroy]

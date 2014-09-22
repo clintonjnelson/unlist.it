@@ -13,6 +13,10 @@
         =link_to new_user_invitation_path(current_user), { role: 'menuitem', tabindex:"-1" } do
           %i.glyphicon.glyphicon-send
           send invitation
+      %li(role='presentation')
+        =link_to admin_invitations_path, { role: 'menuitem', tabindex:"-1" } do
+          %i.glyphicon.glyphicon-align-justify
+          sent invitations
 
   .dropdown#navbutton-admin-components
     %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
