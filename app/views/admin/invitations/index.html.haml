@@ -1,9 +1,13 @@
 .row#adminbox.col-xs-8
   #adminboxcontent.well
     %h3 All Invitations
-    %hr.hr-med-solid
-    %br
-    -@invitations.each do |invitation|
-      %p= "To: #{invitation.recipient_email}"
-      %p= "By: #{invitation.sender.username}"
-      %hr
+    %div.table-responsive
+      %table.table.table-bordered
+        %tbody
+        %tr
+          %th TO
+          %th From
+        -@invitations.each do |invitation|
+          %tr
+            %td= "#{invitation.recipient_email}"
+            %td= "#{invitation.sender.username}"
