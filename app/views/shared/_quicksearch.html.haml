@@ -8,7 +8,7 @@
       -elsif session[:search_radius]
         ="within #{session[:search_radius]} miles of"
       -else
-        within 25 miles of
+        within 100 miles of
     %small.text-muted#search_location_text
       -if session[:search_state] #if search place is set
         ="#{session[:search_city]}, #{session[:search_state]}"

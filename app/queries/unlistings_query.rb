@@ -80,7 +80,7 @@ class UnlistingsQuery
   end
 
   def set_radius(value)
-    value.nil? ? (@radius = 25) : (@radius = value)
+    value.nil? ? (@radius = 100) : (@radius = value)
   end
 
   def with_category(category_id)

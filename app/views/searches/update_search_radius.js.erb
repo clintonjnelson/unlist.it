@@ -24,6 +24,6 @@ if($('#error-messages').hasClass('alert-error')){
 <% elsif @success && session[:search_radius]%>
   $('#search_radius_text').html('<%= " within #{ session[:search_radius] } miles of " %>');
 <% elsif @success && session[:search_radius].nil? %>
-  $('#search_radius_text').html('<%= " within 25 miles of " %>');
+  $('#search_radius_text').html('<%= " within 100 miles of " %>');
 
 <% end %>
