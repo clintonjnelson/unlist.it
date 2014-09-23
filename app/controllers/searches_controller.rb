@@ -25,7 +25,7 @@ class SearchesController < ApplicationController
   end
 
   def remove_radius #removes radius from session
-    session[:search_radius] = nil
+    session[:search_radius] = "0"
     @success = true
     respond_to do |format|
       format.any(:html, :js) { render 'searches/update_search_radius.js' }

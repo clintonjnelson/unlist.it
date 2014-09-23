@@ -20,6 +20,8 @@ if($('#error-messages').hasClass('alert-error')){
 <% end %>
 
 
-<% if @success %>
+<% if @success && @city %>
   $('#user-location-text').html('<%= "#{@city.capitalize}, #{@state.upcase}" %>');
+<% elsif @success && @zipcode %>
+  $('#user-location-text').html('<%= "#{@zipcode}" %>');
 <% end %>

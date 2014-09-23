@@ -120,6 +120,7 @@ class UnlistingsController < ApplicationController
     @unlisting = Unlisting.find_by(slug: params[:id])
   end
   def require_correct_user
+    binding.pry
     access_denied("You are not the owner of this unlisting.") unless @unlisting && (current_user == @unlisting.creator)
   end
 

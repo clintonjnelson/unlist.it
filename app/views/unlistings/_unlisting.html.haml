@@ -28,7 +28,7 @@
         ="Posted: #{ time_ago_in_words(unlisting.created_at) } ago "
         -if signed_in? && creator?(unlisting)
           %small &nbsp|
-          %small= link_to " [delete]", user_unlisting_path(unlisting.creator.id, unlisting.id), method: 'delete'
+          %small= link_to " [delete]", user_unlisting_path(unlisting.creator.slug, unlisting.slug), method: 'delete'
 
       -if unlisting.parent_messages.present? && signed_in? && (unlisting.creator.id == current_user.id)
 

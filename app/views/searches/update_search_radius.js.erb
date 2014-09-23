@@ -19,8 +19,11 @@ if($('#error-messages').hasClass('alert-error')){
 <% end %>
 
 
-<% if @success && session[:search_radius]%>
-  $('#search_radius_text').html('<%= " within #{ session[:search_radius] } miles of " %>');
-<% elsif @success && (session[:search_radius] == nil) %>
+<% if @success && (session[:search_radius] == "0") %>
   $('#search_radius_text').html('<%= " in " %>');
+<% elsif @success && session[:search_radius]%>
+  $('#search_radius_text').html('<%= " within #{ session[:search_radius] } miles of " %>');
+<% elsif @success && session[:search_radius].nil? %>
+  $('#search_radius_text').html('<%= " within 25 miles of " %>');
+
 <% end %>

@@ -13,14 +13,17 @@ class UnlistingsQuery
 
 
   def search(options={})
-    @search_string = options[:search_string]
     @category_id   = options[:cateogory_id ]
-    @radius        = options[:radius       ]
     @city          = options[:city         ]
+    set_radius(      options[:radius       ]) #Set default search radius or provided value
+    @search_string = options[:search_string]
     @state         = options[:state        ]
       @city.downcase!  if @city
       @state.downcase! if @state
     @zipcode       = options[:zipcode      ]
+
+
+
 
     if @search_string  #if search string provided
       @relation = find_by_keyword(@search_string)
@@ -32,19 +35,23 @@ class UnlistingsQuery
       @relation = with_category(@category_id)
     end
 
-    if @radius  #if radius provided
+    if @radius != "0"  #If radius is NOT set to "0" (IN location), search for default or provided
       if @zipcode  #if zipcode for radius
         @relation = in_radius_of_zipcode(@zipcode, @radius)
       elsif @city && @state  #if place for radius
         @relation = in_radius_of_city_state(@city, @state, @radius)
+      else
+        @city     = "Seattle"
+        @state    = "WA"
+        @relation = in_radius_of_city_state(@city, @state, @radius)
       end
-    elsif @zipcode  #if only zipcode provided
+    elsif @zipcode  #if only zipcode provided & radius IS "0"
       @relation = in_zipcode
-    elsif @city && @state  #if only place provided
+    elsif @city && @state  #if only place provided & radius IS "0"
       @relation = in_city_state
     # elsif @state #may want another option of JUST state
     #   @relation = in_state
-    else #if no location provided, use Default = Seattle, WA
+    else #if no location provided, search IN default of Seattle,WA
       @city     = "Seattle"
       @state    = "WA"
       @relation = in_city_state
@@ -70,6 +77,10 @@ class UnlistingsQuery
   private
   def dev_test_env?
     @dev_test_env = true if (Rails.env.development? || Rails.env.test?)
+  end
+
+  def set_radius(value)
+    value.nil? ? (@radius = 25) : (@radius = value)
   end
 
   def with_category(category_id)

@@ -145,8 +145,9 @@ private
   def update_user_location_and_variables?(location)
     if @user.update(location_id: location.id)
       @success = true
-      @city    = location.city
-      @state   = location.state
+      @city    = location.city    unless location.city.nil?
+      @state   = location.state   unless location.state.nil?
+      @zipcode = location.zipcode unless location.zipcode.nil?
       true
     else
       false

@@ -71,7 +71,7 @@ class User < ActiveRecord::Base
   end
 
   def set_user_location_to_default
-    self.location = Location.first
+    self.location = Location.find(2)
   end
 
   def toggle_avatar_use_with_changes
