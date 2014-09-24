@@ -82,13 +82,9 @@
 
   .dropdown#navbutton-user-unlist
     %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
-      Unlist
+      Unlistings
       %span.caret
     %ul.dropdown-menu(role='menu' aria-labelledby='UserUnlistMenu')
-      %li(role='presentation')
-        =link_to user_unlist_path(current_user, type: 'hits'), { role: 'menuitem', tabindex: "-1" } do
-          %i.glyphicon.glyphicon-star
-          hits
       %li(role='presentation')
         =link_to new_user_unlisting_path(current_user), { role: 'menuitem', tabindex: "-1" } do
           %i.glyphicon.glyphicon-plus
@@ -98,9 +94,17 @@
           %i.glyphicon.glyphicon-list-alt
           my unlist
       %li(role='presentation')
+        =link_to user_unlist_path(current_user, type: 'hits'), { role: 'menuitem', tabindex: "-1" } do
+          %i.glyphicon.glyphicon-star
+          hits
+      %li(role='presentation')
+        =link_to user_unlist_path(current_user, type: 'found'), { role: 'menuitem', tabindex: "-1" } do
+          %i.fa.fa-check.fa-2
+          found
+      %li(role='presentation')
         =link_to futurefeature_path, { role: 'menuitem', tabindex: "-1" } do
           %i.glyphicon.glyphicon-heart
-          friend unlists
+          friends
 
   .dropdown#navbutton-user-unlist
     %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')

@@ -16,6 +16,8 @@
               =render @unlistings.select{|p| p.category_id == category.id}
         -elsif params[:type] == "hits"
           [You currently have no hits on your unlistings]
+        -elsif params[:type] == "found"
+          [Keep adding unlistings - you're bound to land some of them!]
         -elsif params[:type] == "unlist"
           =link_to "[You currently have no unlistings - click here to create one]", new_user_unlisting_path
 

@@ -38,6 +38,8 @@ class UnlistingsController < ApplicationController
       when 'hits'
         #ORDER BY MOST RECENT MESSAGE - likely Join messages & order by created_at
         @unlistings = current_user.unlistings.hits
+      when 'found'
+        @unlistings = current_user.unlistings.found.order('updated_at DESC')
       when 'watchlist'
         # This probably warrants another table completely
       else
@@ -81,10 +83,10 @@ class UnlistingsController < ApplicationController
   end
 
   def destroy #Loads: @unlisting
+    @unlisting.soft_delete #ORDER MATTERS - must come before set_found
     @unlisting.set_found   if (params[:found] == "true")
-    @unlisting.soft_delete
     UnimagesCleaner.perform_in(20.seconds, @unimage_ids_array)
-    flash[:success] = "Unlisting successfully removed."
+    flash[:success] = ((params[:found] == "true") ? "Yay - we celebrate when you find things!" : "Unlisting successfully removed.")
     redirect_to :back
   end
 

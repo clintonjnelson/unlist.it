@@ -40,12 +40,12 @@ class Unlisting < ActiveRecord::Base
 
   # Soft-Delete replies then parents from Unlisting
   def soft_delete
-    self.update_column(:inactive, true)
+    self.update_columns(inactive: true, found: false, updated_at: Time.now)
     delete_correspondence
   end
 
   def set_found
-    self.update_column(:found, true)
+    self.update_columns(found: true)
   end
 
   def delete_correspondence

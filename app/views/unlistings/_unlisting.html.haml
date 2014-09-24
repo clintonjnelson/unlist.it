@@ -7,8 +7,8 @@
         =image_tag(unlisting.link_image, class: 'thumbnail-80')
       -elsif unlisting.unimages.present?
         =image_tag(unlisting.unimages.first.filename.url(:thumb_unimage), class: 'thumbnail-80')
-      -else
-        //Don't display anything for now - later a generic unlist image holder
+      -elsif unlisting.found?
+        %i.fa.fa-check.green-color
     =link_to "#{ unlisting.title }", unlisting_path(unlisting)
 
   %p
@@ -33,11 +33,12 @@
             =link_to user_unlisting_path(unlisting.creator.slug, unlisting.slug), method: 'delete' do
               %i.fa.fa-close.fa-2
               [delete]
-          %small
-            &nbsp|
-            =link_to user_unlisting_path(unlisting.creator.slug, unlisting.slug, found: "true"), method: 'delete' do
-              %i.fa.fa-check.fa-2
-              [found!]
+          -if !unlisting.inactive?
+            %small
+              &nbsp|
+              =link_to user_unlisting_path(unlisting.creator.slug, unlisting.slug, found: "true"), method: 'delete' do
+                %i.fa.fa-check.fa-2
+                [found!]
 
       -if unlisting.parent_messages.present? && signed_in? && (unlisting.creator.id == current_user.id)
 
