@@ -24,6 +24,7 @@ describe Invitation do
     end
   end
 
+
   describe "set_redeemed" do
     let(:jen)    { Fabricate(:user) }
     let(:joe)    { Fabricate(:user) }
@@ -52,10 +53,13 @@ describe Invitation do
       it 'sets the invitation token to nil to prevent further use' do
         expect(invite.token).to be_nil
       end
+      it 'sets the -accepted- column to be true' do
+        expect(invite.accepted?).to be_true
+      end
     end
 
     context "without the admin user found" do
-      before       { invite.set_redeemed }
+      before { invite.set_redeemed }
 
       it 'does not send a message' do
         expect(Message.all.count).to eq(0)

@@ -89,7 +89,7 @@ RSpec.configure do |config|
 end
 
 RSpec.configure do |config|
-  config.before(:suite) do
+  config.before(:suite) do |example|
     #changed from :truncation to :transaction to eliminate random failures
     #seemed to be allowing caryover between test suites
     DatabaseCleaner.clean_with(:truncation)
@@ -116,3 +116,4 @@ RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
   config.order = "random"
 end
+
