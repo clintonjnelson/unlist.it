@@ -3,6 +3,12 @@
 //Code for list of users
 .row#userbox.col-xs-8
   #alluserslistcontent.well
+    %h2 Users
+    %p
+      Total Users:
+      =@users.size
+    %hr.hr-med-solid
+
     -if @users.present?
       -@users.each do |user|
         %h4
