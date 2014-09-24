@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140920195940) do
+ActiveRecord::Schema.define(version: 20140924010345) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -151,6 +151,7 @@ ActiveRecord::Schema.define(version: 20140920195940) do
     t.string   "unimages_token"
     t.string   "slug"
     t.string   "link_image"
+    t.boolean  "found"
   end
 
   create_table "users", force: true do |t|

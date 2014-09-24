@@ -10,17 +10,17 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//// REMOVED FOR NOW
+//     require blueimp-gallery-all
+
 
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui/tabs
 //= require bootstrap
 
-/// For Image Handling - REDUCE BLUEIMP ASSETS AFTER WORKING
+//// FOR IMAGE HANDLING
 //= require dropzone
-//     require blueimp-gallery-all
-//     require galleria-1.3.6.min
-//     require galleria.classic.min
 
 //= require turbolinks
 //= require jquery.turbolinks

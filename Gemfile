@@ -12,6 +12,7 @@
   gem 'dropzonejs-rails'
   gem 'email_validator'             #Email validations made simple
   gem 'fog'                         #AMAZON S3
+  gem 'font-awesome-rails', '~>4.2.0.0'           #customizable icons & more
   gem 'geocoder'
   gem 'haml-rails'
   gem 'jquery-rails'

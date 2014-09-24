@@ -10,6 +10,7 @@
       -else
         //Don't display anything for now - later a generic unlist image holder
     =link_to "#{ unlisting.title }", unlisting_path(unlisting)
+
   %p
     %ul
       %li
@@ -27,8 +28,16 @@
       %li
         ="Posted: #{ time_ago_in_words(unlisting.created_at) } ago "
         -if signed_in? && creator?(unlisting)
-          %small &nbsp|
-          %small= link_to " [delete]", user_unlisting_path(unlisting.creator.slug, unlisting.slug), method: 'delete'
+          %small
+            &nbsp|
+            =link_to user_unlisting_path(unlisting.creator.slug, unlisting.slug), method: 'delete' do
+              %i.fa.fa-close.fa-2
+              [delete]
+          %small
+            &nbsp|
+            =link_to user_unlisting_path(unlisting.creator.slug, unlisting.slug, found: "true"), method: 'delete' do
+              %i.fa.fa-check.fa-2
+              [found!]
 
       -if unlisting.parent_messages.present? && signed_in? && (unlisting.creator.id == current_user.id)
 

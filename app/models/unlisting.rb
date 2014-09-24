@@ -14,9 +14,11 @@ class Unlisting < ActiveRecord::Base
 
 
   # Scopes to filter query results
-  scope       :active,    -> { where inactive: [false, nil]  }
-  scope       :inactive,  -> { where inactive: true  }
+  scope       :active,    -> { where inactive: [false, nil] }
+  scope       :inactive,  -> { where inactive: true         }
+  scope       :found,     -> { where    found: true         }
   scope       :hits,      -> { where "id IN (SELECT messageable_id FROM Messages where messageable_type='Unlisting')" }
+
 
 
   # Validations
@@ -40,6 +42,10 @@ class Unlisting < ActiveRecord::Base
   def soft_delete
     self.update_column(:inactive, true)
     delete_correspondence
+  end
+
+  def set_found
+    self.update_column(:found, true)
   end
 
   def delete_correspondence

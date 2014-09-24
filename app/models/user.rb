@@ -120,6 +120,10 @@ class User < ActiveRecord::Base
     # self.received_messages.push(self.sent_messages).flatten.uniq.sort.reverse.select{|m| ((m.messageable_type != "Message") && (m.deleted_at == nil))} #NOT replies
   end
 
+  def count_found
+    self.unlistings.found.size
+  end
+
   #Setting & Resetting Values
   def set_confirmed
     self.update_columns(confirmed: true, status: "OK")

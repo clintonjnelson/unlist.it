@@ -15,6 +15,9 @@
       %p
         Status:
         %span= "#{ (@user.status == 'OK') ? 'Everything is OK' : @user.status }"
+      %p
+        Unlisting Successes:
+        %span= "#{ @user.count_found } found"
       -if @user.status == 'Unconfirmed'
         =link_to "resend confirmation email", user_resend_confirmation_path(@user)
     %br
