@@ -3,7 +3,8 @@ class SearchesController < ApplicationController
   before_action :dev_test_env?
 
   def search
-    @search_string   = search_params[:keyword]
+    set_search_options_variables
+    @search_string   = search_params[:search_words]
     @search_category = ( (search_params[:category_id] == "0") ? "0" : Category.find(search_params[:category_id]) )
     @search_results  = UnlistingsQuery.new.search(search_string: @search_string,
                                                    cateogory_id: ((@search_category == "0") ? "0" : @search_category.id),
@@ -78,7 +79,7 @@ class SearchesController < ApplicationController
   end
 
   def search_params
-    params.permit(:keyword, :category_id, :radius, :city, :state, :zipcode)
+    params.permit(:search_words, :category_id, :search_by, :search_type, :comm_recycle)
   end
 
   def radius_param
@@ -104,6 +105,12 @@ class SearchesController < ApplicationController
 
   def is_number?(value)
     !!(value =~ /\A[-+]?[0-9]+\z/)
+  end
+
+  def set_search_options_variables
+    [:search_by, :search_type, :comm_recycle].each do |item|
+      self.instance_variable_set("@#{item}", search_params[item])
+    end
   end
 
   def set_location_sessions(location)

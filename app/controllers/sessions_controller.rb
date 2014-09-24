@@ -5,7 +5,8 @@ before_filter :require_signed_out, only: [:create]
   def create
     @user = User.find_by(email: params[:email])
     if @user && @user.authenticate(params[:password])
-      signin_user(@user)
+      signin_user(@user, true)
+      redirect_to user_unlist_path(current_user, type: 'unlist')
     else
       flash[:error] = "Incorrect Login Information. Please try again."
       redirect_to root_path

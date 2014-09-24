@@ -81,13 +81,11 @@ class UnlistingsController < ApplicationController
   end
 
   def destroy #Loads: @unlisting
-    binding.pry
     @unlisting.set_found   if (params[:found] == "true")
     @unlisting.soft_delete
     UnimagesCleaner.perform_in(20.seconds, @unimage_ids_array)
     flash[:success] = "Unlisting successfully removed."
     redirect_to :back
-    binding.pry
   end
 
 
