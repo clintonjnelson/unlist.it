@@ -6,11 +6,13 @@
         %span.caret
       %ul.dropdown-menu(role='menu' aria-labelledby='AdminBlogMenu')
         %li(role='presentation')
-          =link_to '#new_post',        { role: 'menuitem', tabindex: "-1" } do
-            %i.icon-plus
+          =link_to new_admin_blogpost_path(current_user), { role: 'menuitem', tabindex: "-1" } do
+            %i.fa.fa-plus
             New Post
         %li(role='presentation')
-          =link_to "#view posts", '#', { role: 'menuitem', tabindex: "-1" }
+          =link_to blogposts_path, { role: 'menuitem', tabindex: "-1" } do
+            %i.fa.fa-newspaper-o
+            news blog
 
     .dropdown#navbutton-admin-settings
       %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
@@ -25,13 +27,13 @@
       %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
         info/help
         %span.caret
-      %ul.dropdown-menu(role='menu' aria-labelledby='AdminBlogMenu')
+      %ul.dropdown-menu(role='menu' aria-labelledby='UserInfoMenu')
+        %li(role='presentation')
+          =link_to "getting started", gettingstarted_path, { role: 'menuitem', tabindex: "-1" }
         %li(role='presentation')
           =link_to "faq", faq_path,     { role: 'menuitem', tabindex: "-1" }
         %li(role='presentation')
           =link_to "about", about_path, { role: 'menuitem', tabindex: "-1" }
-        %li(role='presentation')
-          =link_to "getting started", gettingstarted_path, { role: 'menuitem', tabindex: "-1" }
         %li(role='presentation')
           =link_to "tour", tour_path,   { role: 'menuitem', tabindex: "-1" }
         / %li(role='presentation')
@@ -41,8 +43,10 @@
     //%div= link_to 'news/blog',       blogs_path,                             { role: 'menuitem', tabindex: "-1" }
     %div= link_to 'feedback',        user_feedback_path(current_user),       { role: 'menuitem', tabindex: "-1" }
     %div= link_to 'send invitation', new_user_invitation_path(current_user), { role: 'menuitem', tabindex: "-1" }
+    %div= link_to 'news blog', blogposts_path, { role: 'menuitem', tabindex: "-1" }
 
   -else
     //%div= link_to 'news/blog',       blogs_path,          { role: 'menuitem', tabindex: "-1" }
     %div= link_to "getting started", gettingstarted_path, { role: 'menuitem', tabindex: "-1" }
+    %div= link_to 'news blog', blogposts_path, { role: 'menuitem', tabindex: "-1" }
 

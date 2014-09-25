@@ -18,6 +18,7 @@
   gem 'jquery-rails'
   gem 'jquery-turbolinks'
   gem 'jquery-ui-rails'
+  gem 'kramdown'
   gem 'link_thumbnailer'            #Replace this with my own Nokogiri class later
   gem 'mini_magick'                 #Image control for use with Carrierwave
   gem 'paratrooper'                 #deployment made simple

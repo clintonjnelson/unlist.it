@@ -1,0 +1,21 @@
+
+//Code for the registration form
+.row.col-xs-8.col-xs-offset-1.well#newblogpost-container
+  %h3.text-muted
+    =title
+  %br
+
+  .blogpost-form
+    =bootstrap_form_for [:admin, blogpost] do |f|
+      =f.text_field :title,        label: "Title"
+      =label_tag    :content,             "Content"
+      %p
+        %small.red-color Use Kramdown-type syntax format for markup language
+      =f.text_area  :content, hide_label: true, size: "25x25"
+      =f.text_field :link,         label: "Link"
+      -if title.include?("Edit") && blogpost.blogpic.present?
+        =image_tag(blogpost.blogpic_url(:thumb_blogpic))
+        =f.file_field :blogpic,      label: "Change Pic"
+      -else
+        =f.file_field :blogpic,      label: "Upload Pic"
+      =f.submit      button_name, class: "btn btn-primary"

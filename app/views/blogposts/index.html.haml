@@ -1,0 +1,31 @@
+-provide(:title, 'Blog')
+
+//Code for list of users
+.row#blogpostbox.col-xs-8.col-xs-offset-1
+  #allblogposts.well
+    %h1.text-muted.text-center News & Updates
+    %hr.hr-med-solid
+
+    -if @blogposts.present?
+      -@blogposts.each do |post|
+        %h3.text-center= post.title
+        %p.text-center= image_tag( post.blogpic_url(:full_blogpic), width: '200')
+        %p= kramdown(post.content)
+        %p
+          %small
+            Published:
+            ="#{ time_ago_in_words(post.created_at) } ago "
+            -if current_user.admin?
+              &nbsp | &nbsp
+              =link_to edit_admin_blogpost_path(post) do
+                %i.fa.fa-pencil.fa-2
+                [edit]
+
+              &nbsp | &nbsp
+              =link_to admin_blogpost_path(post), method: 'delete' do
+                %i.fa.fa-close.fa-2
+                [delete]
+        %br
+        -unless (post == @blogposts.last)
+          %hr.hr-lg-dashed
+          %br

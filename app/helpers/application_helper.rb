@@ -32,6 +32,10 @@ module ApplicationHelper
   #unlistings_set.uniq.pluck(:category)
   #unlistings_set.pluck('DISTINCT category') #SQL form should be faster
 
+  def kramdown(text)
+    return sanitize Kramdown::Document.new(text).to_html
+  end
+
   def search_placeholder(prior_search=nil)
     prior_search.present? ? prior_search : ''
   end

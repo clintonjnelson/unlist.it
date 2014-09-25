@@ -40,7 +40,7 @@ Rails.application.routes.draw do
   post    '/search_radius',               to: 'searches#set_search_radius'
 
 
-  resources :blogs,                     only: [:index]
+  resources :blogposts,                 only: [:index]
   resources :messages,                  only: [:create] #for the Contact page
   resources :reset_passwords,           only: [:create, :show]
   resources :sessions,                  only: [:create]
@@ -69,7 +69,7 @@ Rails.application.routes.draw do
 
 
   namespace :admin do
-    resources :blogs,                   only: [:new, :create, :edit, :update, :destroy]
+    resources :blogposts,               only: [:new, :create, :edit, :update, :destroy]
     resources :categories
     resources :conditions,              only: [:new, :create, :edit, :update, :destroy]
     resources :invitations,             only: [:index]
