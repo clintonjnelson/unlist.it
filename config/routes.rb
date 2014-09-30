@@ -50,21 +50,23 @@ Rails.application.routes.draw do
       post      :search,                  to: 'searches#search'
     end
     resources :messages,                only: [:create, :index]
-    get       'show_message_form',        to: 'unlistings#show_message_form' #AJAX
+      get     '/show_message_form',       to: 'unlistings#show_message_form' #AJAX
   end
 
   resources :users,                     only: [:create, :show, :edit, :update] do
     resources :invitations,             only: [:new, :create]
-    get       'resend_confirmation',      to: 'users#resend_confirmation_email'
+      get     'resend_confirmation',      to: 'users#resend_confirmation_email'
     resources :messages,                only: [:new, :create, :show, :index] #INDEX specific to user browsing own items
-    get       '/feedback',                to: 'messages#new_feedback'
+      get     '/feedback',                to: 'messages#new_feedback'
     resources :preferences,             only: [:update]
     resources :questionaires,           only: [:edit, :update]
-    get       '/email_questionaire',      to: 'questionaires#questionaire_email'
+      get     '/email_questionaire',      to: 'questionaires#questionaire_email'
+    resources :relationships,           only: [:create, :index, :destroy]
+      get     '/search_friends',          to: 'relationships#search'
     resources :unlistings,            except: [:index]
-    get       '/unlist',                  to: 'unlistings#index'
-    get       '/location_modal',          to: 'users#location_modal'
-    post      '/update_location',         to: 'users#update_location'
+      get     '/unlist',                  to: 'unlistings#index'
+      get     '/location_modal',          to: 'users#location_modal'
+      post    '/update_location',         to: 'users#update_location'
   end
 
 
@@ -76,7 +78,7 @@ Rails.application.routes.draw do
     resources :messages,                only: [:index]
     resources :settings,                only: [:edit, :update]
     resources :users,                   only: [:index, :destroy]
-    post      '/conditions_by_category',  to: 'conditions#conditions_by_category'
+      post    '/conditions_by_category',  to: 'conditions#conditions_by_category'
   end
 
   mount Sidekiq::Web,                     at: '/sidekiq'  #for online monitoring

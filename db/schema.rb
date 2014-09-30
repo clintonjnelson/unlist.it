@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140925004847) do
+ActiveRecord::Schema.define(version: 20140926224825) do
 
   create_table "blogposts", force: true do |t|
     t.text     "title"
@@ -102,6 +102,13 @@ ActiveRecord::Schema.define(version: 20140925004847) do
     t.text     "junkit"
     t.text     "breaks1"
     t.text     "breaks2"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "relationships", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "friend_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

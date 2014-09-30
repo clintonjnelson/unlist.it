@@ -92,6 +92,22 @@ describe User do
     end
   end
 
+  describe "can_befriend?" do
+    let!(:jen) { Fabricate(:user) }
+    let( :joe) { Fabricate(:user) }
+    let( :friend1) { Fabricate(:relationship, user: jen, friend: joe) }
+    it "returns false if user is same as passed" do
+      expect(jen.can_befriend?(jen)).to be_false
+    end
+    it "verifies passed user is not already in friends list" do
+      jen.friend_relationships.create(friend: joe)
+      expect(jen.can_befriend?(joe)).to be_false
+    end
+    it " returns true if user is not same & not already a friend" do
+      expect(jen.can_befriend?(joe)).to be_true
+    end
+  end
+
   describe "create_reset_token" do
     let(:jen) { Fabricate(:user) }
     before { jen.create_reset_token }

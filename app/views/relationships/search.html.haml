@@ -1,0 +1,38 @@
+-provide(:title, '')
+
+#quicksearch.col-xs-9
+  %h2.text-muted Find Your Friends
+  %ul.searchform
+    Search by Email Address or Username
+    =form_tag user_search_friends_path(current_user), method: 'get' do
+      =text_field_tag :search_string, search_placeholder(@search_string)
+      =button_tag(type: 'submit', class: "btn btn-default btn-sm search-button") do
+        %i.glyphicon.glyphicon-search
+
+
+//Code for friends search results
+//-# This seems like a job for a decorator object
+-if @search_results.present?
+  #friendsearchresultsbox.row.col-xs-8.col-xs-offset-1.well
+    .friendsearchresults
+      %h4.text-muted= "Friends search results for '#{ @search_string }'"
+      %hr.hr-lg-solid
+
+      -@search_results.each do |user|
+        =link_to user_path(user) do
+          .gravatar
+            =user.decorator.avatar_image_tag(60)
+            %span= "#{user.username.capitalize}"
+            -if current_user.can_befriend?(user)
+              %small
+                %strong
+                  = link_to user_relationships_path(current_user, friend_slug: user.slug), method: 'post' do
+                    [
+                    .fa.fa-plus.fa-2
+                    add to friends]
+
+
+-elsif @searched
+  .row.col-xs-8.col-xs-offset-1
+    %h4.text-muted [No unlisters found matching your search]
+

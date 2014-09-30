@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
   #User slugs itself due to complexities with setting initial username
 
   belongs_to :location
+  has_many   :friend_relationships, class_name: "Relationship", foreign_key: 'user_id' #fk = reference to person who is doing the looking for things
+  has_many   :friends,              through:    :friend_relationships #things looking for. Source is name of the "things" if differs from name in join table
   has_many   :invitations
   has_many   :received_messages, -> { order( "created_at DESC" ) }, class_name: 'Message', foreign_key: 'recipient_id'
   has_many   :sent_messages,     -> { order( "created_at DESC" ) }, class_name: 'Message', foreign_key: 'sender_id'
@@ -110,6 +112,9 @@ class User < ActiveRecord::Base
   # Checks
   def admin?
     role == "admin"
+  end
+  def can_befriend?(user)
+    true unless (user == self) || self.friends.include?(user)
   end
   def invitations_avail?
     self.invite_count.nil? ? false : (self.invite_count > 0)

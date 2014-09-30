@@ -8,7 +8,7 @@
       ="#{@user.username.capitalize}"
     %p
       -if @user.location.zipcode.present?
-        %span= "#{@user.zipcode}"
+        %span= "#{@user.location.zipcode}"
       -elsif @user.location.state && @user.location.city
         %span= "#{@user.location.city.capitalize}, #{@user.location.state.upcase}"
     -if signed_in? && owner?(@user)
