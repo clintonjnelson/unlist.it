@@ -15,7 +15,7 @@
           %small
             Published:
             ="#{ time_ago_in_words(post.created_at) } ago "
-            -if current_user.admin?
+            -if current_user && current_user.admin?
               &nbsp | &nbsp
               =link_to edit_admin_blogpost_path(post) do
                 %i.fa.fa-pencil.fa-2

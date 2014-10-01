@@ -17,24 +17,28 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user  = User.new(user_params)
-    @token = params[:token]                      #temporary to be removed later
-    @invite = Invitation.find_by(token: @token)  #temporary to be removed later
+    @user   = User.new(user_params)
+    @token  = params[:token]                      #temporary to be removed later
+    @invite = (@token.nil? ? nil : Invitation.find_by(token: @token))  #temporary to be removed later
+    binding.pry
 
-    if @invite && @user.save
+    if @invite && agrees_termsconditions? && @user.save
       Token.create(creator: @user, tokenable: @user)
       #UnlistMailer.registration_confirmation_email(@user.id).deliver
       UnlistMailer.delay.registration_confirmation_email(@user.id)  #Sidekiq Worker
       @invite.set_redeemed                       #temporary to be removed later
-      flash[:success] = "Welcome to Unlist! You have been sent an email to confirm registration. Please click the link in the email to complete your registration!"
+      flash[:success]   = "Welcome to Unlist! You have been sent an email to confirm registration. Please click the link in the email to complete your registration!"
       signin_user(@user, true)
       redirect_to gettingstarted_path
     elsif !@invite
-      flash[:error] = "Sorry, we could not find your invitation in our system.
-                       Please contact the person who sent it to you or Unlist.it"
+      flash[:error]     = "Sorry, we could not find your invitation in our system.
+                           Please contact the person who sent it to you."
       redirect_to expired_link_path
+    elsif user_params[:termsconditions] == "0"
+      flash.now[:error] = "You must read and agree to the Terms & Conditions to join Unlist.it"
+      render 'new'
     else
-      flash[:error] = "There were some errors in your information. Please see comments below."
+      flash[:error]     = "There were some errors in your information. Please see comments below."
       render 'new'
     end
   end
@@ -123,7 +127,7 @@ class UsersController < ApplicationController
 ############################## PRIVATE METHODS ###############################
 private
   def user_params
-    params.require(:user).permit(:email, :password, :username, :avatar, :avatar_cache)
+    params.require(:user).permit(:email, :password, :username, :termsconditions, :avatar, :avatar_cache)
   end
 
   def avatar_params
@@ -140,6 +144,17 @@ private
 
   def require_correct_user_now
     access_denied_now("You are not the appropriate user.") unless current_user == @user
+  end
+
+  def agrees_termsconditions?
+    binding.pry
+    if (user_params[:termsconditions] == "1") && @user
+      @user.set_termsconditions
+      return true
+    else
+      return false
+    end
+    binding.pry
   end
 
   def update_user_location_and_variables?(location)

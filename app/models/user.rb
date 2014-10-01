@@ -1,6 +1,5 @@
 class User < ActiveRecord::Base
   #Version 0.7 (Alpha) --users will have role "Alpha"
-  #User slugs itself due to complexities with setting initial username
 
   belongs_to :location
   has_many   :friend_relationships, class_name: "Relationship", foreign_key: 'user_id' #fk = reference to person who is doing the looking for things
@@ -29,6 +28,7 @@ class User < ActiveRecord::Base
   after_save        :make_user_preferences
 
   # Validations
+  validate  :agrees_to_terms_and_conditions, on: :create
   validates :email,    email:    true
   validates :email,    presence: true, uniqueness: { case_sensitive: false }
   validates :username, presence: true, uniqueness: { case_sensitive: false }
@@ -40,12 +40,12 @@ class User < ActiveRecord::Base
 
   ############################## CUSTOM CALLBACKS ##############################
   def set_initial_values
-    self.role   = "alpha" #WILL CHANGE TO BETA
-    self.status = "Unconfirmed"
+    self.role            = "alpha" #WILL CHANGE TO BETA
+    self.status          = "Unconfirmed"
     set_initial_prt_created_at
   end
 
-  def generate_and_check_username
+  def generate_and_check_username #User slugs itself due to complexities otherwise
     name = generate_username
     for name in User.all.map(&:username)
       name = generate_username
@@ -85,6 +85,11 @@ class User < ActiveRecord::Base
     end
   end
 
+
+  ############################# CUSTOM VALIDATIONS #############################
+  def agrees_to_terms_and_conditions
+    errors.add(:termsconditions, "You must agree to the terms and conditions.") unless self.termsconditions.present?
+  end
 
 
   ############################### PUBLIC METHODS ###############################
@@ -137,11 +142,14 @@ class User < ActiveRecord::Base
   def use_default_avatar
     self.update_column(:use_avatar, false)
   end
-
   def decorator
     UserDecorator.new(self)
   end
   def to_param #make program use slug instead of id in params
     self.slug
+  end
+
+  def set_termsconditions
+    self.termsconditions = Time.now
   end
 end

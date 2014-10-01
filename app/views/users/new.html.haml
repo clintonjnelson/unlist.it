@@ -8,8 +8,12 @@
 
   .signup-form
     =bootstrap_form_for @user do |f|
-      =f.email_field :email,       label: "Email Address:"
-      =f.password_field :password, label: "Choose Password:"
+      =f.email_field    :email,           label: "Email Address:"
+      =f.password_field :password,        label: "Choose Password:"
+      =f.check_box      :termsconditions do
+        %span.terms-conditions
+          I have read and agree to the
+          =link_to "Terms & Conditions", termsandconditions_path, target: '_blank'
       -if @token.present?
         =hidden_field_tag :token, @token
       =f.submit "Sign Up!", class: "btn btn-primary"
