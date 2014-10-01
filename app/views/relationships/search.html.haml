@@ -3,7 +3,7 @@
 #quicksearch.col-xs-9
   %h2.text-muted Find Your Friends
   %ul.searchform
-    Search by Email Address or Username
+    Search (exact match) for an Email Address or Username
     =form_tag user_search_friends_path(current_user), method: 'get' do
       =text_field_tag :search_string, search_placeholder(@search_string)
       =button_tag(type: 'submit', class: "btn btn-default btn-sm search-button") do

@@ -2,7 +2,7 @@
 
 //Code for list of friends
 .row#userbox.col-xs-8
-  #alluserslistcontent.well
+  #friendsearchcontent.well
     %h2.text-muted.text-center Friends
     %p.text-center= link_to "[search for your friends]", user_search_friends_path(current_user)
     -if @friends.present?
@@ -12,11 +12,11 @@
       %hr.hr-med-solid
 
       -@friends.each do |friend|
-        %div
+        .friend-list.clearfix
           =link_to user_path(friend) do
             =friend.decorator.avatar_image_tag(60)
           =link_to "#{friend.username.capitalize}", user_path(friend), class: 'friend-username'
-          =link_to user_relationship_path(id: current_user.slug, friend_slug: friend.slug), method: 'delete', class: 'remove-friend-link' do
+          =link_to user_relationship_path(id: current_user.slug, friend_slug: friend.slug), method: 'delete', class: 'remove-friend-link pull-right' do
             [
             .fa.fa-close.fa-2
             remove friend]
