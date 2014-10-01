@@ -120,7 +120,7 @@ describe UsersController, :vcr do
 
       context "with valid token & input" do
         let!(:user_invite) { Fabricate(:invitation, sender: joe ) }
-        let(:params)       { { user: { email: jen.email, password: jen.password, username: jen.username }, token: user_invite.token } }
+        let(:params)       { { user: { email: jen.email, password: jen.password, username: jen.username, termsconditions: "1" }, token: user_invite.token } }
         before do
           Sidekiq::Testing.inline! do
             post :create, params
@@ -173,7 +173,7 @@ describe UsersController, :vcr do
 
       context "with valid token and INvalid input" do
         let!(:user_invite) { Fabricate(:invitation, sender: joe ) }
-        let(:params)       { { user: { email: "example.com", password: jen.password, username: jen.username }, token: user_invite.token } }
+        let(:params)       { { user: { email: "example.com", password: jen.password, username: jen.username, termsconditions: "1" }, token: user_invite.token } }
         before do
           Sidekiq::Testing.inline! do
             post :create, params
@@ -202,7 +202,7 @@ describe UsersController, :vcr do
 
       context "with INvalid token" do
         let!(:user_invite) { Fabricate(:invitation, sender: joe ) }
-        let(:params)       { { user: { email: jen.email, password: jen.password, username: jen.username }, token: "bogus-token" } }
+        let(:params)       { { user: { email: jen.email, password: jen.password, username: jen.username, termsconditions: "1" }, token: "bogus-token" } }
         before             { post :create, params }
 
         it "assigns the input info to the user variable" do
@@ -222,6 +222,22 @@ describe UsersController, :vcr do
         end
         it "redirects to the expired link path" do
           expect(response).to redirect_to expired_link_path
+        end
+      end
+
+      context "without agreeing to Terms & Conditions" do
+        let!(:user_invite) { Fabricate(:invitation, sender: joe ) }
+        let(:params)       { { user: { email: jen.email, password: jen.password, username: jen.username, termsconditions: "0" }, token: user_invite.token } }
+        before             { post :create, params }
+
+        it "does NOT create a new user" do
+          expect(User.count).to eq(2)
+        end
+        it "flashes the error message" do
+          expect(flash[:error]).to be_present
+        end
+        it "redirects to the expired link path" do
+          expect(response).to render_template 'new'
         end
       end
     end

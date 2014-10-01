@@ -20,7 +20,6 @@ class UsersController < ApplicationController
     @user   = User.new(user_params)
     @token  = params[:token]                      #temporary to be removed later
     @invite = (@token.nil? ? nil : Invitation.find_by(token: @token))  #temporary to be removed later
-    binding.pry
 
     if @invite && agrees_termsconditions? && @user.save
       Token.create(creator: @user, tokenable: @user)
@@ -31,8 +30,7 @@ class UsersController < ApplicationController
       signin_user(@user, true)
       redirect_to gettingstarted_path
     elsif !@invite
-      flash[:error]     = "Sorry, we could not find your invitation in our system.
-                           Please contact the person who sent it to you."
+      flash[:error]     = "Sorry, we could not find your invitation in our system. Please contact the person who sent it to you."
       redirect_to expired_link_path
     elsif user_params[:termsconditions] == "0"
       flash.now[:error] = "You must read and agree to the Terms & Conditions to join Unlist.it"
@@ -147,14 +145,12 @@ private
   end
 
   def agrees_termsconditions?
-    binding.pry
     if (user_params[:termsconditions] == "1") && @user
       @user.set_termsconditions
       return true
     else
       return false
     end
-    binding.pry
   end
 
   def update_user_location_and_variables?(location)
