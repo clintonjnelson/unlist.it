@@ -27,9 +27,7 @@ class RelationshipsController < ApplicationController
 
   def destroy
     friend = User.find_by(slug: relationship_params[:friend_slug])
-    binding.pry
     current_user.friend_relationships.find_by(friend: friend).destroy
-    binding.pry
     flash[:success] = "Friend removed."
     redirect_to user_relationships_path(@user)
   end

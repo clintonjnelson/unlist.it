@@ -70,7 +70,6 @@ class UnlistingsController < ApplicationController
   end
 
   def update #Loads: @unlisting, @user
-    binding.pry
     set_or_update_link_image_column
 
     if @unlisting && @unlisting.update(unlisting_params)
