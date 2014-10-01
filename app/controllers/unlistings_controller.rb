@@ -1,6 +1,6 @@
 class UnlistingsController < ApplicationController
   ##ADD THESE BEFORE ACTIONS TO SPECS
-  before_action :set_current_user,          only: [:new, :create, :show, :edit, :update          ]
+  before_action :set_user,                  only: [      :create,        :edit, :update          ]
   before_action :set_unlisting,             only: [               :show, :edit, :update, :destroy]
   ###VERIFY ALREADY TESTED FOR THESE
   before_action :require_correct_user,      only: [                      :edit, :update, :destroy]
@@ -8,8 +8,8 @@ class UnlistingsController < ApplicationController
   before_action :filter_symbols_from_price, only: [      :create,               :update          ]
   before_action :format_input_link,         only: [      :create,               :update          ]
 
-  def new #Loads: @user
-    @unlisting = @user.unlistings.build
+  def new
+    @unlisting = current_user.unlistings.build
     @token     = build_token
   end
 
@@ -61,15 +61,16 @@ class UnlistingsController < ApplicationController
   def show #Loads: @unlisting
     ## UPDATE SPECS FOR @allow_safeguest VARIABLE
     @allow_safeguest = UserPolicy.new(user: @unlisting.creator).safeguest_contact_allowed?
-    @message = Message.new
+    @message         = Message.new
   end
 
   def edit #Loads: @unlisting, @user
-    @token  = @unlisting.unimages_token
+    @token    = @unlisting.unimages_token
     @unimages = Unimage.where(token: @token).all
   end
 
   def update #Loads: @unlisting, @user
+    binding.pry
     set_or_update_link_image_column
 
     if @unlisting && @unlisting.update(unlisting_params)
@@ -77,7 +78,7 @@ class UnlistingsController < ApplicationController
       redirect_to [@user, @unlisting]
     else
       flash[:error] = 'Oops - there were some errors in the form. Please fix & try agian.'
-      @unimages = Unimage.where(token: unlisting_token_param[:token]).all
+      @unimages     = Unimage.where(token: unlisting_token_param[:token]).all
       render 'edit'
     end
   end

@@ -58,10 +58,6 @@ class ApplicationController < ActionController::Base
 
   end
 
-  def set_current_user
-    @user = current_user
-  end
-
   def signin_user(user, stay=false)
     session[:user_id] = user.id
     flash[:success] ||= "Welcome, #{user.username}!"

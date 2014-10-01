@@ -1,6 +1,6 @@
 class InvitationsController < ApplicationController
   before_filter :require_signed_in
-  before_filter :set_current_user
+  before_filter :set_user,          only: [:create]
 
   def new
     @invitation = Invitation.new
@@ -8,6 +8,7 @@ class InvitationsController < ApplicationController
   end
 
   def create
+    binding.pry
     @invitation = @user.invitations.build(invitation_params)
     credits     = InvitationCredit.new(@user)
 
