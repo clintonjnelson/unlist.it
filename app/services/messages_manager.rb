@@ -1,8 +1,8 @@
 class MessagesManager
   attr_reader :user, :safeguest, :success, :type, :sender_type, :sender_status, :error_message, :flash_success, :flash_notice, :message
   def initialize(options={}) #receives reply & unlisting_slug
-    @unlisting_slug  = options[:unlisting_slug]
-    @parent_msg_id   = options[:parent_msg_id ]
+    @unlisting_slug  = options[:unlisting_slug] #indicates an UNLISTING MSG
+    @parent_msg_id   = options[:parent_msg_id ] #indicates a REPLY MSG
   end
 
 
@@ -15,7 +15,8 @@ class MessagesManager
 
     ###### UNLISTING MESSAGES ######
     if unlisting_message?
-      @type    = "Unlisting"
+      @type        = "Unlisting"
+      @unlisting   = Unlisting.find_by(slug: @unlisting_slug)
 
       if from_user?(@sender_user) #if from a user
         @sender_type = "User"
@@ -107,8 +108,8 @@ class MessagesManager
           end
         end
 
-      else #if user is restricted from messaging
-        if !@sender_user.confirmed?
+      else #if user is restricted from messaging or is not a user
+        if @sender_user.nil? || !@sender_user.confirmed?
           @flash_notice = "Something seems fishy about how you're replying to
                           an unlisting message without having been prior confirmed...
                           but anyhoo, please visit the inbox of the email account
@@ -177,8 +178,7 @@ class MessagesManager
 
   #PERMISSIONS
   def creator_restricts_safeguests?
-    @unlisting = Unlisting.find_by(slug: @unlisting_slug)
-    value      = UserPolicy.new(user: @unlisting.creator).safeguest_contact_allowed?
+    value = UserPolicy.new(user: @unlisting.creator).safeguest_contact_allowed?
     !value
   end
 
@@ -261,7 +261,7 @@ class MessagesManager
 
   def unlisting_message_setup(content, contact_email=nil)
     @message = Message.new(content: content, contact_email: contact_email)
-    @unlisting  = Unlisting.find_by(slug: @unlisting_slug) #######SLUGGING VERIFY THIS WORKS!!!
+    #@unlisting   = Unlisting.find_by(slug: @unlisting_slug)
     if @unlisting
       @message.subject     = "RE: " + @unlisting.title
       @message.recipient   = @unlisting.creator

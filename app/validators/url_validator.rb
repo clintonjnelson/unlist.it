@@ -33,7 +33,7 @@ class UrlValidator < ActiveModel::EachValidator
       if response.kind_of?(Net::HTTPRedirection)
         verify_exists?(response['location']) # Recursive check redirect and make sure you can access the redirected URL
       else
-        ! %W(4).include?(response.code[0]) # Not 4xx status types; 5xx at least indicates hit something
+        ! %W(400 404 405).include?(response.code[0]) #Errors that nothing was hit; MAY NEED TO EXPAND; http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
       end
     rescue Errno::ENOENT, SocketError
       false #false if can't find the server

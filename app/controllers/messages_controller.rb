@@ -23,7 +23,7 @@ class MessagesController < ApplicationController
                              reply_recipient: params[:sender_id],
                                      content: message_params[:content],
                                    recaptcha: verify_recaptcha,
-                                 contact_msg: params[:contact]) #ONLY used for
+                                 contact_msg: params[:contact]) #ONLY used for contact messages
     destination_by_response(msg_response)
   end
 
