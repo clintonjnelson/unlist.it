@@ -60,6 +60,7 @@ class MessagesController < ApplicationController
   def render_or_redirect(success, notice_error, msg_response) #success, error msg, message info
     respond_to do |format|
       format.html do
+        flash.delete(:recaptcha_error) if flash[:recaptcha_error]
         if msg_response.success
           flash[:success]    = "#{msg_response.flash_success}"
           redirect_to success #:back ####COULD GO TO success VARIABLE HERE IF NEED

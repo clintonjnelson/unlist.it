@@ -36,7 +36,6 @@ describe UrlValidator, :vcr do
 
 
   context "for an invalid URL" do
-
     ['http:/www.google.com', 'https://google' ,'https://google@com', '<>hi'].each do |invalid_url|
       it "#{invalid_url.inspect} raises an error" do
         subject.link = invalid_url

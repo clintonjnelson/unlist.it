@@ -11,13 +11,13 @@ describe MessagesManager do
     let( :jim_safeguest) { Fabricate(:safeguest, confirmed: false) }
     let!(:jen_unlisting) { Fabricate(:unlisting, creator: jen    ) }
 
-    context "for a new Unlisting message" do
-      let(:unlisting_msg)  { MessagesManager.new(unlisting_slug: jen_unlisting.slug, parent_message_id: nil) }
+    context "for a new Unlisting message" do #Context: send_message
+      let(:unlisting_msg)  { MessagesManager.new(unlisting_slug: jen_unlisting.slug, parent_msg_id: nil) }
 
-      context "with valid inputs" do #Context: Unlisting Message
+      context "with valid inputs" do #Context: send_message/Unlisting Message
 
-        context "by a User" do #Context: Unlisting Message/Valid Input Context
-          context "who is allowed" do #Context: Unlisting Message/Valid Input/User
+        context "by a User" do #Context: send_message/Unlisting Message/Valid Input Context
+          context "who is allowed" do #Context: send_message/Unlisting Message/Valid Input/User
             let(:msg_response)   { unlisting_msg.send_message( contact_email: nil,
                                                                   sender_user: joe,
                                                               reply_recipient: nil,
@@ -45,13 +45,13 @@ describe MessagesManager do
             it "returns success as true" do
               expect(unlisting_msg.success).to be_true
             end
-            it "returns flash_success as true" do
+            it "returns flash_success" do
               expect(unlisting_msg.flash_success).to be_present
             end
           end
 
 
-          context "who is NOT confirmed" do #Context: Unlisting Message/Valid Input/User
+          context "who is NOT confirmed" do #Context: send_message/Unlisting Message/Valid Input/User
             let(:msg_response)   { unlisting_msg.send_message( contact_email: nil,
                                                                  sender_user: jim_unconfirm,
                                                              reply_recipient: nil,
@@ -63,7 +63,7 @@ describe MessagesManager do
             it "does not create a message" do
               expect(Message.count).to eq(0)
             end
-            it "returns a flash_error" do
+            it "returns a flash_notice" do
               expect(unlisting_msg.flash_notice).to be_present
             end
             it "returns success as false" do
@@ -80,9 +80,9 @@ describe MessagesManager do
 
 
 
-        context "by a Safeguest" do #Context: Unlisting Message/Valid Input
+        context "by a Safeguest" do #Context: send_message/Unlisting Message/Valid Input
 
-          context "who is allowed" do #Context: Unlisting Message/Valid Input/Safeguest
+          context "who is allowed" do #Context: send_message/Unlisting Message/Valid Input/Safeguest
             let(:msg_response)   { unlisting_msg.send_message( contact_email: joe_safeguest.email,
                                                                  sender_user: nil,
                                                              reply_recipient: nil,
@@ -110,13 +110,13 @@ describe MessagesManager do
             it "returns success as true" do
               expect(unlisting_msg.success).to be_true
             end
-            it "returns flash_success as true" do
+            it "returns flash_success" do
               expect(unlisting_msg.flash_success).to be_present
             end
           end
 
 
-          context "who is NOT confirmed" do #Context: Unlisting Message/Valid Input/Safeguest
+          context "who is NOT confirmed" do #Context: send_message/Unlisting Message/Valid Input/Safeguest
             let(:msg_response)   { unlisting_msg.send_message( contact_email: jim_safeguest.email,
                                                                  sender_user: nil,
                                                              reply_recipient: nil,
@@ -128,7 +128,7 @@ describe MessagesManager do
             it "does not create a message" do
               expect(Message.count).to eq(0)
             end
-            it "returns a flash_error" do
+            it "returns a flash_notice" do
               expect(unlisting_msg.flash_notice).to be_present
             end
             it "returns success as false" do
@@ -137,7 +137,7 @@ describe MessagesManager do
           end
 
 
-          context "who is confirmed, but restricted by User who does not allow Safeguests" do #Note: Valid Input Context/Safeguest
+          context "who is confirmed, but restricted by User who does not allow Safeguests" do #Note: send_message/Unlisting Message/Valid Input Context/Safeguest
             let(:msg_response)   { unlisting_msg.send_message( contact_email: joe_safeguest.email,
                                                                  sender_user: nil,
                                                              reply_recipient: nil,
@@ -152,7 +152,7 @@ describe MessagesManager do
             it "does not create a message" do
               expect(Message.count).to eq(0)
             end
-            it "returns a flash_error" do
+            it "returns a flash_notice" do
               expect(unlisting_msg.flash_notice).to be_present
             end
             it "returns success as false" do
@@ -165,7 +165,7 @@ describe MessagesManager do
         end
 
 
-        context "by an unknown email address" do #Context: Unlisting Message/Valid Input
+        context "by an unknown email address" do #Context: send_message/Unlisting Message/Valid Input
           let(:msg_response)   { unlisting_msg.send_message( contact_email: "dude@example.com",
                                                                sender_user: nil,
                                                            reply_recipient: nil,
@@ -199,11 +199,11 @@ describe MessagesManager do
 
 
 
-      context "with INvalid inputs" do #Context: Unlisting Message
-        let(:unlisting_msg)  { MessagesManager.new(unlisting_slug: jen_unlisting.slug, parent_message_id: nil) }
+      context "with INvalid inputs" do #Context: send_message/Unlisting Message
+        let(:unlisting_msg)  { MessagesManager.new(unlisting_slug: jen_unlisting.slug, parent_msg_id: nil) }
 
 
-        context "by a User" do #Context: Unlisting Message/INvalid Input
+        context "by a User" do #Context: send_message/Unlisting Message/INvalid Input
           let(:msg_response) { unlisting_msg.send_message( contact_email: nil,
                                                              sender_user: joe,
                                                          reply_recipient: nil,
@@ -212,7 +212,7 @@ describe MessagesManager do
                                                              contact_msg: false) }
           before { msg_response }
 
-          context "who is allowed" do #Context: Unlisting Message/INvalid Input/User
+          context "who is allowed" do #Context: send_message/Unlisting Message/INvalid Input/User
             it "does not create a message" do
               expect(Message.count).to eq(0)
             end
@@ -225,7 +225,7 @@ describe MessagesManager do
           end
 
 
-          context "who is NOT confirmed" do #Context: Unlisting Message/INvalid Input/User
+          context "who is NOT confirmed" do #Context: send_message/Unlisting Message/INvalid Input/User
             let(:msg_response)   { unlisting_msg.send_message( contact_email: nil,
                                                                  sender_user: jim_unconfirm,
                                                              reply_recipient: nil,
@@ -255,9 +255,9 @@ describe MessagesManager do
         end
 
 
-        context "by a Safeguest" do #Context: Unlisting Message/INvalid Input
+        context "by a Safeguest" do #Context: send_message/Unlisting Message/INvalid Input
 
-          context "who is allowed" #Context: Unlisting Message/INvalid Input/Safeguest
+          context "who is allowed" #Context: send_message/Unlisting Message/INvalid Input/Safeguest
             let(:msg_response)   { unlisting_msg.send_message( contact_email: joe_safeguest.email,
                                                                  sender_user: nil,
                                                              reply_recipient: nil,
@@ -285,12 +285,12 @@ describe MessagesManager do
             it "returns success as true" do
               expect(unlisting_msg.success).to be_true
             end
-            it "returns flash_success as true" do
+            it "returns flash_success" do
               expect(unlisting_msg.flash_success).to be_present
             end
 
 
-          context "who is NOT confirmed" do #Context: Unlisting Message/INvalid Input/Safeguest
+          context "who is NOT confirmed" do #Context: send_message/Unlisting Message/INvalid Input/Safeguest
             let(:msg_response)   { unlisting_msg.send_message( contact_email: jim_safeguest.email,
                                                                  sender_user: nil,
                                                              reply_recipient: nil,
@@ -302,7 +302,7 @@ describe MessagesManager do
             it "does not create a message" do
               expect(Message.count).to eq(0)
             end
-            it "returns a flash_error" do
+            it "returns a flash_notice" do
               expect(unlisting_msg.flash_notice).to be_present
             end
             it "returns success as false" do
@@ -311,7 +311,7 @@ describe MessagesManager do
           end
 
 
-          context "who is restricted by User who does not allow Safeguests" do #Context: Unlisting Message/INvalid Input/Safeguest
+          context "who is restricted by User who does not allow Safeguests" do #Context: send_message/Unlisting Message/INvalid Input/Safeguest
             let(:msg_response)   { unlisting_msg.send_message( contact_email: joe_safeguest.email,
                                                                  sender_user: nil,
                                                              reply_recipient: nil,
@@ -340,7 +340,7 @@ describe MessagesManager do
         end
 
 
-        context "by an unknown email address" do #Context: Unlisting Message/INvalid Input
+        context "by an unknown email address" do #Context: send_message/Unlisting Message/INvalid Input
           let(:msg_response)   { unlisting_msg.send_message( contact_email: "dude@example.com",
                                                                sender_user: nil,
                                                            reply_recipient: nil,
@@ -373,19 +373,78 @@ describe MessagesManager do
       end
     end
 
-    context "for a new Reply message" do
-      let(:reply_msg)  { MessagesManager.new(unlisting_slug: nil, parent_message_id: unlisting_msg.id) }
 
-      context "by a User" do
+
+    context "for a new Reply message" do #Context: send_message
+      let(:reply_msg) { MessagesManager.new(unlisting_slug: nil, parent_msg_id: unlisting_msg.id) }
+
+      context "by a User" do #Context: send_message/Reply Message
         let(:unlisting_msg) { Fabricate(:user_unlisting_message) }
-        context "who is allowed"
-        context "who is NOT confirmed"
-        context "who is restricted by another User"
-        context "who is suspended"
+
+        context "who is allowed" do #Context: Reply Message/User
+          let(:msg_response) { reply_msg.send_message( contact_email: nil,
+                                                         sender_user: joe,
+                                                     reply_recipient: nil,
+                                                             content: "Got one.",
+                                                           recaptcha: false,
+                                                         contact_msg: false) }
+          before { msg_response }
+
+          it "creates a new reply message" do
+            expect(Message.count).to eq(2)
+          end
+          it "saves the reply data appropriately" do
+            message = Message.last
+            expect(message.content         ).to eq("Got one." )
+            expect(message.messageable_type).to eq("Message"  )
+            expect(message.recipient_id    ).to eq(jen.id     )
+            expect(message.contact_email   ).to be_nil
+          end
+          it "returns the type as Reply" do
+            expect(reply_msg.type).to eq("Reply")
+          end
+          it "returns the sender_type as User" do
+            expect(reply_msg.sender_type).to eq("User")
+          end
+          it "returns success as true" do
+            expect(reply_msg.success).to be_true
+          end
+          it "returns flash_success" do
+            expect(reply_msg.flash_success).to be_present
+          end
+        end
+
+
+        context "who is NOT confirmed" do
+          let(:msg_response) { reply_msg.send_message( contact_email: nil,
+                                                         sender_user: jim_unconfirm,
+                                                     reply_recipient: nil,
+                                                             content: "Got one.",
+                                                           recaptcha: false,
+                                                         contact_msg: false) }
+          before { msg_response }
+
+          it "does not create a message" do
+            expect(Message.count).to eq(1)
+          end
+          it "returns a flash_notice" do
+            expect(reply_msg.flash_notice).to be_present
+          end
+          it "returns success as false" do
+            expect(reply_msg.success).to be_false
+          end
+        end
+
+        context "who is restricted by another User" do #FUTURE FEATURE
+          it "is needs the feature to be added before teting"
+        end
+        context "who is suspended" do #FUTURE FEATURE
+          it "is needs the feature to be added before teting"
+        end
       end
 
 
-      context "by a Safeguest is never allowed and" do
+      context "by a Safeguest is never allowed and" do #Context: send_message/Reply Message/Safeguest
         let(:unlisting_msg) { Fabricate(:guest_unlisting_message) }
         let(:msg_response ) { reply_msg.send_message( contact_email: joe_safeguest,
                                                         sender_user: nil,
@@ -399,7 +458,6 @@ describe MessagesManager do
           expect(Message.count).to eq(1)
         end
         it "returns an flash_notice to the sender that something is 'fishy' about their attempt" do
-          include 'pry'; binding.pry
           expect(reply_msg.flash_notice).to include("fishy")
         end
         it "returns success as false" do
@@ -408,19 +466,217 @@ describe MessagesManager do
       end
     end
 
-    context "for a new Contact message"
-      context "by a User" do
-        it "becomes a feedback message"
-      end
-      context "by an outsider" do
-        context "with valid inputs"
-        context "with INvalid inputs"
+
+
+    context "for a new Contact message" do #Context: send_message
+      let( :contact_msg) { MessagesManager.new(unlisting_slug: nil, parent_msg_id: nil) }
+      let!(:admin      ) { Fabricate(:admin) }
+      before { admin.update_column(:role, 'admin') }
+
+      context "by a User" do #Context: send_message/Contact Message
+        let(:msg_response) { contact_msg.send_message( contact_email: nil,
+                                                         sender_user: joe,
+                                                     reply_recipient: nil,
+                                                             content: "I heart Unlist.",
+                                                           recaptcha: true,
+                                                         contact_msg: "true") }
+        before { msg_response }
+
+        it "becomes a feedback message" do
+          expect(contact_msg.type).to eq("Feedback")
+        end
+        it "creates a feedback message message" do
+          expect(Message.count).to eq(1)
+        end
+        it "is of type User" do
+          expect(Message.last.messageable_type).to eq("User")
+        end
+        it "returns a flash_success" do
+          expect(contact_msg.flash_success).to be_present
+        end
+        it "returns success as true" do
+          expect(contact_msg.success).to be_true
+        end
       end
 
-    context "for a new Feedback message" do
-      context "by a User"
-      context "by a non-User" do
-        it "is never allowed"
+      context "by an outsider" do #Context: send_message/Contact Message
+        context "with valid inputs" do
+          let(:msg_response) { contact_msg.send_message( contact_email: "dude@example.com",
+                                                           sender_user: nil,
+                                                       reply_recipient: nil,
+                                                               content: "I heart Unlist.",
+                                                             recaptcha: true,
+                                                           contact_msg: "true") }
+          before { msg_response }
+
+          it "creates a new contact message" do
+            expect(Message.count).to eq(1)
+          end
+          it "saves the message data appropriately" do
+            message = Message.last
+            expect(message.content         ).to eq("I heart Unlist." )
+            expect(message.messageable_type).to eq("User"            )
+            expect(message.recipient_id    ).to eq(admin.id          )
+            expect(message.contact_email   ).to eq("dude@example.com")
+          end
+          it "returns the type as Contact" do
+            expect(contact_msg.type).to eq("Contact")
+          end
+          it "returns the sender_type as User" do
+            expect(contact_msg.sender_type).to be_nil
+          end
+          it "returns success as true" do
+            expect(contact_msg.success).to be_true
+          end
+          it "returns flash_success" do
+            expect(contact_msg.flash_success).to be_present
+          end
+        end
+
+        context "with INvalid input" do
+          context "of recaptcha" do
+            let(:msg_response) { contact_msg.send_message( contact_email: "dude@example.com",
+                                                           sender_user: nil,
+                                                       reply_recipient: nil,
+                                                               content: "I heart Unlist.",
+                                                             recaptcha: false,
+                                                           contact_msg: "true") }
+            before { msg_response }
+
+            it "does not create a new contact message" do
+              expect(Message.count).to eq(0)
+            end
+            it "returns success as false" do
+              expect(contact_msg.success).to be_false
+            end
+            it "returns error_message as true" do
+              expect(contact_msg.error_message).to be_present
+            end
+          end
+
+          context "of their email address" do
+            let(:msg_response) { contact_msg.send_message( contact_email: "dude",
+                                                           sender_user: nil,
+                                                       reply_recipient: nil,
+                                                               content: "I heart Unlist.",
+                                                             recaptcha: true,
+                                                           contact_msg: "true") }
+            before { msg_response }
+
+            it "does not create a new contact message" do
+              expect(Message.count).to eq(0)
+            end
+            it "returns success as false" do
+              expect(contact_msg.success).to be_false
+            end
+            it "returns error_message as true" do
+              expect(contact_msg.error_message).to be_present
+            end
+          end
+
+          context "of a blank message" do
+            let(:msg_response) { contact_msg.send_message( contact_email: "dude@example.com",
+                                                           sender_user: nil,
+                                                       reply_recipient: nil,
+                                                               content: "",
+                                                             recaptcha: false,
+                                                           contact_msg: "true") }
+            before { msg_response }
+
+            it "does not create a new contact message" do
+              expect(Message.count).to eq(0)
+            end
+            it "returns success as false" do
+              expect(contact_msg.success).to be_false
+            end
+            it "returns error_message as true" do
+              expect(contact_msg.error_message).to be_present
+            end
+          end
+        end
+      end
+    end
+
+
+
+    context "for a new Feedback message" do #Context: send_message
+      let( :feedback_msg) { MessagesManager.new(unlisting_slug: nil, parent_msg_id: nil) }
+      let!(:admin       ) { Fabricate(:admin) }
+      before { admin.update_column(:role, 'admin') }
+
+      context "by a User" do #Context: send_message/Feedback Message
+        context "with Valid input" do
+          let(:msg_response) { feedback_msg.send_message( contact_email: nil,
+                                                            sender_user: joe,
+                                                        reply_recipient: nil,
+                                                                content: "I heart Unlist.",
+                                                              recaptcha: false,
+                                                            contact_msg: false) }
+          before { msg_response }
+
+          it "creates a new feedback message" do
+            expect(Message.count).to eq(1)
+          end
+          it "saves the message data appropriately" do
+            message = Message.last
+            expect(message.content         ).to eq("I heart Unlist." )
+            expect(message.messageable_type).to eq("User"            )
+            expect(message.recipient_id    ).to eq(admin.id          )
+            expect(message.contact_email   ).to be_nil
+          end
+          it "returns the type as Feedback" do
+            expect(feedback_msg.type).to eq("Feedback")
+          end
+          it "returns the sender_type as User" do
+            expect(feedback_msg.sender_type).to eq("User")
+          end
+          it "returns success as true" do
+            expect(feedback_msg.success).to be_true
+          end
+          it "returns flash_success" do
+            expect(feedback_msg.flash_success).to be_present
+          end
+        end
+
+        context "with INvalid content input" do
+          let(:msg_response) { feedback_msg.send_message( contact_email: nil,
+                                                           sender_user: joe,
+                                                       reply_recipient: nil,
+                                                               content: "",
+                                                             recaptcha: false,
+                                                           contact_msg: false) }
+          before { msg_response }
+
+          it "does not create a new feedback message" do
+            expect(Message.count).to eq(0)
+          end
+          it "returns success as false" do
+            expect(feedback_msg.success).to be_false
+          end
+          it "returns error_message as true" do
+            expect(feedback_msg.error_message).to be_present
+          end
+        end
+      end
+
+      context "by a non-User is never allowed and" do  #Context: send_message/Feedback Message
+        let(:msg_response) { feedback_msg.send_message( contact_email: nil,
+                                                          sender_user: nil,
+                                                      reply_recipient: nil,
+                                                              content: "I heart Unlist.",
+                                                            recaptcha: false,
+                                                          contact_msg: false) }
+        before { msg_response }
+
+        it "does not create a new feedback message" do
+          expect(Message.count).to eq(0)
+        end
+        it "returns success as false" do
+          expect(feedback_msg.success).to be_false
+        end
+        it "returns error_message as true" do
+          expect(feedback_msg.error_message).to be_present
+        end
       end
     end
   end

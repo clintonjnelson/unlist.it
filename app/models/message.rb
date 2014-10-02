@@ -18,8 +18,9 @@ class Message < ActiveRecord::Base
   validates :recipient_id,      presence: true
   validates :subject,           presence: true
   validates :content,           presence: true
-  validates_presence_of :sender_id,     unless: 'self.contact_email.present?'
-  validates_presence_of :contact_email, unless: 'self.sender_id.present?'
+  validates :contact_email, email: true, unless: 'self.sender_id.present?'
+  validates_presence_of :sender_id,      unless: 'self.contact_email.present?'
+
 
   # External Forces
   self.per_page = 20

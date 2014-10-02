@@ -95,7 +95,9 @@ class MessagesManager
 
     ###### MESSAGE REPLIES ######
     elsif reply_message?
-      @type = "Reply"
+      @type        = "Reply"
+      @sender_type = "User" if from_user?(@sender_user)
+
       if user_message_allowed? #check if user can send message
         unless reply_message_setup(@content) == false #finds unlisting & sets message values. Makes @message & @unlisting
 
@@ -109,7 +111,7 @@ class MessagesManager
         end
 
       else #if user is restricted from messaging or is not a user
-        if @sender_user.nil? || !@sender_user.confirmed?
+        if !from_user?(@sender_user) || !@sender_user.confirmed?
           @flash_notice = "Something seems fishy about how you're replying to
                           an unlisting message without having been prior confirmed...
                           but anyhoo, please visit the inbox of the email account
@@ -124,7 +126,7 @@ class MessagesManager
 
 
     ###### OUTSIDER CONTACT ######
-    elsif from_outsider?
+    elsif from_outsider? && @sender_user.blank?
       @type = "Contact"
       unless contact_message_setup(@content) == false
         if @recaptcha && @message.save
@@ -139,7 +141,9 @@ class MessagesManager
 
     ###### FEEDBACK MESSAGE TO ADMIN ######
     else
-      @type = "Feedback"
+      @type        = "Feedback"
+      @sender_type = "User" if @sender_user
+
       unless feedback_message_setup(@content) == false #finds admin & sets message values. Makes @message
         if @message.save
           @flash_success = "Feedback Sent!"
@@ -224,7 +228,7 @@ class MessagesManager
 
   def feedback_message_setup(content)
     admin = User.where(role: "admin").take
-    if admin
+    if admin && @sender_user
       @message = Message.new(content: content,
                            recipient: admin,
                               sender: @sender_user,
@@ -233,7 +237,7 @@ class MessagesManager
                          messageable: admin) #User type with admin's id
     else
       @error_message = "Argh, something went terribly wrong & this message couldn't be sent!
-                        Feel free to email us instead at admin@unlist.it -- we really want to hear what you have to say!"
+                        Feel free to signout and contact us through our contact page."
       @success       = false
     end
   end
