@@ -1,15 +1,16 @@
 class UnlistingsController < ApplicationController
   ##ADD THESE BEFORE ACTIONS TO SPECS
-  before_action :set_user,                  only: [      :create,        :edit, :update          ]
+  before_action :set_user,                  only: [:new, :create,        :edit, :update, :destroy]
   before_action :set_unlisting,             only: [               :show, :edit, :update, :destroy]
   ###VERIFY ALREADY TESTED FOR THESE
-  before_action :require_correct_user,      only: [                      :edit, :update, :destroy]
-  before_action :require_signed_in,         only: [:new, :create,        :edit, :update, :destroy]
+  before_action :require_signed_in,         only: [:new, :create,        :edie, :update, :destroy]
+  before_action :require_correct_user,      only: [:new, :create                                 ]
+  before_action :require_creator_user,      only: [                      :edit, :update, :destroy]
   before_action :filter_symbols_from_price, only: [      :create,               :update          ]
   before_action :format_input_link,         only: [      :create,               :update          ]
 
   def new
-    @unlisting = current_user.unlistings.build
+    @unlisting = @user.unlistings.build
     @token     = build_token
   end
 
@@ -123,6 +124,9 @@ class UnlistingsController < ApplicationController
     @unlisting = Unlisting.find_by(slug: params[:id])
   end
   def require_correct_user
+    access_denied("You are not the correct user.") unless @user && (@user == current_user)
+  end
+  def require_creator_user
     access_denied("You are not the owner of this unlisting.") unless @unlisting && (current_user == @unlisting.creator)
   end
 

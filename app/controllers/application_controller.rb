@@ -50,12 +50,11 @@ class ApplicationController < ActionController::Base
   #verify the OR condition won't hijack functionality
   #NEVER set '@user = current_user' where 'require_correct_user' is checked!
   def set_user
-    if params[:id]
-      @user = User.find_by(slug: params[:id])
-    elsif params[:user_id]
+    if params[:user_id]
       @user = User.find_by(slug: params[:user_id])
+    elsif params[:id]
+      @user = User.find_by(slug: params[:id])
     end
-
   end
 
   def signin_user(user, stay=false)

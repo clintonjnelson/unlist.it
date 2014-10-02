@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe UnlistingsController, :vcr do
   let!(:settings) { Fabricate(:setting) }
-  let(:jen) { Fabricate(:user) }
+  let!(:jen     ) { Fabricate(:user) }
 
 
   describe "GET new" do
@@ -37,6 +37,7 @@ describe UnlistingsController, :vcr do
       before do
         spec_signin_user(jen)
         post :create, create_params
+        # include 'pry'; binding.pry
       end
       it "loads instance of the current_user as @user" do
         expect(assigns(:user)).to be_present
@@ -54,7 +55,7 @@ describe UnlistingsController, :vcr do
         expect(flash[:success]).to be_present
       end
       it "redirects to the new unlisting's page for viewing" do
-        expect(response).to redirect_to user_unlisting_path(jen.slug ,Unlisting.first.slug)
+        expect(response).to redirect_to user_unlisting_path(jen.slug, Unlisting.first.slug)
       end
     end
 
@@ -101,9 +102,6 @@ describe UnlistingsController, :vcr do
       spec_signin_user(jen)
       get :show, user_id: jen.slug, id: car_unlisting.slug
     end
-    it "loads instance of the current_user as @user" do
-      expect(assigns(:user)).to be_present
-    end
     it "loads instance of the unlisting as @unlisting" do
       expect(assigns(:unlisting)).to be_present
     end
@@ -136,14 +134,14 @@ describe UnlistingsController, :vcr do
           expect(flash[:success]).to be_present
         end
         it "renders the 'show' template" do
-          expect(response).to redirect_to user_unlisting_path(jen.slug, car_unlisting.slug)
+          expect(response).to redirect_to [jen, car_unlisting]
         end
       end
 
       context "with invalid updates" do
         before { patch :update, invalid_update_params }
 
-        it "loads instance of the current_user as @user" do
+        it "loads instance of @user" do
           expect(assigns(:user)).to be_present
         end
         it "loads instance of the unlisting as @unlisting" do
@@ -257,28 +255,24 @@ describe UnlistingsController, :vcr do
 end
 
 def create_params
-  params = {unlisting: {category_id: 3,
+  params = {unlisting: {category_id: 1,
                            title: "Volkswagen Bug",
                      description: "Want an awesome bug. Running. White with the number \"8\" on the side. ",
-                    condition_id: 8,
+                    condition_id: 1,
                            price: 200,
                         keyword1: "volkswagen",
                         keyword2: "bug",
                         keyword3: "ocho",
                         keyword4: "",
                             link: "http://www.google.com"},
-                        #   travel: true,
-                        # distance: 3,
-                        #  zipcode: 98056},
-                         user_id: 1,
-                        unimages: {} }
+                         user_id: jen.slug }
 end
 
 def update_params
-  params = {unlisting: {category_id: 3,
+  params = {unlisting: {category_id: 1,
                            title: "Volkswagen Bug",
                      description: "Desperate. Running or not.",
-                    condition_id: 8,
+                    condition_id: 1,
                            price: 200,
                         keyword1: "volkswagen",
                         keyword2: "bug",
@@ -289,32 +283,29 @@ def update_params
 end
 
 def invalid_update_params
-  params = {unlisting: {category_id: 3,
+  params = {unlisting: {category_id: 1,
                            title: nil,
                      description: "Desperate. Running or not.",
-                    condition_id: 8,
+                    condition_id: 1,
                            price: 200,
                         keyword1: "volkswagen",
                         keyword2: "bug",
                         keyword3: "ocho",
                         keyword4: "",
                             link: "http://www.herbie.com"},
-                        #   travel: true,
-                        # distance: 3,
-                        #  zipcode: 98056},
                          user_id: jen.slug, id: car_unlisting.slug }
 end
 
 def invalid_create_params
-  params = {unlisting: {category_id: 3,
+  params = {unlisting: {category_id: 1,
                            title: nil,
-                     description: "Want an awesome bug. Running. White with the number \"8\" on the side. ",
-                    condition_id: 8,
+                     description: "Want an awesome bug. Running. White with the number 8 on the side. ",
+                    condition_id: 1,
                            price: 200,
                         keyword1: "volkswagen",
                         keyword2: "bug",
                         keyword3: "ocho",
                         keyword4: "",
                             link: "http://www.google.com"},
-                         user_id: 1}
+                         user_id: jen.slug}
 end

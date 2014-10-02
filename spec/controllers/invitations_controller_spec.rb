@@ -12,7 +12,7 @@ describe InvitationsController do
         spec_signin_user(jen)
         Sidekiq::Testing.inline! do
           post :create, { invitation: { recipient_email: "joe@example.com"  },
-                             user_id: jen.id }
+                             user_id: jen.slug }
         end
       end
 
@@ -55,7 +55,7 @@ describe InvitationsController do
         spec_signin_user(jen)
         Sidekiq::Testing.inline! do
           post :create, { invitation: { recipient_email: "joeexample.com"  },
-                             user_id: jen.id }
+                             user_id: jen.slug }
         end
       end
 
@@ -79,7 +79,7 @@ describe InvitationsController do
         spec_signin_user(jen)
         Sidekiq::Testing.inline! do
           post :create, { invitation: { recipient_email: "joeexample.com"  },
-                             user_id: jen.id }
+                             user_id: jen.slug }
         end
       end
 

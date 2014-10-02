@@ -183,7 +183,7 @@ describe MessagesManager do
 
           it "sends an invitation to the unknown email address" do
             expect(ActionMailer::Base.deliveries).to_not be_empty
-            expect(ActionMailer::Base.deliveries.first.to).to eq(["dude@example.com"])
+            expect(ActionMailer::Base.deliveries.last.to).to eq(["dude@example.com"])
           end
           it "does not create a message" do
             expect(Message.count).to eq(0)
@@ -358,7 +358,7 @@ describe MessagesManager do
 
           it "sends an invitation to the unknown email address" do
             expect(ActionMailer::Base.deliveries).to_not be_empty
-            expect(ActionMailer::Base.deliveries.first.to).to eq(["dude@example.com"])
+            expect(ActionMailer::Base.deliveries.last.to).to eq(["dude@example.com"])
           end
           it "does not create a message" do
             expect(Message.count).to eq(0)
@@ -395,9 +395,9 @@ describe MessagesManager do
           end
           it "saves the reply data appropriately" do
             message = Message.last
-            expect(message.content         ).to eq("Got one." )
-            expect(message.messageable_type).to eq("Message"  )
-            expect(message.recipient_id    ).to eq(jen.id     )
+            expect(message.content         ).to eq("Got one."                 )
+            expect(message.messageable_type).to eq("Message"                  )
+            expect(message.recipient_id    ).to eq(unlisting_msg.recipient.id )
             expect(message.contact_email   ).to be_nil
           end
           it "returns the type as Reply" do
