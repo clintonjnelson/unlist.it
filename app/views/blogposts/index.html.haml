@@ -9,7 +9,8 @@
     -if @blogposts.present?
       -@blogposts.each do |post|
         %h3.text-center= post.title
-        %p.text-center= image_tag( post.blogpic_url(:full_blogpic), width: '200')
+        -if post.blogpic.present?
+          %p.text-center= image_tag( post.blogpic_url(:full_blogpic), width: '200')
         %p= kramdown(post.content)
         %p
           %small
