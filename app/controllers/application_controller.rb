@@ -60,7 +60,7 @@ class ApplicationController < ActionController::Base
   def signin_user(user, stay=false)
     session[:user_id] = user.id
     if user.role = 'alpha'
-      flash[:success] ||= "Welcome, #{user.username}! As an alpha user, please help by adding unlistings to your unlist(wishlist). Thank you!"
+      flash[:success] ||= "Welcome, #{user.username}! As an alpha user, please help by adding unlistings to your unlist(wishlist). Thank you & have fun!"
     else
       flash[:success] ||= "Welcome, #{user.username}!"
     end

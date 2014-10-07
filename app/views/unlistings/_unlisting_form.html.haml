@@ -1,12 +1,13 @@
 .row#userbox.col-xs-8
   #userboxcontent.well
-    %h4= "#{title}"
+    %h2.text-muted.text-center= "#{title}"
 
-    -# Dropzone Area for File Uploads
-    %form.dropzone.dz-clickable#unimage-dropzone{ action: "/add_unimage", method: 'post' }
-      .input{ name: "unimage[filename]", type: "file" }
-      -#Token passed with creation of unimage for server reference to unlisting
-      %input{ name: "unimage[token]",    type: "hidden", value: "#{ @token }" }
+    #optional-dropzone.hide
+      -# Dropzone Area for File Uploads
+      %form.dropzone.dz-clickable#unimage-dropzone{ action: "/add_unimage", method: 'post' }
+        .input{ name: "unimage[filename]", type: "file" }
+        -#Token passed with creation of unimage for server reference to unlisting
+        %input{ name: "unimage[token]",    type: "hidden", value: "#{ @token }" }
 
 
     -if @unimages.present?
@@ -36,13 +37,17 @@
       -# Verify if still need multipart here
       =bootstrap_form_for [current_user, unlisting], html: { multipart: true }, layout: :horizontal, label_col: 'col-xs-4', control_col: "col-xs-6" do |f|
         =f.hidden_field :token, value: "#{@token}"
-        =f.collection_select :category_id, Category.order('name ASC').all, :id, :name, { prompt: "select a category" }, { class: 'unlisting_category_select' }
+        =f.collection_select :category_id, Category.order('name ASC').all, :id, :name, { prompt: "select a category", label: "Category*" }, { class: 'unlisting_category_select' }
         =f.text_field :title,       label: "Title*"
         =f.text_area  :description, label: "Description*", size: '24x6', placeholder: "Describe what you're looking for...."
 
         -# Use thumbnailer to load link images
         =f.text_field  :link,       label: "Website Example", class: "link-thumbnails-input"
         .link-thumbnails{ data: { id: @unlisting.slug } }
+
+        =f.static_control nil, label: "Upload Images" do
+          =link_to "display image upload area(optional)", "#dropzone", id: "hideshow-dropzone"
+          -#JS toggle for showing or hiding dropzone area
 
 
         =f.select :condition_id, [], { prompt: "select a category above", label: "Minimum Condition*"}, { id: "unlisting_condition_select" }

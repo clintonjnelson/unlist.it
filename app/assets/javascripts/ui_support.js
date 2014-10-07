@@ -28,6 +28,11 @@ $(document).on("click", "#image_links_use_thumb_image", function() {
   $('#link-image-thumbs').toggleClass("hide");
 });
 
+//Toggle showing of the dropzone area if user wants to upload images
+$(document).on("click", "#hideshow-dropzone", function() {
+  $('#optional-dropzone').toggleClass("hide");
+});
+
 
 
 //////////////////////// UNLISTING RESPONSE /////////////////////////
