@@ -42,7 +42,7 @@ describe User do
       it "is valid if the date is set" do
         jen = Fabricate.build(:user, termsconditions: Time.now)
           expect(jen).to be_valid
-          expect(jen.errors[:termsconditions]).to be_nil
+          expect(jen.errors[:termsconditions]).to eq []
       end
     end
   end

@@ -73,7 +73,7 @@ class User < ActiveRecord::Base
   end
 
   def set_user_location_to_default
-    #I HATE THIS LOC. TESTS SHOULD NOT AFFECT CODE, BUT CUMBERSOME TO WORK AROUND THIS
+    #AWFUL LOC. TESTS SHOULD NOT AFFECT CODE, BUT CUMBERSOME TO WORK AROUND THIS.
     !Rails.env.test? ? (self.location = Location.find(2)) : (self.location = Location.first)
   end
 
