@@ -16,4 +16,7 @@
       =yield
     %footer
       =render 'layouts/footer'
+    -if Rails.env.production?
+      .google-analytics
+        =render 'layouts/google_analytics'
 

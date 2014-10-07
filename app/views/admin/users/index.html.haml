@@ -19,9 +19,8 @@
           %ul
             %li= "Email: #{user.email}"
             %li= "Joined: #{user.created_at}"
-            %li Unlistings: #{user.unlistings.active.count}
-            %li Messages(Out): [MESSAGES COUNT HERE]
-            %li Messages(In): [MESSAGES COUNT HERE]
+            %li Unlistings: #{user.unlistings.count}
+            %li Friends:    #{user.friends.count}
             %li
               Actions:
               %a(href='') [lock user]

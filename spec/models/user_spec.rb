@@ -32,6 +32,21 @@ describe User do
                               "email@example",
                               "email@example@com").for(:email) }
 
+  describe "agrees_to_terms_and_conditions" do
+    describe "validates that the terms and conditions has been agreed to by user and" do
+      it "is not valid if a date is not set" do
+        jen = Fabricate.build(:user, termsconditions: nil)
+          expect(jen).to_not be_valid
+          expect(jen.errors[:termsconditions]).to be_present
+      end
+      it "is valid if the date is set" do
+        jen = Fabricate.build(:user, termsconditions: Time.now)
+          expect(jen).to be_valid
+          expect(jen.errors[:termsconditions]).to be_nil
+      end
+    end
+  end
+
 
   ############################## CALLBACKS ##############################
   describe 'set_initial_prt_created_at' do

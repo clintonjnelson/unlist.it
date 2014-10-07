@@ -145,6 +145,9 @@ describe UsersController, :vcr do
           expect(Token.first.tokenable_id).to   eq(User.last.id)
           expect(Token.first.user_id).to        eq(User.last.id)
         end
+        it "sets the user's termsconditions to the date they agreed" do
+          expect(User.first.termsconditions).to be > 1.minute.ago
+        end
         it "creates a new placeholder token string for the user" do
           expect(User.last.tokens.first.token).to be_present
         end

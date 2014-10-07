@@ -15,7 +15,7 @@ describe SessionsController do
         expect(flash[:success]).to include("Welcome")
       end
       it "redirects the user to their home page" do
-        expect(response).to redirect_to user_unlist_path(jen, type: 'unlist')
+        expect(response).to redirect_to new_user_unlisting_path(jen)
       end
     end
 
