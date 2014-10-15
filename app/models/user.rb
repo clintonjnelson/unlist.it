@@ -129,7 +129,7 @@ class User < ActiveRecord::Base
   def create_welcome_message
     Message.create(recipient: self,
                      subject: "Welcome to Unlist.it!",
-                     content: "We suggest you start by adding as many unlistings (wishlist items) as you can think of - this makes up your unlist (wishlist). Then search & add any friends/family - this makes it convenient to view their unlists (wishlists). If they're not on Unlist.it yet, invite them! Add more unlistings anytime you'd like. Enjoy!",
+                     content: "We suggest you start by adding as many unlistings (wishlist items) as you can think of - this makes up your unlist (wishlist). Then search & add any friends/family - this makes it convenient to view their unlists (wishlists) for gift ideas. If they're not on Unlist.it yet, invite them! Add more unlistings anytime you'd like. Enjoy!  (oh, and feel free to delete the example unlisting & example friend unlist link)",
                contact_email: nil,
                    sender_id: 1,
             messageable_type: "User",
