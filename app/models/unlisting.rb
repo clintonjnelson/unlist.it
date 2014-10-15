@@ -22,7 +22,7 @@ class Unlisting < ActiveRecord::Base
 
 
   # Validations
-  validates_presence_of  :title, :description, :keyword1, :condition_id, :category_id, :user_id#, :travel
+  validates_presence_of  :title, :description, :keyword1, :condition_id, :category_id, :user_id
   validates   :keyword2, presence: true, allow_blank: true
   validates   :keyword3, presence: true, allow_blank: true
   validates   :keyword4, presence: true, allow_blank: true

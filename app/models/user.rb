@@ -25,7 +25,9 @@ class User < ActiveRecord::Base
   before_create     :set_initial_values
   before_create     :make_alpha_questionaire  #THIS WILL EVENTUALLY BE REMOVED
   before_save       :toggle_avatar_use_with_changes
-  after_save        :make_user_preferences
+  after_create      :make_user_preferences
+  after_create      :set_welcome_examples
+
 
   # Validations
   validate  :agrees_to_terms_and_conditions, on: :create
@@ -72,6 +74,12 @@ class User < ActiveRecord::Base
     self.create_preference
   end
 
+  def set_welcome_examples
+    set_admin_friend_example
+    create_welcome_message
+    create_example_unlisting
+  end
+
   def set_user_location_to_default
     #AWFUL LOC. TESTS SHOULD NOT AFFECT CODE, BUT CUMBERSOME TO WORK AROUND THIS.
     !Rails.env.test? ? (self.location = Location.find(2)) : (self.location = Location.first)
@@ -113,6 +121,35 @@ class User < ActiveRecord::Base
   def self.secure_token
     SecureRandom.urlsafe_base64
   end
+
+  #New User Welcome & Examples (would like to put methods in their respective classes)
+  def set_admin_friend_example
+    self.friends << User.first
+  end
+  def create_welcome_message
+    Message.create(recipient: self,
+                     subject: "Welcome to Unlist.it!",
+                     content: "We suggest you start by adding as many unlistings (wishlist items) as you can think of - this makes up your unlist (wishlist). Then search & add any friends/family - this makes it convenient to view their unlists (wishlists). If they're not on Unlist.it yet, invite them! Add more unlistings anytime you'd like. Enjoy!",
+               contact_email: nil,
+                   sender_id: 1,
+            messageable_type: "User",
+              messageable_id: 1,
+                    msg_type: "Admin",
+                  deleted_at: nil)
+  end
+  def create_example_unlisting
+    Unlisting.create(     creator: self,
+                      category_id: 1,
+                     condition_id: 166,
+                            title: "Money(USD)",
+                      description: "Looking for money. Any amount. Prefer larger bills. No torn bills. No fake bills. USD only. (See the FAQ for more info on Community Reuse)",
+                         keyword1: "money",
+                         keyword2: "benjamins",
+                             link: "http://en.wikipedia.org/wiki/United_States_dollar",
+                            price: 0,
+                       link_image: "http://upload.wikimedia.org/wikipedia/commons/thumb/6/64/USDnotes.png/252px-USDnotes.png")
+  end
+
 
   # Checks
   def admin?

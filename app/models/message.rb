@@ -37,6 +37,7 @@ class Message < ActiveRecord::Base
     end if self.messages.present? #double-check this is supposed to be .present? & not .blank?
   end
 
+
   #Probably need to make a message inactive when:
     #Unlisting parent is made inactive, make all of its messages inactive too
     #User specifically "deletes" the message
