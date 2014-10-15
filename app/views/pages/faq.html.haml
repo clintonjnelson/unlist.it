@@ -12,6 +12,7 @@
     %li= link_to 'Can I login with other social media accounts?', faq_path(anchor: 'q6')
     %li= link_to 'Do I need to signup to browse or search Unlist postings & contact interested buyers?', faq_path(anchor: 'q7')
     %li= link_to "Using Unlist - Levels of Use", faq_path(anchor: 'q8')
+    %li= link_to "Can I make unlistings to SELL things on Unlist.it?", faq_path(anchor: 'q9')
   %br
   %br
   %br
@@ -160,5 +161,24 @@
       or see our
       =link_to 'getting started', gettingstarted_path, target: '_blank'
       page for more information.
+  %hr
+  %br
 
+
+  // FAQ #9
+  %h3#q9
+    Can I make unlistings to SELL things on Unlist.it?
+  %ul
+    %li.list-no-bullet
+      %h5 No.
+      %ul
+        %li.list-no-bullet
+          Sorry, Unlist.it unlistings are BUY ads ONLY. If you'd like to make ads to sell things, there are already lots of sites for that. Such as:
+          %span
+            =link_to 'Craigslist', 'http://www.craigslist.org', target: '_blank'
+            and
+            =link_to 'eBay', 'http://www.ebay.com', target: '_blank'
+        %br
+        %li.list-no-bullet
+        Here is how SELLERS should use this website: Search for items that you HAVE & want to sell. If you (the SELLER) search & find an unlisting precisely describing the item you are selling, you can contact the unlister who made the unlisting & offer to sell them the item.
 
