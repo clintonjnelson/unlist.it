@@ -7,67 +7,58 @@
     %hr.hr-lg-dashed
 
     %h4.text-muted Unlist.it ALPHA
-    %p Thanks for your help with my portfolio project! You are the first people to see Unlist.it before it is ready to go public.
-    %p As the "Alpha Team", your purpose to break things & tell me what you did to make it break. To break things, do whatever you want. If you're not sure, try to use stuff how you would expect, and then try to use them similar to how you would but doing little things totally wrong. The more it breaks now & gets fixed, the more stable it will be.
-    %p Please know that this is an early release, and there is a (hopefully) small chance that if something goes WAY wrong, a loss of data could occur (it could lose some or all of the info you put in). I'm planning to avoid that, but I apologize in advance if I screw up & that does occur!
-    %p Remember that Unlist.it will look a lot more "full" once there are thousands of people using it & tens-of-thousands of Unlistings... so keep in mind that it currently looks like a ghost-town waiting to be inhabited.
+    %p Thanks for your help with my portfolio project! Whatever you don't like is an opportunity for me to improve, but I need your feedback to pinpoint those areas.
     %hr
 
 
     %h4.text-muted Upcoming Features
-    %p Unlist.it is still "in the works", so I thought I would highlight some upcoming features of Unlist that will be added as we progress towards the BETA version. I'm trying to focus on hitting all of the ESSENTIALS, so let me know if you think I forgot anything.
+    %p Unlist.it is still "in the works", but here are some of my plans for it.
     %ul
-      %li SSL encryption security (so people can't intercept your info - think old-school facebook issues)
-      %li Terms & Conditions
+      %li SSL encryption security
+      %li Private vs. Public Unlistings
       %li Flagging Users, Messages, & Unlistings that are: spam, not allowed, etc.
       %li
         Blocking Users:
         %ul
           %li Don't like some guy contacting you? Block him for good.
           %li Don't want to see that user's unlistings? Block them from showing up on your searches.
-      %li Search by keywords OR Unlisting Title (currently just keywords)
-      %li
-        Infinite Scroll of Search/Browse Results
-        %small.text-muted (Recently Added!)
-      %li Ability for User to have Unlist.it re-email the Confirmation Link for new users
+      %li Custom searches (by title, price, etc.) (currently just keywords)
     %hr
 
 
     %h4.text-muted General Feedback
-    %p These questions are intentionally vague so that you can say what you want. Your initial impressions, the things that bug you, the things that don't work or break, the things that are not intuitive, etc. I am hard to offend, and now I'm especially looking for criticism (and would appreciate suggestions to match it, if you have them), so fire away! Do your best to be the WORST Unlist.it users ever (break everything like an angry/tired child with rocks in a glass shop).
     %p
       This questionaire can be edited & updated at any time. If you prefer an email of this questionaire,
       =link_to "clicking here will send the questionaire to you via email.", user_email_questionaire_path(current_user)
       OR, if you just want to email me your insights without a questionaire, please email me directly at:
-      %strong clintonjnelson@live.com
-      If you want to be a "pro-tester", you can email me screen-shot images of the breaks for more clarity (definitely NOT required).
+      %strong info.unlist.it@gmail.com
     %p Thanks again for your help!
     %br
 
     =bootstrap_form_for [@user, @questionaire] do |f|
       %ol
         %li How intuitive is Unlist.it to use?
-        =f.text_area :intuitive,         hide_label: true, size: "15x10"
-        %li What are your thoughts on the layout?
-        =f.text_area :layout,            hide_label: true, size: "15x10"
+        =f.text_area :intuitive,         hide_label: true, size: "15x4"
+        / %li What are your thoughts on the layout?
+        / =f.text_area :layout,            hide_label: true, size: "15x4"
         %li How easy is it to tell what Unlist.it is & is for?
-        =f.text_area :purpose,           hide_label: true, size: "15x10"
-        %li Thoughts on creating Unlistings?
-        =f.text_area :making_unlistings, hide_label: true, size: "15x10"
-        %li Thoughts on searching/browsing Unlistings?
-        =f.text_area :search_browse,     hide_label: true, size: "15x10"
-        %li What do you NOT like about the site? (list as much as you want)
-        =f.text_area :notlike1,          hide_label: true, size: "15x10"
-        %li What else do you NOT like about the site? (list as much else as you want)
-        =f.text_area :notlike2,          hide_label: true, size: "15x10"
-        %li Anything you LIKE about the site?
-        =f.text_area :keepit,            hide_label: true, size: "15x10"
-        %li Any features that seem unnecessary or useless?
-        =f.text_area :junkit,            hide_label: true, size: "15x10"
-        %li You can tell me about any errors/breaks/flaws here or send me an email?
-        =f.text_area :breaks1,           hide_label: true, size: "15x10"
-        %li More room for errors/breaks/flaws here!
-        =f.text_area :breaks2,           hide_label: true, size: "15x10"
+        =f.text_area :purpose,           hide_label: true, size: "15x4"
+        / %li Thoughts on creating Unlistings?
+        / =f.text_area :making_unlistings, hide_label: true, size: "15x4"
+        / %li Thoughts on searching/browsing Unlistings?
+        / =f.text_area :search_browse,     hide_label: true, size: "15x4"
+        %li What do you NOT like about the site? Or other thoughts?
+        =f.text_area :notlike1,          hide_label: true, size: "15x4"
+        %li What do you find confusing about the site?
+        =f.text_area :notlike2,          hide_label: true, size: "15x4"
+        %li What do you like about the site?
+        =f.text_area :keepit,            hide_label: true, size: "15x4"
+        / %li Any features that seem unnecessary or useless?
+        / =f.text_area :junkit,            hide_label: true, size: "15x4"
+        / %li You can tell me about any errors/breaks/flaws here or send me an email?
+        / =f.text_area :breaks1,           hide_label: true, size: "15x4"
+        / %li More room for errors/breaks/flaws here!
+        / =f.text_area :breaks2,           hide_label: true, size: "15x4"
 
         =f.submit "Save Feedback", class: "btn btn-primary pull-right"
 
