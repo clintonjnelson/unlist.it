@@ -13,10 +13,10 @@ class RelationshipsController < ApplicationController
     friend   = User.find_by(slug: relationship_params[:friend_slug])
     befriend = Relationship.new(user: current_user, friend: friend)
     if friend && befriend.save
-      flash[:success] = "Friend added."
-      render 'search'
+      flash[:success] = "You're now following this person's unlist."
+      redirect_to user_relationships_path(@user)
     else
-      flash.now[:error] = "Friend could not be added."
+      flash.now[:error] = "This person's unlist could not be added."
       render 'search'
     end
   end
@@ -28,7 +28,7 @@ class RelationshipsController < ApplicationController
   def destroy
     friend = User.find_by(slug: relationship_params[:friend_slug])
     current_user.friend_relationships.find_by(friend: friend).destroy
-    flash[:success] = "Friend removed."
+    flash[:success] = "You're no longer following that person's unlist."
     redirect_to user_relationships_path(@user)
   end
 

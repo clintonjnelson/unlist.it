@@ -1,7 +1,7 @@
 -provide(:title, '')
 
 #quicksearch.col-xs-9
-  %h2.text-muted Find Your Friends
+  %h2.text-muted Find & Follow Your Friends
   %ul.searchform
     Search (exact match) for an Email Address or Username
     =form_tag user_search_friends_path(current_user), method: 'get' do
@@ -15,7 +15,7 @@
 -if @search_results.present?
   #friendsearchresultsbox.row.col-xs-8.col-xs-offset-1.well
     .friendsearchresults
-      %h4.text-muted= "Friends search results for '#{ @search_string }'"
+      %h4.text-muted= "Search results for '#{ @search_string }'"
       %hr.hr-lg-solid
 
       -@search_results.each do |user|
@@ -29,7 +29,7 @@
                   = link_to user_relationships_path(current_user, friend_slug: user.slug), method: 'post' do
                     [
                     .fa.fa-plus.fa-2
-                    add to friends]
+                    follow]
 
 
 -elsif @searched
