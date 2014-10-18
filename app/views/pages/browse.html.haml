@@ -17,7 +17,11 @@
 .row.col-xs-8.well#browse-unlistings
   -if @unlistings.present?
     .infinite-unlistings
-      =render @unlistings
+      -if @category.present?
+        =render partial: 'unlistings/unlisting', collection: @unlistings, locals: { browse_category: @category }
+      -else
+        =render @unlistings
+
     -# Infinite-scrolling
     =link_to "load more unlistings", browse_category_path(@category, page: @unlistings.next_page), class: 'infinite-load', remote: true if @unlistings.next_page
   -elsif !defined?(@unlistings)

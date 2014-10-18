@@ -16,8 +16,10 @@
       %li
         Example:
         %span= link_to "#{ unlisting.link }", url: "unlisting.link", class: "wrap-link"
+      -if browse_category.present? && browse_category == "All"
+        %li Condition: {    unlisting.category.name            }
       %li= "Description: #{ unlisting.description.truncate(45) }"
-      %li= "Condition: #{ unlisting.condition.level }"
+      %li= "Condition: #{   unlisting.condition.level          }"
 
       -if unlisting.price == 0
         %li

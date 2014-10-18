@@ -51,10 +51,12 @@ class UnlistingsController < ApplicationController
 
   def index_by_category #for Browse Page Results
     @categories = Category.order('name ASC').all
-    @category   = Category.find_by(slug: params[:category_id])
-    @unlistings = @category.unlistings.active.paginate(page: params[:page])
+    set_category
+    set_unlistings
+    # @category   = ( params[:category_id] == "All" ? "All" : Category.find_by(slug: params[:category_id]) )
+    # @unlistings = @category.unlistings.active.paginate(page: params[:page])
     respond_to do |format|
-      format.html { render 'pages/browse' }
+      format.html { render 'pages/browse'         }
       format.js   { render 'pages/browse.js.haml' }
     end
   end
@@ -168,6 +170,20 @@ class UnlistingsController < ApplicationController
   end
 
   ############################### SUPPORT METHODS ##############################
+
+  #This loads variables for the browse page depending on selection/default
+  def set_category
+    @category = ( params[:category_id] == "All" ? "All" : Category.find_by(slug: params[:category_id]) )
+  end
+
+  def set_unlistings
+    if @category  == "All"
+      @unlistings = Unlisting.order('created_at DESC').active.paginate(page: params[:page])
+    elsif @category.present?
+      @unlistings = @category.unlistings.active.paginate(page: params[:page])
+    end
+  end
+
 
   #This manages the setting & updating of external image links for Unlistings
   def set_or_update_link_image_column
