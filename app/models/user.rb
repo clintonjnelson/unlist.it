@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
   before_create     :make_alpha_questionaire  #THIS WILL EVENTUALLY BE REMOVED
   before_save       :toggle_avatar_use_with_changes
   after_create      :make_user_preferences
-  after_create      :set_welcome_examples unless Rails.env.test?
+  after_save        :set_welcome_examples, on: :create unless Rails.env.test?
 
 
   # Validations
