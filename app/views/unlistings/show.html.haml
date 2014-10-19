@@ -43,7 +43,7 @@
     -if @unlisting.link.present?
       %h5
         Here's An Example:
-        =link_to "#{@unlisting.link}", @unlisting.link, target: 'blank', class: "wrap-link"
+        =link_to "#{@unlisting.link}", @unlisting.link, target: '_blank', class: "wrap-link"
     %p= "Looking for:  #{ @unlisting.title       }"
     %p= "Description:  #{ @unlisting.description }"
     %ul.unlisting-top-details
