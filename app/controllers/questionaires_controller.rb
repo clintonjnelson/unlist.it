@@ -41,11 +41,14 @@ class QuestionairesController < ApplicationController
                                          :intuitive_scale,
                                          :purpose,
                                          :purpose_scale,
+                                         :layout,
+                                         :layout_scale,
+                                         :making_unlistings,
+                                         :making_unlistings_scale,
                                          :notlike1,
                                          :notlike1_scale,
-                                         :notlike2,
-                                         :notlike2_scale,
                                          :keepit,
-                                         :keepit_scale)
+                                         :keepit_scale,
+                                         :notlike2)
   end
 end
