@@ -53,8 +53,6 @@ class UnlistingsController < ApplicationController
     @categories = Category.order('name ASC').all
     set_category
     set_unlistings
-    # @category   = ( params[:category_id] == "All" ? "All" : Category.find_by(slug: params[:category_id]) )
-    # @unlistings = @category.unlistings.active.paginate(page: params[:page])
     respond_to do |format|
       format.html { render 'pages/browse'         }
       format.js   { render 'pages/browse.js.haml' }
