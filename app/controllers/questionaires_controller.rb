@@ -10,7 +10,7 @@ class QuestionairesController < ApplicationController
 
   def update
     @questionaire = current_user.questionaire
-    if @questionaire.update(questionaire_params)
+    if @questionaire.update(questionaire_params) ###FIX
       flash[:success] = "Changes saved."
       redirect_to edit_user_questionaire_path(current_user, current_user.questionaire)
     else
@@ -38,15 +38,14 @@ class QuestionairesController < ApplicationController
 
   def questionaire_params
     params.require(:questionaire).permit(:intuitive,
-                                         :layout,
+                                         :intuitive_scale,
                                          :purpose,
-                                         :making_unlistings,
-                                         :search_browse,
+                                         :purpose_scale,
                                          :notlike1,
+                                         :notlike1_scale,
                                          :notlike2,
+                                         :notlike2_scale,
                                          :keepit,
-                                         :junkit,
-                                         :breaks1,
-                                         :breaks2 )
+                                         :keepit_scale)
   end
 end

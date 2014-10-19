@@ -1,0 +1,5 @@
+%table
+  %tr
+    -(1..5).each do |e|
+      %td.inline-radio
+        =f.radio_button name, e, label: e.to_s, checked: (true if (questionaire.send(name.to_sym) == e))

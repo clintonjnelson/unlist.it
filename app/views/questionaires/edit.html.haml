@@ -38,21 +38,37 @@
     =bootstrap_form_for [@user, @questionaire] do |f|
       %ol
         %li How intuitive is Unlist.it to use?
-        =f.text_area :intuitive,         hide_label: true, size: "15x4"
+        =render partial: 'radio_scale', locals: { f: f, questionaire: @questionaire, name: "intuitive_scale" }
+        %p Comments:
+        =f.text_area :intuitive,         hide_label: true, size: "15x3"
+
         / %li What are your thoughts on the layout?
         / =f.text_area :layout,            hide_label: true, size: "15x4"
+
         %li How easy is it to tell what Unlist.it is & is for?
-        =f.text_area :purpose,           hide_label: true, size: "15x4"
+        =render partial: 'radio_scale', locals: { f: f, questionaire: @questionaire, name: "purpose_scale" }
+        %p Comments:
+        =f.text_area :purpose,           hide_label: true, size: "15x3"
+
         / %li Thoughts on creating Unlistings?
         / =f.text_area :making_unlistings, hide_label: true, size: "15x4"
         / %li Thoughts on searching/browsing Unlistings?
         / =f.text_area :search_browse,     hide_label: true, size: "15x4"
+
         %li What do you NOT like about the site? Or other thoughts?
-        =f.text_area :notlike1,          hide_label: true, size: "15x4"
+        =render partial: 'radio_scale', locals: { f: f, questionaire: @questionaire, name: "notlike1_scale" }
+        %p Comments:
+        =f.text_area :notlike1,          hide_label: true, size: "15x3"
+
         %li What do you find confusing about the site?
-        =f.text_area :notlike2,          hide_label: true, size: "15x4"
+        =render partial: 'radio_scale', locals: { f: f, questionaire: @questionaire, name: "notlike2_scale" }
+        %p Comments:
+        =f.text_area :notlike2,          hide_label: true, size: "15x3"
+
         %li What do you like about the site?
-        =f.text_area :keepit,            hide_label: true, size: "15x4"
+        =render partial: 'radio_scale', locals: { f: f, questionaire: @questionaire, name: "keepit_scale" }
+        %p Comments:
+        =f.text_area :keepit,            hide_label: true, size: "15x3"
         / %li Any features that seem unnecessary or useless?
         / =f.text_area :junkit,            hide_label: true, size: "15x4"
         / %li You can tell me about any errors/breaks/flaws here or send me an email?
@@ -61,8 +77,6 @@
         / =f.text_area :breaks2,           hide_label: true, size: "15x4"
 
         =f.submit "Save Feedback", class: "btn btn-primary pull-right"
-
-
 
 
 

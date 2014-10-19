@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141001021225) do
+ActiveRecord::Schema.define(version: 20141019001540) do
 
   create_table "blogposts", force: true do |t|
     t.text     "title"
@@ -104,6 +104,15 @@ ActiveRecord::Schema.define(version: 20141001021225) do
     t.text     "breaks2"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "intuitive_scale"
+    t.integer  "purpose_scale"
+    t.integer  "notlike1_scale"
+    t.integer  "notlike2_scale"
+    t.integer  "keepit_scale"
+    t.integer  "layout_scale"
+    t.integer  "making_unlistings_scale"
+    t.integer  "search_browse_scale"
+    t.integer  "junkit_scale"
   end
 
   create_table "relationships", force: true do |t|
