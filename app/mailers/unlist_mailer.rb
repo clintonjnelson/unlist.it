@@ -14,7 +14,7 @@ class UnlistMailer < ActionMailer::Base
   def invitation_email(invitation_id)
     @invitation = Invitation.find(invitation_id)
     @user       = @invitation.sender
-    invitation_use_developer_email_if_in_staging
+    #invitation_use_developer_email_if_in_staging
     mail(to: @invitation.recipient_email,
          from: 'info@unlist.it',
          subject: "You Have Been Exclusively Invited To Join Unlist.it")
