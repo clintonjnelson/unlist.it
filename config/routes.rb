@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
   require 'sidekiq/web'
 
-  get 'ui(/:action)', controller: 'ui'
+  get 'ui(/:action)',                     controller: 'ui'
+  get '/robots',                          to: redirect('/robots.txt'), format: false
+  get '/robots.:format',                  to: 'robots#index'
+
 
   root                                    to: 'pages#home'
   get     '/home',                        to: 'pages#home'
