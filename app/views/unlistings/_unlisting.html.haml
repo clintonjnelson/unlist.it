@@ -17,7 +17,7 @@
         Example:
         %span= link_to "#{ unlisting.link }", unlisting.link, class: "wrap-link", target: "_blank"
       -if local_assigns.has_key?(:browse_category) && browse_category == "All"
-        %li Condition: {    unlisting.category.name            }
+        %li= "Condition: {  unlisting.category.name            }"
       %li= "Description: #{ unlisting.description.truncate(45) }"
       %li= "Condition: #{   unlisting.condition.level          }"
 
