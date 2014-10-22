@@ -14,8 +14,8 @@
         %p= kramdown(post.content)
         %p
           %small
-            Published:
-            ="#{ time_ago_in_words(post.created_at) } ago "
+            Posted:
+            ="#{ post.created_at.to_date }"
             -if current_user && current_user.admin?
               &nbsp | &nbsp
               =link_to edit_admin_blogpost_path(post) do

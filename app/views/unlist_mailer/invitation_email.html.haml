@@ -3,11 +3,17 @@
   %body
     %h3 You've Been Cordially Invited to Join Unlist
     %hr
-    %p.text-muted Unlist is based around "wishlist classifieds". We're a community engaged in sustainable-living through time-thrifty, local, buyer-centric classifieds.
+    %p.text-muted Unlist is based around a creative new idea of "wishlist classifieds" - a wishlist where each item acts like a local wanted-ad. We're a community engaged in sustainable-living through time-thrifty, local, wishlist classifieds.
+    %br
 
+    -if @invitation.note.present?
+      %p
+        %strong="#{@user.username} has also included a personal note:"
+        ="\"#{ @invitation.note }\""
+      %p
+        %em (if you don't recognise their name & it has the form "UnlisterXXXXXXXX", you can remind them that they may want to update their username in thier profile!)
 
     %br
-    %p= "#{@user.username} has invited you, so feel special -- they decided you are worthy of one of their limited number of invitations."
     %p
       Unlist is currently in beta-testing and by invitation ONLY. Click the following invitation link to sign up:
       =link_to "Join Unlist.it", register_with_invite_url(@invitation.token)

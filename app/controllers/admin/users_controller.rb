@@ -1,7 +1,7 @@
 class Admin::UsersController < AdminController
 
   def index
-    @users = User.all
+    @users = User.order('created_at DESC').all
   end
 
   #ADD THE BUILT-IN RAILS CONFIRM: "ARE YOU SURE??!" TO THIS DESTROY ACTION

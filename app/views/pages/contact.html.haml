@@ -16,5 +16,5 @@
       =f.text_field     :contact_email, label: "Email address:"
       =recaptcha_tags(  theme: 'white')
       =hidden_field_tag :contact, "true"
-    =f.submit "send", class: 'btn btn-primary'
+    =f.submit "send", "data-no-turbolink" => true, class: 'btn btn-primary'
 

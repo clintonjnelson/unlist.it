@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141019084549) do
+ActiveRecord::Schema.define(version: 20141021041533) do
 
   create_table "blogposts", force: true do |t|
     t.text     "title"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20141019084549) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "accepted"
+    t.text     "note"
   end
 
   create_table "locations", force: true do |t|
@@ -68,8 +69,8 @@ ActiveRecord::Schema.define(version: 20141019084549) do
 
   create_table "messages", force: true do |t|
     t.integer  "recipient_id"
-    t.text     "subject"#,          limit: 255
-    t.text     "content"#,          limit: 255
+    t.text     "subject",          limit: 255
+    t.text     "content",          limit: 255
     t.string   "contact_email"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -167,7 +168,7 @@ ActiveRecord::Schema.define(version: 20141019084549) do
     t.string   "keyword2"
     t.string   "keyword3"
     t.string   "keyword4"
-    t.text     "link"#,           limit: 255
+    t.text     "link",           limit: 255
     t.integer  "price"
     t.boolean  "travel"
     t.integer  "distance"

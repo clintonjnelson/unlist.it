@@ -21,7 +21,7 @@ class InvitationCredit #Domain Object
 
   private
   def save
-    user.invite_count = @invite_count
+    user.update_column(:invite_count, @invite_count)
     (@invite_count < 0) ? false : user.save
   end
 end

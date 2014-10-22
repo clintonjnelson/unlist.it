@@ -138,16 +138,16 @@ class User < ActiveRecord::Base
                   deleted_at: nil)
   end
   def create_example_unlisting
-    Unlisting.create(     creator: self,
-                      category_id: 1,
-                     condition_id: 166,
-                            title: "Money(USD)",
-                      description: "Looking for money. Any amount. Prefer larger bills. No torn bills. No fake bills. USD only. (See the FAQ for more info on Community Reuse)",
-                         keyword1: "money",
-                         keyword2: "benjamins",
-                             link: "http://en.wikipedia.org/wiki/United_States_dollar",
-                            price: 0,
-                       link_image: "http://upload.wikimedia.org/wikipedia/commons/thumb/6/64/USDnotes.png/252px-USDnotes.png")
+    Unlisting.create(creator: self,
+                 category_id: 1,
+                condition_id: 166,
+                       title: "Money(USD)",
+                 description: "Looking for money. Any amount. Prefer larger bills. No torn bills. No fake bills. USD only. (See the FAQ for more info on Community Reuse)",
+                    keyword1: "money",
+                    keyword2: "benjamins",
+                        link: "http://en.wikipedia.org/wiki/United_States_dollar",
+                       price: 0,
+                  link_image: "http://upload.wikimedia.org/wikipedia/commons/thumb/6/64/USDnotes.png/252px-USDnotes.png")
   end
 
 

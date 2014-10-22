@@ -214,7 +214,7 @@ class UnlistingsController < ApplicationController
     if url_string.present?
       return formatted_url = (url_string.starts_with?("http://") || url_string.starts_with?("https://")) ? url_string : "http://#{url_string}"
     else
-      return false
+      return nil
     end
     #formatted_url
   end

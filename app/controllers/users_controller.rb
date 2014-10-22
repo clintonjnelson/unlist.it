@@ -23,8 +23,8 @@ class UsersController < ApplicationController
 
     if @invite && agrees_termsconditions? && @user.save
       Token.create(creator: @user, tokenable: @user)
-      #UnlistMailer.registration_confirmation_email(@user.id).deliver
-      UnlistMailer.delay.registration_confirmation_email(@user.id)  #Sidekiq Worker
+      UnlistMailer.registration_confirmation_email(@user.id).deliver
+      #UnlistMailer.delay.registration_confirmation_email(@user.id)  #Sidekiq Worker
       @invite.set_redeemed                       #temporary to be removed later
       flash[:success]   = "Welcome to Unlist! You have been sent an email to confirm registration. Please click the link in the email to complete your registration!"
       signin_user(@user, true)

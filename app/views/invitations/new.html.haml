@@ -10,6 +10,7 @@
     .invitation-form
       =bootstrap_form_for [current_user, @invitation] do |f|
         =f.email_field :recipient_email, label: "Friend's Email Address"
+        =f.text_area  :note,            label: "Optional Message", size: "15x4"
         =f.submit "Send Invite!", class: "btn btn-primary"
   -else
     %h5.muted
