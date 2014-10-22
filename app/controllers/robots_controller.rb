@@ -2,8 +2,7 @@ class RobotsController < ApplicationController
   layout false
 
   def index
-    host = request.host
-    if Rails.env.production? && (host == ('unlist.it' || 'www.unlist.it'))
+    if Rails.env.production? && (request.host.include?('unlist.it')
       render 'allow'
     else
       render 'disallow'
