@@ -1,10 +1,10 @@
 # Set the host name for URL creation
-if Rails.env.production?
+#if Rails.env.production?
   SitemapGenerator::Sitemap.default_host = "http://www.unlist.it"
-  SitemapGenerator::Sitemap.create_index = true
-  SitemapGenerator::Sitemap.sitemaps_host = "http://s3.amazonaws.com/#{ENV['PUBLIC_AWS_BUCKET']}"
+  SitemapGenerator::Sitemap.sitemaps_host = "http://s3.amazonaws.com/"
+  SitemapGenerator::Sitemap.sitemaps_path = "#{ENV['PUBLIC_AWS_BUCKET']}"
   SitemapGenerator::Sitemap.public_path = 'tmp/'
-  SitemapGenerator::Sitemap.sitemaps_path = ''
+  SitemapGenerator::Sitemap.create_index = true
   SitemapGenerator::Sitemap.adapter = SitemapGenerator::WaveAdapter.new
   SitemapGenerator::Sitemap.adapter.fog_directory = "#{ENV['PUBLIC_AWS_BUCKET']}"
 
@@ -31,6 +31,6 @@ if Rails.env.production?
   #   #   add article_path(article), :lastmod => article.updated_at
   #   # end
   # end
-end
+#end
 
 
