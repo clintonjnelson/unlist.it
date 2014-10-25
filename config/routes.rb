@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get 'ui(/:action)',                     controller: 'ui'
   get '/robots',                          to: redirect('/robots.txt'), format: false
   get '/robots.:format',                  to: 'robots#index'
-
+  get '/sitemaps',                        to: 'sitemaps#show'
 
   root                                    to: 'pages#home'
   get     '/home',                        to: 'pages#home'

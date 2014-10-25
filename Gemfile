@@ -26,6 +26,7 @@
   gem 'sass-rails'
   gem 'sidekiq'                     #allows workers to handle queued tasks in background
   gem 'sinatra', require: nil       #For Sidekiq online monitoring
+  gem 'sitemap_generator', '~> 5.0.5'
   gem 'turbolinks'
   gem 'uglifier'
   gem 'unicorn'                     #multiple instances of app for speed in production

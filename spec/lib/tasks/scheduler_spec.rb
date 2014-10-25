@@ -43,6 +43,67 @@ describe "scheduler", :vcr do
   end
 
 
+  describe ":thursday_invitations" do
+    let!(:jen)          { Fabricate(:user, invite_count: 4) }
+    let!(:joe)          { Fabricate(:user, invite_count: 4) }
+    let(:run_issue_invites) do
+      Rake::Task[:thursday_invitations].reenable
+      Rake.application.invoke_task :thursday_invitations
+    end
+    let(:receiver) { double "receiver" }
+    let!(:today)   { Date.today }
+
+    context "on thursday" do
+      before do
+        jen.update_column(:invite_count, 1)
+        Sidekiq::Testing.inline!
+        Rake.application.rake_require 'tasks/scheduler'
+        Rake::Task.define_task(:environment) #Stub env. Rspec runs the App, so dont want Rake to run it AGAIN.
+        Date.stub(:today).and_return(today)
+        today.should_receive(:wday).and_return(4)
+      end
+
+      it "should have the 'environment' as a prerequisite" do
+        expect(Date.today.wday).to eq(4)
+        expect(Rake::Task[:thursday_invitations].prerequisites).to include("environment")
+      end
+
+      context "for a user with full invites" do
+        it "adds no additional invites" do
+          expect(User.last.invite_count).to eq(4)
+          run_issue_invites
+          expect(User.last.invite_count).to eq(4)
+        end
+      end
+
+      context "for a user with less than max invites" do
+        it "sets the user's invites to the max value if they are below" do
+          expect(User.first.invite_count).to eq(1)
+          run_issue_invites
+          expect(User.first.invite_count).to eq(4)
+        end
+      end
+    end
+
+    context "on a different day than thursday" do
+      before do
+        jen.update_column(:invite_count, 1)
+        Sidekiq::Testing.inline!
+        Rake.application.rake_require 'tasks/scheduler'
+        Rake::Task.define_task(:environment) #Stub env. Rspec runs the App, so dont want Rake to run it AGAIN.
+        Date.stub(:today).and_return(today)
+        today.should_receive(:wday).and_return(3)
+      end
+
+      it "doesn't run." do
+        expect(User.first.invite_count).to eq(1)
+        run_issue_invites
+        expect(User.first.invite_count).to eq(1)
+      end
+    end
+  end
+
+
 
   describe ":wipe_abandoned_unimages" do
     let!(:abandoned_old_unimage)   { Fabricate(:unimage) }

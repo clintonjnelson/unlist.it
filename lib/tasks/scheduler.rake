@@ -1,5 +1,8 @@
 
-desc "Heroku scheduler task to assign allotment of user invitations"
+require 'rake'
+desc "Heroku scheduler task."
+
+################################# INVITATIONS ##################################
 task :issue_invitations => :environment do
   puts "Rationing out invitations to users..."
 
@@ -11,8 +14,28 @@ task :issue_invitations => :environment do
   puts "done."
 end
 
+task :thursday_invitations => :environment do
+  puts "Rationing out weekly invitations to users..."
 
+  if Date.today.wday == 4
+    settings = Setting.first
+    User.all.each do |user|
+       distribute_invitations(user, settings)
+    end
+    puts "done."
+  else
+    puts "still waiting for Thursday..."
+  end
+end
 
+################################### SITEMAP ####################################
+task :refresh_sitemap => :environment do
+  puts "Refreshing the sitemap..."
+    Rake::Task["sitemap:refresh"].invoke
+  puts "done."
+end
+
+################################### CLEANERS ###################################
 desc "Heroku scheduler task to clean out database unimages that never were associated with an Unlisting"
 task :wipe_abandoned_unimages => :environment do
   puts "Sweeping the server for abandoned unimages..."
