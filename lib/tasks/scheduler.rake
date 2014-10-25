@@ -31,7 +31,7 @@ end
 ################################### SITEMAP ####################################
 task :refresh_sitemap => :environment do
   puts "Refreshing the sitemap..."
-    Rake::Task["sitemap:refresh"].invoke
+    Rake::Task["sitemap:refresh:no_ping"].invoke
   puts "done."
 end
 
