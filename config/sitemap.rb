@@ -3,7 +3,7 @@ if Rails.env.production?
   SitemapGenerator::Sitemap.default_host  = "http://www.unlist.it"
   SitemapGenerator::Sitemap.sitemaps_host = "http://#{ENV['PUBLIC_AWS_BUCKET']}.s3.amazonaws.com/"
   SitemapGenerator::Sitemap.sitemaps_path = "/"
-  SitemapGenerator::Sitemap.public_path   = 'tmp/'
+  SitemapGenerator::Sitemap.public_path   = "http://#{ENV['PUBLIC_AWS_BUCKET']}.s3.amazonaws.com/"
   #SitemapGenerator::Sitemap.ping_search_engines('http://www.unlist.it/sitemaps.xml.gz')
   SitemapGenerator::Sitemap.adapter       = SitemapGenerator::S3Adapter.new(    aws_access_key_id: "#{ENV['AWS_ACCESS_KEY']}",
                                                                             aws_secret_access_key: "#{ENV['AWS_SECRET_KEY']}")
