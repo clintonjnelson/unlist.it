@@ -16,7 +16,8 @@
         =@unlisting.creator.decorator.avatar_image_tag(60)
         %p= link_to "[edit unlisting]", edit_user_unlisting_path(current_user, @unlisting), class: 'contact-buyer-link'
       -elsif signed_in? || @allow_safeguest
-        =link_to unlisting_show_message_form_path(@unlisting), remote: true, rel: "nofollow", class: 'contact-buyer-link' do
+        -#=link_to unlisting_show_message_form_path(@unlisting), remote: true, rel: "nofollow", class: 'contact-buyer-link' do
+        =link_to user_path(@unlisting.creator) do
           =@unlisting.creator.decorator.avatar_image_tag(60)
         %p= link_to "[contact buyer]", unlisting_show_message_form_path(@unlisting), remote: true, rel: "nofollow", class: 'contact-buyer-link'
       -else

@@ -1,13 +1,13 @@
 class UnlistingsController < ApplicationController
   ##ADD THESE BEFORE ACTIONS TO SPECS
-  before_action :set_user,                  only: [:new, :create,        :edit, :update, :destroy]
-  before_action :set_unlisting,             only: [               :show, :edit, :update, :destroy]
+  before_action :set_user,                  only: [:new, :create, :index, :edit, :update, :destroy]
+  before_action :set_unlisting,             only: [               :show,  :edit, :update, :destroy]
   ###VERIFY ALREADY TESTED FOR THESE
-  before_action :require_signed_in,         only: [:new, :create,        :edie, :update, :destroy]
-  before_action :require_correct_user,      only: [:new, :create                                 ]
-  before_action :require_creator_user,      only: [                      :edit, :update, :destroy]
-  before_action :filter_symbols_from_price, only: [      :create,               :update          ]
-  before_action :format_input_link,         only: [      :create,               :update          ]
+  before_action :require_signed_in,         only: [:new, :create,         :edit, :update, :destroy]
+  before_action :require_correct_user,      only: [:new, :create                                  ]
+  before_action :require_creator_user,      only: [                       :edit, :update, :destroy]
+  before_action :filter_symbols_from_price, only: [      :create,                :update          ]
+  before_action :format_input_link,         only: [      :create,                :update          ]
 
   def new
     @unlisting = @user.unlistings.build
@@ -34,17 +34,22 @@ class UnlistingsController < ApplicationController
     end
   end
 
-  def index   #for User Unlist
-    case params[:type]
-      when 'hits'
-        #ORDER BY MOST RECENT MESSAGE - likely Join messages & order by created_at
-        @unlistings = current_user.unlistings.hits
-      when 'found'
-        @unlistings = current_user.unlistings.found.order('updated_at DESC')
-      when 'watchlist'
-        # This probably warrants another table completely
-      else
-        @unlistings = current_user.unlistings.active
+  def index   #for User Unlist ____VERIFY THIS WONT RUIN LOOKING AT OTHERS UNLISTS
+    if correct_user || creator_user
+      case params[:type]
+        when 'hits'
+          #ORDER BY MOST RECENT MESSAGE - likely Join messages & order by created_at
+          @unlistings = current_user.unlistings.hits
+        when 'found'
+          @unlistings = current_user.unlistings.found.order('updated_at DESC')
+        when 'watchlist'
+          # This probably warrants another table completely
+        else
+          @unlistings = current_user.unlistings.active
+      end
+    else
+      redirect_to browse_category_path("All")
+      return
     end
     render 'index'
   end
@@ -117,17 +122,20 @@ class UnlistingsController < ApplicationController
     end
   end
 
-  ################################ PRIVATE METHODS #############################
-  private
+
+  private ######################## PRIVATE METHODS #############################
   ################################ BEFORE ACTIONS ##############################
   def set_unlisting
     @unlisting = Unlisting.find_by(slug: params[:id])
+    access_denied("That is not a proper unlisting address.") unless @unlisting
   end
+
   def require_correct_user
-    access_denied("You are not the correct user.") unless @user && (@user == current_user)
+    access_denied("You are not the correct user.") unless correct_user
   end
+
   def require_creator_user
-    access_denied("You are not the owner of this unlisting.") unless @unlisting && (current_user == @unlisting.creator)
+    access_denied("You are not the owner of this unlisting.") unless creator_user
   end
 
   def filter_symbols_from_price
@@ -168,6 +176,14 @@ class UnlistingsController < ApplicationController
   end
 
   ############################### SUPPORT METHODS ##############################
+  def correct_user
+    @user && (@user == current_user)
+  end
+
+  def creator_user
+    @unlisting && (@unlisting.creator == current_user)
+  end
+
 
   #This loads variables for the browse page depending on selection/default
   def set_category

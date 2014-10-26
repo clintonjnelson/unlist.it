@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
   require 'sidekiq/web'
 
-  get 'ui(/:action)',                     controller: 'ui'
+  # get 'ui(/:action)',                     controller: 'ui'
   get '/robots',                          to: redirect('/robots.txt'), format: false
   get '/robots.:format',                  to: 'robots#index'
-  get '/sitemaps',                        to: 'sitemaps#show'
+  get '/sitemap',                         to: redirect('/sitemap.xml.gz'), format: false
+  get '/sitemap.:format',                 to: redirect('/sitemap.xml.gz'), format: false
+  get '/sitemap.:format.:format',         to: 'sitemaps#show'
 
   root                                    to: 'pages#home'
   get     '/home',                        to: 'pages#home'
@@ -48,7 +50,7 @@ Rails.application.routes.draw do
   resources :reset_passwords,           only: [:create, :show]
   resources :sessions,                  only: [:create]
 
-  resources :unlistings,                only: [:show, :index] do  #INDEX for general searching & use by non-creator
+  resources :unlistings,                only: [:show, :index] do  #TOOK OFF :index!!!  #INDEX for general searching & use by non-creator
     collection do
       post      :search,                  to: 'searches#search'
     end

@@ -192,7 +192,7 @@ describe UnlistingsController, :vcr do
     let!(:hat_unlisting) { Fabricate(:unlisting) }
     before do
       spec_signin_user(jen)
-      get :index
+      get :index, user_id: jen.slug
     end
 
     it "loads the unlistings variable with the un-deleted unlisting" do
