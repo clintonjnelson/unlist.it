@@ -14,7 +14,7 @@
     =f.text_area :content, label: "Leave us a message:", size: "15x10"
     -if !signed_in?
       =f.text_field     :contact_email, label: "Email address:"
-      =recaptcha_tags(  theme: 'white')
+      =recaptcha_tags    ajax: true, theme: 'white'
       =hidden_field_tag :contact, "true"
-    =f.submit "send", "data-no-turbolink" => true, class: 'btn btn-primary'
+    =f.submit "send", class: 'btn btn-primary'
 
