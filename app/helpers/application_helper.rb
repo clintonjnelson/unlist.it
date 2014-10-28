@@ -39,4 +39,14 @@ module ApplicationHelper
   def search_placeholder(prior_search=nil)
     prior_search.present? ? prior_search : ''
   end
+
+  def page_title(page_title)
+    main_title = 'Unlist.it - Wishlist Classifieds'
+    page_title.blank? ? "#{main_title}" : "#{main_title} | #{page_title}"
+  end
+
+  def page_description(page_description)
+    main_description = "Combining the usefulness of a wishlist with the power of local classifieds. Your Unlist (wishlist) acts like a series of wanted ads, so local sellers can find you."
+    page_description.blank? ? "#{main_description}" : "#{page_description}"
+  end
 end

@@ -1,4 +1,5 @@
 -provide(:title, 'Frequently Asked Questions')
+-provide(:description, "Providing answers to the most commonly asked questions about Unlist.it.")
 
 //Code for the Unlist FAQ's
 #faq.row.col-xs-8.col-xs-offset-1.well
@@ -13,6 +14,7 @@
     %li= link_to 'Do I need to signup to browse or search Unlist postings & contact interested buyers?', faq_path(anchor: 'q7')
     %li= link_to "Using Unlist - Levels of Use", faq_path(anchor: 'q8')
     %li= link_to "Can I make unlistings to SELL things on Unlist.it?", faq_path(anchor: 'q9')
+    %li= link_to "Don't see your question answered here? Contact us & well try to help.", contact_path
   %br
   %br
   %br
@@ -125,8 +127,7 @@
     Can I login to Unlist with other social media accounts (such as Facebook or Twitter)?
   %ul
     %li.list-no-bullet
-      %p Yes, of course! We currently support Facebook, Twitter, and Pintrest account logins.
-      %h4.text-muted [FUTURE FEATURE]
+      %p We are planning on adding this feature eventually. We're constantly working on new features, so let us know if you'd this one to be moved up on the priority list.
   %hr
   %br
 

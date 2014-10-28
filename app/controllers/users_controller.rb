@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_signed_out,       only: [:new, :create, :new_with_invite]
-  before_action :require_signed_in,        only: [:show]
+  #before_action :require_signed_in,        only: [:show]
   before_action :set_user,                 only: [:show, :edit, :update, :toggle_avatar, :resend_confirmation_email,:location_modal, :update_location] #MUST come before require_current_user
   before_action :require_correct_user,     only: [       :edit, :update, :toggle_avatar, :resend_confirmation_email]
   before_action :require_correct_user_now, only: [:location_modal, :update_location]

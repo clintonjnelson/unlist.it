@@ -1,5 +1,7 @@
 -#This is for viewing the unlisting full info
--provide(:title, '')
+-if @unlisting
+  -provide(:title,       "#{@unlisting.title}"      )
+  -provide(:description, "#{@unlisting.description}")
 
 %h5.breadcrumb.text-muted
   ="#{@unlisting.category.name}"

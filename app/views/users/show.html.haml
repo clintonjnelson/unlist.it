@@ -1,4 +1,5 @@
--provide(:title, '')
+-if @user
+  -provide(:title, "#{@user.username} - Profile and Unlist")
 
 //Code to show user & summary info
 .row#userbox.col-xs-8
