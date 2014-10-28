@@ -250,7 +250,7 @@ describe UsersController, :vcr do
   describe "GET show" do
     let(:jen) { Fabricate(:user) }
 
-    context "with the proper user" do
+    context "with a signed-in user" do
       before do
         spec_signin_user(jen)
         get :show, { id: jen.slug }
@@ -263,12 +263,15 @@ describe UsersController, :vcr do
       end
     end
 
-    context "with disallowed users" do
-      it_behaves_like "require_signed_in" do
-        let(:verb_action) { get :show, { id: jen.slug } }
+    context "with guest users" do
+      before do
+        get :show, { id: jen.slug }
       end
-      it_behaves_like "require_signed_in" do
-        let(:verb_action) { get :show, { id: jen.slug } }
+      it "assigns the current_user's user" do
+        expect(assigns(:user)).to be_present
+      end
+      it "renders the user show page" do
+        expect(response).to render_template 'show'
       end
     end
   end
