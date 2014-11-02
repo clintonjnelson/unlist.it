@@ -310,7 +310,7 @@ describe UsersController, :vcr do
     context "with the proper user & valid info" do
       before do
         spec_signin_user(jen)
-        patch :update, { id: jen.slug, user: { email: "alternate@example.com", password: "password2" } }
+        patch :update, { id: jen.slug, user: { username: "me", email: "alternate@example.com", password: "password2" } }
       end
       it "assigns the current_user's user" do
         expect(assigns(:user)).to be_present

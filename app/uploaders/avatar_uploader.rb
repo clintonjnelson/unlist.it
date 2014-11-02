@@ -17,6 +17,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
 
   ############################## PREP FOR STORAGE ##############################
   process convert: 'jpg'  #all files saved as jpg
+  process :correct_orientation
 
   def extension_white_list
     %w(gif jpg jpeg png tif)  #allowed avatar filetypes
@@ -42,6 +43,13 @@ class AvatarUploader < CarrierWave::Uploader::Base
 
 
   protected
+    def correct_orientation
+      manipulate! do |img|
+        img.auto_orient
+        img
+      end
+    end
+
     def secure_token(length=16)
       var = :"@#{mounted_as}_secure_token"
       model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.hex(length/2))

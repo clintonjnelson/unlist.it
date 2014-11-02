@@ -27,10 +27,11 @@ describe Unlisting, :vcr do
    #it { should validate_numericality_of(:zipcode ).only_integer }
 
    #it { should allow_value("", nil).for(:distance) }
-    it { should allow_value("", nil).for(:keyword2) }
-    it { should allow_value("", nil).for(:keyword3) }
-    it { should allow_value("", nil).for(:keyword4) }
-    it { should allow_value("", nil).for(:link    ) }
+    it { should allow_value("", nil).for(:keyword2   ) }
+    it { should allow_value("", nil).for(:keyword3   ) }
+    it { should allow_value("", nil).for(:keyword4   ) }
+    it { should allow_value("", nil).for(:link       ) }
+    it { should allow_value("", nil).for(:visibility ) }
 
     #it { should accept_nested_attributes_for(:unimages).allow_destroy(true) }
   end

@@ -19,8 +19,8 @@
           .unimage-preview-template
             .viewer
               =image_tag unimage.filename.url(:thumb_unimage)
-            %input{ name: 'unimage[id]',       value: unimage.id,      type: 'hidden' }
-            %input{ name: 'unimage[token]',    value: unimage.token,   type: 'hidden' }
+            %input{ name: 'unimage[id]',       value: unimage.id,       type: 'hidden' }
+            %input{ name: 'unimage[token]',    value: unimage.token,    type: 'hidden' }
             %input{ name: 'unimage[filename]', value: unimage.filename, type: 'hidden' }
             %a.remove-unimage.btn.btn-default.btn-xs remove
     -if @unlisting.present? && @unlisting.link_image.present?
@@ -34,9 +34,9 @@
 
     %br
     %ul#additem
-      %p#required-field * = required fields
+      %p.red-text * = required fields
       -# Verify if still need multipart here
-      =bootstrap_form_for [current_user, unlisting], html: { multipart: true }, layout: :horizontal, label_col: 'col-xs-4', control_col: "col-xs-6" do |f|
+      =bootstrap_form_for [current_user, @unlisting], html: { multipart: true }, layout: :horizontal, label_col: 'col-xs-4', control_col: "col-xs-6" do |f|
         =f.hidden_field :token, value: "#{@token}"
         =f.collection_select :category_id, Category.order('name ASC').all, :id, :name, { prompt: "select a category", label: "Category*" }, { class: 'unlisting_category_select' }
         =f.text_field :title,       label: "Title*"
@@ -69,6 +69,10 @@
         /     =u.file_field   :filename, multiple: true, class: 'btn btn-file', id: 'upload-image', name: 'unimages[filename][]' #"unimages[filename][]"
         /     // [] at end allows multiple for controller
         /     =u.hidden_field :filename
+        =f.form_group do
+          =f.check_box :visibility, {id: "visibility-options", label: "Protected", checked: ( @unlisting.present? ? (@unlisting.visibility == "protected") : false)}, "protected", "false"
+          %p.red-text
+            %em Selecting "protected" keeps this unlisting from showing up in searches. It CAN still be publicly viewed under your profile.
 
         =f.form_group do
           =f.submit "#{button_name}", class: "btn btn-primary"#, t(:save)

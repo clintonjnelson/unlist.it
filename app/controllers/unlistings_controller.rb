@@ -164,7 +164,8 @@ class UnlistingsController < ApplicationController
                                        :keyword2,
                                        :keyword3,
                                        :keyword4,
-                                       :link)
+                                       :link,
+                                       :visibility)
   end
 
   def unlisting_token_param
@@ -232,7 +233,6 @@ class UnlistingsController < ApplicationController
     else
       return nil
     end
-    #formatted_url
   end
 
   def unimage_ids_array

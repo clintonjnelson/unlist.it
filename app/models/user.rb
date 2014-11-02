@@ -26,15 +26,15 @@ class User < ActiveRecord::Base
   before_create     :make_alpha_questionaire  #THIS WILL EVENTUALLY BE REMOVED
   before_save       :toggle_avatar_use_with_changes
   after_create      :make_user_preferences
-  after_save        :set_welcome_examples, on: :create unless Rails.env.test?
+  after_create      :set_welcome_examples
 
 
   # Validations
-  validate  :agrees_to_terms_and_conditions, on: :create
+  validate  :agrees_to_terms_and_conditions,                     on: :create
   validates :email,    email:    true
   validates :email,    presence: true, uniqueness: { case_sensitive: false }
   validates :username, presence: true, uniqueness: { case_sensitive: false }
-  validates :password, presence: true, length: { minimum: 6 }, on: :create
+  validates :password, presence: true, length: { minimum: 6 },   on: :create
   validates :password, length: { minimum: 6 }, :if => :password
 
 
@@ -75,9 +75,11 @@ class User < ActiveRecord::Base
   end
 
   def set_welcome_examples
-    set_admin_friend_example
-    create_welcome_message
-    create_example_unlisting
+    unless Rails.env.test?
+      set_admin_friend_example
+      create_welcome_message
+      create_example_unlisting
+    end
   end
 
   def set_user_location_to_default
@@ -129,7 +131,7 @@ class User < ActiveRecord::Base
   def create_welcome_message
     Message.create(recipient: self,
                      subject: "Welcome to Unlist.it!",
-                     content: "We suggest you start by adding as many unlistings (wishlist items) as you can think of - this makes up your unlist (wishlist). Then search & add any friends/family - this makes it convenient to view their unlists (wishlists) for gift ideas. If they're not on Unlist.it yet, invite them! Add more unlistings anytime you'd like. Enjoy!  (oh, and feel free to delete the example unlisting & example friend unlist link)",
+                     content: "We suggest you start by adding as many unlistings (wishlist items) as you can think of - this makes up your unlist (wishlist). Then search & follow any friends/family - this makes it convenient to view their unlists (wishlists) for gift ideas. If they're not on Unlist.it yet, invite them! Add more unlistings anytime you'd like. Enjoy!  (oh, and feel free to delete the example unlisting & example friend unlist link)",
                contact_email: nil,
                    sender_id: 1,
             messageable_type: "User",
@@ -139,14 +141,15 @@ class User < ActiveRecord::Base
   end
   def create_example_unlisting
     Unlisting.create(creator: self,
-                 category_id: 1,
+                 category_id: 36,
                 condition_id: 166,
-                       title: "Money(USD)",
+                       title: "Money(USD) - EXAMPLE UNLISTING",
                  description: "Looking for money. Any amount. Prefer larger bills. No torn bills. No fake bills. USD only. (See the FAQ for more info on Community Reuse)",
                     keyword1: "money",
                     keyword2: "benjamins",
                         link: "http://en.wikipedia.org/wiki/United_States_dollar",
                        price: 0,
+                  visibility: "protected",
                   link_image: "http://upload.wikimedia.org/wikipedia/commons/thumb/6/64/USDnotes.png/252px-USDnotes.png")
   end
 

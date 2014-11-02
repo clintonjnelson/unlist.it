@@ -264,7 +264,8 @@ def create_params
                         keyword2: "bug",
                         keyword3: "ocho",
                         keyword4: "",
-                            link: "http://www.google.com"},
+                            link: "http://www.google.com",
+                      visibility: "protected"},
                          user_id: jen.slug }
 end
 

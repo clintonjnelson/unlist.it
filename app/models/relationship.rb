@@ -3,7 +3,7 @@ class Relationship < ActiveRecord::Base
   belongs_to :friend, class_name: "User"
 
   #Validations
-  validate :user_cannot_befriend_self
+  validate                :user_cannot_befriend_self
   validates_uniqueness_of :friend, scope: [:user_id]
 
 

@@ -14,10 +14,11 @@ class Unlisting < ActiveRecord::Base
 
 
   # Scopes to filter query results
-  scope       :active,    -> { where inactive: [false, nil] }
-  scope       :inactive,  -> { where inactive: true         }
-  scope       :found,     -> { where    found: true         }
-  scope       :hits,      -> { where "id IN (SELECT messageable_id FROM Messages where messageable_type='Unlisting')" }
+  scope       :active,       -> { where   inactive: [nil, false     ] }
+  scope       :inactive,     -> { where   inactive: true              }
+  scope       :for_everyone, -> { where visibility: [nil, "everyone"] }
+  scope       :found,        -> { where      found: true              }
+  scope       :hits,         -> { where "id IN (SELECT messageable_id FROM Messages where messageable_type='Unlisting')" }
 
 
 

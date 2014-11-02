@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141021041533) do
+ActiveRecord::Schema.define(version: 20141028024325) do
 
   create_table "blogposts", force: true do |t|
     t.text     "title"
@@ -180,6 +180,7 @@ ActiveRecord::Schema.define(version: 20141021041533) do
     t.string   "slug"
     t.string   "link_image"
     t.boolean  "found"
+    t.string   "visibility"
   end
 
   create_table "users", force: true do |t|

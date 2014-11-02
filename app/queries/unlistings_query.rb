@@ -20,6 +20,7 @@ class UnlistingsQuery
     @state         = options[:state        ]
       @city.downcase!  if @city
       @state.downcase! if @state
+    @visibility    = options[:search_visibility]
     @zipcode       = options[:zipcode      ]
 
 
@@ -30,6 +31,8 @@ class UnlistingsQuery
     else #if no search string, get all(?)
       @relation = Unlisting.active.all #gotta love Lazy Loading
     end
+
+    @relation = filter_by_visibility(@relation)
 
     if @category_id && (@category_id != "0") #if cateogory provided; category "0" means ALL
       @relation = with_category(@category_id)
@@ -69,9 +72,16 @@ class UnlistingsQuery
       results = Unlisting.active.where("keyword1 ILIKE :search OR keyword2 ILIKE :search OR keyword3 ILIKE :search OR keyword4 ILIKE :search",
                            { search: "%#{keyword}%" }).order('created_at ASC')
     end
-    results
   end
 
+  def filter_by_visibility(unlistings_query)
+    case @visibility
+      when "everyone"
+        return unlistings_query.for_everyone
+      else
+        return unlistings_query
+    end
+  end
 
   ############################### PRIVATE METHODS ##############################
   private
