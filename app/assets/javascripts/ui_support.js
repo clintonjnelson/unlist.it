@@ -34,7 +34,6 @@ $(document).on("click", "#hideshow-dropzone", function() {
 });
 
 
-
 //////////////////////// UNLISTING RESPONSE /////////////////////////
 //Infinite Scrolling
 $(document).on('ready, page:change', function(){

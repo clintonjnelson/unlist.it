@@ -43,21 +43,22 @@
         =f.text_area  :description, label: "Description*", size: '24x6', placeholder: "Describe what you're looking for...."
 
         -# Use thumbnailer to load link images
-        =f.text_field  :link,       label: "Website Example", class: "link-thumbnails-input"
+        -#=f.text_field  :link,       label: "Webpage Example", class: "link-thumbnails-input"
+        =f.text_field  :link, class: 'link-thumbnails-input', label: "Webpage Example", title: 'Provide the address to a specific webpage that has the item you are looking for. This web address also allows you to choose a primary unlisting image for display - an optional checkbox will appear below.'
 
         .link-thumbnails{ data: { id: @unlisting.slug } }
 
         =f.static_control nil, label: "Upload Images" do
-          =link_to "display image upload area(optional)", "#dropzone", id: "hideshow-dropzone"
+          =link_to "display image upload area(optional)", "#dropzone", id: "hideshow-dropzone", title: "This is only if you want to upload any images from your home computer. Sometimes you have a version of the thing you want (like that perfect coat you wore out and can no longer find in stores), so if you can't find an example online then this will help you show exactly what you're looking for."
           -#JS toggle for showing or hiding dropzone area
 
 
         =f.select :condition_id, [], { prompt: "select a category above", label: "Minimum Condition*"}, { id: "unlisting_condition_select" }
-        =f.text_field :price,    label: "Price (up to)*", prepend: "$"
-        =f.text_field :keyword1, label: "Keyword 1*"
-        =f.text_field :keyword2, label: "Keyword 2"
-        =f.text_field :keyword3, label: "Keyword 3"
-        =f.text_field :keyword4, label: "Keyword 4"
+        =f.text_field :price,    label: "Price (up to)*", prepend: "$", title: "This is the price you'd be willing to pay. Maybe a lot. Maybe a little. Maybe nothing. For Community Reuse, enter '0'  (that's a zero) and it will display as Community Reuse."
+        =f.text_field :keyword1, label: "Keyword 1*", title: "These keywords are what unlist uses to find your unlisting when someone searches."
+        =f.text_field :keyword2, label: "Keyword 2",  title: "These keywords are what unlist uses to find your unlisting when someone searches."
+        =f.text_field :keyword3, label: "Keyword 3",  title: "These keywords are what unlist uses to find your unlisting when someone searches."
+        =f.text_field :keyword4, label: "Keyword 4",  title: "These keywords are what unlist uses to find your unlisting when someone searches."
 
         //Uploading Multiple Unimages
         / %hr
@@ -72,7 +73,8 @@
         =f.form_group do
           =f.check_box :visibility, {id: "visibility-options", label: "Protected", checked: ( @unlisting.present? ? (@unlisting.visibility == "protected") : false)}, "protected", "false"
           %p.red-text
-            %em Selecting "protected" keeps this unlisting from showing up in searches. It CAN still be publicly viewed under your profile.
+            %small
+              %em "Protected" unlistings don't show up in searches, but CAN still be publicly viewed under your profile.
 
         =f.form_group do
           =f.submit "#{button_name}", class: "btn btn-primary"#, t(:save)

@@ -23,12 +23,12 @@ class UsersController < ApplicationController
 
     if @invite && agrees_termsconditions? && @user.save
       Token.create(creator: @user, tokenable: @user)
-      UnlistMailer.registration_confirmation_email(@user.id).deliver
-      #UnlistMailer.delay.registration_confirmation_email(@user.id)  #Sidekiq Worker
+      #UnlistMailer.registration_confirmation_email(@user.id).deliver
+      UnlistMailer.delay.registration_confirmation_email(@user.id)  #Sidekiq Worker
       @invite.set_redeemed                       #temporary to be removed later
-      flash[:success]   = "Welcome to Unlist! You have been sent an email to confirm registration. Please click the link in the email to complete your registration!"
+      flash[:success]   = "Please check your email and click the email-confirmation link in the email we just sent you."
       signin_user(@user, true)
-      redirect_to gettingstarted_path
+      redirect_to user_messages_path(@user, type: 'received')
     elsif !@invite
       flash[:error]     = "Sorry, we could not find your invitation in our system. Please contact the person who sent it to you."
       redirect_to expired_link_path
@@ -42,7 +42,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @unlistings = @user.unlistings.active if @user #load all active unlistings
+    @unlistings = @user.unlistings.order('created_at DESC').active if @user #load all active unlistings
   end
 
   def edit

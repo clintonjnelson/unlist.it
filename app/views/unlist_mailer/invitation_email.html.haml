@@ -16,10 +16,8 @@
     %br
     %p
       Unlist is currently in beta-testing and by invitation ONLY. Click the following invitation link to sign up:
-      =link_to "Join Unlist.it", register_with_invite_url(@invitation.token)
-    %p
-      Or paste this link into your browser:
       =link_to "#{register_with_invite_url(@invitation.token)}", register_with_invite_url(@invitation.token)
+
 
 
     %br

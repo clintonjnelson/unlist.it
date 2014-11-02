@@ -131,7 +131,7 @@ class User < ActiveRecord::Base
   def create_welcome_message
     Message.create(recipient: self,
                      subject: "Welcome to Unlist.it!",
-                     content: "We suggest you start by adding as many unlistings (wishlist items) as you can think of - this makes up your unlist (wishlist). Then search & follow any friends/family - this makes it convenient to view their unlists (wishlists) for gift ideas. If they're not on Unlist.it yet, invite them! Add more unlistings anytime you'd like. Enjoy!  (oh, and feel free to delete the example unlisting & example friend unlist link)",
+                     content: "First, please visit your email inbox and click the confirmation link in the email we just sent. After that, come back & get started by adding as many unlistings (wishlist items) as you can think of - this makes up your unlist (wishlist). Then search & follow any friends/family - this makes it convenient to view their unlists (wishlists) for gift ideas. If they're not on Unlist.it yet, invite them! Add more unlistings anytime you'd like. Enjoy!  (oh, and feel free to delete the example unlisting & example friend)",
                contact_email: nil,
                    sender_id: 1,
             messageable_type: "User",
@@ -142,7 +142,7 @@ class User < ActiveRecord::Base
   def create_example_unlisting
     Unlisting.create(creator: self,
                  category_id: 36,
-                condition_id: 166,
+                condition_id: 180,
                        title: "Money(USD) - EXAMPLE UNLISTING",
                  description: "Looking for money. Any amount. Prefer larger bills. No torn bills. No fake bills. USD only. (See the FAQ for more info on Community Reuse)",
                     keyword1: "money",

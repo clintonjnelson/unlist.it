@@ -39,13 +39,13 @@ class UnlistingsController < ApplicationController
       case params[:type]
         when 'hits'
           #ORDER BY MOST RECENT MESSAGE - likely Join messages & order by created_at
-          @unlistings = current_user.unlistings.hits
+          @unlistings = current_user.unlistings.order('created_at DESC').hits
         when 'found'
           @unlistings = current_user.unlistings.found.order('updated_at DESC')
         when 'watchlist'
           # This probably warrants another table completely
         else
-          @unlistings = current_user.unlistings.active
+          @unlistings = current_user.unlistings.order('created_at DESC').active
       end
     else
       redirect_to browse_category_path("All")
