@@ -33,6 +33,10 @@
         -if signed_in? && creator?(unlisting)
           %small
             &nbsp|
+            =link_to edit_user_unlisting_path(unlisting.creator.slug, unlisting.slug) do
+              %i.fa.fa-pencil.fa-2
+              [edit]
+            &nbsp|
             =link_to user_unlisting_path(unlisting.creator.slug, unlisting.slug), method: 'delete' do
               %i.fa.fa-close.fa-2
               [delete]
