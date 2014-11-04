@@ -5,6 +5,9 @@
 .row#userbox.col-xs-8
   #showusercontent.well
     .gravatar= @user.decorator.avatar_image_tag(60)
+    #owner-edit.text-right
+      -if signed_in? && owner?(@user)
+        %p= link_to "[edit profile]", edit_user_path(@user)
     %h2.text-left#profile-name
       ="#{@user.username.capitalize}"
     %p

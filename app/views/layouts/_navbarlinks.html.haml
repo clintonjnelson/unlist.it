@@ -78,7 +78,10 @@
 
   /-#////////////////////// USER DROPDOWN MENUS /////////////////////////
 -elsif signed_in?
-  %div= link_to 'Browse',    browse_path, { role: 'menuitem', tabindex: "-1" }
+  %div
+    =link_to browse_path, { role: 'menuitem', tabindex: "-1" } do
+      %i.fa.fa-globe.fa-2
+      browse
 
   .dropdown#navbutton-user-unlist
     %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
@@ -113,7 +116,7 @@
     %ul.dropdown-menu(role='menu' aria-labelledby='UserUnlistMenu')
       %li(role='presentation')
         =link_to user_messages_path(current_user, type: 'received'), { role: 'menuitem', tabindex: "-1" } do
-          %i.glyphicon.glyphicon-envelope
+          %i.fa.fa-envelope-o.fa-2
           inbox
       %li(role='presentation')
         =link_to user_messages_path(current_user, type: 'hits'), { role: 'menuitem', tabindex: "-1" } do
@@ -126,19 +129,24 @@
       %li(role='presentation')
         =link_to 'all',  user_messages_path(current_user), { role: 'menuitem', tabindex: "-1" }
 
-  .dropdown#navbutton-user-unlist
-    %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
-      Profile
-      %span.caret
-    %ul.dropdown-menu(role='menu' aria-labelledby='UserUnlistMenu')
-      %li(role='presentation')
-        =link_to user_path(current_user), { role: 'menuitem', tabindex: "-1" } do
-          %i.glyphicon.glyphicon-user
-          profile
-      %li(role='presentation')
-        =link_to edit_user_path(current_user), { role: 'menuitem', tabindex: "-1" } do
-          %i.glyphicon.glyphicon-pencil
-          edit profile
+  %div
+    =link_to new_user_invitation_path(current_user), { role: 'menuitem', tabindex: "-1" } do
+      %i.fa.fa-envelope.fa-2
+      invite!
+
+  / .dropdown#navbutton-user-unlist
+  /   %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
+  /     profile
+  / %span.caret
+  / %ul.dropdown-menu(role='menu' aria-labelledby='UserUnlistMenu')
+  /   %li(role='presentation')
+  /     =link_to user_path(current_user), { role: 'menuitem', tabindex: "-1" } do
+  /       %i.glyphicon.glyphicon-user
+  /       profile
+  /   %li(role='presentation')
+  /     =link_to edit_user_path(current_user), { role: 'menuitem', tabindex: "-1" } do
+  /       %i.glyphicon.glyphicon-pencil
+  /       edit profile
 
 
   /-#///////////////////// GUEST DROPDOWN MENUS /////////////////////////

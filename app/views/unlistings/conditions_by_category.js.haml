@@ -1,5 +1,5 @@
 -if @conditions
-  $("#unlisting_condition_select").html("#{escape_javascript( options_from_collection_for_select(@conditions, :id, :level) )}")
+  $("#unlisting_condition_select").html("#{escape_javascript( options_from_collection_for_select(@conditions, :id, :level, @current.to_s) )}")
 -else
   alert("Please select a Category, then a Condition.")
 

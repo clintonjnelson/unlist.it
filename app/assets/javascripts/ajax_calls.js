@@ -61,7 +61,8 @@ $(document).ready(function() {
       type: "POST",
       url: "/conditions_by_category",
       dataType: "script",
-      data: {category_id: $(".unlisting_category_select").val()}
+      data: {category_id: $(".unlisting_category_select").val(),
+               condition: $("#unlisting_condition_select").data('current')}
     });
     return false;
   }

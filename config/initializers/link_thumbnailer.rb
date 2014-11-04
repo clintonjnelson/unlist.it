@@ -4,7 +4,12 @@ LinkThumbnailer.configure do |config|
   config.redirect_limit = 3
 
   # Set user agent
-  config.user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13"
+  config.user_agent = ["Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13",
+                       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.56 Safari/536.5",
+                       "Mozilla/5.0 (Macintosh; U; PPC Mac OS X Mach-O; en-US; rv:1.7a) Gecko/20050614 Firefox/0.9.0+",
+                       "Opera/9.25 (Windows NT 6.0; U; en)",
+                       "Mozilla/4.0 (compatible; MSIE 5.15; Mac_PowerPC)",
+                       "Opera/9.52 (X11; Linux i686; U; en)" ].sample
 
   # Enable or disable SSL verification
   # config.verify_ssl = true
