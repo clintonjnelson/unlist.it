@@ -1,0 +1,54 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://webservices.amazon.com/onca/xml?AWSAccessKeyId=AKIAJWAFSGIVTNTV5UDQ&AssociateTag=unlist-20&Condition=All&IdType=ASIN&ItemId=0060555661&Operation=ItemLookup&ResponseGroup=Images&Service=AWSECommerceService&Signature=wzrhvqVCyfmXNTLmExG5g56RtyYn683lJddspDFUf3A=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2014-11-06T05:10:01Z&Version=2011-08-01
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Jeff/1.1.0 (Language=Ruby; Zech410)
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Thu, 06 Nov 2014 05:10:01 GMT
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Vary:
+      - Accept-Encoding,User-Agent
+      Connection:
+      - close
+      Transfer-Encoding:
+      - ''
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" ?><ItemLookupResponse xmlns="http://webservices.amazon.com/AWSECommerceService/2011-08-01"><OperationRequest><HTTPHeaders><Header
+        Name="UserAgent" Value="Jeff/1.1.0 (Language=Ruby; Zech410)"></Header></HTTPHeaders><RequestId>e66dc0ba-7b9c-451d-8b70-6640b1c33e86</RequestId><Arguments><Argument
+        Name="Condition" Value="All"></Argument><Argument Name="Operation" Value="ItemLookup"></Argument><Argument
+        Name="Service" Value="AWSECommerceService"></Argument><Argument Name="Signature"
+        Value="wzrhvqVCyfmXNTLmExG5g56RtyYn683lJddspDFUf3A="></Argument><Argument
+        Name="AssociateTag" Value="unlist-20"></Argument><Argument Name="Version"
+        Value="2011-08-01"></Argument><Argument Name="ItemId" Value="0060555661"></Argument><Argument
+        Name="SignatureMethod" Value="HmacSHA256"></Argument><Argument Name="IdType"
+        Value="ASIN"></Argument><Argument Name="AWSAccessKeyId" Value="AKIAJWAFSGIVTNTV5UDQ"></Argument><Argument
+        Name="Timestamp" Value="2014-11-06T05:10:01Z"></Argument><Argument Name="ResponseGroup"
+        Value="Images"></Argument><Argument Name="SignatureVersion" Value="2"></Argument></Arguments><RequestProcessingTime>0.1414550000000000</RequestProcessingTime></OperationRequest><Items><Request><IsValid>True</IsValid><ItemLookupRequest><Condition>All</Condition><IdType>ASIN</IdType><ItemId>0060555661</ItemId><ResponseGroup>Images</ResponseGroup><VariationPage>All</VariationPage></ItemLookupRequest></Request><Item><ASIN>0060555661</ASIN><SmallImage><URL>http://ecx.images-amazon.com/images/I/41UBQMp2B6L._SL75_.jpg</URL><Height
+        Units="pixels">75</Height><Width Units="pixels">51</Width></SmallImage><MediumImage><URL>http://ecx.images-amazon.com/images/I/41UBQMp2B6L._SL160_.jpg</URL><Height
+        Units="pixels">160</Height><Width Units="pixels">108</Width></MediumImage><LargeImage><URL>http://ecx.images-amazon.com/images/I/41UBQMp2B6L.jpg</URL><Height
+        Units="pixels">500</Height><Width Units="pixels">338</Width></LargeImage><ImageSets><ImageSet
+        Category="primary"><SwatchImage><URL>http://ecx.images-amazon.com/images/I/41UBQMp2B6L._SL30_.jpg</URL><Height
+        Units="pixels">30</Height><Width Units="pixels">20</Width></SwatchImage><SmallImage><URL>http://ecx.images-amazon.com/images/I/41UBQMp2B6L._SL75_.jpg</URL><Height
+        Units="pixels">75</Height><Width Units="pixels">51</Width></SmallImage><ThumbnailImage><URL>http://ecx.images-amazon.com/images/I/41UBQMp2B6L._SL75_.jpg</URL><Height
+        Units="pixels">75</Height><Width Units="pixels">51</Width></ThumbnailImage><TinyImage><URL>http://ecx.images-amazon.com/images/I/41UBQMp2B6L._SL110_.jpg</URL><Height
+        Units="pixels">110</Height><Width Units="pixels">74</Width></TinyImage><MediumImage><URL>http://ecx.images-amazon.com/images/I/41UBQMp2B6L._SL160_.jpg</URL><Height
+        Units="pixels">160</Height><Width Units="pixels">108</Width></MediumImage><LargeImage><URL>http://ecx.images-amazon.com/images/I/41UBQMp2B6L.jpg</URL><Height
+        Units="pixels">500</Height><Width Units="pixels">338</Width></LargeImage></ImageSet></ImageSets></Item></Items></ItemLookupResponse>
+    http_version: 
+  recorded_at: Thu, 06 Nov 2014 05:10:02 GMT
+recorded_with: VCR 2.9.0

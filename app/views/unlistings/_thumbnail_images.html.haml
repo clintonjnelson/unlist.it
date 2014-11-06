@@ -12,8 +12,8 @@
   -thumb_links.each_with_index do |link, index|
     .thumb-image{ id: "thumb_#{index}" }
       .image-selector
-        -#Checks if the link matches unlisting.link_image - checked, if they do; otherwise unchecked.
-        =radio_button_tag("image_links[link_radio_select]", "#{index}", ((@unlisting.present? && (@unlisting.link_image == link)) ? true : false))
+        -#Checks if there is only ONE link OR if the link matches unlisting.link_image - checked, if either is true; otherwise unchecked.
+        =radio_button_tag("image_links[link_radio_select]", "#{index}", (((@unlisting.present? && (@unlisting.link_image == link)) || (thumb_links.size == 1))  ? true : false))
         =image_tag(link, class: 'thumbnail-80')
         =hidden_field_tag "image_links[#{index}]", "#{link}"
 %br

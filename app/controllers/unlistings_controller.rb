@@ -150,7 +150,7 @@ class UnlistingsController < ApplicationController
 
   def format_input_link
     url_string    = unlisting_params[:link]
-    formatted_url = format_url(url_string)
+    formatted_url = format_url(url_string, true) #make amazon unlist link if there is one
     params[:unlisting][:link] = formatted_url unless (url_string == formatted_url)
   end
 
@@ -216,24 +216,39 @@ class UnlistingsController < ApplicationController
     end
   end
 
+  #LinkManager OBJECT?
   def set_thumbnail_links_array
     if url = format_url(params[:thumb_url])
-      info = LinkThumbnailer.generate(url) #grab the info from the link
       @thumbnail_links = []
-      info.images.each do |thumb|
-        @thumbnail_links.push(thumb.src.to_s)
+      if amazon_link?(url) #if amazon link, use API to set image url
+        @thumbnail_links.push(@amazon_ecs.get_product_image)
+      else #set image url's from site
+        info = LinkThumbnailer.generate(url)
+        info.images.each do |thumb|
+          @thumbnail_links.push(thumb.src.to_s)
+        end
       end
     else
       return false
     end
   end
 
-  def format_url(url_string)
+  #LinkManager OBJECT?
+  def format_url(url_string, associate_link=nil)
     if url_string.present?
-      return formatted_url = (url_string.starts_with?("http://") || url_string.starts_with?("https://")) ? url_string : "http://#{url_string}"
+      formatted_url   = (url_string.starts_with?("http://") || url_string.starts_with?("https://")) ? url_string : "http://#{url_string}"
+      if amazon_link?(formatted_url) #if amazon link, use API to format a base url
+        @amazon_ecs   = AmazonecsManager.new(url: formatted_url)
+        formatted_url = (associate_link.blank? ? @amazon_ecs.amazon_link : @amazon_ecs.amazon_link(nil, true))
+      end
+      formatted_url
     else
       return nil
     end
+  end
+
+  def amazon_link?(url)
+    url.include?("amazon.com") || url.include?("amzn.com")
   end
 
   def unimage_ids_array

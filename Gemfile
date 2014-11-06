@@ -3,6 +3,7 @@
   gem 'rails' #, '4.1.1'
 
 
+  # gem 'amazon-ecs', '~> 2.2.5'
   gem 'bcrypt'
   gem 'bootstrap_form'
   gem 'bootstrap-sass'
@@ -30,6 +31,7 @@
   gem 'turbolinks'
   gem 'uglifier'
   gem 'unicorn'                     #multiple instances of app for speed in production
+  gem 'vacuum'
   gem 'will_paginate', '~> 3.0.5'
 
 group :development, :test do
