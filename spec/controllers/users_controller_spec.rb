@@ -158,7 +158,7 @@ describe UsersController, :vcr do
           expect(flash[:success]).to be_present
         end
         it "redirects to the user home page" do
-          expect(response).to redirect_to gettingstarted_path
+          expect(response).to redirect_to user_messages_path(user_id: User.last.slug, type: 'received')
         end
 
         context "confirmation email sending" do
