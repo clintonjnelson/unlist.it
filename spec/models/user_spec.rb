@@ -177,6 +177,18 @@ describe User do
     end
   end
 
+  describe "count_found", :vcr do
+    let!(:jen)                { Fabricate(:user) }
+    let!(:unlisting_found  )  { Fabricate(:unlisting, creator: jen) }
+    let!(:unlisting_looking)  { Fabricate(:unlisting, creator: jen) }
+
+    before { unlisting_found.update_column(:found, true) }
+
+    it "counts the user's number of found unlistings" do
+      expect(jen.count_found).to eq(1)
+    end
+  end
+
   describe "use_default_avatar" do
     let(:jen) { Fabricate(:user, use_avatar: true) }
     it "resets the use_avatar column to false for use of gravatar" do

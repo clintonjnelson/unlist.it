@@ -277,8 +277,8 @@ class MessagesManager
   end
 
   def hit_notification_email(unlisting, type)
-      #UnlistMailer.delay.hit_notification_email(unlisting.id, type) if hit_notifications_allowed?(unlisting.creator)
-      UnlistMailer.hit_notification_email(unlisting.id, type).deliver if hit_notifications_allowed?(unlisting.creator)
+    #UnlistMailer.delay.hit_notification_email(unlisting.id, type) if hit_notifications_allowed?(unlisting.creator)
+    UnlistMailer.hit_notification_email(unlisting.id, type).deliver if hit_notifications_allowed?(unlisting.creator)
   end
 
   #INVITE USER TO UNLIST OR PROMPT TO FIX ERRORS

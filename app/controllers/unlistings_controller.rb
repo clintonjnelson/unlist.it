@@ -174,7 +174,7 @@ class UnlistingsController < ApplicationController
   end
 
   def link_params
-    params.fetch(:image_links, {}).permit('0', '1', '2', '3', '4', :link_radio_select, :use_thumb_image)
+    params.fetch(:image_links, {}).permit('0', '1', '2', '3', '4', '5', '6', '7', :link_radio_select, :use_thumb_image)
   end
 
   ############################### SUPPORT METHODS ##############################

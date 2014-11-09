@@ -68,7 +68,7 @@ VCR.configure do |c|
   c.hook_into :webmock
   c.configure_rspec_metadata!
   c.ignore_localhost = true
-  sleep 1.second #use sleep to avoid Exceeding API call limit
+  sleep 2.seconds #use sleep to avoid Exceeding API call limit
 end
 
 

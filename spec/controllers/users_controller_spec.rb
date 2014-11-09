@@ -154,6 +154,9 @@ describe UsersController, :vcr do
         it "signs the user in" do
           expect(session[:user_id]).to eq(3)
         end
+        it "sets the invitation as accepted" do
+          expect(user_invite.reload.accepted?).to be_true
+        end
         it "flashes the Welcome message" do
           expect(flash[:success]).to be_present
         end
@@ -195,6 +198,9 @@ describe UsersController, :vcr do
         it "does not sign in the user" do
           expect(session[:user_id]).to be_nil
         end
+        it "does not set the invitation to accepted" do
+          expect(user_invite.reload.accepted?).to be_false
+        end
         it "flashes an error message" do
           expect(flash[:error]).to be_present
         end
@@ -220,6 +226,9 @@ describe UsersController, :vcr do
         it "does NOT create a new user" do
           expect(User.count).to eq(2)
         end
+        it "does not set the invitation to accepted" do
+          expect(user_invite.reload.accepted?).to be_false
+        end
         it "flashes the error message" do
           expect(flash[:error]).to be_present
         end
@@ -236,6 +245,9 @@ describe UsersController, :vcr do
         it "does NOT create a new user" do
           expect(User.count).to eq(2)
         end
+        it "does not set the invitation to accepted" do
+          expect(user_invite.reload.accepted?).to be_false
+        end
         it "flashes the error message" do
           expect(flash[:error]).to be_present
         end
@@ -248,15 +260,25 @@ describe UsersController, :vcr do
 
 
   describe "GET show" do
-    let(:jen) { Fabricate(:user) }
+    let!(:jen) { Fabricate(:user) }
+    let!(:car_unlisting) { Fabricate(:unlisting, creator: jen                          ) }
+    let!(:hat_unlisting) { Fabricate(:unlisting, creator: jen, visibility: "protected" ) }
+    let!(:del_unlisting) { Fabricate(:unlisting, creator: jen                          ) }
 
     context "with a signed-in user" do
       before do
         spec_signin_user(jen)
+        del_unlisting.update_column(:inactive, true)
         get :show, { id: jen.slug }
       end
       it "assigns the current_user's user" do
         expect(assigns(:user)).to be_present
+      end
+      it "loads the user's active unlistings" do
+        expect(assigns(:unlistings)).to          eq( [car_unlisting, hat_unlisting] )
+      end
+      it "does not load the user's inactive unlistings" do
+        expect(assigns(:unlistings)).to_not include( del_unlisting )
       end
       it "renders the user show page" do
         expect(response).to render_template 'show'

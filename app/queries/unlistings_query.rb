@@ -13,7 +13,7 @@ class UnlistingsQuery
 
 
   def search(options={})
-    @category_id   = options[:cateogory_id ]
+    @category_id   = options[:category_id ]
     @city          = options[:city         ]
     set_radius(      options[:radius       ]) #Set default search radius or provided value
     @search_string = options[:search_string]
