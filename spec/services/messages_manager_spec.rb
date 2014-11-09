@@ -4,51 +4,104 @@ describe MessagesManager do
   let!(:settings) { Fabricate(:setting) }
 
   describe "send_message", :vcr do
-    let( :jen          ) { Fabricate(:user, confirmed: true      ) }
-    let( :joe          ) { Fabricate(:user, confirmed: true      ) }
-    let( :jim_unconfirm) { Fabricate(:user, confirmed: false     ) }
-    let( :joe_safeguest) { Fabricate(:safeguest, confirmed: true ) }
-    let( :jim_safeguest) { Fabricate(:safeguest, confirmed: false) }
-    let!(:jen_unlisting) { Fabricate(:unlisting, creator: jen    ) }
+    let( :jen          ) { Fabricate(:user,      confirmed: true      ) }
+    let( :joe          ) { Fabricate(:user,      confirmed: true      ) }
+    let( :jim_unconfirm) { Fabricate(:user,      confirmed: false     ) }
+    let( :joe_safeguest) { Fabricate(:safeguest, confirmed: true      ) }
+    let( :jim_safeguest) { Fabricate(:safeguest, confirmed: false     ) }
+    let!(:jen_unlisting) { Fabricate(:unlisting,   creator: jen       ) }
 
     context "for a new Unlisting message" do #Context: send_message
       let(:unlisting_msg)  { MessagesManager.new(unlisting_slug: jen_unlisting.slug, parent_msg_id: nil) }
 
-      context "with valid inputs" do #Context: send_message/Unlisting Message
-
-        context "by a User" do #Context: send_message/Unlisting Message/Valid Input Context
+      context "with valid inputs" do  #Context: send_message/Unlisting Message
+        context "by a User" do        #Context: send_message/Unlisting Message/Valid Input Context
           context "who is allowed" do #Context: send_message/Unlisting Message/Valid Input/User
-            let(:msg_response)   { unlisting_msg.send_message( contact_email: nil,
-                                                                  sender_user: joe,
-                                                              reply_recipient: nil,
-                                                                      content: "Got one.",
-                                                                    recaptcha: false,
-                                                                  contact_msg: false) }
-            before { msg_response }
+            let(:msg_response) { unlisting_msg.send_message( contact_email: nil,
+                                                               sender_user: joe,
+                                                           reply_recipient: nil,
+                                                                   content: "Got one.",
+                                                                 recaptcha: false,
+                                                               contact_msg: false) }
+            context "to a use who has hit-notifications ON" do #Context: send_message/Unlisting Message/Valid Input/User/Allowed
+              before do
+                jen.preference.update_column(:hit_notifications, true)
+                Sidekiq::Testing.inline!
+                msg_response
+              end
+              after do
+                ActionMailer::Base.deliveries.clear
+                Sidekiq::Worker.clear_all
+              end
 
-            it "creates a new message" do
-              expect(Message.count).to eq(1)
+              it "creates a new message" do
+                expect(Message.count).to eq(1)
+              end
+              it "saves the data appropriately" do
+                message = Message.first
+                expect(message.content         ).to eq("Got one." )
+                expect(message.messageable_type).to eq("Unlisting")
+                expect(message.recipient_id    ).to eq( jen.id    )
+                expect(message.contact_email   ).to be_nil
+              end
+              it "returns the type as Unlisting" do
+                expect(unlisting_msg.type).to eq("Unlisting")
+              end
+              it "returns the sender_type as User" do
+                expect(unlisting_msg.sender_type).to eq("User")
+              end
+              it "returns success as true" do
+                expect(unlisting_msg.success).to be_true
+              end
+              it "returns flash_success" do
+                expect(unlisting_msg.flash_success).to be_present
+              end
+              it "sends an hit notification email the unlisting owner" do
+                expect(ActionMailer::Base.deliveries        ).to_not be_empty
+                expect(ActionMailer::Base.deliveries.last.to).to     eq( [jen.email] )
+              end
             end
-            it "saves the data appropriately" do
-              message = Message.first
-              expect(message.content         ).to eq("Got one." )
-              expect(message.messageable_type).to eq("Unlisting")
-              expect(message.recipient_id    ).to eq( jen.id    )
-              expect(message.contact_email   ).to be_nil
-            end
-            it "returns the type as Unlisting" do
-              expect(unlisting_msg.type).to eq("Unlisting")
-            end
-            it "returns the sender_type as User" do
-              expect(unlisting_msg.sender_type).to eq("User")
-            end
-            it "returns success as true" do
-              expect(unlisting_msg.success).to be_true
-            end
-            it "returns flash_success" do
-              expect(unlisting_msg.flash_success).to be_present
+
+            context "to a use who has hit-notifications OFF" do #Context: send_message/Unlisting Message/Valid Input/User/Allowed
+              before do
+                jen.preference.update_column(:hit_notifications, false)
+                Sidekiq::Testing.inline!
+                msg_response
+              end
+              after do
+                ActionMailer::Base.deliveries.clear
+                Sidekiq::Worker.clear_all
+              end
+
+              it "creates a new message" do
+                expect(Message.count).to eq(1)
+              end
+              it "saves the data appropriately" do
+                message = Message.first
+                expect(message.content         ).to eq("Got one." )
+                expect(message.messageable_type).to eq("Unlisting")
+                expect(message.recipient_id    ).to eq( jen.id    )
+                expect(message.contact_email   ).to be_nil
+              end
+              it "returns the type as Unlisting" do
+                expect(unlisting_msg.type).to eq("Unlisting")
+              end
+              it "returns the sender_type as User" do
+                expect(unlisting_msg.sender_type).to eq("User")
+              end
+              it "returns success as true" do
+                expect(unlisting_msg.success).to be_true
+              end
+              it "returns flash_success" do
+                expect(unlisting_msg.flash_success).to be_present
+              end
+              it "does NOT send a hit notification email to the unlisting owner" do
+                expect(ActionMailer::Base.deliveries).to be_empty
+              end
             end
           end
+
+
 
 
           context "who is NOT confirmed" do #Context: send_message/Unlisting Message/Valid Input/User
@@ -89,29 +142,82 @@ describe MessagesManager do
                                                                      content: "Got one.",
                                                                    recaptcha: false,
                                                                  contact_msg: false) }
-            before { msg_response }
 
-            it "creates a new message" do
-              expect(Message.count).to eq(1)
+            context "to a user who has hit-notifications ON" do #Context: send_message/Unlisting Message/Valid Input/Safeguest/Allowed
+              before do
+                jen.preference.update_column(:hit_notifications, true)
+                Sidekiq::Testing.inline!
+                msg_response
+              end
+              after do
+                ActionMailer::Base.deliveries.clear
+                Sidekiq::Worker.clear_all
+              end
+
+              it "creates a new message" do
+                expect(Message.count).to eq(1)
+              end
+              it "saves the data appropriately" do
+                message = Message.first
+                expect(message.content         ).to eq("Got one."         )
+                expect(message.messageable_type).to eq("Unlisting"        )
+                expect(message.recipient_id    ).to eq(jen.id             )
+                expect(message.contact_email   ).to eq(joe_safeguest.email)
+              end
+              it "returns the type as Unlisting" do
+                expect(unlisting_msg.type).to eq("Unlisting")
+              end
+              it "returns the sender_type as Safeguest" do
+                expect(unlisting_msg.sender_type).to eq("Safeguest")
+              end
+              it "returns success as true" do
+                expect(unlisting_msg.success).to be_true
+              end
+              it "returns flash_success" do
+                expect(unlisting_msg.flash_success).to be_present
+              end
+              it "sends an hit notification email the unlisting owner" do
+                expect(ActionMailer::Base.deliveries        ).to_not be_empty
+                expect(ActionMailer::Base.deliveries.last.to).to     eq( [jen.email] )
+              end
             end
-            it "saves the data appropriately" do
-              message = Message.first
-              expect(message.content         ).to eq("Got one."         )
-              expect(message.messageable_type).to eq("Unlisting"        )
-              expect(message.recipient_id    ).to eq(jen.id             )
-              expect(message.contact_email   ).to eq(joe_safeguest.email)
-            end
-            it "returns the type as Unlisting" do
-              expect(unlisting_msg.type).to eq("Unlisting")
-            end
-            it "returns the sender_type as Safeguest" do
-              expect(unlisting_msg.sender_type).to eq("Safeguest")
-            end
-            it "returns success as true" do
-              expect(unlisting_msg.success).to be_true
-            end
-            it "returns flash_success" do
-              expect(unlisting_msg.flash_success).to be_present
+
+            context "to a user who has hit-notifications OFF" do #Context: send_message/Unlisting Message/Valid Input/Safeguest/Allowed
+              before do
+                jen.preference.update_column(:hit_notifications, false)
+                Sidekiq::Testing.inline!
+                msg_response
+              end
+              after do
+                ActionMailer::Base.deliveries.clear
+                Sidekiq::Worker.clear_all
+              end
+
+              it "creates a new message" do
+                expect(Message.count).to eq(1)
+              end
+              it "saves the data appropriately" do
+                message = Message.first
+                expect(message.content         ).to eq("Got one."         )
+                expect(message.messageable_type).to eq("Unlisting"        )
+                expect(message.recipient_id    ).to eq(jen.id             )
+                expect(message.contact_email   ).to eq(joe_safeguest.email)
+              end
+              it "returns the type as Unlisting" do
+                expect(unlisting_msg.type).to eq("Unlisting")
+              end
+              it "returns the sender_type as Safeguest" do
+                expect(unlisting_msg.sender_type).to eq("Safeguest")
+              end
+              it "returns success as true" do
+                expect(unlisting_msg.success).to be_true
+              end
+              it "returns flash_success" do
+                expect(unlisting_msg.flash_success).to be_present
+              end
+              it "does NOT send a hit notification email to the unlisting owner" do
+                expect(ActionMailer::Base.deliveries).to be_empty
+              end
             end
           end
 
@@ -123,7 +229,15 @@ describe MessagesManager do
                                                                      content: "Got one.",
                                                                    recaptcha: false,
                                                                  contact_msg: false) }
-            before { msg_response }
+            before do
+              jen.preference.update_column(:hit_notifications, true)
+              Sidekiq::Testing.inline!
+              msg_response
+            end
+            after do
+              ActionMailer::Base.deliveries.clear
+              Sidekiq::Worker.clear_all
+            end
 
             it "does not create a message" do
               expect(Message.count).to eq(0)
@@ -133,6 +247,9 @@ describe MessagesManager do
             end
             it "returns success as false" do
               expect(unlisting_msg.success).to be_false
+            end
+            it "does NOT send a hit notification email to the unlisting owner" do
+              expect(ActionMailer::Base.deliveries).to be_empty
             end
           end
 
@@ -145,8 +262,13 @@ describe MessagesManager do
                                                                    recaptcha: false,
                                                                  contact_msg: false) }
             before do
-              jen.preference.update_column(:safeguest_contact, false)
+              jen.preference.update_columns(safeguest_contact: false, hit_notifications: true)
+              Sidekiq::Testing.inline!
               msg_response
+            end
+            after do
+              ActionMailer::Base.deliveries.clear
+              Sidekiq::Worker.clear_all
             end
 
             it "does not create a message" do
@@ -157,6 +279,9 @@ describe MessagesManager do
             end
             it "returns success as false" do
               expect(unlisting_msg.success).to be_false
+            end
+            it "does NOT send a hit notification email to the unlisting owner" do
+              expect(ActionMailer::Base.deliveries).to be_empty
             end
           end
           context "who is suspended" do #FUTURE FEATURE
@@ -173,6 +298,7 @@ describe MessagesManager do
                                                                  recaptcha: false,
                                                                contact_msg: false) }
           before do
+            jen.preference.update_column(:hit_notifications, true)
             Sidekiq::Testing.inline!
             msg_response
           end
@@ -182,10 +308,13 @@ describe MessagesManager do
           end
 
           it "sends an invitation to the unknown email address" do
-            expect(ActionMailer::Base.deliveries).to_not be_empty
-            expect(ActionMailer::Base.deliveries.last.to).to eq(["dude@example.com"])
+            expect(ActionMailer::Base.deliveries        ).to_not be_empty
+            expect(ActionMailer::Base.deliveries.last.to).to     eq( ["dude@example.com"] )
           end
-          it "does not create a message" do
+          it "does NOT send a hit notification email to the unlisting owner" do
+            expect(ActionMailer::Base.deliveries.count).to eq(1) #invitation email, but no Hit Notification email
+          end
+          it "does NOT create a message" do
             expect(Message.count).to eq(0)
           end
           it "returns a flash_notice to the user that they've been invited" do
@@ -210,9 +339,17 @@ describe MessagesManager do
                                                                  content: "",
                                                                recaptcha: false,
                                                              contact_msg: false) }
-          before { msg_response }
 
           context "who is allowed" do #Context: send_message/Unlisting Message/INvalid Input/User
+            before do
+              jen.preference.update_column(:hit_notifications, true)
+              Sidekiq::Testing.inline!
+              msg_response
+            end
+            after do
+              ActionMailer::Base.deliveries.clear
+              Sidekiq::Worker.clear_all
+            end
             it "does not create a message" do
               expect(Message.count).to eq(0)
             end
@@ -221,6 +358,9 @@ describe MessagesManager do
             end
             it "returns success as false" do
               expect(unlisting_msg.success).to be_false
+            end
+            it "does NOT send a hit notification email to the unlisting owner" do
+              expect(ActionMailer::Base.deliveries).to be_empty
             end
           end
 
@@ -257,24 +397,25 @@ describe MessagesManager do
 
         context "by a Safeguest" do #Context: send_message/Unlisting Message/INvalid Input
 
-          context "who is allowed" #Context: send_message/Unlisting Message/INvalid Input/Safeguest
+          context "who is allowed" do #Context: send_message/Unlisting Message/INvalid Input/Safeguest
             let(:msg_response)   { unlisting_msg.send_message( contact_email: joe_safeguest.email,
                                                                  sender_user: nil,
                                                              reply_recipient: nil,
-                                                                     content: "Got one.",
+                                                                     content: "",
                                                                    recaptcha: false,
                                                                  contact_msg: false) }
-            before { msg_response }
-
-            it "creates a new message" do
-              expect(Message.count).to eq(1)
+            before do
+              jen.preference.update_column(:hit_notifications, true)
+              Sidekiq::Testing.inline!
+              msg_response
             end
-            it "saves the data appropriately" do
-              message = Message.first
-              expect(message.content         ).to eq("Got one."         )
-              expect(message.messageable_type).to eq("Unlisting"        )
-              expect(message.recipient_id    ).to eq(jen.id             )
-              expect(message.contact_email   ).to eq(joe_safeguest.email)
+            after do
+              ActionMailer::Base.deliveries.clear
+              Sidekiq::Worker.clear_all
+            end
+
+            it "does NOT create a new message" do
+              expect(Message.count).to eq(0)
             end
             it "returns the type as Unlisting" do
               expect(unlisting_msg.type).to eq("Unlisting")
@@ -282,12 +423,16 @@ describe MessagesManager do
             it "returns the sender_type as Safeguest" do
               expect(unlisting_msg.sender_type).to eq("Safeguest")
             end
-            it "returns success as true" do
-              expect(unlisting_msg.success).to be_true
+            it "returns success as false" do
+              expect(unlisting_msg.success).to be_false
             end
-            it "returns flash_success" do
-              expect(unlisting_msg.flash_success).to be_present
+            it "returns error_message" do
+              expect(unlisting_msg.error_message).to be_present
             end
+            it "does NOT send a hit notification email to the unlisting owner" do
+              expect(ActionMailer::Base.deliveries).to be_empty
+            end
+          end
 
 
           context "who is NOT confirmed" do #Context: send_message/Unlisting Message/INvalid Input/Safeguest
@@ -319,18 +464,26 @@ describe MessagesManager do
                                                                    recaptcha: false,
                                                                  contact_msg: false) }
             before do
-              jen.preference.update_column(:safeguest_contact, false)
+              jen.preference.update_columns(safeguest_contact: false, hit_notifications: true)
+              Sidekiq::Testing.inline!
               msg_response
+            end
+            after do
+              ActionMailer::Base.deliveries.clear
+              Sidekiq::Worker.clear_all
             end
 
             it "does not create a message" do
               expect(Message.count).to eq(0)
             end
-            it "returns an error message" do
-              expect(unlisting_msg.error_message).to be_present
+            it "returns an flash notice" do
+              expect(unlisting_msg.flash_notice).to be_present
             end
             it "returns success as false" do
               expect(unlisting_msg.success).to be_false
+            end
+            it "does NOT send a hit notification email to the unlisting owner" do
+              expect(ActionMailer::Base.deliveries).to be_empty
             end
           end
 
@@ -357,8 +510,8 @@ describe MessagesManager do
           end
 
           it "sends an invitation to the unknown email address" do
-            expect(ActionMailer::Base.deliveries).to_not be_empty
-            expect(ActionMailer::Base.deliveries.last.to).to eq(["dude@example.com"])
+            expect(ActionMailer::Base.deliveries        ).to_not be_empty
+            expect(ActionMailer::Base.deliveries.last.to).to     eq( ["dude@example.com"] )
           end
           it "does not create a message" do
             expect(Message.count).to eq(0)

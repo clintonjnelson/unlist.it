@@ -25,7 +25,7 @@ describe UnlistingsQuery, :vcr do
   end
 
 
-  context "for querying on the EVERYONE search" do              #CURRENTLY THE ONLY TYPE
+  context "for querying on the EVERYONE query" do               #USED FOR UNLISTINGS SEARCHES
     context "for city-state location" do                        #context: Everyone Query
       context "for a general search (not category-specific)" do #context: Everyone Query/City-State Location
         context "of everything (no keywords)" do                #context: Everyone Query/City-State Location/NO category

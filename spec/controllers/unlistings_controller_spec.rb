@@ -34,28 +34,68 @@ describe UnlistingsController, :vcr do
 
   describe "POST create" do
     context "with valid information" do
-      before do
-        spec_signin_user(jen)
-        post :create, create_params
-        # include 'pry'; binding.pry
+      context "with a selected thumbnail link" do
+        before do
+          spec_signin_user(jen)
+          post :create, create_params_link
+          # include 'pry'; binding.pry
+        end
+        it "loads instance of the current_user as @user" do
+          expect(assigns(:user)).to be_present
+        end
+        it "populates a new instance of @unlisting" do
+          expect(assigns(:unlisting)).to be_present
+        end
+        it "sets the unlisting link to the selected image" do
+          expect(assigns(:unlisting).reload.link_image).to eq("http://g-ecx.images-amazon.com/images/G/01/img14/events/countdown/11452_us_events_countdown-to-black-friday_300x75._V320")
+        end
+        it "makes a valid unlisting" do
+          expect(assigns(:unlisting)).to be_valid
+        end
+        it "saves the new unlisting" do
+          expect(Unlisting.count).to eq(1)
+        end
+        it "flashes a success message" do
+          expect(flash[:success]).to be_present
+        end
+        it "redirects to the new unlisting's page for viewing" do
+          expect(response).to redirect_to user_unlisting_path(jen.slug, Unlisting.first.slug)
+        end
+
+        describe "filter_symbols_from_price" do
+          it "filters out the dollar-symbol, commas, and cents from price" do
+            expect(assigns(:unlisting).price).to eq(2345678)
+          end
+        end
       end
-      it "loads instance of the current_user as @user" do
-        expect(assigns(:user)).to be_present
-      end
-      it "populates a new instance of @unlisting" do
-        expect(assigns(:unlisting)).to be_present
-      end
-      it "makes a valid unlisting" do
-        expect(assigns(:unlisting)).to be_valid
-      end
-      it "saves the new unlisting" do
-        expect(Unlisting.count).to eq(1)
-      end
-      it "flashes a success message" do
-        expect(flash[:success]).to be_present
-      end
-      it "redirects to the new unlisting's page for viewing" do
-        expect(response).to redirect_to user_unlisting_path(jen.slug, Unlisting.first.slug)
+
+      context "without a selected thumbnail link" do
+        before do
+          spec_signin_user(jen)
+          post :create, create_params_nolink
+          # include 'pry'; binding.pry
+        end
+        it "loads instance of the current_user as @user" do
+          expect(assigns(:user)).to be_present
+        end
+        it "populates a new instance of @unlisting" do
+          expect(assigns(:unlisting)).to be_present
+        end
+        it "sets the unlisting link to the selected image" do
+          expect(assigns(:unlisting).reload.link_image).to be_nil
+        end
+        it "makes a valid unlisting" do
+          expect(assigns(:unlisting)).to be_valid
+        end
+        it "saves the new unlisting" do
+          expect(Unlisting.count).to eq(1)
+        end
+        it "flashes a success message" do
+          expect(flash[:success]).to be_present
+        end
+        it "redirects to the new unlisting's page for viewing" do
+          expect(response).to redirect_to user_unlisting_path(jen.slug, Unlisting.first.slug)
+        end
       end
     end
 
@@ -89,7 +129,7 @@ describe UnlistingsController, :vcr do
 
     context "with UN-signedin(guest) user" do
       it_behaves_like "require_signed_in" do
-        let(:verb_action) { post :create, create_params }
+        let(:verb_action) { post :create, create_params_nolink }
       end
     end
   end
@@ -97,7 +137,7 @@ describe UnlistingsController, :vcr do
 
 
   describe "GET show" do
-    let(:car_unlisting) { Fabricate(:unlisting) }
+    let!(:car_unlisting) { Fabricate(:unlisting) }
     before do
       spec_signin_user(jen)
       get :show, user_id: jen.slug, id: car_unlisting.slug
@@ -122,19 +162,44 @@ describe UnlistingsController, :vcr do
 
     context "for the correct user" do
       context "with valid updates" do
-        before { patch :update, update_params }
+        context "with a selected thumbnail link" do
+          before { patch :update, update_params_link }
 
-        it "loads instance of the current_user as @user" do
-          expect(assigns(:user)).to be_present
+          it "loads instance of the current_user as @user" do
+            expect(assigns(:user)).to be_present
+          end
+          it "loads instance of the unlisting as @unlisting" do
+            expect(assigns(:unlisting)).to be_present
+          end
+          it "sets the selected thum image link to the unlisting" do
+            expect(assigns(:unlisting).reload.link_image).to eq("http://g-ecx.images-amazon.com/images/G/01/img14/events/countdown/11452_us_events_countdown-to-black-friday_300x75._V320")
+          end
+          it "flashes a success message" do
+            expect(flash[:success]).to be_present
+          end
+          it "renders the 'show' template" do
+            expect(response).to redirect_to [jen, car_unlisting]
+          end
         end
-        it "loads instance of the unlisting as @unlisting" do
-          expect(assigns(:unlisting)).to be_present
-        end
-        it "flashes a success message" do
-          expect(flash[:success]).to be_present
-        end
-        it "renders the 'show' template" do
-          expect(response).to redirect_to [jen, car_unlisting]
+
+        context "without a selected thumbnail link" do
+          before { patch :update, update_params_nolink }
+
+          it "loads instance of the current_user as @user" do
+            expect(assigns(:user)).to be_present
+          end
+          it "loads instance of the unlisting as @unlisting" do
+            expect(assigns(:unlisting)).to be_present
+          end
+          it "loads instance of the unlisting as @unlisting" do
+            expect(assigns(:unlisting).link_image).to be_nil
+          end
+          it "flashes a success message" do
+            expect(flash[:success]).to be_present
+          end
+          it "renders the 'show' template" do
+            expect(response).to redirect_to [jen, car_unlisting]
+          end
         end
       end
 
@@ -158,10 +223,10 @@ describe UnlistingsController, :vcr do
 
     context "with UN-signedin(guest) user" do
       it_behaves_like "require_signed_in" do
-        let(:verb_action) { patch :update, update_params }
+        let(:verb_action) { patch :update, update_params_nolink }
       end
       it_behaves_like "require_correct_user" do
-        let(:verb_action) { patch :update, update_params }
+        let(:verb_action) { patch :update, update_params_nolink }
       end
     end
   end
@@ -284,14 +349,46 @@ describe UnlistingsController, :vcr do
       end
     end
   end
+
+  describe "show_thumbnails" do
+    before { xhr :post, :show_thumbnails, thumb_url: 'http://www.google.com' }
+
+    it "should load any thumbnail links found at the site" do
+      expect(assigns(:thumbnail_links)).to include("http://www.google.com/images/srpr/logo9w.png")
+    end
+  end
 end
 
-def create_params
+def create_params_link
   params = {unlisting: {category_id: 1,
                            title: "Volkswagen Bug",
                      description: "Want an awesome bug. Running. White with the number \"8\" on the side. ",
                     condition_id: 1,
-                           price: 200,
+                           price: "$2,345,678.99",
+                        keyword1: "volkswagen",
+                        keyword2: "bug",
+                        keyword3: "ocho",
+                        keyword4: "",
+                            link: "http://www.google.com",
+                      visibility: "protected"},
+                     image_links: { use_thumb_image: "yes",
+                                   link_radio_select: "4",
+                                  "0" => "http://g-ecx.images-amazon.com/images/G/01/gno/sprites/global-sprite-v1._V339353059_.png",
+                                  "1" => "http://g-ecx.images-amazon.com/images/G/01/kindle/merch/2014/campaign/G7/FHDX/fireHDX89_roto-300x120._V324607444_.jpg",
+                                  "2" => "http://g-ecx.images-amazon.com/images/G/01/img14/tools/right-column/10130_us_tools-dewalt-1_Black-friday_countdown-to_30",
+                                  "3" => "http://g-ecx.images-amazon.com/images/G/01/AMAZON_FASHION/2014/CLOTHING/SALES_SUITES/11_2014/01/1101_20OFF_VeteransDay/1",
+                                  "4" => "http://g-ecx.images-amazon.com/images/G/01/img14/events/countdown/11452_us_events_countdown-to-black-friday_300x75._V320",
+                                  "5" => "http://g-ecx.images-amazon.com/images/G/01/x-locale/common/transparent-pixel._V386942464_.gif",
+                                  "6" => "http://g-ecx.images-amazon.com/images/G/01/x-locale/common/transparent-pixel._V386942464_.gif"},
+                         user_id: jen.slug }
+end
+
+def create_params_nolink
+  params = {unlisting: {category_id: 1,
+                           title: "Volkswagen Bug",
+                     description: "Want an awesome bug. Running. White with the number \"8\" on the side. ",
+                    condition_id: 1,
+                           price: "$2,345,678.99",
                         keyword1: "volkswagen",
                         keyword2: "bug",
                         keyword3: "ocho",
@@ -301,7 +398,7 @@ def create_params
                          user_id: jen.slug }
 end
 
-def update_params
+def update_params_link
   params = {unlisting: {category_id: 1,
                            title: "Volkswagen Bug",
                      description: "Desperate. Running or not.",
@@ -312,7 +409,32 @@ def update_params
                         keyword3: "ocho",
                         keyword4: "",
                             link: "http://www.herbie.com"},
-                         user_id: jen.slug, id: car_unlisting.slug}
+                     image_links: { use_thumb_image: "yes",
+                                    link_radio_select: "4",
+                                    "0" => "http://g-ecx.images-amazon.com/images/G/01/gno/sprites/global-sprite-v1._V339353059_.png",
+                                    "1" => "http://g-ecx.images-amazon.com/images/G/01/kindle/merch/2014/campaign/G7/FHDX/fireHDX89_roto-300x120._V324607444_.jpg",
+                                    "2" => "http://g-ecx.images-amazon.com/images/G/01/img14/tools/right-column/10130_us_tools-dewalt-1_Black-friday_countdown-to_30",
+                                    "3" => "http://g-ecx.images-amazon.com/images/G/01/AMAZON_FASHION/2014/CLOTHING/SALES_SUITES/11_2014/01/1101_20OFF_VeteransDay/1",
+                                    "4" => "http://g-ecx.images-amazon.com/images/G/01/img14/events/countdown/11452_us_events_countdown-to-black-friday_300x75._V320",
+                                    "5" => "http://g-ecx.images-amazon.com/images/G/01/x-locale/common/transparent-pixel._V386942464_.gif",
+                                    "6" => "http://g-ecx.images-amazon.com/images/G/01/x-locale/common/transparent-pixel._V386942464_.gif"},
+                         user_id: jen.slug,
+                              id: car_unlisting.slug }
+end
+
+def update_params_nolink
+  params = {unlisting: {category_id: 1,
+                           title: "Volkswagen Bug",
+                     description: "Desperate. Running or not.",
+                    condition_id: 1,
+                           price: 200,
+                        keyword1: "volkswagen",
+                        keyword2: "bug",
+                        keyword3: "ocho",
+                        keyword4: "",
+                            link: "http://www.herbie.com"},
+                         user_id: jen.slug,
+                              id: car_unlisting.slug }
 end
 
 def invalid_update_params
