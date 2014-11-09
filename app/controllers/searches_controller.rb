@@ -8,7 +8,7 @@ class SearchesController < ApplicationController
     @search_category = ( (search_params[:category_id] == "0") ? "0" : Category.find(search_params[:category_id]) )
     @search_results  = UnlistingsQuery.new.search(search_string: @search_string,
                                               search_visibility: "everyone",
-                                                   cateogory_id: ((@search_category == "0") ? "0" : @search_category.id),
+                                                    category_id: ((@search_category == "0") ? "0" : @search_category.id),
                                                          radius: session[:search_radius ],
                                                            city: session[:search_city   ],
                                                           state: session[:search_state  ],

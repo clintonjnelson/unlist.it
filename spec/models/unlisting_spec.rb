@@ -97,6 +97,18 @@ describe Unlisting, :vcr do
     end
   end
 
+  describe "set_found" do
+    let!(:jen)                { Fabricate(:user) }
+    let!(:unlisting_found  )  { Fabricate(:unlisting, creator: jen) }
+    let!(:unlisting_looking)  { Fabricate(:unlisting, creator: jen) }
+
+    it "counts the user's number of found unlistings" do
+        expect(jen.count_found).to eq(0)
+      unlisting_found.set_found
+        expect(jen.count_found).to eq(1)
+    end
+  end
+
   # describe "filter_dollar_symbols_from_price callback" do
   #   context "for price with dollar-sign in it" do
   #     it "edits out the dollar sign" do

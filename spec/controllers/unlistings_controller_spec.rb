@@ -212,32 +212,64 @@ describe UnlistingsController, :vcr do
 
 
   describe "DELETE destroy" do
+    let!(:car_unlisting ) { Fabricate(:unlisting, creator: jen) }
+    let!(:parent_message) { Fabricate(:user_unlisting_message ) }
+    let!(:reply_message ) { Fabricate(:reply_message          ) }
+
     context "with the creator's request" do
-      let!(:car_unlisting)     { Fabricate(:unlisting, creator: jen) }
-      let!(:parent_message) { Fabricate(:user_unlisting_message ) }
-      let!(:reply_message ) { Fabricate(:reply_message       ) }
-      before do
-        spec_signin_user(jen)
-        jen.update_column(:avatar, "1234abcd")
-        request.env["HTTP_REFERER"] = "http://test.host/"
-        UnimagesCleaner.should_receive(:perform_in)         #Mock UnimagesCleaner
-        delete :destroy, user_id: jen.slug, id: car_unlisting.slug
+      context "of a standard delete" do
+        before do
+          spec_signin_user(jen)
+          jen.update_column(:avatar, "1234abcd")
+          request.env["HTTP_REFERER"] = "http://test.host/"
+          UnimagesCleaner.should_receive(:perform_in)         #Mock UnimagesCleaner
+          delete :destroy, user_id: jen.slug, id: car_unlisting.slug
+        end
+
+        it "sets set the removed boolean to true" do
+          expect(car_unlisting.reload.inactive?).to be_true
+        end
+        it "sets the parent message's deleted_at to a time" do
+          expect(parent_message.reload.deleted_at).to be_present
+        end
+        it "sets the parent message's deleted_at to a time" do
+          expect(reply_message.reload.deleted_at).to be_present
+        end
+        it "it flashes a success message" do
+          expect(flash[:success]).to be_present
+        end
+        it "redirects to back to the last page" do
+          expect(response).to redirect_to :back
+        end
       end
 
-      it "sets set the removed boolean to true" do
-        expect(car_unlisting.reload.inactive?).to be_true
-      end
-      it "sets the parent message's deleted_at to a time" do
-        expect(parent_message.reload.deleted_at).to be_present
-      end
-      it "sets the parent message's deleted_at to a time" do
-        expect(reply_message.reload.deleted_at).to be_present
-      end
-      it "it flashes a success message" do
-        expect(flash[:success]).to be_present
-      end
-      it "redirects to back to the last page" do
-        expect(response).to redirect_to :back
+      context "of a found item" do
+        before do
+          spec_signin_user(jen)
+          jen.update_column(:avatar, "1234abcd")
+          request.env["HTTP_REFERER"] = "http://test.host/"
+          UnimagesCleaner.should_receive(:perform_in)         #Mock UnimagesCleaner
+          delete :destroy, user_id: jen.slug, id: car_unlisting.slug, found: "true"
+        end
+
+        it "sets the removed boolean to true" do
+          expect(car_unlisting.reload.inactive?).to be_true
+        end
+        it "sets the found   boolean to true" do
+          expect(car_unlisting.reload.found?   ).to be_true
+        end
+        it "sets the parent message's deleted_at to a time" do
+          expect(parent_message.reload.deleted_at).to be_present
+        end
+        it "sets the parent message's deleted_at to a time" do
+          expect(reply_message.reload.deleted_at).to be_present
+        end
+        it "it flashes a success message" do
+          expect(flash[:success]).to be_present
+        end
+        it "redirects to back to the last page" do
+          expect(response).to redirect_to :back
+        end
       end
     end
 
