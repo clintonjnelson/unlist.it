@@ -17,6 +17,7 @@ class UnlistingsController < ApplicationController
   def create #Loads: @user
     @unlisting = @user.unlistings.build(unlisting_params)
     set_or_update_link_image_column
+    binding.pry
 
     #Load images from token & save token
     @token                    = unlisting_token_param[:token]
@@ -77,6 +78,7 @@ class UnlistingsController < ApplicationController
 
   def update #Loads: @unlisting, @user
     set_or_update_link_image_column
+    binding.pry
 
     if @unlisting && @unlisting.update(unlisting_params)
       flash[:success] = 'Unlisting Updated.'
