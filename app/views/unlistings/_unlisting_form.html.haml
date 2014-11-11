@@ -71,7 +71,7 @@
         /     // [] at end allows multiple for controller
         /     =u.hidden_field :filename
         =f.form_group do
-          =f.check_box :visibility, {id: "visibility-options", label: "Protected", checked: ( @unlisting.present? ? (@unlisting.visibility == "protected") : false)}, "protected", "false"
+          =f.check_box :visibility, {id: "visibility-options", label: "Protected", checked: ( @unlisting.present? ? (@unlisting.visibility == "protected") : false)}, "protected", "everyone"
           %p.red-text
             %small
               %em "Protected" unlistings don't show up in searches, but CAN still be publicly viewed under your profile.
