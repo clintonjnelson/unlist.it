@@ -78,6 +78,7 @@ class UnlistingsController < ApplicationController
   def update #Loads: @unlisting, @user
     set_or_update_link_image_column
 
+
     if @unlisting && @unlisting.update(unlisting_params)
       flash[:success] = 'Unlisting Updated.'
       redirect_to [@user, @unlisting]
