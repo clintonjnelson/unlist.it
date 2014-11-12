@@ -2,7 +2,7 @@
 
 
 //////////////////////// ADD UNLISTING /////////////////////////
-//Load the Website Thumbnails of provided URL (limited to 5 per configs)
+//Load the Website Thumbnails of provided URL (limited to 7 per configs)
 $(document).ready(function() {
   $(".link-thumbnails-input").on("change", function() {
     $.ajax({
@@ -54,9 +54,9 @@ $(document).ready(function() {
   });
 });
 
-//Ajax Population of ConditionSelect For Selected Category on LOAD
+//Ajax Population of ConditionSelect For Selected Category on LOAD (load only if exists & selected value)
 $(document).ready(function() {
-  if($(".unlisting_category_select").length > 0) {
+  if( ($(".unlisting_category_select").length > 0) && ($(".unlisting_category_select").val() != "")) {
     $.ajax({
       type: "POST",
       url: "/conditions_by_category",

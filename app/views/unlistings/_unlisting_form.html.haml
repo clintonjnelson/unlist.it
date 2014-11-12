@@ -52,7 +52,6 @@
           =link_to "display image upload area(optional)", "#dropzone", id: "hideshow-dropzone", title: "This is only if you want to upload any images from your home computer. Sometimes you have a version of the thing you want (like that perfect coat you wore out and can no longer find in stores), so if you can't find an example online then this will help you show exactly what you're looking for."
           -#JS toggle for showing or hiding dropzone area
 
-
         =f.select :condition_id, [], { prompt: "select a category above", label: "Minimum Condition*"}, { id: "unlisting_condition_select", data: { current: (@unlisting.condition.present? ? @unlisting.condition.id : nil) } }
         =f.text_field :price,    label: "Price (up to)*", prepend: "$", title: "This is the price you'd be willing to pay. Maybe a lot. Maybe a little. Maybe nothing. For Community Reuse, enter '0'  (that's a zero) and it will display as Community Reuse."
         =f.text_field :keyword1, label: "Keyword 1*", title: "These keywords are what unlist uses to find your unlisting when someone searches."
