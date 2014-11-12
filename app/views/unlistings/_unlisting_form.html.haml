@@ -52,7 +52,7 @@
           -#JS toggle for showing or hiding dropzone area
 
 
-        =f.select :condition_id, [], { prompt: "select a category above", label: "Minimum Condition*"}, { id: "unlisting_condition_select" }
+        =f.select :condition_id, [], { label: "Minimum Condition*", prompt: "select a category above" }, { id: "unlisting_condition_select" }
         =f.text_field :price,    label: "Price (up to)*", prepend: "$"
         =f.text_field :keyword1, label: "Keyword 1*"
         =f.text_field :keyword2, label: "Keyword 2"
