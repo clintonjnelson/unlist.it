@@ -15,18 +15,14 @@ describe Unlisting, :vcr do
     it { should have_many(:unimages       ) }
 
     it { should validate_presence_of(:title       ) }
-    it { should validate_presence_of(:description ) }
+    #it { should validate_presence_of(:description ) } ##REMOVED PER USER FEEDBACK
     it { should validate_presence_of(:condition_id) }
     it { should validate_presence_of(:category_id ) }
     it { should validate_presence_of(:keyword1    ) }
     it { should validate_presence_of(:user_id     ) }
-   #it { should validate_presence_of(:travel      ) }
 
     it { should validate_numericality_of(:price   ).only_integer }
-   #it { should validate_numericality_of(:distance).only_integer }
-   #it { should validate_numericality_of(:zipcode ).only_integer }
 
-   #it { should allow_value("", nil).for(:distance) }
     it { should allow_value("", nil).for(:keyword2   ) }
     it { should allow_value("", nil).for(:keyword3   ) }
     it { should allow_value("", nil).for(:keyword4   ) }

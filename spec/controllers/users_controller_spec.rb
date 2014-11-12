@@ -275,7 +275,7 @@ describe UsersController, :vcr do
         expect(assigns(:user)).to be_present
       end
       it "loads the user's active unlistings" do
-        expect(assigns(:unlistings)).to          eq( [car_unlisting, hat_unlisting] )
+        expect(assigns(:unlistings)).to eq( [hat_unlisting, car_unlisting] )
       end
       it "does not load the user's inactive unlistings" do
         expect(assigns(:unlistings)).to_not include( del_unlisting )
