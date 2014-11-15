@@ -7,7 +7,7 @@
   ="#{@unlisting.category.name}"
   %span= "-> #{@unlisting.title}"
 
-.row#userbox.col-xs-8
+.row#userbox.col-xs-12.col-sm-10.col-md-8
   #contactbuyer{style: "#{ ( flash[:error].present? ? 'display:block' : 'display: none' ) }" }
     =render partial: 'unlistings/message_form', locals: { unlisting: @unlisting, message: @message }
   #userboxcontent.well

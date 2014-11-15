@@ -2,8 +2,9 @@
   -provide(:title, "#{@user.username} - Profile and Unlist")
 
 //Code to show user & summary info
-.row#userbox.col-xs-8
+.row#userbox.col-xs-12.col-sm-10.col-md-8
   #showusercontent.well
+    -#=link_to @user.avatar.url do
     .gravatar= @user.decorator.avatar_image_tag(60)
     #owner-edit.text-right
       -if signed_in? && owner?(@user)
