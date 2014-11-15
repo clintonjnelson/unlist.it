@@ -15,7 +15,8 @@
           =link_to "#{category.name}", browse_category_path(category), { role: 'menuitem', tabindex: "-1" }
 
 //-#GOOD CANDIDATE FOR DECORATOR
-.row.col-xs-8.well#browse-unlistings
+//RESPONSIVE TEST
+.row.col-xs-12.col-sm-10.col-md-8.well#browse-unlistings
   -if @unlistings.present?
     .infinite-unlistings
       =render partial: 'unlistings/unlisting', collection: @unlistings, locals: { browse_category: (@category.present? ? @category : nil) }

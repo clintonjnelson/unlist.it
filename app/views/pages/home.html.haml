@@ -2,16 +2,10 @@
 
 //Code for the quick-search bar
 .row
-  #searcharea.col-xs-8
-    =render partial: 'shared/quicksearch'
-    %br
-
-    %p.status-text.text-muted Have something to sell? Search & see if any unlisters are looking for it.
-    //%p.status-text.text-muted="There are currently #{User.count} Unlisters looking for #{Unlisting.count} things."
-
+  //RESPONSIVE TEST
 
   -unless signed_in?
-    #signup.col-xs-4
+    #signup.col-xs-12.col-sm-6.col-md-4
       =link_to signup_path do
         %h1
           %strong
@@ -21,3 +15,13 @@
             %br
             Sign Up
             %small (yep, it's free.)
+
+  #searcharea.col-xs-12.col-sm-10.col-md-8
+    =render partial: 'shared/quicksearch'
+    %br
+
+    %p.status-text.text-muted Have something to sell? Search & see if any unlisters are looking for it.
+    //%p.status-text.text-muted="There are currently #{User.count} Unlisters looking for #{Unlisting.count} things."
+
+
+
