@@ -14,7 +14,7 @@
   %p
     %ul
       -if unlisting.link
-        %li= "Example: #{ unlisting.link }"
+        %li.wrap-link= "Example: #{ unlisting.link }"
         -#%span= link_to "#{ unlisting.link }", unlisting.link, class: "wrap-link", target: "_blank"
       -if local_assigns.has_key?(:browse_category) && browse_category == "All"
         %li= "Category: #{   unlisting.category.name            }"
