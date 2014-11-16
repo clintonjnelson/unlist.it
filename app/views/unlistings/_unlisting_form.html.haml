@@ -36,7 +36,7 @@
     %ul#additem
       %p.red-text * = required fields
       -# Verify if still need multipart here
-      =bootstrap_form_for [current_user, @unlisting], html: { multipart: true }, layout: :horizontal, label_col: 'col-xs-12 col-sm-3', control_col: "col-xs-12 col-sm-7" do |f|
+      =bootstrap_form_for [current_user, @unlisting], html: { multipart: true }, layout: :horizontal, label_col: 'col-xs-12 col-sm-4', control_col: "col-xs-12 col-sm-7" do |f|
         =f.hidden_field :token, value: "#{@token}"
         =f.collection_select :category_id, Category.order('name ASC').all, :id, :name, { prompt: "select a category", label: "Category*" }, { class: 'unlisting_category_select' }
         =f.text_field :title,       label: "Title*"
@@ -44,7 +44,7 @@
 
         -# Use thumbnailer to load link images
         -#=f.text_field  :link,       label: "Webpage Example", class: "link-thumbnails-input"
-        =f.text_field  :link, class: 'link-thumbnails-input', label: "Webpage Example", title: 'Provide the address to a specific webpage that has the item you are looking for. This web address also allows you to choose a primary unlisting image for display - an optional checkbox will appear below.'
+        =f.text_field  :link, class: 'link-thumbnails-input', label: "Webpage Example & Pic", title: 'Provide the address to a specific webpage that has the item you are looking for. This web address also allows you to choose a primary unlisting image for display - an optional checkbox will appear below.'
 
         .link-thumbnails{ data: { id: @unlisting.slug } }
 
