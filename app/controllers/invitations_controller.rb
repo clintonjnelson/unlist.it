@@ -12,8 +12,8 @@ class InvitationsController < ApplicationController
     @invitation = @user.invitations.build(invitation_params)
     #credits     = InvitationCredit.new(@user)
     if @invitation.save     # credits.any? &&
-      UnlistMailer.invitation_email(@invitation.id).deliver  #USE IN DEVELOPMENT FOR EMAILING
-      #UnlistMailer.delay.invitation_email(@invitation.id) #sidekiq worker
+      #UnlistMailer.invitation_email(@invitation.id).deliver  #USE IN DEVELOPMENT FOR EMAILING
+      UnlistMailer.delay.invitation_email(@invitation.id) #sidekiq worker
       #credits.use_credit
       flash[:success]   = "Invitation Sent!"
       redirect_to new_user_invitation_path(@user)

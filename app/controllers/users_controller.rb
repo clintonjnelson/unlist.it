@@ -23,8 +23,8 @@ class UsersController < ApplicationController
     if agrees_termsconditions? && @user.save                           ##removed:  @invite &&
       Token.create(creator: @user, tokenable: @user)                   ##PUT THIS IN THE USER MODEL CREATED ON CREATE
       @invite.set_redeemed if @invite.present?                         #temporary to be removed later(?)
-      UnlistMailer.registration_confirmation_email(@user.id).deliver  #Development Environment
-      #UnlistMailer.delay.registration_confirmation_email(@user.id)     #Sidekiq Worker
+      #UnlistMailer.registration_confirmation_email(@user.id).deliver  #Development Environment
+      UnlistMailer.delay.registration_confirmation_email(@user.id)     #Sidekiq Worker
       flash[:success]   = "Please check your email and click the email-confirmation link in the email we just sent you."
       signin_user(@user, true)
       redirect_to user_messages_path(@user, type: 'received')
