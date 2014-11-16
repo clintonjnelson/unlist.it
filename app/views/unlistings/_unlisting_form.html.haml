@@ -36,7 +36,7 @@
     %ul#additem
       %p.red-text * = required fields
       -# Verify if still need multipart here
-      =bootstrap_form_for [current_user, @unlisting], html: { multipart: true }, layout: :horizontal, label_col: 'col-xs-4', control_col: "col-xs-6" do |f|
+      =bootstrap_form_for [current_user, @unlisting], html: { multipart: true }, layout: :horizontal, label_col: 'col-xs-2 col-sm-3 col-md-4', control_col: "col-xs-10 col-sm-8 col-md-6" do |f|
         =f.hidden_field :token, value: "#{@token}"
         =f.collection_select :category_id, Category.order('name ASC').all, :id, :name, { prompt: "select a category", label: "Category*" }, { class: 'unlisting_category_select' }
         =f.text_field :title,       label: "Title*"
