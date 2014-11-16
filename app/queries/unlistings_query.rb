@@ -64,12 +64,15 @@ class UnlistingsQuery
 
 
   ################################# QUERY SCOPES ###############################
+  # Currently searches Keyword OR Title
+  # FUTURE - MAKE OPTIONAL SEARCH LOCATIONS DEPENDING ON USER SELECTION
+  # FUTURE - ALSO MAKE TITLE A 'SIMILAR' SEARCH & KEYWORD AN 'EXACT' SEARCH
   def find_by_keyword(keyword)
     if @dev_test_env
-      results = Unlisting.active.where("keyword1 LIKE :search OR keyword2 LIKE :search OR keyword3 LIKE :search OR keyword4 LIKE :search",
+      results = Unlisting.active.where("keyword1 LIKE :search OR keyword2 LIKE :search OR keyword3 LIKE :search OR keyword4 LIKE :search OR title LIKE :search",
                            { search: "%#{keyword}%" }).order('created_at ASC')
     else
-      results = Unlisting.active.where("keyword1 ILIKE :search OR keyword2 ILIKE :search OR keyword3 ILIKE :search OR keyword4 ILIKE :search",
+      results = Unlisting.active.where("keyword1 ILIKE :search OR keyword2 ILIKE :search OR keyword3 ILIKE :search OR keyword4 ILIKE :search or title ILIKE :search",
                            { search: "%#{keyword}%" }).order('created_at ASC')
     end
   end
