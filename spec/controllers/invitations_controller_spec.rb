@@ -11,7 +11,7 @@ describe InvitationsController do
       before do
         spec_signin_user(jen)
         Sidekiq::Testing.inline! do
-          post :create, { invitation: { recipient_email: "joe@example.com"  },
+          post :create, { invitation: { recipient_email: "joe@example.com", note: "hi"  },
                              user_id: jen.slug }
         end
       end
@@ -27,6 +27,9 @@ describe InvitationsController do
       end
       it "assigns the provided email as the Invitation recipient_email" do
         expect(Invitation.first.recipient_email).to eq("joe@example.com")
+      end
+      it "saves the note for use" do
+        expect(Invitation.first.note).to eq("hi")
       end
       it "sends an email" do
         expect(ActionMailer::Base.deliveries.count).to eq(1)
@@ -50,7 +53,7 @@ describe InvitationsController do
     end
 
     context "with INVALID email & available invitations" do
-      let!(:jen)        { Fabricate(:user, invite_count: 4) }
+      let!(:jen) { Fabricate(:user, invite_count: 4) }
       before do
         spec_signin_user(jen)
         Sidekiq::Testing.inline! do
@@ -73,27 +76,31 @@ describe InvitationsController do
       end
     end
 
+    # Formerly, would not allow invitation to be sent - restricted by limited invitations.
     context "with valid email & NO invitations" do
-      let!(:jen)        { Fabricate(:user, invite_count: 0) }
+      let!(:jen) { Fabricate(:user, invite_count: 1) }
       before do
         spec_signin_user(jen)
         Sidekiq::Testing.inline! do
-          post :create, { invitation: { recipient_email: "joeexample.com"  },
+          post :create, { invitation: { recipient_email: "joe@example.com", note: "hi"  },
                              user_id: jen.slug }
         end
       end
 
-      it "does not save the invitation" do
-        expect(Invitation.all.count).to eq(0)
+      it "saves the invitation" do
+        expect(Invitation.all.count).to eq(1)
       end
-      it "does not send an email" do
-        expect(ActionMailer::Base.deliveries.count).to eq(0)
+      it "saves the note for use" do
+        expect(Invitation.first.note).to eq("hi")
       end
-      it "flashes a notice" do
-        expect(flash[:error]).to be_present
+      it "sends an email" do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
       end
-      it "renders the new_invitation page again" do
-        expect(response).to render_template 'new'
+      it "flashes a success" do
+        expect(flash[:success]).to be_present
+      end
+      it "redirects to the invitation_sent page" do
+        expect(response).to redirect_to new_user_invitation_path(jen)
       end
     end
   end

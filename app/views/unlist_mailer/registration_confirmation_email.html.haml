@@ -6,11 +6,11 @@
     %hr
     %br
     %p Click this link and your registration will be complete:
-    %p= link_to "CONFIRM MY EMAIL", userconfirmation_url(@user.tokens.first.token)
+    %p= link_to "#{userconfirmation_url(@user.tokens.first.token)}", userconfirmation_url(@user.tokens.first.token)
     %br
 
-    %p Alternatively, you can paste this link into your browser address bar:
-    %p= link_to "#{userconfirmation_url(@user.tokens.first.token)}", userconfirmation_url(@user.tokens.first.token)
+    %p (Alternatively, you can paste that link into your browser address bar)
+
     %br
 
     %br

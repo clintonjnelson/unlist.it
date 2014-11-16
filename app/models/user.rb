@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  #Version 0.7 (Alpha) --users will have role "Alpha"
+  #Version 0.9 (Beta) --users will have role "beta"
 
   belongs_to :location
   has_many   :friend_relationships, class_name: "Relationship", foreign_key: 'user_id' #fk = reference to person who is doing the looking for things
@@ -21,9 +21,9 @@ class User < ActiveRecord::Base
   # Callbacks
   before_validation :generate_and_check_username,                on: :create
   before_validation :set_user_location_to_default,               on: :create
-  before_validation :set_initial_invitations_to_settings_ration, on: :create
+  #before_validation :set_initial_invitations_to_settings_ration, on: :create
   before_create     :set_initial_values
-  before_create     :make_alpha_questionaire  #THIS WILL EVENTUALLY BE REMOVED
+  before_create     :make_questionaire  #THIS WILL EVENTUALLY BE REMOVED AFTER BETA
   before_save       :toggle_avatar_use_with_changes
   after_create      :make_user_preferences
   after_create      :set_welcome_examples
@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
 
   ############################## CUSTOM CALLBACKS ##############################
   def set_initial_values
-    self.role            = "alpha" #WILL CHANGE TO BETA
+    self.role            = "beta" #WILL EVENTUALLY GO AWAY AFTER BETA
     self.status          = "Unconfirmed"
     set_initial_prt_created_at
   end
@@ -56,15 +56,15 @@ class User < ActiveRecord::Base
     self.slug     = name
   end
 
-  #ALPHA ONLY - REMOVED LATER
-  def make_alpha_questionaire #WILL CHANGE TO BETA
+  #ALPHA & BETA ONLY - REMOVED LATER
+  def make_questionaire #WILL CHANGE TO BETA
     self.create_questionaire
   end
 
-  def set_initial_invitations_to_settings_ration
-    initial_value     = Setting.first.invites_ration
-    self.invite_count = initial_value
-  end
+  # def set_initial_invitations_to_settings_ration
+  #   initial_value     = Setting.first.invites_ration
+  #   self.invite_count = initial_value
+  # end
 
   def set_initial_prt_created_at
     self.prt_created_at = 1.month.ago #for security
@@ -162,7 +162,8 @@ class User < ActiveRecord::Base
     true unless (user == self) || self.friends.include?(user)
   end
   def invitations_avail?
-    self.invite_count.nil? ? false : (self.invite_count > 0)
+    # self.invite_count.nil? ? false : (self.invite_count > 0)
+    true
   end
 
   #Query Methods

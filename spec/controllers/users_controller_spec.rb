@@ -160,7 +160,7 @@ describe UsersController, :vcr do
         it "flashes the Welcome message" do
           expect(flash[:success]).to be_present
         end
-        it "redirects to the user home page" do
+        it "redirects to the user messages page" do
           expect(response).to redirect_to user_messages_path(user_id: User.last.slug, type: 'received')
         end
 
@@ -209,6 +209,7 @@ describe UsersController, :vcr do
         end
       end
 
+      # Formerly this would prevent signup, but now is not requried
       context "with INvalid token" do
         let!(:user_invite) { Fabricate(:invitation, sender: joe ) }
         let(:params)       { { user: { email: jen.email, password: jen.password, username: jen.username, termsconditions: "1" }, token: "bogus-token" } }
@@ -223,17 +224,17 @@ describe UsersController, :vcr do
         it "loads the invitation by the passed token" do
           expect(assigns(:invite)).to be_nil
         end
-        it "does NOT create a new user" do
-          expect(User.count).to eq(2)
+        it "creates a new user" do
+          expect(User.count).to eq(3)
         end
-        it "does not set the invitation to accepted" do
+        it "is unable to set the invitation to accepted" do
           expect(user_invite.reload.accepted?).to be_false
         end
-        it "flashes the error message" do
-          expect(flash[:error]).to be_present
+        it "flashes the success message" do
+          expect(flash[:success]).to be_present
         end
-        it "redirects to the expired link path" do
-          expect(response).to redirect_to expired_link_path
+        it "redirects to the user messages page" do
+          expect(response).to redirect_to user_messages_path(user_id: User.last.slug, type: 'received')
         end
       end
 

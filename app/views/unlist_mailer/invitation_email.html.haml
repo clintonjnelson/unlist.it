@@ -11,11 +11,11 @@
         %strong="#{@user.username} has also included a personal note:"
         ="\"#{ @invitation.note }\""
       %p
-        %em (if you don't recognise their name & it has the form "UnlisterXXXXXXXX", you can remind them that they may want to update their username in thier profile!)
+        %em (if you don't recognize their name & it has the form "UnlisterXXXXXXXX", you can remind them that they may want to update their username in thier profile!)
 
     %br
     %p
-      Unlist is currently in beta-testing and by invitation ONLY. Click the following invitation link to sign up:
+      To sign up, visit unlist.it or click the following link:
       =link_to "#{register_with_invite_url(@invitation.token)}", register_with_invite_url(@invitation.token)
 
 

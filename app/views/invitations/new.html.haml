@@ -4,7 +4,7 @@
 .row.col-xs-11.col-sm-9.col-md-8.col-xs-offset-1.well#invitation-container
   -if signed_in? && current_user.invitations_avail?
     %h4.text-muted
-      ="You currently have #{pluralize(current_user.invite_count, 'invitation') } left - invite a friend!"
+      ="Invitations are unlimited - invite a friend!"
     %hr
     %br
     .invitation-form
@@ -12,6 +12,6 @@
         =f.email_field :recipient_email, label: "Friend's Email Address"
         =f.text_area  :note,            label: "Optional Message", size: "15x4"
         =f.submit "Send Invite!", class: "btn btn-primary"
-  -else
-    %h5.muted
-      You currently have no remaining invitations, but keep checking because you'll get more periodically!
+  / -else
+  /   %h5.muted
+  /     You currently have no remaining invitations, but keep checking because you'll get more periodically!

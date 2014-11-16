@@ -63,18 +63,6 @@
       %li(role='presentation')
         =link_to 'all',  admin_messages_path, { role: 'menuitem', tabindex: "-1" }
 
-  / .dropdown#navbutton-admin-blog
-  /   %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
-  /     Blog
-  /     %span.caret
-  /   %ul.dropdown-menu(role='menu' aria-labelledby='AdminBlogMenu')
-  /     %li(role='presentation')
-  /       =link_to '#', { role: 'menuitem', tabindex: "-1" } do
-  /         %i.icon-plus
-  /         New Post
-  /     %li(role='presentation')
-  /       =link_to "view posts", '#', { role: 'menuitem', tabindex: "-1" }
-
 
   /-#////////////////////// USER DROPDOWN MENUS /////////////////////////
 -elsif signed_in?
@@ -133,20 +121,6 @@
     =link_to new_user_invitation_path(current_user), { role: 'menuitem', tabindex: "-1" } do
       %i.fa.fa-envelope.fa-2
       invite!
-
-  / .dropdown#navbutton-user-unlist
-  /   %a.btn.dropdown-toggle.sr-only(data-toggle='dropdown')
-  /     profile
-  / %span.caret
-  / %ul.dropdown-menu(role='menu' aria-labelledby='UserUnlistMenu')
-  /   %li(role='presentation')
-  /     =link_to user_path(current_user), { role: 'menuitem', tabindex: "-1" } do
-  /       %i.glyphicon.glyphicon-user
-  /       profile
-  /   %li(role='presentation')
-  /     =link_to edit_user_path(current_user), { role: 'menuitem', tabindex: "-1" } do
-  /       %i.glyphicon.glyphicon-pencil
-  /       edit profile
 
 
   /-#///////////////////// GUEST DROPDOWN MENUS /////////////////////////

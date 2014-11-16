@@ -3,9 +3,9 @@
   .row
     .col-xs-3#unlisticonbox
       -if signed_in? && current_user.role == ("alpha" || "beta")
-        =link_to "ALPHA", edit_user_questionaire_path(current_user, 1), class: 'unlist-version' #path to questionaire
+        =link_to "BETA", edit_user_questionaire_path(current_user, 1), class: 'unlist-version' #path to questionaire
       -else
-        %h6.unlist-version ALPHA
+        %h6.unlist-version BETA
       %h1#unlistheadericon
         =link_to 'Unlist.it', root_path
         / Login/User Box Located In Header (Right Side)

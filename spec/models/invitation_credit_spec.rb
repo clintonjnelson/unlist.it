@@ -13,7 +13,6 @@ describe InvitationCredit do
     end
     context "without available credits" do
       let(:jen) { Fabricate(:user, invite_count: 0) }
-      before    { jen.update_column(:invite_count, 0) }
       it "returns false" do
         credits = InvitationCredit.new(jen)
         expect(credits.any?).to be_false
@@ -23,15 +22,14 @@ describe InvitationCredit do
 
   describe "use_credit" do
     context "with available credits" do
-      let(:jen) { Fabricate(:user, invite_count: 1) }
+      let(:jen) { Fabricate(:user, invite_count: 4) }
       it "subtracts one credit & saves" do
         InvitationCredit.new(jen).use_credit
         expect(jen.reload.invite_count).to eq(3)
       end
     end
     context "with NO credits available" do
-      let(:jen) { Fabricate(:user) }
-      before    { jen.update_column(:invite_count, 0) }
+      let(:jen) { Fabricate(:user, invite_count: 0) }
       it "does not subtract a credit" do
         InvitationCredit.new(jen).use_credit
         expect(jen.reload.invite_count).to eq(0)

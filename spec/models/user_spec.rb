@@ -101,9 +101,13 @@ describe User do
     context "with NO invitations left" do
       let(:jen) { Fabricate(:user) }
       before { jen.update_column(:invite_count, 0) }
-      it "returns false" do
-        expect(jen.invitations_avail?).to be_false
+      it "returns true" do
+        expect(jen.invitations_avail?).to be_true
       end
+      ## USED TO RETURN FALSE WHEN INVITATIONS WERE REQUIRED
+      # it "returns false" do
+      #   expect(jen.invitations_avail?).to be_false
+      # end
     end
   end
 

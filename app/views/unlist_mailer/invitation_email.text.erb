@@ -7,13 +7,12 @@ UUnlist is based around a creative new idea of "wishlist classifieds" - a wishli
 
 <% if @invitation.note.present? %>
 They have also sent you a personal note: "<%= "#{ @invitation.note }" %>"
-(if you don't recognise their name & it has the form "UnlisterXXXXXXXX", you can remind them that they may want to update their username in thier profile!)
+(if you don't recognize their name & it has the form "UnlisterXXXXXXXX", you can remind them that they may want to update their username in thier profile!)
 <% end %>
 
 
 
-Unlist is currently in beta-testing and by invitation ONLY.
-Click the following invitation link or paste it into your browser to sign up:
+To sign up, visit unlist.it or click the following link:
   <%= register_with_invite_url(@invitation.token) %>
 
 

@@ -17,7 +17,7 @@ class UnlistMailer < ActionMailer::Base
     #invitation_use_developer_email_if_in_staging
     mail(to: @invitation.recipient_email,
          from: 'info@unlist.it',
-         subject: "You Have Been Exclusively Invited To Join Unlist.it")
+         subject: "You've Been Invited To Join Unlist.it - Wishlist Classifieds")
   end
 
   def password_reset_email(user_id)

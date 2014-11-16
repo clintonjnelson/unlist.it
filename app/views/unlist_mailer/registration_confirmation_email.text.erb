@@ -3,10 +3,10 @@ We need to confirm that you're a real person. You can do so by clicking the link
 --------------------------------------------------------------------------------
 
 Click this link. It will open our confirmation page in your browser and your registration will be complete:
-    <%= link_to "CONFIRM EMAIL", userconfirmation_url(@user.tokens.first.token) %>
+    <%= userconfirmation_url(@user.tokens.first.token) %>
 
-Alternatively, you can paste this link into your browser address bar:
-    <%= link_to "#{userconfirmation_url(@user.tokens.first.token)}", userconfirmation_url(@user.tokens.first.token) %>
+(Alternatively, you can paste that link into your browser address bar)
+
 
 
 

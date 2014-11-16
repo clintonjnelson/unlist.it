@@ -6,10 +6,10 @@ desc "Heroku scheduler task."
 task :issue_invitations => :environment do
   puts "Rationing out invitations to users..."
 
-  settings = Setting.first
-  User.all.each do |user|
-    distribute_invitations(user, settings)
-  end
+  # settings = Setting.first
+  # User.all.each do |user|
+  #   distribute_invitations(user, settings)
+  # end
 
   puts "done."
 end
@@ -17,15 +17,16 @@ end
 task :thursday_invitations => :environment do
   puts "Rationing out weekly invitations to users..."
 
-  if Date.today.wday == 4
-    settings = Setting.first
-    User.all.each do |user|
-       distribute_invitations(user, settings)
-    end
-    puts "done."
-  else
-    puts "still waiting for Thursday..."
-  end
+  # if Date.today.wday == 4
+  #   settings = Setting.first
+  #   User.all.each do |user|
+  #      distribute_invitations(user, settings)
+  #   end
+  #   puts "done."
+  # else
+  #   puts "still waiting for Thursday..."
+  # end
+  puts "done."
 end
 
 ################################### SITEMAP ####################################

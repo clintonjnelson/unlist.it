@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   before_action :require_signed_out,       only: [:new, :create, :new_with_invite]
-  #before_action :require_signed_in,        only: [:show]
   before_action :set_user,                 only: [:show, :edit, :update, :toggle_avatar, :resend_confirmation_email,:location_modal, :update_location] #MUST come before require_current_user
   before_action :require_correct_user,     only: [       :edit, :update, :toggle_avatar, :resend_confirmation_email]
   before_action :require_correct_user_now, only: [:location_modal, :update_location]
@@ -18,20 +17,20 @@ class UsersController < ApplicationController
 
   def create
     @user   = User.new(user_params)
-    @token  = params[:token]                      #temporary to be removed later
+    @token  = params[:token]                                           #temporary to be removed later(?)
     @invite = (@token.nil? ? nil : Invitation.find_by(token: @token))  #temporary to be removed later
 
-    if @invite && agrees_termsconditions? && @user.save
-      Token.create(creator: @user, tokenable: @user)
-      #UnlistMailer.registration_confirmation_email(@user.id).deliver
-      UnlistMailer.delay.registration_confirmation_email(@user.id)  #Sidekiq Worker
-      @invite.set_redeemed                       #temporary to be removed later
+    if agrees_termsconditions? && @user.save                           ##removed:  @invite &&
+      Token.create(creator: @user, tokenable: @user)                   ##PUT THIS IN THE USER MODEL CREATED ON CREATE
+      @invite.set_redeemed if @invite.present?                         #temporary to be removed later(?)
+      UnlistMailer.registration_confirmation_email(@user.id).deliver  #Development Environment
+      #UnlistMailer.delay.registration_confirmation_email(@user.id)     #Sidekiq Worker
       flash[:success]   = "Please check your email and click the email-confirmation link in the email we just sent you."
       signin_user(@user, true)
       redirect_to user_messages_path(@user, type: 'received')
-    elsif !@invite
-      flash[:error]     = "Sorry, we could not find your invitation in our system. Please contact the person who sent it to you."
-      redirect_to expired_link_path
+    # elsif !@invite
+    #   flash[:error]     = "Sorry, we could not find your invitation in our system. Please contact the person who sent it to you."
+    #   redirect_to expired_link_path
     elsif user_params[:termsconditions] == "0"
       flash.now[:error] = "You must read and agree to the Terms & Conditions to join Unlist.it"
       render 'new'

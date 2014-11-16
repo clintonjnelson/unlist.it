@@ -5,16 +5,16 @@ class InvitationsController < ApplicationController
 
   def new
     @invitation = Invitation.new
-    flash.now[:notice] = "You have #{ view_context.pluralize((current_user.invite_count.nil? ? 0 : current_user.invite_count), 'credit') } remaining."
+    # flash.now[:notice] = "You have #{ view_context.pluralize((current_user.invite_count.nil? ? 0 : current_user.invite_count), 'credit') } remaining."
   end
 
   def create
     @invitation = @user.invitations.build(invitation_params)
-    credits     = InvitationCredit.new(@user)
-    if credits.any? && @invitation.save
-      #UnlistMailer.invitation_email(@invitation.id).deliver  #USE IN DEVELOPMENT FOR EMAILING
-      UnlistMailer.delay.invitation_email(@invitation.id) #sidekiq worker
-      credits.use_credit
+    #credits     = InvitationCredit.new(@user)
+    if @invitation.save     # credits.any? &&
+      UnlistMailer.invitation_email(@invitation.id).deliver  #USE IN DEVELOPMENT FOR EMAILING
+      #UnlistMailer.delay.invitation_email(@invitation.id) #sidekiq worker
+      #credits.use_credit
       flash[:success]   = "Invitation Sent!"
       redirect_to new_user_invitation_path(@user)
     else @invitation.errors

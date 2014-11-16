@@ -1,4 +1,4 @@
-class InvitationCredit #Domain Object
+class InvitationCredit #Domain Object - Temporary Use During Alpha Phase
   attr_accessor :user
   attr_reader   :invite_count
   def initialize(user)

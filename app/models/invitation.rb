@@ -10,7 +10,6 @@ class Invitation < ActiveRecord::Base
   def set_redeemed
     sender_notification(self.sender)
     self.update_columns(token: nil, accepted: true)
-    ##### Send a message to the recipient welcoming them to Unlist.it####
   end
 
 
