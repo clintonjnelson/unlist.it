@@ -28,7 +28,7 @@ class UnlistingsController < ApplicationController
       flash[:success] = "Unlisting created!"
       redirect_to [@user, @unlisting]
     else
-      flash[:error] = 'Oops - there were some errors in the form. Please fix & try agian.'
+      flash[:error] = 'Oops - there were some errors in the form. Please fix & try again.'
       @unimages = unlisting_unimages #show any images for management on re-render
       render 'new'
     end
