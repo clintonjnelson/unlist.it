@@ -1,14 +1,14 @@
 #quicksearch.col-xs-12.col-sm-11.col-md-9
 
   %h3#home-search-title
-    Search Unlist
+    Search for Buyers
     %small.text-muted#search_radius_text
       -if session[:search_radius] == "0"
         in
       -elsif session[:search_radius]
-        ="within #{session[:search_radius]} miles of"
+        ="within #{session[:search_radius]} mi of"
       -else
-        within 100 miles of
+        within 100 mi of
     %small.text-muted#search_location_text
       -if session[:search_state] #if search place is set
         ="#{session[:search_city]}, #{session[:search_state]}"

@@ -9,18 +9,17 @@
       =link_to signup_path do
         %h1
           %strong
+            Looking for something?
+            %br
             Unlist.it - Wishlist Classifieds
             %br
-            A Wishlist That Works For You.
-            %br
-            Sign Up
-            %small (yep, it's free.)
+            //%small.unlist-blue Create a wishlist that works for you &nbsp
 
   #searcharea.col-xs-12.col-sm-10.col-md-8
     =render partial: 'shared/quicksearch'
     %br
 
-    %p.status-text.text-muted Have something to sell? Search & see if any unlisters are looking for it.
+    %p.status-text.text-muted Have something to sell? Search & see if anyone is looking for it.
     //%p.status-text.text-muted="There are currently #{User.count} Unlisters looking for #{Unlisting.count} things."
 
 
