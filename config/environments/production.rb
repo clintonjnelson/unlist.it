@@ -9,7 +9,7 @@ Rails.application.configure do
   # Assets Configs
   config.serve_static_assets  = false
   config.assets.js_compressor = :uglifier
-  # config.assets.css_compressor = :sass
+  config.assets.css_compressor = :sass
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compress = true
   config.assets.compile  = true
