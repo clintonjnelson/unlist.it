@@ -76,7 +76,7 @@
               %em "Protected" unlistings don't show up in searches, but CAN still be publicly viewed under your profile.
 
         =f.form_group do
-          =f.submit "#{button_name}", class: "btn btn-primary"#, t(:save)
+          =f.submit "#{button_name}", class: "btn btn-primary", id: (@unlisting.new_record? ? "addunlisting-button" : "editunlisting-button") #, t(:save)
 
 
 

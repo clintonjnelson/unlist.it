@@ -27,7 +27,7 @@
             -if current_user.can_befriend?(user)
               %small
                 %strong
-                  = link_to user_relationships_path(current_user, friend_slug: user.slug), method: 'post' do
+                  = link_to user_relationships_path(current_user, friend_slug: user.slug), method: 'post', id: 'addfriend-link' do
                     [
                     .fa.fa-plus.fa-2
                     follow]

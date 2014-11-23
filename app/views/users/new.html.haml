@@ -16,6 +16,6 @@
           =link_to "Terms & Conditions", termsandconditions_path, target: '_blank', class: "underlined-link"
       -if @token.present?
         =hidden_field_tag :token, @token
-      =f.submit "Sign Up!", class: "btn btn-primary"
+      =f.submit "Sign Up!", class: "btn btn-primary", id: 'signup-button'
 
 
