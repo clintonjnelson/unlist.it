@@ -65,7 +65,7 @@ group :test do
 end
 
 group :production, :staging do
-  gem 'heroku-deflator'             #compresses assets for quicker PageSpeed
+  gem 'heroku-deflater'             #compresses assets for quicker PageSpeed
   gem 'newrelic_rpm'
   gem 'pg'
   gem 'rails_12factor'
