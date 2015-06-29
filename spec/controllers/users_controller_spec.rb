@@ -172,7 +172,7 @@ describe UsersController, :vcr do
             expect(ActionMailer::Base.deliveries.first.to).to eq([jen.email])
           end
           it "sends an email with a confirmation link in the body" do
-            expect(ActionMailer::Base.deliveries.first.parts.first.body.raw_source).to include("CONFIRM")
+            expect(ActionMailer::Base.deliveries.first.parts.first.body.raw_source).to include("confirm")
           end
         end
       end
