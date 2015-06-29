@@ -7,9 +7,9 @@ class AmazonecsManager
     return "invalid initialize - url or asin required" unless @url || @asin
 
     @request   = Vacuum.new
-    @request.configure( aws_access_key_id:     'AKIAJWAFSGIVTNTV5UDQ',
-                        aws_secret_access_key: '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',
-                        associate_tag:          @associate )
+    @request.configure( aws_access_key_id:     ENV['AWS_ACCESS_KEY'],
+                        aws_secret_access_key: ENV['AWS_SECRET_KEY'],
+                        associate_tag:         @associate )
   end
 
 
